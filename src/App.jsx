@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const translations = {
   ar: {
@@ -16,11 +16,10 @@ const translations = {
     navHistory: '📜 السجل والتعديلات',
     navSettings: '⚙️ الإعدادات',
 
-    kpiTotalCod: 'إجمالي النقدية المحصلة',
+    kpiTotalCod: 'إجمالي المبالغ المحصلة',
+    kpiRevenue: 'إجمالي إيراد التوصيل',
     kpiActiveOrders: 'طلبات نشطة',
     kpiCompleted: 'تم التوصيل',
-    kpiRevenue: 'إيراد التوصيل',
-    kpiDriverShares: 'مستحقات الطيارين',
 
     aiHeader: '✨ استخراج بيانات الطلب بواسطة AI',
     placeholderOrder: 'ألصق نص الطلب هنا...',
@@ -34,27 +33,26 @@ const translations = {
     phone: 'رقم الهاتف',
     cod: 'قيمة الطلب',
     deliveryFee: 'رسوم التوصيل',
-    totalDue: 'إجمالي المطلوب من العميل',
     address: 'العنوان',
     item: 'الصنف',
     notes: 'ملاحظات الطلب',
 
     paymentMethod: 'طريقة الدفع',
-    paymentCash: 'كاش',
-    paymentOnline: 'دفع أونلاين',
-    paymentPrepaid: 'مدفوع مسبقًا',
-    paymentSettled: 'تم تسوية قيمة الطلب',
-    paymentDue: 'المتبقي للتحصيل',
+    paymentCash: '💵 كاش عند الاستلام',
+    paymentOnline: '💳 مدفوع أونلاين',
+    paymentPrepaid: '✅ مدفوع مسبقًا',
+
+    customerCollection: 'إجمالي ما يدفعه العميل',
+    merchantAmount: 'مبلغ المتجر',
+    revenuePercent: 'نسبتي من التوصيل',
+    companyRevenue: 'إيرادي',
+    driverRevenue: 'نصيب الطيار',
+    driverCollection: 'ما سيحصله الطيار',
 
     addressWarning: '📍 تنبيه عنوان غير مكتمل: يرجى مراجعة وتأكيد العنوان!',
-
     selectDriver: 'اختيار طيار التوصيل:',
     chooseDriver: '-- اختر طيار --',
-    revenueShare: 'نسبة إيراد الشركة من التوصيل:',
-    companyRevenue: 'إيراد الشركة',
-    driverShare: 'نصيب الطيار',
-    driverCollection: 'إجمالي ما يحصله الطيار',
-    companyHandIn: 'المبلغ الذي يورده الطيار',
+    chooseRevenue: 'نسبة إيرادي من رسوم التوصيل:',
     btnConfirm: '✅ تأكيد وحفظ الطلبات',
 
     searchPlaceholder: '🔍 بحث برقم الطلب، اسم العميل، المتجر، أو الهاتف...',
@@ -73,78 +71,79 @@ const translations = {
     driverName: 'اسم الطيار...',
     btnAdd: 'إضافة',
 
-    driverCash: 'المبلغ المطلوب توريده:',
-    totalTrips: 'إجمالي الرحلات:',
-    driverRevenue: 'إجمالي نصيب الطيار:',
+    driverCash: 'إجمالي المبالغ المحصلة:',
+    driverRevenueTotal: 'إجمالي نصيب الطيار:',
     companyRevenueTotal: 'إجمالي إيراد الشركة:',
-    driverLedgerTitle: '📊 كشف حساب الطيارين — التحصيل والإيرادات',
-
-    cashToHandIn: '💵 إجمالي المبلغ المطلوب توريده',
-    todaysOrdersCount: '📦 طلبات اليوم',
-    monthsOrdersCount: '📅 طلبات الشهر الحالي',
-    monthsTotalCash: '💰 إجمالي توريد الشهر',
-    monthlyRevenue: '📈 إيراد الشركة الشهري',
-    monthlyDriverShare: '🛵 نصيب الطيارين الشهري',
-
-    filterDriver: 'تصفية بالطيار:',
-    filterDate: 'التاريخ:',
-    allDrivers: 'كل الطيارين',
-
-    ordersHandled: 'تفاصيل الطلبات والتحصيل:',
-    noOrdersForDate: 'لا توجد طلبات مسجلة لهذه الفلاتر.',
-
-    orderValue: 'قيمة الطلب',
-    amountAlreadyPaid: 'مدفوع بالفعل',
-    remainingOrderValue: 'المتبقي من قيمة الطلب',
-    customerTotal: 'إجمالي العميل',
-    deliveryRevenue: 'إيراد التوصيل',
-    companyShare: 'نصيب الشركة',
-    driverShareLabel: 'نصيب الطيار',
-    handIn: 'التوريد',
-    collection: 'التحصيل',
-    settled: 'مسدد',
-    unpaid: 'غير مسدد',
+    totalTrips: 'إجمالي الرحلات:',
 
     saveMerchant: 'إضافة أو تعديل تاجر',
     saveCustomer: 'إضافة عميل يدويًا',
     editCustomer: 'تعديل بيانات العميل',
+
     saveBtn: 'حفظ',
     deleteBtn: 'حذف',
     editBtn: 'تعديل',
     editNoteBtn: 'تعديل الملاحظات',
 
     settingsTitle: 'إعدادات النظام',
-    editAmount: 'تعديل قيمة الطلب',
+    editAmount: 'تعديل المبلغ',
     saveAmount: 'تم الحفظ',
 
     confirmDbUpdateTitle: '⚠️ تأكيد تحديث بيانات قاعدة البيانات',
     confirmDbUpdateMsg:
       'تم العثور على تفاصيل جديدة تملأ بيانات مفقودة لعميل/متجر. هل تريد تحديث السجلات المخزنة؟',
 
-    confirmDeleteMsg: 'هل أنت متأكد من رغبتك في حذف هذا الطلب نهائياً؟',
+    confirmDeleteMsg: 'هل أنت متأكد من رغبتك في حذف هذا الطلب نهائيًا؟',
 
     typoAlertTitle: '🔍 تم رصد كلمات قد تحتوي على خطأ إملائي غير معروف:',
     historyTitle: '📜 سجل عمليات وتعديلات الطلبات',
     noHistory: 'لا توجد سجلات تعديل حتى الآن.',
 
-    created: 'تم إنشاء الطلب',
-    statusChange: 'تغيير الحالة',
-    driverReassigned: 'تغيير الطيار',
-    amountEdited: 'تعديل قيمة الطلب',
-    notesEdited: 'تعديل الملاحظات',
-    paymentEdited: 'تعديل طريقة الدفع',
-    deliveryFeeEdited: 'تعديل رسوم التوصيل',
-    revenueEdited: 'تعديل نسبة الإيراد',
-    deleted: 'تم حذف الطلب',
+    driverLedgerTitle: '📊 كشف حساب وتوريد الطيارين',
+    filterDriver: 'تصفية بالطيار:',
+    filterDate: 'التاريخ:',
+    allDrivers: 'كل الطيارين',
 
-    orderBreakdown: '💰 التفاصيل المالية',
-    cashToCollect: 'المبلغ المطلوب تحصيله',
-    cashToHand: 'المبلغ المطلوب توريده',
-    driverKeeps: 'الطيار يحتفظ بـ',
-    youEarn: 'أنت تكسب',
+    cashToHandIn: '💵 إجمالي التحصيل',
+    companyRevenueLedger: '💰 إيراد الشركة',
+    driverRevenueLedger: '🛵 نصيب الطيار',
+    todaysOrdersCount: '📦 طلبات اليوم',
+    monthsOrdersCount: '📅 طلبات الشهر الحالي',
+    monthsTotalCash: '💰 إجمالي تحصيل الشهر',
 
-    noOrders: 'لا توجد طلبات.',
-    percent: '%'
+    ordersHandled: 'تفاصيل الطلبات المسندة:',
+    noOrdersForDate: 'لا توجد طلبات مسجلة لهذه الفلاتر.',
+
+    financialBreakdown: '💰 التفاصيل المالية',
+    cashCollection: 'المبلغ المحصل من العميل',
+    merchantDue: 'مستحق المتجر',
+    deliveryPool: 'رسوم التوصيل',
+    myShare: 'نصيبي',
+    driverShare: 'نصيب الطيار',
+
+    onlineNoCollection:
+      'تم الدفع أونلاين — الطيار لا يحصّل قيمة الطلب من العميل.',
+
+    cashCollectionExplanation:
+      'كاش — الطيار يحصّل قيمة الطلب + رسوم التوصيل.',
+
+    cancelledFinancial:
+      'هذا الطلب ملغي — جميع المبالغ الفعلية للتسليم والإيراد = 0.',
+
+    revenueExplanation:
+      'النسبة تطبق على رسوم التوصيل فقط، وليس على قيمة الطلب.',
+
+    orderValueNotRevenue:
+      'قيمة الطلب ليست إيرادًا لك؛ هي مستحقات المتجر.',
+
+    companyHandIn: 'المطلوب توريده للشركة',
+    merchantHandIn: 'المطلوب توريده للمتجر',
+
+    editDeliveryFee: 'تعديل رسوم التوصيل',
+    deliveryFeeSaved: 'تم حفظ رسوم التوصيل',
+
+    cancel: 'إلغاء',
+    confirm: 'تأكيد'
   },
 
   en: {
@@ -162,11 +161,10 @@ const translations = {
     navHistory: '📜 Audit History',
     navSettings: '⚙️ Settings',
 
-    kpiTotalCod: 'Total Customer Collections',
+    kpiTotalCod: 'Total Collected',
+    kpiRevenue: 'Total Delivery Revenue',
     kpiActiveOrders: 'Active Orders',
     kpiCompleted: 'Completed Orders',
-    kpiRevenue: 'Delivery Revenue',
-    kpiDriverShares: 'Driver Shares',
 
     aiHeader: '✨ AI Order Extraction',
     placeholderOrder: 'Paste delivery text here...',
@@ -180,27 +178,26 @@ const translations = {
     phone: 'Phone',
     cod: 'Order Value',
     deliveryFee: 'Delivery Fee',
-    totalDue: 'Total Customer Due',
     address: 'Address',
     item: 'Item Details',
     notes: 'Order Notes',
 
     paymentMethod: 'Payment Method',
-    paymentCash: 'Cash',
-    paymentOnline: 'Online',
-    paymentPrepaid: 'Prepaid',
-    paymentSettled: 'Order Already Settled',
-    paymentDue: 'Remaining to Collect',
+    paymentCash: '💵 Cash on Delivery',
+    paymentOnline: '💳 Paid Online',
+    paymentPrepaid: '✅ Prepaid',
+
+    customerCollection: 'Customer Total',
+    merchantAmount: 'Merchant Amount',
+    revenuePercent: 'My Delivery Share',
+    companyRevenue: 'My Revenue',
+    driverRevenue: 'Driver Share',
+    driverCollection: 'Driver Collection',
 
     addressWarning: '📍 Incomplete Address Alert: Double check details!',
-
     selectDriver: 'Assign Driver:',
     chooseDriver: '-- Select Driver --',
-    revenueShare: 'Company Delivery Revenue Share:',
-    companyRevenue: 'Company Revenue',
-    driverShare: 'Driver Share',
-    driverCollection: 'Driver Customer Collection',
-    companyHandIn: 'Driver Hand-In',
+    chooseRevenue: 'My percentage of delivery fee:',
     btnConfirm: '✅ Confirm & Save Orders',
 
     searchPlaceholder: '🔍 Search Order #, Customer, Store, Phone...',
@@ -219,97 +216,92 @@ const translations = {
     driverName: 'Driver Name...',
     btnAdd: 'Add Driver',
 
-    driverCash: 'Cash to Hand In:',
+    driverCash: 'Total Collected:',
+    driverRevenueTotal: 'Driver Revenue:',
+    companyRevenueTotal: 'Company Revenue:',
     totalTrips: 'Total Trips:',
-    driverRevenue: 'Total Driver Share:',
-    companyRevenueTotal: 'Total Company Revenue:',
-    driverLedgerTitle: '📊 Driver Ledger — Collections & Revenue',
-
-    cashToHandIn: '💵 Total Cash to Hand In',
-    todaysOrdersCount: "📦 Today's Orders",
-    monthsOrdersCount: "📅 This Month's Orders",
-    monthsTotalCash: "💰 Monthly Hand-In",
-    monthlyRevenue: '📈 Monthly Company Revenue',
-    monthlyDriverShare: '🛵 Monthly Driver Share',
-
-    filterDriver: 'Filter Driver:',
-    filterDate: 'Date:',
-    allDrivers: 'All Drivers',
-
-    ordersHandled: 'Order & Collection Breakdown:',
-    noOrdersForDate: 'No orders match selected filters.',
-
-    orderValue: 'Order Value',
-    amountAlreadyPaid: 'Already Paid',
-    remainingOrderValue: 'Remaining Order Value',
-    customerTotal: 'Customer Total',
-    deliveryRevenue: 'Delivery Revenue',
-    companyShare: 'Company Share',
-    driverShareLabel: 'Driver Share',
-    handIn: 'Hand-In',
-    collection: 'Collection',
-    settled: 'Settled',
-    unpaid: 'Unpaid',
 
     saveMerchant: 'Save Store Details',
     saveCustomer: 'Add Customer',
     editCustomer: 'Edit Customer',
+
     saveBtn: 'Save',
     deleteBtn: 'Delete',
     editBtn: 'Edit',
     editNoteBtn: 'Edit Note',
 
     settingsTitle: 'System Settings',
-    editAmount: 'Edit Order Value',
+    editAmount: 'Edit Amount',
     saveAmount: 'Save',
 
     confirmDbUpdateTitle: '⚠️ Confirm Database Update',
     confirmDbUpdateMsg:
       'New details found that fill in missing customer/store entries. Update database records?',
 
-    confirmDeleteMsg: 'Are you sure you want to permanently delete this order?',
+    confirmDeleteMsg:
+      'Are you sure you want to permanently delete this order?',
 
     typoAlertTitle: '🔍 Unrecognized words detected:',
     historyTitle: '📜 Audit Log & Order Edits History',
     noHistory: 'No edit history recorded yet.',
 
-    created: 'Order Created',
-    statusChange: 'Status Change',
-    driverReassigned: 'Driver Reassigned',
-    amountEdited: 'Order Value Edited',
-    notesEdited: 'Notes Edited',
-    paymentEdited: 'Payment Method Edited',
-    deliveryFeeEdited: 'Delivery Fee Edited',
-    revenueEdited: 'Revenue Share Edited',
-    deleted: 'Order Deleted',
+    driverLedgerTitle: '📊 Driver Cash & Revenue Ledger',
+    filterDriver: 'Filter Driver:',
+    filterDate: 'Filter Date:',
+    allDrivers: 'All Drivers',
 
-    orderBreakdown: '💰 Financial Breakdown',
-    cashToCollect: 'Customer Collection',
-    cashToHand: 'Company Hand-In',
-    driverKeeps: 'Driver Keeps',
-    youEarn: 'You Earn',
+    cashToHandIn: '💵 Total Collected',
+    companyRevenueLedger: '💰 Company Revenue',
+    driverRevenueLedger: '🛵 Driver Share',
+    todaysOrdersCount: "📦 Today's Orders",
+    monthsOrdersCount: "📅 This Month's Orders",
+    monthsTotalCash: "💰 This Month's Collection",
 
-    noOrders: 'No orders.',
-    percent: '%'
+    ordersHandled: 'Assigned Orders & Financial Details:',
+    noOrdersForDate: 'No orders match selected filters.',
+
+    financialBreakdown: '💰 Financial Breakdown',
+    cashCollection: 'Customer Collection',
+    merchantDue: 'Merchant Due',
+    deliveryPool: 'Delivery Fee',
+    myShare: 'My Share',
+    driverShare: 'Driver Share',
+
+    onlineNoCollection:
+      'Paid online — driver does not collect the order value from the customer.',
+
+    cashCollectionExplanation:
+      'Cash — driver collects the order value + delivery fee.',
+
+    cancelledFinancial:
+      'This order is cancelled — all effective collection and revenue = 0.',
+
+    revenueExplanation:
+      'The percentage applies only to the delivery fee, not the order value.',
+
+    orderValueNotRevenue:
+      'Order value is not your revenue; it belongs to the merchant.',
+
+    companyHandIn: 'Company Revenue Due',
+    merchantHandIn: 'Merchant Amount Due',
+
+    editDeliveryFee: 'Edit Delivery Fee',
+    deliveryFeeSaved: 'Delivery fee saved',
+
+    cancel: 'Cancel',
+    confirm: 'Confirm'
   }
 };
 
 const REVENUE_OPTIONS = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 75, 80, 90, 100];
 
-const PAYMENT_METHODS = {
-  CASH: 'cash',
-  ONLINE: 'online',
-  PREPAID: 'prepaid'
-};
+const PAYMENT_CASH = 'cash';
+const PAYMENT_ONLINE = 'online';
+const PAYMENT_PREPAID = 'prepaid';
 
-const STATUS = {
-  CONFIRMED: 'مؤكد',
-  PROCESSING: 'قيد تجهيز الطلب',
-  OUT_FOR_DELIVERY: 'خرج للتوصيل',
-  IN_TRANSIT: 'جاري التوصيل',
-  COMPLETED: 'مكتمل',
-  DELAYED: 'متأخر',
-  CANCELLED: 'ملغي'
+const normalizeNumber = value => {
+  const n = parseFloat(String(value ?? '').replace(/,/g, ''));
+  return Number.isFinite(n) ? n : 0;
 };
 
 export default function App() {
@@ -325,7 +317,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const [orderCounter, setOrderCounter] = useState(
-    () => parseInt(localStorage.getItem('order_counter_num') || '1001', 10)
+    () => parseInt(localStorage.getItem('order_counter_num') || '1001')
   );
 
   const [orders, setOrders] = useState(
@@ -357,18 +349,14 @@ export default function App() {
   const [extractedOrders, setExtractedOrders] = useState([]);
 
   /*
-   * Driver assignment now has its own revenue percentage.
-   *
-   * Example:
-   * Order value = 1000
-   * Delivery fee = 60
-   * Company share = 20%
-   *
-   * Company revenue = 12
-   * Driver share = 48
-   */
+    IMPORTANT:
+    These are now confirmation-level settings.
+
+    The selected percentage is NOT a percentage of COD/order value.
+    It is ONLY a percentage of the delivery fee.
+  */
   const [selectedDriver, setSelectedDriver] = useState('');
-  const [selectedRevenueShare, setSelectedRevenueShare] = useState(20);
+  const [selectedRevenuePercent, setSelectedRevenuePercent] = useState(20);
 
   const [newDriverName, setNewDriverName] = useState('');
 
@@ -383,13 +371,8 @@ export default function App() {
   const [editingAmountId, setEditingAmountId] = useState(null);
   const [tempAmount, setTempAmount] = useState('');
 
-  const [editingFeeId, setEditingFeeId] = useState(null);
-  const [tempFee, setTempFee] = useState('');
-
-  const [editingRevenueId, setEditingRevenueId] = useState(null);
-  const [tempRevenue, setTempRevenue] = useState('');
-
-  const [editingPaymentId, setEditingPaymentId] = useState(null);
+  const [editingDeliveryId, setEditingDeliveryId] = useState(null);
+  const [tempDeliveryFee, setTempDeliveryFee] = useState('');
 
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [tempNote, setTempNote] = useState('');
@@ -429,11 +412,17 @@ export default function App() {
   }, [orders]);
 
   useEffect(() => {
-    localStorage.setItem('delivery_merchants_v5', JSON.stringify(merchants));
+    localStorage.setItem(
+      'delivery_merchants_v5',
+      JSON.stringify(merchants)
+    );
   }, [merchants]);
 
   useEffect(() => {
-    localStorage.setItem('delivery_customers_v5', JSON.stringify(customers));
+    localStorage.setItem(
+      'delivery_customers_v5',
+      JSON.stringify(customers)
+    );
   }, [customers]);
 
   useEffect(() => {
@@ -441,129 +430,127 @@ export default function App() {
   }, [drivers]);
 
   useEffect(() => {
-    localStorage.setItem('delivery_history_v5', JSON.stringify(historyLogs));
+    localStorage.setItem(
+      'delivery_history_v5',
+      JSON.stringify(historyLogs)
+    );
   }, [historyLogs]);
 
   /*
-   * ---------------------------------------------------------
-   * FINANCIAL ENGINE
-   * ---------------------------------------------------------
-   *
-   * The important rule:
-   *
-   * order.cod = actual VALUE OF GOODS/ORDER
-   * order.deliveryFee = DELIVERY FEE
-   *
-   * Neither of those is automatically "company revenue".
-   *
-   * Company revenue comes from:
-   *
-   * deliveryFee * revenueShare / 100
-   *
-   * Driver share comes from:
-   *
-   * deliveryFee - companyRevenue
-   *
-   * If the order was already paid online/prepaid:
-   *
-   * remainingOrderValue = 0
-   *
-   * Otherwise:
-   *
-   * remainingOrderValue = order.cod
-   *
-   * Customer collection:
-   *
-   * remainingOrderValue + deliveryFee
-   *
-   * Company hand-in:
-   *
-   * remainingOrderValue + companyRevenue
-   *
-   * Driver keeps:
-   *
-   * driverShare
-   */
+    ============================================================
+    FINANCIAL ENGINE
+    ============================================================
+  */
 
-  const getOrderValue = order => {
-    return Math.max(0, parseFloat(order.cod) || 0);
+  const isCancelled = order => order?.status === 'ملغي';
+
+  const getOrderValue = order => normalizeNumber(order?.cod);
+
+  const getDeliveryFee = order =>
+    normalizeNumber(order?.deliveryFee);
+
+  const getRevenuePercent = order =>
+    normalizeNumber(order?.revenuePercent);
+
+  /*
+    The order value belongs to the merchant.
+    It is NEVER treated as company revenue.
+  */
+
+  const getCompanyRevenue = order => {
+    if (isCancelled(order)) return 0;
+
+    const deliveryFee = getDeliveryFee(order);
+    const percentage = getRevenuePercent(order);
+
+    return deliveryFee * (percentage / 100);
   };
 
-  const getDeliveryFee = order => {
-    return Math.max(0, parseFloat(order.deliveryFee) || 0);
+  const getDriverRevenue = order => {
+    if (isCancelled(order)) return 0;
+
+    const deliveryFee = getDeliveryFee(order);
+    const percentage = getRevenuePercent(order);
+
+    return deliveryFee * (1 - percentage / 100);
   };
 
-  const getRevenueShare = order => {
-    const value = parseFloat(order.revenueShare);
+  /*
+    What the driver actually collects from the customer.
 
-    if (Number.isFinite(value)) {
-      return Math.min(100, Math.max(0, value));
+    CASH:
+      order value + delivery fee
+
+    ONLINE/PREPAID:
+      delivery fee only
+
+    CANCELLED:
+      0
+  */
+  const getCustomerCollection = order => {
+    if (isCancelled(order)) return 0;
+
+    const orderValue = getOrderValue(order);
+    const deliveryFee = getDeliveryFee(order);
+
+    if (
+      order?.paymentMethod === PAYMENT_ONLINE ||
+      order?.paymentMethod === PAYMENT_PREPAID
+    ) {
+      return deliveryFee;
     }
 
-    return 20;
+    return orderValue + deliveryFee;
   };
 
-  const isPaymentSettled = order => {
-    return (
-      order.paymentMethod === PAYMENT_METHODS.ONLINE ||
-      order.paymentMethod === PAYMENT_METHODS.PREPAID ||
-      order.paymentSettled === true
-    );
-  };
+  /*
+    Merchant money is separate from our revenue.
 
-  const getRemainingOrderValue = order => {
-    if (order.status === STATUS.CANCELLED) return 0;
+    For a cash order:
+      merchant receives order value.
 
-    if (isPaymentSettled(order)) return 0;
+    For online/prepaid:
+      merchant amount is already settled.
+  */
+  const getMerchantDue = order => {
+    if (isCancelled(order)) return 0;
+
+    if (
+      order?.paymentMethod === PAYMENT_ONLINE ||
+      order?.paymentMethod === PAYMENT_PREPAID
+    ) {
+      return 0;
+    }
 
     return getOrderValue(order);
   };
 
-  const getCompanyRevenue = order => {
-    if (order.status === STATUS.CANCELLED) return 0;
-
-    const fee = getDeliveryFee(order);
-    const percentage = getRevenueShare(order);
-
-    return fee * (percentage / 100);
-  };
-
-  const getDriverShare = order => {
-    if (order.status === STATUS.CANCELLED) return 0;
-
-    const fee = getDeliveryFee(order);
-
-    return Math.max(0, fee - getCompanyRevenue(order));
-  };
-
   /*
-   * This is the amount the driver actually collects from the customer.
-   *
-   * Cash:
-   * 1000 order + 60 delivery = 1060
-   *
-   * Online:
-   * 0 remaining order + 60 delivery = 60
-   */
-  const getDriverCustomerCollection = order => {
-    if (order.status === STATUS.CANCELLED) return 0;
-
-    return getRemainingOrderValue(order) + getDeliveryFee(order);
-  };
-
-  /*
-   * This is what the driver gives back to the company.
-   *
-   * Cash order:
-   * 1000 order + 12 company revenue = 1012
-   *
-   * Online:
-   * 0 order + 12 company revenue = 12
-   */
+    Effective cash for the driver/company financial ledger.
+    This replaces using raw order.cod.
+  */
   const getOrderEffectiveCash = order => {
-    if (order.status === STATUS.CANCELLED) return 0;
+    if (isCancelled(order)) return 0;
 
-    return getRemainingOrderValue(order) + getCompanyRevenue(order);
+    return getCustomerCollection(order);
+  };
+
+  /*
+    Company cash due from this order.
+
+    This is NOT the 1000 EGP order value.
+    It is only our percentage of the delivery fee.
+  */
+  const getCompanyHandIn = order => {
+    if (isCancelled(order)) return 0;
+
+    return getCompanyRevenue(order);
+  };
+
+  const getDriverDeliveryShare = order => {
+    if (isCancelled(order)) return 0;
+
+    return getDriverRevenue(order);
   };
 
   const addAuditLog = (orderNum, action, details) => {
@@ -580,24 +567,14 @@ export default function App() {
     setHistoryLogs(prev => [log, ...prev]);
   };
 
-  const formatMoney = amount => {
-    return `${Number(amount || 0).toLocaleString()} ${t.currency}`;
-  };
-
-  const paymentLabel = method => {
-    if (method === PAYMENT_METHODS.ONLINE) return t.paymentOnline;
-    if (method === PAYMENT_METHODS.PREPAID) return t.paymentPrepaid;
-    return t.paymentCash;
-  };
-
   const handlePasteClipboard = async () => {
     try {
       const text = await navigator.clipboard.readText();
       setRawText(text);
-    } catch (err) {
+    } catch {
       alert(
         lang === 'ar'
-          ? 'تعذر الوصول إلى الحافظة.'
+          ? 'تم رفض صلاحية الحافظة.'
           : 'Clipboard permission denied.'
       );
     }
@@ -616,7 +593,7 @@ export default function App() {
 
     const keywords = [
       'شارع',
-      'ش ',
+      'ش',
       'دور',
       'شقة',
       'عمارة',
@@ -630,6 +607,12 @@ export default function App() {
 
     return !keywords.some(k => lower.includes(k));
   };
+
+  /*
+    ============================================================
+    AI EXTRACTION
+    ============================================================
+  */
 
   const extractOrderInfo = async () => {
     if (!apiKey.trim()) {
@@ -658,50 +641,78 @@ export default function App() {
     setTypoFlags([]);
 
     const systemPrompt = `
-You are an expert Egyptian delivery-order parser.
+You are an expert Egyptian Arabic delivery-order parser.
 
-Your job is to extract structured logistics information from messy Egyptian Arabic,
-Egyptian Arabic slang, English, mixed Arabic/English, typos, conversational messages,
-multiple orders, corrections, cancellations, and price changes.
+Your job is to extract one or multiple delivery orders from messy,
+unstructured Egyptian Arabic, English, or mixed Arabic/English text.
 
 STRICT RULES:
 
-1. Return ONLY valid JSON.
-2. Never add markdown.
-3. Never add explanations outside the JSON.
-4. Extract multiple customers/orders separately when applicable.
-5. Pay extremely close attention to corrections later in the conversation.
-6. If an item is cancelled later, remove it from the final item list and final order value.
-7. If a previous price is replaced by a later price, use ONLY the final agreed value.
-8. "cod" means the VALUE OF THE GOODS/ORDER, NOT the delivery fee.
-9. "delivery_fee" means the delivery charge paid for delivery.
-10. Detect whether the order was paid online/prepaid/already settled.
-11. If the goods/order value has already been paid online, set:
-    payment_method = "online"
-    payment_settled = true
-12. If it is explicitly prepaid, set:
-    payment_method = "prepaid"
-    payment_settled = true
-13. Otherwise use:
-    payment_method = "cash"
-    payment_settled = false
-14. Delivery fee must be extracted separately whenever possible.
-15. Do NOT add delivery fee to "cod".
-16. If the customer says "1000 شامل التوصيل 60", infer the order value and fee carefully
-    from the context. If unclear, preserve the safest interpretation.
-17. Store must include branch where mentioned.
-18. Notes must include:
-    - call before arrival
-    - delivery timing
-    - special instructions
-    - delivery fee wording
-    - payment clarification
-19. Standard Egyptian words such as:
-    "مقاضي", "كيسين", "شقة", "عمارة", "ساقعة", "شغال"
-    are NOT typos.
-20. ambiguous_flags should contain ONLY genuinely ambiguous/unintelligible words.
+1. FINAL AGREED ORDER VALUE:
+   If the conversation contains corrections, cancellations,
+   replacement items, removed items, or a later confirmed price,
+   ALWAYS use the FINAL agreed order value.
 
-JSON:
+2. CANCELLATIONS:
+   If an item is cancelled, do not include it in the final order
+   value or item description.
+
+3. STORE:
+   Preserve merchant and branch names.
+   Example:
+   "بي تك سموحة" => "بي تك - سموحة"
+
+4. CUSTOMER:
+   Extract the recipient/customer name.
+
+5. PHONE:
+   Extract Egyptian phone numbers accurately.
+
+6. ADDRESS:
+   Preserve the complete address.
+   Do not invent missing information.
+
+7. DELIVERY FEE:
+   If the text explicitly states a delivery fee, extract it.
+   If there is no delivery fee mentioned, use 0.
+   Never assume the delivery fee is part of the order value.
+
+8. PAYMENT METHOD:
+   Detect:
+   - cash / كاش / عند الاستلام => "cash"
+   - online / أونلاين / انستا باي / paid online => "online"
+   - prepaid / مدفوع مسبقًا => "prepaid"
+
+   If payment status is unclear, use "cash".
+
+9. COD / ORDER VALUE:
+   "cod" means ONLY the value of the merchandise/order.
+   It MUST NOT include the delivery fee.
+
+10. NOTES:
+    Include call instructions, timing instructions,
+    delivery notes, fee explanations, and handling instructions.
+
+11. TYPOS:
+    Normal Egyptian Arabic slang is NOT a typo.
+    Words like:
+    "مقاضي", "كيسين", "شغال", "شقه", "عماره", "ساقعة"
+    should not be flagged.
+
+12. AMBIGUOUS FLAGS:
+    Only flag genuinely unclear or unintelligible words.
+
+13. MULTIPLE ORDERS:
+    If multiple customers/orders are present, return each
+    as a separate order.
+
+14. JSON ONLY:
+    Return valid JSON.
+    No markdown.
+    No explanation.
+    No text outside JSON.
+
+OUTPUT:
 
 {
   "ambiguous_flags": [],
@@ -712,9 +723,8 @@ JSON:
       "phone": "",
       "address": "",
       "cod": 0,
-      "delivery_fee": 0,
-      "payment_method": "cash",
-      "payment_settled": false,
+      "deliveryFee": 0,
+      "paymentMethod": "cash",
       "item": "",
       "notes": ""
     }
@@ -733,6 +743,7 @@ JSON:
           },
           body: JSON.stringify({
             model: 'llama-3.3-70b-versatile',
+
             messages: [
               {
                 role: 'system',
@@ -743,9 +754,11 @@ JSON:
                 content: rawText
               }
             ],
+
             response_format: {
               type: 'json_object'
             },
+
             temperature: 0.1
           })
         }
@@ -773,66 +786,87 @@ JSON:
 
       const normalizedOrders = (parsed.orders || []).map(order => ({
         ...order,
-        cod: Number(order.cod) || 0,
-        delivery_fee:
-          Number(order.delivery_fee) || 0,
-        payment_method:
-          order.payment_method || PAYMENT_METHODS.CASH,
-        payment_settled:
-          Boolean(order.payment_settled)
+
+        cod: normalizeNumber(order.cod),
+
+        deliveryFee: normalizeNumber(order.deliveryFee),
+
+        paymentMethod:
+          order.paymentMethod === PAYMENT_ONLINE ||
+          order.paymentMethod === PAYMENT_PREPAID
+            ? order.paymentMethod
+            : PAYMENT_CASH
       }));
 
       setExtractedOrders(normalizedOrders);
     } catch (err) {
       alert(
-        (lang === 'ar'
-          ? 'خطأ أثناء تحليل الطلب: '
-          : 'Error parsing order: ') + err.message
+        lang === 'ar'
+          ? `حدث خطأ أثناء تحليل الطلب: ${err.message}`
+          : `Error parsing order: ${err.message}`
       );
     } finally {
       setLoading(false);
     }
   };
 
-  const buildFinancialData = order => {
-    const normalized = {
-      ...order,
-      cod: Number(order.cod) || 0,
-      deliveryFee: Number(order.deliveryFee) || 0,
-      revenueShare: Number(order.revenueShare) || 20,
-      paymentMethod:
-        order.paymentMethod || PAYMENT_METHODS.CASH,
-      paymentSettled:
-        order.paymentSettled ||
-        order.paymentMethod === PAYMENT_METHODS.ONLINE ||
-        order.paymentMethod === PAYMENT_METHODS.PREPAID
-    };
+  /*
+    Allows changing extracted order fields before confirmation.
+  */
 
-    return {
-      ...normalized,
-      remainingOrderValue:
-        getRemainingOrderValue(normalized),
-      companyRevenue:
-        getCompanyRevenue(normalized),
-      driverShare:
-        getDriverShare(normalized),
-      driverCustomerCollection:
-        getDriverCustomerCollection(normalized)
-    };
+  const updateExtractedOrder = (index, field, value) => {
+    setExtractedOrders(prev =>
+      prev.map((order, i) =>
+        i === index
+          ? {
+              ...order,
+              [field]:
+                field === 'cod' || field === 'deliveryFee'
+                  ? normalizeNumber(value)
+                  : value
+            }
+          : order
+      )
+    );
   };
+
+  /*
+    ============================================================
+    CONFIRM ORDERS
+    ============================================================
+  */
 
   const handleConfirmOrder = () => {
     if (extractedOrders.length === 0) return;
 
+    if (!selectedDriver) {
+      alert(
+        lang === 'ar'
+          ? 'يرجى اختيار طيار قبل تأكيد الطلب.'
+          : 'Please select a driver before confirming the orders.'
+      );
+
+      return;
+    }
+
     let currentNum = orderCounter;
 
     const now = new Date();
+
     const isoDateStr = now.toISOString().split('T')[0];
 
     const newCreatedOrders = extractedOrders.map(ord => {
       const orderNumber = `#${currentNum++}`;
 
-      const baseOrder = {
+      const normalizedCod = normalizeNumber(ord.cod);
+      const normalizedDeliveryFee = normalizeNumber(
+        ord.deliveryFee
+      );
+
+      const paymentMethod =
+        ord.paymentMethod || PAYMENT_CASH;
+
+      const newOrder = {
         id: Date.now() + Math.random(),
 
         orderNum: orderNumber,
@@ -840,29 +874,36 @@ JSON:
         store: ord.store || t.unspecified,
         customer: ord.customer || t.unspecified,
         phone: ord.phone || '',
-        address: ord.address || '',
-        cod: Number(ord.cod) || 0,
-        deliveryFee: Number(ord.delivery_fee) || 0,
+        address: ord.address || t.unspecified,
+
+        /*
+          IMPORTANT:
+          cod = MERCHANDISE VALUE ONLY.
+        */
+        cod: normalizedCod,
+
+        /*
+          Delivery fee is a completely separate financial field.
+        */
+        deliveryFee: normalizedDeliveryFee,
+
+        /*
+          Payment method is stored on the order.
+        */
+        paymentMethod,
+
+        /*
+          This percentage belongs to the company,
+          and applies ONLY to deliveryFee.
+        */
+        revenuePercent: selectedRevenuePercent,
+
         item: ord.item || '',
         notes: ord.notes || '',
 
-        paymentMethod:
-          ord.payment_method || PAYMENT_METHODS.CASH,
+        driver: selectedDriver,
 
-        paymentSettled:
-          Boolean(ord.payment_settled) ||
-          ord.payment_method === PAYMENT_METHODS.ONLINE ||
-          ord.payment_method === PAYMENT_METHODS.PREPAID,
-
-        driver: selectedDriver || t.unspecified,
-
-        /*
-         * The selected percentage is the COMPANY'S percentage
-         * of the DELIVERY FEE.
-         */
-        revenueShare: selectedRevenueShare,
-
-        status: STATUS.CONFIRMED,
+        status: 'مؤكد',
 
         isoDate: isoDateStr,
 
@@ -875,32 +916,49 @@ JSON:
         )
       };
 
-      const financial = buildFinancialData(baseOrder);
+      const companyRevenue =
+        normalizedDeliveryFee *
+        (selectedRevenuePercent / 100);
+
+      const driverRevenue =
+        normalizedDeliveryFee -
+        companyRevenue;
+
+      const customerCollection =
+        paymentMethod === PAYMENT_ONLINE ||
+        paymentMethod === PAYMENT_PREPAID
+          ? normalizedDeliveryFee
+          : normalizedCod + normalizedDeliveryFee;
 
       addAuditLog(
         orderNumber,
-        t.created,
+        'Created',
         lang === 'ar'
-          ? `تم إنشاء الطلب بقيمة ${formatMoney(
-              baseOrder.cod
-            )} ورسوم توصيل ${formatMoney(
-              baseOrder.deliveryFee
-            )}. نسبة الشركة ${selectedRevenueShare}%. طريقة الدفع: ${paymentLabel(
-              baseOrder.paymentMethod
-            )}.`
-          : `Created order value ${formatMoney(
-              baseOrder.cod
-            )}, delivery fee ${formatMoney(
-              baseOrder.deliveryFee
-            )}. Company share ${selectedRevenueShare}%. Payment: ${paymentLabel(
-              baseOrder.paymentMethod
-            )}.`
+          ? `تم إنشاء الطلب للعميل ${newOrder.customer}. قيمة الطلب ${normalizedCod} ج.م، التوصيل ${normalizedDeliveryFee} ج.م، الدفع ${
+              paymentMethod === PAYMENT_CASH
+                ? 'كاش'
+                : 'مدفوع أونلاين'
+            }، نسبة الشركة ${selectedRevenuePercent}% = ${companyRevenue.toFixed(
+              2
+            )} ج.م، نصيب الطيار = ${driverRevenue.toFixed(
+              2
+            )} ج.م، إجمالي تحصيل الطيار = ${customerCollection.toFixed(
+              2
+            )} ج.م.`
+          : `Order created for ${newOrder.customer}. Order value: ${normalizedCod} EGP, delivery fee: ${normalizedDeliveryFee} EGP, payment: ${
+              paymentMethod === PAYMENT_CASH
+                ? 'Cash'
+                : 'Paid Online'
+            }, company share ${selectedRevenuePercent}% = ${companyRevenue.toFixed(
+              2
+            )} EGP, driver share = ${driverRevenue.toFixed(
+              2
+            )} EGP, driver collection = ${customerCollection.toFixed(
+              2
+            )} EGP.`
       );
 
-      return {
-        ...baseOrder,
-        ...financial
-      };
+      return newOrder;
     });
 
     setOrderCounter(currentNum);
@@ -910,6 +968,9 @@ JSON:
       ...prev
     ]);
 
+    /*
+      Sync merchant database.
+    */
     extractedOrders.forEach(ord => {
       if (
         ord.store &&
@@ -919,7 +980,7 @@ JSON:
           const match = prev.find(
             m =>
               m.name?.toLowerCase() ===
-              ord.store.toLowerCase()
+              ord.store?.toLowerCase()
           );
 
           if (!match) {
@@ -938,7 +999,7 @@ JSON:
 
           return prev.map(m =>
             m.name?.toLowerCase() ===
-            ord.store.toLowerCase()
+            ord.store?.toLowerCase()
               ? {
                   ...m,
                   totalOrders:
@@ -949,6 +1010,9 @@ JSON:
         });
       }
 
+      /*
+        Sync customer database.
+      */
       if (
         ord.customer &&
         ord.customer !== t.unspecified
@@ -989,9 +1053,16 @@ JSON:
     setRawText('');
     setExtractedOrders([]);
     setSelectedDriver('');
-    setSelectedRevenueShare(20);
+    setSelectedRevenuePercent(20);
+
     setActiveTab('orders');
   };
+
+  /*
+    ============================================================
+    ORDER ACTIONS
+    ============================================================
+  */
 
   const handleDeleteOrder = order => {
     if (
@@ -1005,10 +1076,8 @@ JSON:
 
       addAuditLog(
         order.orderNum,
-        t.deleted,
-        lang === 'ar'
-          ? `تم حذف الطلب الخاص بـ ${order.customer}.`
-          : `Order for ${order.customer} deleted.`
+        'Deleted',
+        `Order for ${order.customer} deleted.`
       );
     }
   };
@@ -1027,16 +1096,15 @@ JSON:
 
     addAuditLog(
       order.orderNum,
-      t.statusChange,
-      lang === 'ar'
-        ? `تم تغيير الحالة من "${order.status}" إلى "${newStatus}".`
-        : `Status changed from "${order.status}" to "${newStatus}".`
+      'Status Change',
+      `Status changed to "${newStatus}"`
     );
   };
 
-  const handleDriverReassign = (order, newDriver) => {
-    const oldDriver = order.driver;
-
+  const handleDriverReassign = (
+    order,
+    newDriver
+  ) => {
     setOrders(prev =>
       prev.map(o =>
         o.id === order.id
@@ -1050,38 +1118,33 @@ JSON:
 
     addAuditLog(
       order.orderNum,
-      t.driverReassigned,
-      lang === 'ar'
-        ? `تم تغيير الطيار من "${oldDriver}" إلى "${newDriver}".`
-        : `Driver changed from "${oldDriver}" to "${newDriver}".`
+      'Driver Reassigned',
+      `Driver changed to "${newDriver}"`
     );
   };
 
   const handleAmountSave = order => {
-    const oldAmount = getOrderValue(order);
-    const newAmount = Number(tempAmount) || 0;
+    const oldAmount = order.cod;
+
+    const newAmount = normalizeNumber(
+      tempAmount
+    );
 
     setOrders(prev =>
       prev.map(o =>
         o.id === order.id
-          ? buildFinancialData({
+          ? {
               ...o,
               cod: newAmount
-            })
+            }
           : o
       )
     );
 
     addAuditLog(
       order.orderNum,
-      t.amountEdited,
-      lang === 'ar'
-        ? `تم تعديل قيمة الطلب من ${formatMoney(
-            oldAmount
-          )} إلى ${formatMoney(newAmount)}.`
-        : `Order value changed from ${formatMoney(
-            oldAmount
-          )} to ${formatMoney(newAmount)}.`
+      'Amount Edited',
+      `Order value updated from ${oldAmount} to ${newAmount} ${t.currency}`
     );
 
     setEditingAmountId(null);
@@ -1089,95 +1152,32 @@ JSON:
 
   const handleDeliveryFeeSave = order => {
     const oldFee = getDeliveryFee(order);
-    const newFee = Number(tempFee) || 0;
+
+    const newFee = normalizeNumber(
+      tempDeliveryFee
+    );
 
     setOrders(prev =>
       prev.map(o =>
         o.id === order.id
-          ? buildFinancialData({
+          ? {
               ...o,
               deliveryFee: newFee
-            })
+            }
           : o
       )
     );
 
     addAuditLog(
       order.orderNum,
-      t.deliveryFeeEdited,
-      lang === 'ar'
-        ? `تم تعديل رسوم التوصيل من ${formatMoney(
-            oldFee
-          )} إلى ${formatMoney(newFee)}.`
-        : `Delivery fee changed from ${formatMoney(
-            oldFee
-          )} to ${formatMoney(newFee)}.`
+      'Delivery Fee Edited',
+      `Delivery fee updated from ${oldFee} to ${newFee} ${t.currency}`
     );
 
-    setEditingFeeId(null);
-  };
-
-  const handleRevenueSave = order => {
-    const oldRevenue = getRevenueShare(order);
-    const newRevenue = Number(tempRevenue);
-
-    setOrders(prev =>
-      prev.map(o =>
-        o.id === order.id
-          ? buildFinancialData({
-              ...o,
-              revenueShare: newRevenue
-            })
-          : o
-      )
-    );
-
-    addAuditLog(
-      order.orderNum,
-      t.revenueEdited,
-      lang === 'ar'
-        ? `تم تغيير نسبة إيراد الشركة من ${oldRevenue}% إلى ${newRevenue}%.`
-        : `Company revenue share changed from ${oldRevenue}% to ${newRevenue}%.`
-    );
-
-    setEditingRevenueId(null);
-  };
-
-  const handlePaymentChange = (order, method) => {
-    const settled =
-      method === PAYMENT_METHODS.ONLINE ||
-      method === PAYMENT_METHODS.PREPAID;
-
-    setOrders(prev =>
-      prev.map(o =>
-        o.id === order.id
-          ? buildFinancialData({
-              ...o,
-              paymentMethod: method,
-              paymentSettled: settled
-            })
-          : o
-      )
-    );
-
-    addAuditLog(
-      order.orderNum,
-      t.paymentEdited,
-      lang === 'ar'
-        ? `تم تغيير طريقة الدفع إلى "${paymentLabel(
-            method
-          )}". ${settled ? 'قيمة الطلب مسددة بالفعل.' : 'قيمة الطلب غير مسددة.'}`
-        : `Payment method changed to "${paymentLabel(
-            method
-          )}". ${settled ? 'Order value is already settled.' : 'Order value is unpaid.'}`
-    );
-
-    setEditingPaymentId(null);
+    setEditingDeliveryId(null);
   };
 
   const handleNoteSave = order => {
-    const oldNote = order.notes;
-
     setOrders(prev =>
       prev.map(o =>
         o.id === order.id
@@ -1191,14 +1191,18 @@ JSON:
 
     addAuditLog(
       order.orderNum,
-      t.notesEdited,
-      lang === 'ar'
-        ? `تم تعديل الملاحظات من "${oldNote || ''}" إلى "${tempNote}".`
-        : `Notes updated from "${oldNote || ''}" to "${tempNote}".`
+      'Notes Edited',
+      `Notes updated to "${tempNote}"`
     );
 
     setEditingNoteId(null);
   };
+
+  /*
+    ============================================================
+    CUSTOMER MANAGEMENT
+    ============================================================
+  */
 
   const handleSaveCustomerExplicit = () => {
     if (
@@ -1259,42 +1263,44 @@ JSON:
     });
   };
 
-  const totalCollected = orders
-    .filter(o => o.status === STATUS.COMPLETED)
-    .reduce(
+  /*
+    ============================================================
+    CALCULATIONS
+    ============================================================
+  */
+
+  const completedOrders = orders.filter(
+    o => o.status === 'مكتمل'
+  );
+
+  const totalCollected = completedOrders.reduce(
+    (sum, o) =>
+      sum + getOrderEffectiveCash(o),
+    0
+  );
+
+  const totalDeliveryRevenue =
+    completedOrders.reduce(
       (sum, o) =>
-        sum + getDriverCustomerCollection(o),
-      0
-    );
-
-  const totalCompanyRevenue = orders
-    .filter(o => o.status === STATUS.COMPLETED)
-    .reduce(
-      (sum, o) => sum + getCompanyRevenue(o),
-      0
-    );
-
-  const totalDriverShares = orders
-    .filter(o => o.status === STATUS.COMPLETED)
-    .reduce(
-      (sum, o) => sum + getDriverShare(o),
+        sum + getCompanyRevenue(o),
       0
     );
 
   const activeOrdersCount = orders.filter(
     o =>
-      ![
-        STATUS.COMPLETED,
-        STATUS.CANCELLED
-      ].includes(o.status)
+      !['مكتمل', 'ملغي'].includes(
+        o.status
+      )
   ).length;
 
-  const completedOrdersCount = orders.filter(
-    o => o.status === STATUS.COMPLETED
-  ).length;
+  const completedOrdersCount =
+    orders.filter(
+      o => o.status === 'مكتمل'
+    ).length;
 
   const filteredOrders = orders.filter(o => {
-    const query = searchQuery.toLowerCase();
+    const query =
+      searchQuery.toLowerCase();
 
     return (
       (o.orderNum || '')
@@ -1311,25 +1317,30 @@ JSON:
     );
   });
 
-  const selectedYearMonth = ledgerDate.substring(
-    0,
-    7
-  );
+  /*
+    ============================================================
+    LEDGER
+    ============================================================
+  */
 
-  const filteredLedgerOrders = orders.filter(o => {
-    const matchDriver =
-      !ledgerDriver ||
-      o.driver === ledgerDriver;
+  const selectedYearMonth =
+    ledgerDate.substring(0, 7);
 
-    const matchDate =
-      o.isoDate === ledgerDate;
+  const filteredLedgerOrders =
+    orders.filter(o => {
+      const matchDriver =
+        !ledgerDriver ||
+        o.driver === ledgerDriver;
 
-    return matchDriver && matchDate;
-  });
+      const matchDate =
+        o.isoDate === ledgerDate;
 
-  const dailyCashToHandIn =
+      return matchDriver && matchDate;
+    });
+
+  const dailyCollected =
     filteredLedgerOrders
-      .filter(o => o.status === STATUS.COMPLETED)
+      .filter(o => o.status === 'مكتمل')
       .reduce(
         (sum, o) =>
           sum + getOrderEffectiveCash(o),
@@ -1338,19 +1349,19 @@ JSON:
 
   const dailyCompanyRevenue =
     filteredLedgerOrders
-      .filter(o => o.status === STATUS.COMPLETED)
+      .filter(o => o.status === 'مكتمل')
       .reduce(
         (sum, o) =>
           sum + getCompanyRevenue(o),
         0
       );
 
-  const dailyDriverShare =
+  const dailyDriverRevenue =
     filteredLedgerOrders
-      .filter(o => o.status === STATUS.COMPLETED)
+      .filter(o => o.status === 'مكتمل')
       .reduce(
         (sum, o) =>
-          sum + getDriverShare(o),
+          sum + getDriverRevenue(o),
         0
       );
 
@@ -1369,7 +1380,7 @@ JSON:
 
   const monthlyTotalCash =
     monthlyOrders
-      .filter(o => o.status === STATUS.COMPLETED)
+      .filter(o => o.status === 'مكتمل')
       .reduce(
         (sum, o) =>
           sum + getOrderEffectiveCash(o),
@@ -1378,56 +1389,39 @@ JSON:
 
   const monthlyCompanyRevenue =
     monthlyOrders
-      .filter(o => o.status === STATUS.COMPLETED)
+      .filter(o => o.status === 'مكتمل')
       .reduce(
         (sum, o) =>
           sum + getCompanyRevenue(o),
         0
       );
 
-  const monthlyDriverShare =
+  const monthlyDriverRevenue =
     monthlyOrders
-      .filter(o => o.status === STATUS.COMPLETED)
+      .filter(o => o.status === 'مكتمل')
       .reduce(
         (sum, o) =>
-          sum + getDriverShare(o),
+          sum + getDriverRevenue(o),
         0
       );
 
-  const selectedPreviewOrder = useMemo(() => {
-    if (!extractedOrders.length) return null;
-
-    const order = extractedOrders[0];
-
-    return buildFinancialData({
-      ...order,
-      deliveryFee:
-        Number(order.delivery_fee) || 0,
-      revenueShare:
-        selectedRevenueShare,
-      paymentMethod:
-        order.payment_method ||
-        PAYMENT_METHODS.CASH,
-      paymentSettled:
-        Boolean(order.payment_settled) ||
-        order.payment_method ===
-          PAYMENT_METHODS.ONLINE ||
-        order.payment_method ===
-          PAYMENT_METHODS.PREPAID
-    });
-  }, [
-    extractedOrders,
-    selectedRevenueShare
-  ]);
+  /*
+    ============================================================
+    UI
+    ============================================================
+  */
 
   return (
     <div
       style={{
         ...styles.container,
         direction:
-          lang === 'ar' ? 'rtl' : 'ltr'
+          lang === 'ar'
+            ? 'rtl'
+            : 'ltr'
       }}
     >
+
       {/* HEADER */}
 
       <header style={styles.header}>
@@ -1475,11 +1469,12 @@ JSON:
       {/* KPI */}
 
       <div style={styles.kpiRow}>
+
         <div
           style={{
             ...styles.kpiCard,
             background:
-              'linear-gradient(135deg,#0f172a,#312e81,#4f46e5)'
+              'linear-gradient(135deg,#312e81,#4f46e5,#7c3aed)'
           }}
         >
           <span style={styles.kpiLabel}>
@@ -1492,7 +1487,7 @@ JSON:
               color: '#67e8f9'
             }}
           >
-            {formatMoney(totalCollected)}
+            {totalCollected.toLocaleString()} {t.currency}
           </span>
         </div>
 
@@ -1500,7 +1495,34 @@ JSON:
           style={{
             ...styles.kpiCard,
             background:
-              'linear-gradient(135deg,#064e3b,#059669,#10b981)'
+              'linear-gradient(135deg,#065f46,#059669,#10b981)'
+          }}
+        >
+          <span style={styles.kpiLabel}>
+            {t.kpiRevenue}
+          </span>
+
+          <span
+            style={{
+              ...styles.kpiValue,
+              color: '#6ee7b7'
+            }}
+          >
+            {totalDeliveryRevenue.toLocaleString(
+              undefined,
+              {
+                maximumFractionDigits: 2
+              }
+            )}{' '}
+            {t.currency}
+          </span>
+        </div>
+
+        <div
+          style={{
+            ...styles.kpiCard,
+            background:
+              'linear-gradient(135deg,#7e22ce,#c026d3,#ec4899)'
           }}
         >
           <span style={styles.kpiLabel}>
@@ -1510,7 +1532,7 @@ JSON:
           <span
             style={{
               ...styles.kpiValue,
-              color: '#6ee7b7'
+              color: '#f9a8d4'
             }}
           >
             {activeOrdersCount}
@@ -1521,7 +1543,7 @@ JSON:
           style={{
             ...styles.kpiCard,
             background:
-              'linear-gradient(135deg,#701a75,#a21caf,#ec4899)'
+              'linear-gradient(135deg,#0f766e,#0891b2,#2563eb)'
           }}
         >
           <span style={styles.kpiLabel}>
@@ -1531,33 +1553,13 @@ JSON:
           <span
             style={{
               ...styles.kpiValue,
-              color: '#f9a8d4'
+              color: '#93c5fd'
             }}
           >
             {completedOrdersCount}
           </span>
         </div>
 
-        <div
-          style={{
-            ...styles.kpiCard,
-            background:
-              'linear-gradient(135deg,#0c4a6e,#0284c7,#38bdf8)'
-          }}
-        >
-          <span style={styles.kpiLabel}>
-            {t.kpiRevenue}
-          </span>
-
-          <span
-            style={{
-              ...styles.kpiValue,
-              color: '#bae6fd'
-            }}
-          >
-            {formatMoney(totalCompanyRevenue)}
-          </span>
-        </div>
       </div>
 
       {/* NAV */}
@@ -1591,12 +1593,15 @@ JSON:
 
         <button
           style={
-            activeTab === 'driver_ledger'
+            activeTab ===
+            'driver_ledger'
               ? styles.activeTab
               : styles.tab
           }
           onClick={() =>
-            setActiveTab('driver_ledger')
+            setActiveTab(
+              'driver_ledger'
+            )
           }
         >
           {t.navDriverLedger}
@@ -1670,18 +1675,33 @@ JSON:
 
       <main style={styles.main}>
 
-        {/* NEW ORDER */}
+        {/* =====================================================
+            NEW ORDER
+        ===================================================== */}
 
         {activeTab === 'new_order' && (
           <div style={styles.card}>
-            <div style={styles.rowBetween}>
-              <h2 style={styles.cardTitle}>
+
+            <div
+              style={
+                styles.rowBetween
+              }
+            >
+              <h2
+                style={
+                  styles.cardTitle
+                }
+              >
                 {t.aiHeader}
               </h2>
 
               <button
-                onClick={handlePasteClipboard}
-                style={styles.btnGradientCompact}
+                onClick={
+                  handlePasteClipboard
+                }
+                style={
+                  styles.btnGradientCompact
+                }
               >
                 {t.btnPaste}
               </button>
@@ -1691,49 +1711,78 @@ JSON:
               rows={7}
               value={rawText}
               onChange={e =>
-                setRawText(e.target.value)
+                setRawText(
+                  e.target.value
+                )
               }
-              placeholder={t.placeholderOrder}
-              style={styles.textarea}
+              placeholder={
+                t.placeholderOrder
+              }
+              style={
+                styles.textarea
+              }
             />
 
             <button
-              onClick={extractOrderInfo}
+              onClick={
+                extractOrderInfo
+              }
               disabled={loading}
-              style={{
-                ...styles.btnPrimaryGradient,
-                opacity: loading ? 0.6 : 1
-              }}
+              style={
+                styles.btnPrimaryGradient
+              }
             >
               {loading
                 ? t.btnExtracting
                 : t.btnExtract}
             </button>
 
+            {/* TYPO MODAL */}
+
             {showTypoModal && (
-              <div style={styles.modalOverlay}>
-                <div style={styles.modalCard}>
+              <div
+                style={
+                  styles.modalOverlay
+                }
+              >
+                <div
+                  style={
+                    styles.modalCard
+                  }
+                >
                   <h3
                     style={{
                       margin:
-                        '0 0 10px 0',
-                      color: '#facc15'
+                        '0 0 10px',
+                      color:
+                        '#facc15'
                     }}
                   >
-                    {t.typoAlertTitle}
+                    {
+                      t.typoAlertTitle
+                    }
                   </h3>
 
                   <ul
                     style={{
-                      paddingLeft: '20px',
-                      color: '#fca5a5'
+                      paddingLeft:
+                        '20px',
+                      color:
+                        '#fca5a5'
                     }}
                   >
                     {typoFlags.map(
-                      (flag, idx) => (
-                        <li key={idx}>
+                      (
+                        flag,
+                        idx
+                      ) => (
+                        <li
+                          key={idx}
+                        >
                           <strong>
-                            {flag}
+                            {
+                              flag
+                            }
                           </strong>
                         </li>
                       )
@@ -1750,11 +1799,13 @@ JSON:
                       styles.btnSuccessGradient
                     }
                   >
-                    OK, Continue
+                    {t.confirm}
                   </button>
                 </div>
               </div>
             )}
+
+            {/* EXTRACTED ORDERS */}
 
             {extractedOrders.length >
               0 && (
@@ -1766,7 +1817,8 @@ JSON:
                 <h3
                   style={{
                     marginTop: 0,
-                    color: '#facc15'
+                    color:
+                      '#facc15'
                   }}
                 >
                   {t.reviewTitle}
@@ -1774,27 +1826,32 @@ JSON:
 
                 {extractedOrders.map(
                   (ord, idx) => {
-                    const preview =
-                      buildFinancialData({
-                        ...ord,
-                        deliveryFee:
-                          Number(
-                            ord.delivery_fee
-                          ) || 0,
-                        revenueShare:
-                          selectedRevenueShare,
-                        paymentMethod:
-                          ord.payment_method ||
-                          PAYMENT_METHODS.CASH,
-                        paymentSettled:
-                          Boolean(
-                            ord.payment_settled
-                          ) ||
-                          ord.payment_method ===
-                            PAYMENT_METHODS.ONLINE ||
-                          ord.payment_method ===
-                            PAYMENT_METHODS.PREPAID
-                      });
+
+                    const orderValue =
+                      normalizeNumber(
+                        ord.cod
+                      );
+
+                    const fee =
+                      normalizeNumber(
+                        ord.deliveryFee
+                      );
+
+                    const company =
+                      fee *
+                      (selectedRevenuePercent /
+                        100);
+
+                    const driver =
+                      fee - company;
+
+                    const collection =
+                      ord.paymentMethod ===
+                        PAYMENT_ONLINE ||
+                      ord.paymentMethod ===
+                        PAYMENT_PREPAID
+                        ? fee
+                        : orderValue + fee;
 
                     return (
                       <div
@@ -1803,40 +1860,41 @@ JSON:
                           styles.extractedSubCard
                         }
                       >
+
                         <div
-                          style={
-                            styles.orderHero
-                          }
+                          style={{
+                            ...styles.orderHero,
+                            background:
+                              'linear-gradient(135deg,rgba(14,165,233,.15),rgba(124,58,237,.18))'
+                          }}
                         >
                           <div>
                             <div
                               style={
-                                styles.orderHeroTitle
+                                styles.miniLabel
                               }
                             >
-                              📦{' '}
-                              {ord.customer ||
-                                t.unspecified}
+                              {t.customer}
                             </div>
 
                             <div
                               style={
-                                styles.orderHeroSub
+                                styles.heroCustomer
                               }
                             >
-                              {ord.store ||
+                              👤{' '}
+                              {ord.customer ||
                                 t.unspecified}
                             </div>
                           </div>
 
                           <div
                             style={
-                              styles.moneyPill
+                              styles.heroMoney
                             }
                           >
-                            {formatMoney(
-                              preview.cod
-                            )}
+                            {collection.toLocaleString()}{' '}
+                            {t.currency}
                           </div>
                         </div>
 
@@ -1848,7 +1906,9 @@ JSON:
                               styles.addressWarningBox
                             }
                           >
-                            {t.addressWarning}
+                            {
+                              t.addressWarning
+                            }
                           </div>
                         )}
 
@@ -1857,6 +1917,7 @@ JSON:
                             styles.grid2
                           }
                         >
+
                           <div>
                             <strong>
                               {t.store}:
@@ -1867,51 +1928,10 @@ JSON:
 
                           <div>
                             <strong>
-                              {t.customer}:
-                            </strong>{' '}
-                            {ord.customer ||
-                              t.unspecified}
-                          </div>
-
-                          <div>
-                            <strong>
                               {t.phone}:
                             </strong>{' '}
                             {ord.phone ||
                               t.unspecified}
-                          </div>
-
-                          <div>
-                            <strong>
-                              {t.cod}:
-                            </strong>{' '}
-                            {formatMoney(
-                              preview.cod
-                            )}
-                          </div>
-
-                          <div>
-                            <strong>
-                              {t.deliveryFee}:
-                            </strong>{' '}
-                            {formatMoney(
-                              preview.deliveryFee
-                            )}
-                          </div>
-
-                          <div>
-                            <strong>
-                              {t.paymentMethod}:
-                            </strong>{' '}
-                            <span
-                              style={
-                                styles.paymentBadge
-                              }
-                            >
-                              {paymentLabel(
-                                preview.paymentMethod
-                              )}
-                            </span>
                           </div>
 
                           <div
@@ -1940,36 +1960,24 @@ JSON:
                               t.unspecified}
                           </div>
 
-                          {ord.notes && (
-                            <div
-                              style={{
-                                gridColumn:
-                                  '1 / -1',
-                                color:
-                                  '#facc15'
-                              }}
-                            >
-                              <strong>
-                                📌 {t.notes}:
-                              </strong>{' '}
-                              {ord.notes}
-                            </div>
-                          )}
                         </div>
 
-                        {/* FINANCIAL PREVIEW */}
+                        {/* FINANCIAL INPUTS */}
 
                         <div
                           style={
-                            styles.financialPanel
+                            styles.financePanel
                           }
                         >
                           <div
                             style={
-                              styles.sectionTitle
+                              styles.financeTitle
                             }
                           >
-                            {t.orderBreakdown}
+                            💰{' '}
+                            {
+                              t.financialBreakdown
+                            }
                           </div>
 
                           <div
@@ -1977,93 +1985,276 @@ JSON:
                               styles.financeGrid
                             }
                           >
-                            <FinanceMetric
-                              label={
-                                t.orderValue
-                              }
-                              value={formatMoney(
-                                preview.cod
-                              )}
-                            />
 
-                            <FinanceMetric
-                              label={
-                                t.deliveryFee
+                            <div
+                              style={
+                                styles.financeBox
                               }
-                              value={formatMoney(
-                                preview.deliveryFee
-                              )}
-                            />
+                            >
+                              <span>
+                                {
+                                  t.cod
+                                }
+                              </span>
 
-                            <FinanceMetric
-                              label={
-                                t.remainingOrderValue
-                              }
-                              value={formatMoney(
-                                preview.remainingOrderValue
-                              )}
-                            />
+                              <input
+                                type="number"
+                                value={
+                                  ord.cod
+                                }
+                                onChange={e =>
+                                  updateExtractedOrder(
+                                    idx,
+                                    'cod',
+                                    e.target
+                                      .value
+                                  )
+                                }
+                                style={
+                                  styles.financeInput
+                                }
+                              />
 
-                            <FinanceMetric
-                              label={
-                                t.customerTotal
-                              }
-                              value={formatMoney(
-                                preview.driverCustomerCollection
-                              )}
-                              highlight
-                            />
+                              <small>
+                                {
+                                  t.orderValueNotRevenue
+                                }
+                              </small>
+                            </div>
 
-                            <FinanceMetric
-                              label={
-                                `${t.companyShare} (${selectedRevenueShare}%)`
+                            <div
+                              style={
+                                styles.financeBox
                               }
-                              value={formatMoney(
-                                preview.companyRevenue
-                              )}
-                              positive
-                            />
+                            >
+                              <span>
+                                {
+                                  t.deliveryFee
+                                }
+                              </span>
 
-                            <FinanceMetric
-                              label={
-                                t.driverShareLabel
-                              }
-                              value={formatMoney(
-                                preview.driverShare
-                              )}
-                              accent
-                            />
+                              <input
+                                type="number"
+                                value={
+                                  ord.deliveryFee
+                                }
+                                onChange={e =>
+                                  updateExtractedOrder(
+                                    idx,
+                                    'deliveryFee',
+                                    e.target
+                                      .value
+                                  )
+                                }
+                                style={
+                                  styles.financeInput
+                                }
+                              />
+                            </div>
 
-                            <FinanceMetric
-                              label={
-                                t.companyHandIn
+                            <div
+                              style={
+                                styles.financeBox
                               }
-                              value={formatMoney(
-                                preview.remainingOrderValue +
-                                  preview.companyRevenue
-                              )}
-                              highlight
-                            />
+                            >
+                              <span>
+                                {
+                                  t.paymentMethod
+                                }
+                              </span>
+
+                              <select
+                                value={
+                                  ord.paymentMethod ||
+                                  PAYMENT_CASH
+                                }
+                                onChange={e =>
+                                  updateExtractedOrder(
+                                    idx,
+                                    'paymentMethod',
+                                    e.target
+                                      .value
+                                  )
+                                }
+                                style={
+                                  styles.financeInput
+                                }
+                              >
+                                <option value="cash">
+                                  {
+                                    t.paymentCash
+                                  }
+                                </option>
+
+                                <option value="online">
+                                  {
+                                    t.paymentOnline
+                                  }
+                                </option>
+
+                                <option value="prepaid">
+                                  {
+                                    t.paymentPrepaid
+                                  }
+                                </option>
+                              </select>
+                            </div>
+
                           </div>
+
+                          <div
+                            style={
+                              styles.calculationStrip
+                            }
+                          >
+
+                            <div>
+                              <span>
+                                {
+                                  t.customerCollection
+                                }
+                              </span>
+
+                              <strong>
+                                {collection.toLocaleString()}{' '}
+                                {
+                                  t.currency
+                                }
+                              </strong>
+                            </div>
+
+                            <div>
+                              <span>
+                                {
+                                  t.merchantAmount
+                                }
+                              </span>
+
+                              <strong>
+                                {orderValue.toLocaleString()}{' '}
+                                {
+                                  t.currency
+                                }
+                              </strong>
+                            </div>
+
+                            <div>
+                              <span>
+                                {
+                                  t.companyRevenue
+                                }
+                              </span>
+
+                              <strong
+                                style={{
+                                  color:
+                                    '#34d399'
+                                }}
+                              >
+                                {company.toFixed(
+                                  2
+                                )}{' '}
+                                {
+                                  t.currency
+                                }
+                              </strong>
+                            </div>
+
+                            <div>
+                              <span>
+                                {
+                                  t.driverRevenue
+                                }
+                              </span>
+
+                              <strong
+                                style={{
+                                  color:
+                                    '#60a5fa'
+                                }}
+                              >
+                                {driver.toFixed(
+                                  2
+                                )}{' '}
+                                {
+                                  t.currency
+                                }
+                              </strong>
+                            </div>
+
+                          </div>
+
+                          <div
+                            style={
+                              styles.infoMessage
+                            }
+                          >
+                            {ord.paymentMethod ===
+                              PAYMENT_ONLINE ||
+                            ord.paymentMethod ===
+                              PAYMENT_PREPAID
+                              ? t.onlineNoCollection
+                              : t.cashCollectionExplanation}
+                          </div>
+
                         </div>
+
+                        {ord.notes && (
+                          <div
+                            style={{
+                              marginTop:
+                                '10px',
+                              color:
+                                '#facc15'
+                            }}
+                          >
+                            <strong>
+                              📌{' '}
+                              {t.notes}:
+                            </strong>{' '}
+                            {ord.notes}
+                          </div>
+                        )}
+
                       </div>
                     );
                   }
                 )}
 
-                {/* DRIVER ASSIGNMENT */}
+                {/* DRIVER CONFIRMATION */}
 
                 <div
                   style={
-                    styles.assignmentPanel
+                    styles.confirmationPanel
                   }
                 >
+
                   <div
                     style={
-                      styles.assignmentTitle
+                      styles.confirmationHeader
                     }
                   >
-                    🛵 {t.selectDriver}
+                    <div>
+                      <div
+                        style={
+                          styles.miniLabel
+                        }
+                      >
+                        STEP 2
+                      </div>
+
+                      <h3
+                        style={{
+                          margin:
+                            '3px 0',
+                          color:
+                            '#fff'
+                        }}
+                      >
+                        🛵{' '}
+                        {t.selectDriver}
+                      </h3>
+                    </div>
                   </div>
 
                   <div
@@ -2071,13 +2262,16 @@ JSON:
                       styles.grid2
                     }
                   >
+
                     <div>
                       <label
                         style={
                           styles.label
                         }
                       >
-                        {t.selectDriver}
+                        {
+                          t.selectDriver
+                        }
                       </label>
 
                       <select
@@ -2086,7 +2280,8 @@ JSON:
                         }
                         onChange={e =>
                           setSelectedDriver(
-                            e.target.value
+                            e.target
+                              .value
                           )
                         }
                         style={
@@ -2121,22 +2316,25 @@ JSON:
                           styles.label
                         }
                       >
-                        {t.revenueShare}
+                        {
+                          t.chooseRevenue
+                        }
                       </label>
 
                       <select
                         value={
-                          selectedRevenueShare
+                          selectedRevenuePercent
                         }
                         onChange={e =>
-                          setSelectedRevenueShare(
+                          setSelectedRevenuePercent(
                             Number(
-                              e.target.value
+                              e.target
+                                .value
                             )
                           )
                         }
                         style={
-                          styles.input
+                          styles.revenueSelect
                         }
                       >
                         {REVENUE_OPTIONS.map(
@@ -2155,45 +2353,70 @@ JSON:
                         )}
                       </select>
                     </div>
+
                   </div>
 
-                  {selectedPreviewOrder && (
-                    <div
-                      style={
-                        styles.assignmentSummary
+                  <div
+                    style={
+                      styles.revenueExplanationBox
+                    }
+                  >
+                    <strong>
+                      💡{' '}
+                      {
+                        t.revenueExplanation
                       }
+                    </strong>
+
+                    <div
+                      style={{
+                        marginTop:
+                          '8px',
+                        display:
+                          'grid',
+                        gridTemplateColumns:
+                          'repeat(3,1fr)',
+                        gap: '10px'
+                      }}
                     >
-                      <div>
-                        <span>
-                          🏪{' '}
-                          {t.orderValue}
-                        </span>
 
+                      <div>
+                        <small>
+                          {
+                            t.deliveryPool
+                          }
+                        </small>
                         <strong>
-                          {formatMoney(
-                            selectedPreviewOrder.cod
-                          )}
+                          {extractedOrders
+                            .reduce(
+                              (
+                                sum,
+                                o
+                              ) =>
+                                sum +
+                                normalizeNumber(
+                                  o.deliveryFee
+                                ),
+                              0
+                            )
+                            .toLocaleString()}{' '}
+                          {
+                            t.currency
+                          }
                         </strong>
                       </div>
 
                       <div>
-                        <span>
-                          🚚{' '}
-                          {t.deliveryFee}
-                        </span>
-
-                        <strong>
-                          {formatMoney(
-                            selectedPreviewOrder.deliveryFee
-                          )}
-                        </strong>
-                      </div>
-
-                      <div>
-                        <span>
-                          📈{' '}
-                          {t.youEarn}
-                        </span>
+                        <small>
+                          {
+                            t.myShare
+                          }{' '}
+                          (
+                          {
+                            selectedRevenuePercent
+                          }
+                          %)
+                        </small>
 
                         <strong
                           style={{
@@ -2201,17 +2424,33 @@ JSON:
                               '#34d399'
                           }}
                         >
-                          {formatMoney(
-                            selectedPreviewOrder.companyRevenue
-                          )}
+                          {extractedOrders
+                            .reduce(
+                              (
+                                sum,
+                                o
+                              ) =>
+                                sum +
+                                normalizeNumber(
+                                  o.deliveryFee
+                                ) *
+                                  (selectedRevenuePercent /
+                                    100),
+                              0
+                            )
+                            .toFixed(2)}{' '}
+                          {
+                            t.currency
+                          }
                         </strong>
                       </div>
 
                       <div>
-                        <span>
-                          🛵{' '}
-                          {t.driverKeeps}
-                        </span>
+                        <small>
+                          {
+                            t.driverShare
+                          }
+                        </small>
 
                         <strong
                           style={{
@@ -2219,13 +2458,31 @@ JSON:
                               '#60a5fa'
                           }}
                         >
-                          {formatMoney(
-                            selectedPreviewOrder.driverShare
-                          )}
+                          {extractedOrders
+                            .reduce(
+                              (
+                                sum,
+                                o
+                              ) =>
+                                sum +
+                                normalizeNumber(
+                                  o.deliveryFee
+                                ) *
+                                  (1 -
+                                    selectedRevenuePercent /
+                                      100),
+                              0
+                            )
+                            .toFixed(2)}{' '}
+                          {
+                            t.currency
+                          }
                         </strong>
                       </div>
+
                     </div>
-                  )}
+                  </div>
+
                 </div>
 
                 <button
@@ -2238,15 +2495,20 @@ JSON:
                 >
                   {t.btnConfirm}
                 </button>
+
               </div>
             )}
+
           </div>
         )}
 
-        {/* ORDERS */}
+        {/* =====================================================
+            ORDERS
+        ===================================================== */}
 
         {activeTab === 'orders' && (
           <div>
+
             <input
               type="text"
               placeholder={
@@ -2265,59 +2527,59 @@ JSON:
 
             {filteredOrders.length ===
             0 ? (
-              <p style={styles.empty}>
-                {t.noOrders}
+              <p
+                style={
+                  styles.empty
+                }
+              >
+                No orders found.
               </p>
             ) : (
               filteredOrders.map(
                 order => {
-                  const remaining =
-                    getRemainingOrderValue(
-                      order
-                    );
-
-                  const fee =
-                    getDeliveryFee(
-                      order
-                    );
 
                   const companyRevenue =
                     getCompanyRevenue(
                       order
                     );
 
-                  const driverShare =
-                    getDriverShare(
+                  const driverRevenue =
+                    getDriverRevenue(
                       order
                     );
 
-                  const customerCollection =
-                    getDriverCustomerCollection(
+                  const collection =
+                    getCustomerCollection(
                       order
                     );
 
-                  const handIn =
-                    getOrderEffectiveCash(
+                  const merchantDue =
+                    getMerchantDue(
                       order
                     );
 
                   return (
                     <div
-                      key={order.id}
+                      key={
+                        order.id
+                      }
                       style={
                         styles.card
                       }
                     >
+
                       <div
                         style={
                           styles.rowBetween
                         }
                       >
+
                         <div
                           style={{
                             display:
                               'flex',
-                            gap: '8px',
+                            gap:
+                              '8px',
                             alignItems:
                               'center',
                             flexWrap:
@@ -2343,27 +2605,19 @@ JSON:
                               order.store
                             }
                           </span>
-
-                          <span
-                            style={
-                              styles.paymentBadge
-                            }
-                          >
-                            {paymentLabel(
-                              order.paymentMethod
-                            )}
-                          </span>
                         </div>
 
                         <div
                           style={{
                             display:
                               'flex',
-                            gap: '8px',
+                            gap:
+                              '8px',
                             alignItems:
                               'center'
                           }}
                         >
+
                           <select
                             value={
                               order.status
@@ -2433,17 +2687,33 @@ JSON:
                             }
                           >
                             🗑️{' '}
-                            {t.deleteBtn}
+                            {
+                              t.deleteBtn
+                            }
                           </button>
+
                         </div>
                       </div>
 
-                      <p style={styles.p}>
+                      <p
+                        style={
+                          styles.p
+                        }
+                      >
                         <strong>
-                          {t.customer}:
+                          {
+                            t.customer
+                          }
+                          :
                         </strong>{' '}
-                        {order.customer}{' '}
-                        ({order.phone})
+                        {
+                          order.customer
+                        }{' '}
+                        (
+                        {
+                          order.phone
+                        }
+                        )
                       </p>
 
                       {isIncompleteAddress(
@@ -2460,112 +2730,324 @@ JSON:
                         </div>
                       )}
 
-                      <p style={styles.p}>
+                      <p
+                        style={
+                          styles.p
+                        }
+                      >
                         <strong>
-                          {t.address}:
+                          {
+                            t.address
+                          }
+                          :
                         </strong>{' '}
-                        {order.address}
+                        {
+                          order.address
+                        }
                       </p>
 
-                      {/* PAYMENT */}
+                      {/* FINANCIAL SUMMARY */}
 
                       <div
                         style={
-                          styles.editPanel
+                          styles.orderFinancialCard
                         }
                       >
-                        <div>
-                          <strong>
-                            💳{' '}
-                            {
-                              t.paymentMethod
-                            }
-                            :
-                          </strong>
+
+                        <div
+                          style={
+                            styles.financeTitle
+                          }
+                        >
+                          {
+                            t.financialBreakdown
+                          }
                         </div>
 
-                        {editingPaymentId ===
-                        order.id ? (
-                          <select
-                            value={
-                              order.paymentMethod ||
-                              PAYMENT_METHODS.CASH
-                            }
-                            onChange={e =>
-                              handlePaymentChange(
-                                order,
-                                e.target
-                                  .value
-                              )
-                            }
-                            style={
-                              styles.inlineSelect
-                            }
-                          >
-                            <option value="cash">
-                              {
-                                t.paymentCash
-                              }
-                            </option>
+                        <div
+                          style={
+                            styles.financeGrid
+                          }
+                        >
 
-                            <option value="online">
-                              {
-                                t.paymentOnline
-                              }
-                            </option>
-
-                            <option value="prepaid">
-                              {
-                                t.paymentPrepaid
-                              }
-                            </option>
-                          </select>
-                        ) : (
                           <div
-                            style={{
-                              display:
-                                'flex',
-                              gap: '8px',
-                              alignItems:
-                                'center'
-                            }}
+                            style={
+                              styles.summaryMetric
+                            }
                           >
-                            <span
-                              style={
-                                styles.paymentBadge
+                            <span>
+                              {
+                                t.cod
                               }
-                            >
-                              {paymentLabel(
-                                order.paymentMethod
-                              )}
                             </span>
 
-                            <button
-                              onClick={() =>
-                                setEditingPaymentId(
-                                  order.id
+                            <strong>
+                              {
+                                getOrderValue(
+                                  order
+                                )
+                              }{' '}
+                              {
+                                t.currency
+                              }
+                            </strong>
+                          </div>
+
+                          <div
+                            style={
+                              styles.summaryMetric
+                            }
+                          >
+                            <span>
+                              {
+                                t.deliveryFee
+                              }
+                            </span>
+
+                            {editingDeliveryId ===
+                            order.id ? (
+                              <div
+                                style={{
+                                  display:
+                                    'flex',
+                                  gap:
+                                    '5px'
+                                }}
+                              >
+                                <input
+                                  type="number"
+                                  value={
+                                    tempDeliveryFee
+                                  }
+                                  onChange={e =>
+                                    setTempDeliveryFee(
+                                      e.target
+                                        .value
+                                    )
+                                  }
+                                  style={
+                                    styles.inlineInput
+                                  }
+                                />
+
+                                <button
+                                  onClick={() =>
+                                    handleDeliveryFeeSave(
+                                      order
+                                    )
+                                  }
+                                  style={
+                                    styles.btnSaveCompact
+                                  }
+                                >
+                                  {
+                                    t.saveBtn
+                                  }
+                                </button>
+                              </div>
+                            ) : (
+                              <strong>
+                                {
+                                  getDeliveryFee(
+                                    order
+                                  )
+                                }{' '}
+                                {
+                                  t.currency
+                                }
+                              </strong>
+                            )}
+
+                            {editingDeliveryId !==
+                              order.id && (
+                              <button
+                                onClick={() => {
+                                  setEditingDeliveryId(
+                                    order.id
+                                  );
+
+                                  setTempDeliveryFee(
+                                    getDeliveryFee(
+                                      order
+                                    )
+                                  );
+                                }}
+                                style={
+                                  styles.btnEditTiny
+                                }
+                              >
+                                ✏️
+                              </button>
+                            )}
+                          </div>
+
+                          <div
+                            style={
+                              styles.summaryMetric
+                            }
+                          >
+                            <span>
+                              {
+                                t.revenuePercent
+                              }
+                            </span>
+
+                            <strong>
+                              {
+                                getRevenuePercent(
+                                  order
                                 )
                               }
-                              style={
-                                styles.btnEditCompact
-                              }
-                            >
-                              ✏️{' '}
+                              %
+                            </strong>
+                          </div>
+
+                          <div
+                            style={
+                              styles.summaryMetric
+                            }
+                          >
+                            <span>
                               {
-                                t.editBtn
+                                t.paymentMethod
                               }
-                            </button>
+                            </span>
+
+                            <strong>
+                              {order.paymentMethod ===
+                              PAYMENT_CASH
+                                ? t.paymentCash
+                                : order.paymentMethod ===
+                                  PAYMENT_ONLINE
+                                ? t.paymentOnline
+                                : t.paymentPrepaid}
+                            </strong>
+                          </div>
+
+                        </div>
+
+                        <div
+                          style={
+                            styles.calculationStrip
+                          }
+                        >
+
+                          <div>
+                            <span>
+                              {
+                                t.customerCollection
+                              }
+                            </span>
+
+                            <strong>
+                              {
+                                collection.toLocaleString()
+                              }{' '}
+                              {
+                                t.currency
+                              }
+                            </strong>
+                          </div>
+
+                          <div>
+                            <span>
+                              {
+                                t.merchantDue
+                              }
+                            </span>
+
+                            <strong>
+                              {
+                                merchantDue.toLocaleString()
+                              }{' '}
+                              {
+                                t.currency
+                              }
+                            </strong>
+                          </div>
+
+                          <div>
+                            <span>
+                              {
+                                t.companyRevenue
+                              }
+                            </span>
+
+                            <strong
+                              style={{
+                                color:
+                                  '#34d399'
+                              }}
+                            >
+                              {
+                                companyRevenue.toFixed(
+                                  2
+                                )
+                              }{' '}
+                              {
+                                t.currency
+                              }
+                            </strong>
+                          </div>
+
+                          <div>
+                            <span>
+                              {
+                                t.driverRevenue
+                              }
+                            </span>
+
+                            <strong
+                              style={{
+                                color:
+                                  '#60a5fa'
+                              }}
+                            >
+                              {
+                                driverRevenue.toFixed(
+                                  2
+                                )
+                              }{' '}
+                              {
+                                t.currency
+                              }
+                            </strong>
+                          </div>
+
+                        </div>
+
+                        {order.status ===
+                          'ملغي' && (
+                          <div
+                            style={
+                              styles.cancelledBox
+                            }
+                          >
+                            {
+                              t.cancelledFinancial
+                            }
                           </div>
                         )}
+
                       </div>
 
                       {/* NOTES */}
 
                       <div
-                        style={
-                          styles.notePanel
-                        }
+                        style={{
+                          backgroundColor:
+                            'rgba(250,204,21,.08)',
+                          padding:
+                            '10px',
+                          borderRadius:
+                            '8px',
+                          border:
+                            '1px solid rgba(250,204,21,.2)',
+                          margin:
+                            '10px 0'
+                        }}
                       >
+
                         {editingNoteId ===
                         order.id ? (
                           <div>
@@ -2619,8 +3101,10 @@ JSON:
                                 }
                                 :
                               </strong>{' '}
-                              {order.notes ||
-                                t.unspecified}
+                              {
+                                order.notes ||
+                                t.unspecified
+                              }
                             </span>
 
                             <button
@@ -2645,143 +3129,21 @@ JSON:
                             </button>
                           </div>
                         )}
+
                       </div>
 
-                      {/* FINANCIAL BREAKDOWN */}
+                      {/* COD EDIT */}
 
                       <div
                         style={
-                          styles.orderFinancialCard
-                        }
-                      >
-                        <div
-                          style={
-                            styles.financialHeader
-                          }
-                        >
-                          <span>
-                            {t.orderBreakdown}
-                          </span>
-
-                          <span
-                            style={
-                              styles.bigRevenueBadge
-                            }
-                          >
-                            {getRevenueShare(
-                              order
-                            )}
-                            %
-                          </span>
-                        </div>
-
-                        <div
-                          style={
-                            styles.financeGrid
-                          }
-                        >
-                          <FinanceMetric
-                            label={
-                              t.orderValue
-                            }
-                            value={formatMoney(
-                              getOrderValue(
-                                order
-                              )
-                            )}
-                          />
-
-                          <FinanceMetric
-                            label={
-                              t.deliveryFee
-                            }
-                            value={formatMoney(
-                              fee
-                            )}
-                          />
-
-                          <FinanceMetric
-                            label={
-                              t.amountAlreadyPaid
-                            }
-                            value={
-                              isPaymentSettled(
-                                order
-                              )
-                                ? formatMoney(
-                                    getOrderValue(
-                                      order
-                                    )
-                                  )
-                                : formatMoney(
-                                    0
-                                  )
-                            }
-                          />
-
-                          <FinanceMetric
-                            label={
-                              t.remainingOrderValue
-                            }
-                            value={formatMoney(
-                              remaining
-                            )}
-                          />
-
-                          <FinanceMetric
-                            label={
-                              t.cashToCollect
-                            }
-                            value={formatMoney(
-                              customerCollection
-                            )}
-                            highlight
-                          />
-
-                          <FinanceMetric
-                            label={
-                              `${t.companyShare} (${getRevenueShare(
-                                order
-                              )}%)`
-                            }
-                            value={formatMoney(
-                              companyRevenue
-                            )}
-                            positive
-                          />
-
-                          <FinanceMetric
-                            label={
-                              t.driverShareLabel
-                            }
-                            value={formatMoney(
-                              driverShare
-                            )}
-                            accent
-                          />
-
-                          <FinanceMetric
-                            label={
-                              t.cashToHand
-                            }
-                            value={formatMoney(
-                              handIn
-                            )}
-                            highlight
-                          />
-                        </div>
-                      </div>
-
-                      {/* EDIT VALUES */}
-
-                      <div
-                        style={
-                          styles.editGrid
+                          styles.amountRow
                         }
                       >
                         <div>
                           <strong>
-                            {t.cod}:{' '}
+                            {
+                              t.cod
+                            }:{' '}
                           </strong>
 
                           {editingAmountId ===
@@ -2790,7 +3152,8 @@ JSON:
                               style={{
                                 display:
                                   'inline-flex',
-                                gap: '5px'
+                                gap:
+                                  '5px'
                               }}
                             >
                               <input
@@ -2825,219 +3188,93 @@ JSON:
                               </button>
                             </span>
                           ) : (
-                            <>
-                              <strong
-                                style={{
-                                  color:
-                                    '#67e8f9'
-                                }}
-                              >
-                                {formatMoney(
-                                  getOrderValue(
-                                    order
-                                  )
-                                )}
-                              </strong>
-
-                              <button
-                                onClick={() => {
-                                  setEditingAmountId(
-                                    order.id
-                                  );
-
-                                  setTempAmount(
-                                    getOrderValue(
-                                      order
-                                    )
-                                  );
-                                }}
-                                style={
-                                  styles.btnEditCompact
-                                }
-                              >
-                                ✏️
-                              </button>
-                            </>
-                          )}
-                        </div>
-
-                        <div>
-                          <strong>
-                            {
-                              t.deliveryFee
-                            }:{' '}
-                          </strong>
-
-                          {editingFeeId ===
-                          order.id ? (
                             <span
                               style={{
-                                display:
-                                  'inline-flex',
-                                gap: '5px'
+                                color:
+                                  order.status ===
+                                  'ملغي'
+                                    ? '#ef4444'
+                                    : '#34d399',
+                                fontWeight:
+                                  'bold',
+                                textDecoration:
+                                  order.status ===
+                                  'ملغي'
+                                    ? 'line-through'
+                                    : 'none'
                               }}
                             >
-                              <input
-                                type="number"
-                                value={
-                                  tempFee
-                                }
-                                onChange={e =>
-                                  setTempFee(
-                                    e.target
-                                      .value
-                                  )
-                                }
-                                style={
-                                  styles.inlineInput
-                                }
-                              />
-
-                              <button
-                                onClick={() =>
-                                  handleDeliveryFeeSave(
-                                    order
-                                  )
-                                }
-                                style={
-                                  styles.btnSaveCompact
-                                }
-                              >
-                                {
-                                  t.saveAmount
-                                }
-                              </button>
+                              {
+                                order.cod
+                              }{' '}
+                              {
+                                t.currency
+                              }
                             </span>
-                          ) : (
-                            <>
-                              <strong
-                                style={{
-                                  color:
-                                    '#a7f3d0'
-                                }}
-                              >
-                                {formatMoney(
-                                  fee
-                                )}
-                              </strong>
-
-                              <button
-                                onClick={() => {
-                                  setEditingFeeId(
-                                    order.id
-                                  );
-
-                                  setTempFee(
-                                    fee
-                                  );
-                                }}
-                                style={
-                                  styles.btnEditCompact
-                                }
-                              >
-                                ✏️
-                              </button>
-                            </>
                           )}
                         </div>
 
-                        <div>
-                          <strong>
-                            {t.revenueShare}:{' '}
-                          </strong>
+                        {editingAmountId !==
+                          order.id && (
+                          <button
+                            onClick={() => {
+                              setEditingAmountId(
+                                order.id
+                              );
 
-                          {editingRevenueId ===
-                          order.id ? (
-                            <select
-                              value={
-                                tempRevenue
-                              }
-                              onChange={e =>
-                                setTempRevenue(
-                                  e.target.value
-                                )
-                              }
-                              onBlur={() =>
-                                handleRevenueSave(
-                                  order
-                                )
-                              }
-                              style={
-                                styles.inlineSelect
-                              }
-                            >
-                              {REVENUE_OPTIONS.map(
-                                percentage => (
-                                  <option
-                                    key={
-                                      percentage
-                                    }
-                                    value={
-                                      percentage
-                                    }
-                                  >
-                                    {
-                                      percentage
-                                    }
-                                    %
-                                  </option>
-                                )
-                              )}
-                            </select>
-                          ) : (
-                            <>
-                              <strong
-                                style={{
-                                  color:
-                                    '#facc15'
-                                }}
-                              >
-                                {getRevenueShare(
-                                  order
-                                )}
-                                %
-                              </strong>
-
-                              <button
-                                onClick={() => {
-                                  setEditingRevenueId(
-                                    order.id
-                                  );
-
-                                  setTempRevenue(
-                                    getRevenueShare(
-                                      order
-                                    )
-                                  );
-                                }}
-                                style={
-                                  styles.btnEditCompact
-                                }
-                              >
-                                ✏️
-                              </button>
-                            </>
-                          )}
-                        </div>
+                              setTempAmount(
+                                order.cod
+                              );
+                            }}
+                            style={
+                              styles.btnEditCompact
+                            }
+                          >
+                            ✏️{' '}
+                            {
+                              t.editAmount
+                            }
+                          </button>
+                        )}
                       </div>
 
+                      {/* DRIVER */}
+
                       <div
-                        style={
-                          styles.orderFooter
-                        }
+                        style={{
+                          display:
+                            'flex',
+                          justifyContent:
+                            'space-between',
+                          alignItems:
+                            'center',
+                          marginTop:
+                            '10px',
+                          gap: '10px',
+                          flexWrap:
+                            'wrap'
+                        }}
                       >
+
                         <p
                           style={{
                             ...styles.p,
                             fontSize:
-                              '0.8rem',
+                              '.85rem',
                             color:
                               '#94a3b8',
                             margin: 0
                           }}
                         >
-                          🕒 {order.date}{' '}
-                          ({order.isoDate})
+                          🕒{' '}
+                          {
+                            order.date
+                          }{' '}
+                          (
+                          {
+                            order.isoDate
+                          }
+                          )
                         </p>
 
                         <div
@@ -3046,11 +3283,15 @@ JSON:
                               'flex',
                             alignItems:
                               'center',
-                            gap: '6px'
+                            gap:
+                              '6px'
                           }}
                         >
                           <span>
-                            🛵
+                            🛵{' '}
+                            {
+                              t.selectDriver
+                            }
                           </span>
 
                           <select
@@ -3067,9 +3308,7 @@ JSON:
                             style={{
                               ...styles.inlineInput,
                               width:
-                                'auto',
-                              padding:
-                                '5px 8px'
+                                'auto'
                             }}
                           >
                             <option
@@ -3091,7 +3330,9 @@ JSON:
                                   key={
                                     idx
                                   }
-                                  value={d}
+                                  value={
+                                    d
+                                  }
                                 >
                                   {d}
                                 </option>
@@ -3099,30 +3340,41 @@ JSON:
                             )}
                           </select>
                         </div>
+
                       </div>
+
                     </div>
                   );
                 }
               )
             )}
+
           </div>
         )}
 
-        {/* DRIVER LEDGER */}
+        {/* =====================================================
+            DRIVER LEDGER
+        ===================================================== */}
 
         {activeTab ===
           'driver_ledger' && (
           <div>
+
             <div
-              style={styles.card}
+              style={
+                styles.card
+              }
             >
               <h2
                 style={{
                   marginTop: 0,
-                  color: '#67e8f9'
+                  color:
+                    '#67e8f9'
                 }}
               >
-                {t.driverLedgerTitle}
+                {
+                  t.driverLedgerTitle
+                }
               </h2>
 
               <div
@@ -3130,13 +3382,16 @@ JSON:
                   styles.grid2
                 }
               >
+
                 <div>
                   <label
                     style={
                       styles.label
                     }
                   >
-                    {t.filterDriver}
+                    {
+                      t.filterDriver
+                    }
                   </label>
 
                   <select
@@ -3145,7 +3400,8 @@ JSON:
                     }
                     onChange={e =>
                       setLedgerDriver(
-                        e.target.value
+                        e.target
+                          .value
                       )
                     }
                     style={
@@ -3153,7 +3409,11 @@ JSON:
                     }
                   >
                     <option value="">
-                      -- {t.allDrivers} --
+                      --{' '}
+                      {
+                        t.allDrivers
+                      }{' '}
+                      --
                     </option>
 
                     {drivers.map(
@@ -3178,7 +3438,9 @@ JSON:
                       styles.label
                     }
                   >
-                    {t.filterDate}
+                    {
+                      t.filterDate
+                    }
                   </label>
 
                   <input
@@ -3188,7 +3450,8 @@ JSON:
                     }
                     onChange={e =>
                       setLedgerDate(
-                        e.target.value
+                        e.target
+                          .value
                       )
                     }
                     style={
@@ -3196,17 +3459,23 @@ JSON:
                     }
                   />
                 </div>
+
               </div>
             </div>
 
+            {/* LEDGER KPIs */}
+
             <div
-              style={styles.kpiRow}
+              style={
+                styles.kpiRow
+              }
             >
+
               <div
                 style={{
                   ...styles.kpiCard,
                   background:
-                    'linear-gradient(135deg,#064e3b,#059669,#10b981)'
+                    'linear-gradient(135deg,#075985,#0284c7,#06b6d4)'
                 }}
               >
                 <span
@@ -3223,12 +3492,15 @@ JSON:
                   style={{
                     ...styles.kpiValue,
                     color:
-                      '#6ee7b7'
+                      '#a5f3fc'
                   }}
                 >
-                  {formatMoney(
-                    dailyCashToHandIn
-                  )}
+                  {
+                    dailyCollected.toLocaleString()
+                  }{' '}
+                  {
+                    t.currency
+                  }
                 </span>
               </div>
 
@@ -3236,7 +3508,7 @@ JSON:
                 style={{
                   ...styles.kpiCard,
                   background:
-                    'linear-gradient(135deg,#0c4a6e,#0284c7,#2563eb)'
+                    'linear-gradient(135deg,#065f46,#059669,#10b981)'
                 }}
               >
                 <span
@@ -3245,7 +3517,7 @@ JSON:
                   }
                 >
                   {
-                    t.todaysOrdersCount
+                    t.companyRevenueLedger
                   }
                 </span>
 
@@ -3253,11 +3525,51 @@ JSON:
                   style={{
                     ...styles.kpiValue,
                     color:
-                      '#bae6fd'
+                      '#a7f3d0'
                   }}
                 >
                   {
-                    filteredLedgerOrders.length
+                    dailyCompanyRevenue.toFixed(
+                      2
+                    )
+                  }{' '}
+                  {
+                    t.currency
+                  }
+                </span>
+              </div>
+
+              <div
+                style={{
+                  ...styles.kpiCard,
+                  background:
+                    'linear-gradient(135deg,#1e3a8a,#2563eb,#6366f1)'
+                }}
+              >
+                <span
+                  style={
+                    styles.kpiLabel
+                  }
+                >
+                  {
+                    t.driverRevenueLedger
+                  }
+                </span>
+
+                <span
+                  style={{
+                    ...styles.kpiValue,
+                    color:
+                      '#bfdbfe'
+                  }}
+                >
+                  {
+                    dailyDriverRevenue.toFixed(
+                      2
+                    )
+                  }{' '}
+                  {
+                    t.currency
                   }
                 </span>
               </div>
@@ -3274,7 +3586,9 @@ JSON:
                     styles.kpiLabel
                   }
                 >
-                  {t.youEarn}
+                  {
+                    t.todaysOrdersCount
+                  }
                 </span>
 
                 <span
@@ -3284,207 +3598,64 @@ JSON:
                       '#e9d5ff'
                   }}
                 >
-                  {formatMoney(
-                    dailyCompanyRevenue
-                  )}
-                </span>
-              </div>
-
-              <div
-                style={{
-                  ...styles.kpiCard,
-                  background:
-                    'linear-gradient(135deg,#713f12,#ca8a04,#f59e0b)'
-                }}
-              >
-                <span
-                  style={
-                    styles.kpiLabel
+                  {
+                    filteredLedgerOrders.length
                   }
-                >
-                  {t.driverKeeps}
-                </span>
-
-                <span
-                  style={{
-                    ...styles.kpiValue,
-                    color:
-                      '#fef08a'
-                  }}
-                >
-                  {formatMoney(
-                    dailyDriverShare
-                  )}
                 </span>
               </div>
+
             </div>
 
+            {/* MONTHLY SUMMARY */}
+
             <div
-              style={{
-                ...styles.card,
-                marginTop:
-                  '18px'
-              }}
+              style={
+                styles.monthlySummary
+              }
             >
-              <div
-                style={
-                  styles.ledgerHero
-                }
-              >
-                <div>
-                  <span
-                    style={
-                      styles.ledgerHeroLabel
-                    }
-                  >
-                    {t.cashToHand}
-                  </span>
 
-                  <strong
-                    style={
-                      styles.ledgerHeroAmount
-                    }
-                  >
-                    {formatMoney(
-                      dailyCashToHandIn
-                    )}
-                  </strong>
-                </div>
-
-                <div
-                  style={
-                    styles.ledgerHeroSide
+              <div>
+                <span>
+                  {
+                    t.monthsTotalCash
                   }
-                >
-                  <span>
-                    {t.youEarn}
-                  </span>
+                </span>
 
-                  <strong>
-                    {formatMoney(
-                      dailyCompanyRevenue
-                    )}
-                  </strong>
-                </div>
+                <strong>
+                  {
+                    monthlyTotalCash.toLocaleString()
+                  }{' '}
+                  {
+                    t.currency
+                  }
+                </strong>
               </div>
 
-              <h3
-                style={{
-                  marginTop:
-                    '20px',
-                  color:
-                    '#facc15'
-                }}
-              >
-                {t.ordersHandled}
-              </h3>
-
-              {filteredLedgerOrders.length ===
-              0 ? (
-                <p
-                  style={
-                    styles.empty
-                  }
-                >
+              <div>
+                <span>
                   {
-                    t.noOrdersForDate
+                    t.companyRevenueLedger
                   }
-                </p>
-              ) : (
-                <div
+                </span>
+
+                <strong
                   style={{
-                    display:
-                      'flex',
-                    flexDirection:
-                      'column',
-                    gap:
-                      '12px'
+                    color:
+                      '#34d399'
                   }}
                 >
-                  {filteredLedgerOrders.map(
-                    order => {
-                      const orderValue =
-                        getOrderValue(
-                          order
-                        );
+                  {
+                    monthlyCompanyRevenue.toFixed(
+                      2
+                    )
+                  }{' '}
+                  {
+                    t.currency
+                  }
+                </strong>
+              </div>
 
-                      const fee =
-                        getDeliveryFee(
-                          order
-                        );
-
-                      const remaining =
-                        getRemainingOrderValue(
-                          order
-                        );
-
-                      const collection =
-                        getDriverCustomerCollection(
-                          order
-                        );
-
-                      const company =
-                        getCompanyRevenue(
-                          order
-                        );
-
-                      const driver =
-                        getDriverShare(
-                          order
-                        );
-
-                      const handIn =
-                        getOrderEffectiveCash(
-                          order
-                        );
-
-                      return (
-                        <div
-                          key={
-                            order.id
-                          }
-                          style={
-                            styles.ledgerOrderCard
-                          }
-                        >
-                          <div
-                            style={
-                              styles.ledgerOrderTop
-                            }
-                          >
-                            <div>
-                              <span
-                                style={
-                                  styles.orderNumTag
-                                }
-                              >
-                                {
-                                  order.orderNum
-                                }
-                              </span>
-
-                              <span
-                                style={{
-                                  margin:
-                                    '0 6px',
-                                  color:
-                                    '#38bdf8',
-                                  fontWeight:
-                                    'bold'
-                                }}
-                              >
-                                {
-                                  order.customer
-                                }
-                              </span>
-
-                              <span
-                                style={
-                                  styles.paymentBadge
-                                }
-                              >
-                                {paymentLabel(
-                                  order.paymentMethod
-                                )}
-                              </span>
-        </
+              <div>
+                <span>
+                  {
+                    t.driverRevenue
