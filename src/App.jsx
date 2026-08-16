@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const translations = {
   ar: {
-    appTitle: '🚀 إكسبريس دليفري PRO',
+    appTitle: '🚀 Anti Talabat',
     appSubtitle: 'النظام الذكي لإدارة الطلبات واللوجستيات',
     groqConnected: '🟢 AI متصل',
     groqMissing: '🔴 المفتاح مفقود',
