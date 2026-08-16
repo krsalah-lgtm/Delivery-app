@@ -17,7 +17,7 @@ const translations = {
     kpiActiveOrders: 'طلبات نشطة',
     kpiCompleted: 'تم تسليمها',
     aiHeader: 'استخراج بيانات الطلب بواسطة AI',
-    placeholderOrder: 'ألصق نص الطلب هنا (مثال: أوردر من صيدلية النور لمحمد...)',
+    placeholderOrder: 'ألصق نص الطلب هنا (مثال: بص يا باشا الطلب ده من كارفور...)',
     btnPaste: '📋 لصق من الحافظة',
     btnExtract: '⚡ استخراج البيانات بالذكاء الاصطناعي',
     btnExtracting: 'جاري التحليل...',
@@ -28,9 +28,13 @@ const translations = {
     cod: 'المبلغ (COD)',
     address: 'العنوان',
     item: 'الصنف',
+    notes: 'ملاحظات الطلب',
+    missingInfoAlert: '⚠️ تنبيه: توجد بيانات ناقصة (مثل الهاتف أو العنوان). اضغط هنا لنسخ رسالة استفسار.',
+    copyMissingMsg: '📋 نسخ رسالة طلب البيانات الناقصة',
+    copiedMsg: '✅ تم نسخ الرسالة بنجاح!',
     selectDriver: 'اختيار طيار التوصيل:',
     chooseDriver: '-- اختر طيار --',
-    btnConfirm: '✅ تأكيد وحفظ الطلب',
+    btnConfirm: '✅ تأكيد وحفظ الطلبات',
     searchPlaceholder: '🔍 بحث عن طريق الاسم، المتجر، أو رقم الهاتف...',
     unspecified: 'غير محدد',
     currency: 'ج.م',
@@ -39,21 +43,27 @@ const translations = {
     statusDelivered: 'تم التسليم',
     statusDelayed: 'متأخر',
     statusCancelled: 'ملغي',
-    cancelAlert: '⚠️ تنبيه: تم رصد طلب إلغاء في النص! لن يتم إضافة هذا الطلب إلى السجل.',
+    cancelAlert: '⚠️ تنبيه: تم رصد طلب إلغاء في النص! لن يتم إضافة هذا الطلب.',
     addDriver: 'إضافة طيار جديد',
     driverName: 'اسم الطيار...',
     btnAdd: 'إضافة',
     driverCash: 'النقدية الواجب تسليمها (تم التوصيل):',
     totalTrips: 'إجمالي الرحلات:',
-    saveMerchant: 'إضافة تاجر يدويًا',
-    editMerchant: 'تعديل بيانات التاجر',
+    saveMerchant: 'إضافة أو تعديل تاجر',
     merchantName: 'اسم التاجر/المحل...',
+    merchantPhone: 'هاتف التاجر...',
+    merchantAddress: 'عنوان التاجر...',
+    merchantNotes: 'ملاحظات وتعليقات التاجر...',
     saveCustomer: 'إضافة عميل يدويًا',
     editCustomer: 'تعديل بيانات العميل',
     saveBtn: 'حفظ',
     deleteBtn: 'حذف',
     editBtn: 'تعديل',
-    settingsTitle: 'إعدادات النظام'
+    settingsTitle: 'إعدادات النظام',
+    matchPrompt: 'تم العثور على أكثر من عميل مطابق للأسماء المسجلة. هل تقصد أحد هؤلاء أم عميل جديد؟',
+    newCustomerOption: '+ تسجيل كعميل جديد تماماً',
+    discrepancyAlert: '⚠️ تنبيه اختلاف بيانات: العنوان أو الهاتف المدخل يختلف عن المسجل مسبقاً لهذا العميل!',
+    multiOrderNotice: '💡 تم اكتشاف طلب مجزأ لأكثر من عنوان/عميل! تم تقسيمه تلقائياً:'
   },
   en: {
     appTitle: '⚡ Express Delivery Operations',
@@ -81,9 +91,13 @@ const translations = {
     cod: 'COD Amount',
     address: 'Address',
     item: 'Item Details',
+    notes: 'Order Notes',
+    missingInfoAlert: '⚠️ Notice: Missing required information (phone or address). Click to copy inquiry message.',
+    copyMissingMsg: '📋 Copy Missing Info Inquiry',
+    copiedMsg: '✅ Message copied successfully!',
     selectDriver: 'Assign Driver:',
     chooseDriver: '-- Choose Driver --',
-    btnConfirm: '✅ Confirm & Save Order',
+    btnConfirm: '✅ Confirm & Save Orders',
     searchPlaceholder: '🔍 Search by name, store, or phone...',
     unspecified: 'N/A',
     currency: 'EGP',
@@ -98,20 +112,25 @@ const translations = {
     btnAdd: 'Add',
     driverCash: 'Cash to Collect (Delivered):',
     totalTrips: 'Total Trips:',
-    saveMerchant: 'Add Store Manually',
-    editMerchant: 'Edit Store Details',
+    saveMerchant: 'Add or Edit Store',
     merchantName: 'Store Name...',
+    merchantPhone: 'Store Phone...',
+    merchantAddress: 'Store Address...',
+    merchantNotes: 'Store Notes & Details...',
     saveCustomer: 'Add Customer Manually',
     editCustomer: 'Edit Customer Details',
     saveBtn: 'Save',
     deleteBtn: 'Delete',
     editBtn: 'Edit',
-    settingsTitle: 'System Settings'
+    settingsTitle: 'System Settings',
+    matchPrompt: 'Multiple matching customers found. Did you mean one of these or a new customer?',
+    newCustomerOption: '+ Register as Brand New Customer',
+    discrepancyAlert: '⚠️ Data Discrepancy Warning: Entered address or phone differs from existing records for this customer!',
+    multiOrderNotice: '💡 Multi-destination delivery detected! Split into individual orders:'
   }
 };
 
 export default function App() {
-  // Config & Preferences
   const [lang, setLang] = useState(() => localStorage.getItem('app_lang') || 'ar');
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('groq_api_key') || '');
   const [activeTab, setActiveTab] = useState('new_order');
@@ -123,22 +142,27 @@ export default function App() {
   const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers') || '[]'));
   const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers') || '["أحمد", "محمود", "مصطفى"]'));
 
-  // Input States
+  // Input & Extraction States
   const [rawText, setRawText] = useState('');
   const [loading, setLoading] = useState(false);
-  const [extractedData, setExtractedData] = useState(null);
+  const [extractedOrders, setExtractedOrders] = useState([]);
   const [selectedDriver, setSelectedDriver] = useState('');
   const [newDriverName, setNewDriverName] = useState('');
 
-  // Editing Modals
-  const [editingMerchant, setEditingMerchant] = useState(null);
+  // Disambiguation & Discrepancy State per Sub-order
+  const [activeSubIndex, setActiveSubIndex] = useState(0);
+  const [customerMatches, setCustomerMatches] = useState([]);
+  const [discrepancyWarning, setDiscrepancyWarning] = useState(false);
+
+  // Merchant Editing State
+  const [merchantForm, setMerchantForm] = useState({ id: null, name: '', phone: '', address: '', notes: '' });
+
+  // Customer Form State
   const [editingCustomer, setEditingCustomer] = useState(null);
-  const [newMerchantName, setNewMerchantName] = useState('');
   const [newCustomer, setNewCustomer] = useState({ name: '', phone: '', address: '' });
 
   const t = translations[lang];
 
-  // Sync LocalStorage
   useEffect(() => localStorage.setItem('app_lang', lang), [lang]);
   useEffect(() => localStorage.setItem('groq_api_key', apiKey), [apiKey]);
   useEffect(() => localStorage.setItem('delivery_orders', JSON.stringify(orders)), [orders]);
@@ -146,7 +170,6 @@ export default function App() {
   useEffect(() => localStorage.setItem('delivery_customers', JSON.stringify(customers)), [customers]);
   useEffect(() => localStorage.setItem('delivery_drivers', JSON.stringify(drivers)), [drivers]);
 
-  // Clipboard Quick Actions
   const handlePasteClipboard = async () => {
     try {
       const text = await navigator.clipboard.readText();
@@ -156,7 +179,7 @@ export default function App() {
     }
   };
 
-  // AI Parser Engine
+  // Enhanced AI Parser with Multi-Order / Multi-Recipient Logic
   const extractOrderInfo = async () => {
     if (!apiKey.trim()) {
       alert(lang === 'ar' ? 'يرجى إدخال مفتاح Groq API من تبويب الإعدادات أولاً.' : 'Please enter your Groq API key in Settings.');
@@ -166,39 +189,42 @@ export default function App() {
     if (!rawText.trim()) return alert(lang === 'ar' ? 'يرجى إدخال نص الطلب.' : 'Please enter order text.');
 
     setLoading(true);
-    setExtractedData(null);
+    setExtractedOrders([]);
+    setCustomerMatches([]);
+    setDiscrepancyWarning(false);
 
     const knownStores = merchants.map(m => m.name).join(', ');
     const knownCustomers = customers.map(c => `${c.name} (${c.phone})`).join(', ');
 
-    const systemPrompt = `You are an elite Egyptian dialect (عامية مصرية) Information Extraction Agent for delivery operations.
+    const systemPrompt = `You are an elite Egyptian dialect (عامية مصرية) Order Extraction Agent for delivery operations.
 
 ### KNOWN DATABASE REPOSITORY:
-- Known Stores in System: [${knownStores || 'None'}]
-- Known Customers in System: [${knownCustomers || 'None'}]
+- Known Stores: [${knownStores || 'None'}]
+- Known Customers: [${knownCustomers || 'None'}]
 
-### CRITICAL PARSING & LOGIC RULES:
-1. ORDER CANCELLATION DETECTOR:
-   - If the user explicitly cancels or says "الغي الأوردر", "خلاص متروحش", "أدغى", or similar cancellation phrases anywhere in the text, set "is_cancelled": true and leave other fields empty.
-2. CORRECTION RESOLUTION RULE:
-   - Egyptian texts frequently contain self-corrections (e.g., "استنى بس مش أحمد اسمه محمود", "مش محل كذا ده محل كذا"). ALWAYS prefer the final corrected entity mentioned.
-3. STORE VS CUSTOMER RECOGNITION:
-   - Do NOT confuse store names with customer names. Read carefully: "من محل X لـ Y" -> Store is X, Customer is Y.
-   - NEVER hallucinate a store name if the text specifies a different one. If no store is mentioned, return "غير محدد".
-4. COD (CASH ON DELIVERY) MONEY CALCULATION:
-   - "cod" must ONLY be the numeric total money to be collected from customer upon arrival.
-   - Separate building number (عمارة), floor (دور), apartment (شقة), or phone numbers from prices.
-   - If item cost is 300 and delivery fee is 40, sum them to 340 ONLY IF both are paid by customer on delivery.
+### CRITICAL RULES:
+1. MULTI-RECIPIENT / SPLIT ORDERS:
+   - If a message contains multiple drop-off points, distinct recipients, or split deliveries (e.g., "واحدة لمحمود في سموحة والتانية لأخته منى في كامب شيزار"), split them into separate order objects in the "orders" array.
+   - Calculate math carefully: If total price is 1150 and delivery is 40 per address, calculate individual COD payments properly based on instructions (e.g. Mahmoud pays 600 + 40 delivery = 640).
+2. STORE VS CUSTOMER RECOGNITION:
+   - Correctly identify the store (e.g., "من كارفور") and assign it to each sub-order.
+3. NOTES EXTRACTION:
+   - Extract extra operational notes (e.g., gate codes, special instructions) into "notes".
 
-### STRICT JSON SCHEMA (NO MARKDOWN CODEBLOCKS):
+### STRICT JSON SCHEMA:
 {
   "is_cancelled": false,
-  "store": "Exact store name mentioned in text",
-  "customer": "Customer name",
-  "phone": "Phone number (standard digits)",
-  "address": "Full location details",
-  "cod": "Exact numeric amount (e.g., 340)",
-  "item": "Description of items"
+  "orders": [
+    {
+      "store": "Store name",
+      "customer": "Customer name",
+      "phone": "Phone number",
+      "address": "Full delivery address",
+      "cod": "Numeric amount to collect",
+      "item": "Item description",
+      "notes": "Specific notes for this delivery"
+    }
+  ]
 }`;
 
     try {
@@ -224,13 +250,20 @@ export default function App() {
       
       const parsed = JSON.parse(data.choices[0].message.content);
 
-      if (parsed.is_cancelled || parsed.status === 'CANCELLED') {
+      if (parsed.is_cancelled) {
         alert(t.cancelAlert);
         setLoading(false);
         return;
       }
 
-      setExtractedData(parsed);
+      const extractedList = parsed.orders || [];
+      setExtractedOrders(extractedList);
+
+      // Perform initial check on first sub-order
+      if (extractedList.length > 0) {
+        checkCustomerMatches(extractedList[0]);
+      }
+
     } catch (err) {
       alert('Parsing Error: ' + err.message);
     } finally {
@@ -238,49 +271,95 @@ export default function App() {
     }
   };
 
-  // Confirm Order Handler
-  const handleConfirmOrder = () => {
-    if (!extractedData) return;
+  const checkCustomerMatches = (orderObj) => {
+    if (orderObj?.customer && orderObj.customer !== t.unspecified) {
+      const queryName = orderObj.customer.trim().toLowerCase();
+      const matches = customers.filter(c => c.name.toLowerCase().includes(queryName) || queryName.includes(c.name.toLowerCase()));
+      
+      if (matches.length > 1) {
+        setCustomerMatches(matches);
+      } else if (matches.length === 1) {
+        const existing = matches[0];
+        if ((orderObj.phone && orderObj.phone !== existing.phone) || (orderObj.address && orderObj.address !== existing.address)) {
+          setDiscrepancyWarning(true);
+        } else {
+          setDiscrepancyWarning(false);
+        }
+      } else {
+        setCustomerMatches([]);
+        setDiscrepancyWarning(false);
+      }
+    }
+  };
 
-    const newOrder = {
-      id: Date.now(),
-      ...extractedData,
+  const handleSelectMatchedCustomer = (cust, subIndex) => {
+    setExtractedOrders(prev => prev.map((ord, idx) => idx === subIndex ? {
+      ...ord,
+      customer: cust.name,
+      phone: cust.phone || ord.phone,
+      address: cust.address || ord.address
+    } : ord));
+    setCustomerMatches([]);
+    setDiscrepancyWarning(false);
+  };
+
+  const handleConfirmOrder = () => {
+    if (extractedOrders.length === 0) return;
+
+    const newCreatedOrders = extractedOrders.map(ord => ({
+      id: Date.now() + Math.random(),
+      ...ord,
       driver: selectedDriver || t.unspecified,
       status: 'مؤكد',
       date: new Date().toLocaleTimeString(lang === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })
-    };
+    }));
 
-    setOrders([newOrder, ...orders]);
+    setOrders([...newCreatedOrders, ...orders]);
 
-    // Save Merchants & Customers automatically
-    if (extractedData.store && extractedData.store !== t.unspecified) {
-      setMerchants(prev => {
-        const match = prev.find(m => m.name.toLowerCase() === extractedData.store.toLowerCase());
-        if (!match) return [{ id: Date.now(), name: extractedData.store, totalOrders: 1 }, ...prev];
-        return prev.map(m => m.name.toLowerCase() === extractedData.store.toLowerCase() ? { ...m, totalOrders: m.totalOrders + 1 } : m);
-      });
-    }
+    // Save/Update Stores and Customers
+    extractedOrders.forEach(ord => {
+      if (ord.store && ord.store !== t.unspecified) {
+        setMerchants(prev => {
+          const match = prev.find(m => m.name.toLowerCase() === ord.store.toLowerCase());
+          if (!match) return [{ id: Date.now() + Math.random(), name: ord.store, phone: '', address: '', notes: '', totalOrders: 1 }, ...prev];
+          return prev.map(m => m.name.toLowerCase() === ord.store.toLowerCase() ? { ...m, totalOrders: (m.totalOrders || 0) + 1 } : m);
+        });
+      }
 
-    if (extractedData.customer && extractedData.customer !== t.unspecified) {
-      setCustomers(prev => {
-        const match = prev.find(c => c.phone === extractedData.phone || c.name === extractedData.customer);
-        if (!match) return [{ id: Date.now(), name: extractedData.customer, phone: extractedData.phone, address: extractedData.address }, ...prev];
-        return prev;
-      });
-    }
+      if (ord.customer && ord.customer !== t.unspecified) {
+        setCustomers(prev => {
+          const match = prev.find(c => c.phone === ord.phone || c.name === ord.customer);
+          if (!match) return [{ id: Date.now() + Math.random(), name: ord.customer, phone: ord.phone, address: ord.address }, ...prev];
+          return prev;
+        });
+      }
+    });
 
     setRawText('');
-    setExtractedData(null);
+    setExtractedOrders([]);
     setSelectedDriver('');
+    setCustomerMatches([]);
+    setDiscrepancyWarning(false);
     setActiveTab('orders');
   };
 
-  // Calculated Metrics
+  const copyMissingInfoMessage = (ord) => {
+    const missingFields = [];
+    if (!ord.phone || ord.phone === t.unspecified) missingFields.push(lang === 'ar' ? 'رقم الهاتف' : 'phone number');
+    if (!ord.address || ord.address === t.unspecified) missingFields.push(lang === 'ar' ? 'العنوان بالتفصيل' : 'detailed address');
+    
+    const msg = lang === 'ar' 
+      ? `مرحباً، برجاء تزويدنا بالبيانات الناقصة للطلب الخاصة بـ (${ord.customer || 'العميل'}) (${missingFields.join(' و ')}) لضمان سرعة التوصيل.`
+      : `Hello, please provide the missing information (${missingFields.join(' and ')}) for ${ord.customer || 'customer'} to ensure prompt delivery.`;
+    
+    navigator.clipboard.writeText(msg);
+    alert(t.copiedMsg);
+  };
+
   const totalCodSum = orders.reduce((acc, o) => acc + (parseFloat(o.cod) || 0), 0);
   const activeOrdersCount = orders.filter(o => o.status !== 'تم التسليم' && o.status !== 'ملغي').length;
   const deliveredOrdersCount = orders.filter(o => o.status === 'تم التسليم').length;
 
-  // Filtered Lists
   const filteredOrders = orders.filter(o => 
     (o.customer || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (o.store || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -297,10 +376,7 @@ export default function App() {
           <p style={styles.appSubtitle}>{t.appSubtitle}</p>
         </div>
         <div style={styles.headerRight}>
-          <button 
-            style={styles.langBtn} 
-            onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
-          >
+          <button style={styles.langBtn} onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}>
             {lang === 'ar' ? '🇬🇧 English' : '🇪🇬 العربية'}
           </button>
           <div style={{ ...styles.badge, backgroundColor: apiKey ? '#065f46' : '#991b1b' }}>
@@ -309,7 +385,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* KPI Operational Summary Cards */}
+      {/* KPI Cards */}
       <div style={styles.kpiRow}>
         <div style={styles.kpiCard}>
           <span style={styles.kpiLabel}>{t.kpiTotalCod}</span>
@@ -325,7 +401,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* Navigation Tabs */}
+      {/* Nav Tabs */}
       <nav style={styles.nav}>
         <button style={activeTab === 'new_order' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('new_order')}>{t.navNewOrder}</button>
         <button style={activeTab === 'orders' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('orders')}>{t.navOrders} ({orders.length})</button>
@@ -335,10 +411,9 @@ export default function App() {
         <button style={activeTab === 'settings' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('settings')}>{t.navSettings}</button>
       </nav>
 
-      {/* Main Content Viewport */}
       <main style={styles.main}>
 
-        {/* TAB 1: NEW ORDER PARSER */}
+        {/* TAB 1: NEW ORDER */}
         {activeTab === 'new_order' && (
           <div style={styles.card}>
             <div style={styles.rowBetween}>
@@ -358,17 +433,60 @@ export default function App() {
               {loading ? t.btnExtracting : t.btnExtract}
             </button>
 
-            {extractedData && (
+            {/* Extracted Orders Display */}
+            {extractedOrders.length > 0 && (
               <div style={styles.extractedBox}>
                 <h3 style={{ marginTop: 0 }}>{t.reviewTitle}</h3>
-                <div style={styles.grid2}>
-                  <div><strong>{t.store}:</strong> {extractedData.store || t.unspecified}</div>
-                  <div><strong>{t.customer}:</strong> {extractedData.customer || t.unspecified}</div>
-                  <div><strong>{t.phone}:</strong> {extractedData.phone || t.unspecified}</div>
-                  <div><strong>{t.cod}:</strong> {extractedData.cod || '0'} {t.currency}</div>
-                  <div style={{ gridColumn: '1 / -1' }}><strong>{t.address}:</strong> {extractedData.address || t.unspecified}</div>
-                  <div style={{ gridColumn: '1 / -1' }}><strong>{t.item}:</strong> {extractedData.item || t.unspecified}</div>
-                </div>
+
+                {extractedOrders.length > 1 && (
+                  <p style={{ color: '#38bdf8', fontWeight: 'bold' }}>{t.multiOrderNotice}</p>
+                )}
+
+                {extractedOrders.map((ord, idx) => (
+                  <div key={idx} style={{ border: '1px solid #334155', padding: '12px', borderRadius: '8px', marginBottom: '12px', backgroundColor: '#1e293b' }}>
+                    <h4 style={{ margin: '0 0 10px 0', color: '#facc15' }}>📦 {t.customer}: {ord.customer}</h4>
+                    
+                    {(!ord.phone || ord.phone === t.unspecified || !ord.address || ord.address === t.unspecified) && (
+                      <div style={styles.missingBox} onClick={() => copyMissingInfoMessage(ord)}>
+                        <span>{t.missingInfoAlert}</span>
+                        <button style={styles.copyMsgBtn}>{t.copyMissingMsg}</button>
+                      </div>
+                    )}
+
+                    <div style={styles.grid2}>
+                      <div><strong>{t.store}:</strong> {ord.store || t.unspecified}</div>
+                      <div><strong>{t.customer}:</strong> {ord.customer || t.unspecified}</div>
+                      <div><strong>{t.phone}:</strong> {ord.phone || t.unspecified}</div>
+                      <div><strong>{t.cod}:</strong> {ord.cod || '0'} {t.currency}</div>
+                      <div style={{ gridColumn: '1 / -1' }}><strong>{t.address}:</strong> {ord.address || t.unspecified}</div>
+                      <div style={{ gridColumn: '1 / -1' }}><strong>{t.item}:</strong> {ord.item || t.unspecified}</div>
+                      {ord.notes && (
+                        <div style={{ gridColumn: '1 / -1', color: '#facc15' }}><strong>📌 {t.notes}:</strong> {ord.notes}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+
+                {/* Disambiguation Box */}
+                {customerMatches.length > 0 && (
+                  <div style={styles.warningBox}>
+                    <p style={{ fontWeight: 'bold', color: '#facc15', margin: '0 0 10px 0' }}>{t.matchPrompt}</p>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {customerMatches.map(c => (
+                        <button key={c.id} onClick={() => handleSelectMatchedCustomer(c, activeSubIndex)} style={styles.matchOptionBtn}>
+                          👤 <strong>{c.name}</strong> - 📞 {c.phone} - 📍 {c.address}
+                        </button>
+                      ))}
+                      <button onClick={() => setCustomerMatches([])} style={styles.newCustOptionBtn}>{t.newCustomerOption}</button>
+                    </div>
+                  </div>
+                )}
+
+                {discrepancyWarning && customerMatches.length === 0 && (
+                  <div style={styles.warningBox}>
+                    <p style={{ color: '#f87171', margin: 0, fontWeight: 'bold' }}>{t.discrepancyAlert}</p>
+                  </div>
+                )}
 
                 <div style={{ marginTop: '12px' }}>
                   <label style={styles.label}>{t.selectDriver}</label>
@@ -395,7 +513,7 @@ export default function App() {
               style={styles.searchInput}
             />
 
-            {filteredOrders.length === 0 ? <p style={styles.empty}>No orders match search query.</p> : filteredOrders.map(order => (
+            {filteredOrders.length === 0 ? <p style={styles.empty}>No orders found.</p> : filteredOrders.map(order => (
               <div key={order.id} style={styles.card}>
                 <div style={styles.rowBetween}>
                   <span style={styles.tagStore}>{order.store}</span>
@@ -413,13 +531,18 @@ export default function App() {
                 </div>
                 <p style={styles.p}><strong>{t.customer}:</strong> {order.customer} ({order.phone})</p>
                 <p style={styles.p}><strong>{t.address}:</strong> {order.address}</p>
+                {order.notes && (
+                  <p style={{ ...styles.p, color: '#facc15', backgroundColor: '#332900', padding: '6px', borderRadius: '6px' }}>
+                    <strong>📌 {t.notes}:</strong> {order.notes}
+                  </p>
+                )}
                 <p style={styles.p}><strong>{t.cod}:</strong> <span style={{ color: '#10b981', fontWeight: 'bold' }}>{order.cod} {t.currency}</span> | <strong>Driver:</strong> {order.driver}</p>
               </div>
             ))}
           </div>
         )}
 
-        {/* TAB 3: DRIVER ACCOUNTING */}
+        {/* TAB 3: DRIVERS */}
         {activeTab === 'drivers' && (
           <div>
             <div style={styles.card}>
@@ -462,30 +585,48 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 4: MERCHANTS REPOSITORY */}
+        {/* TAB 4: MERCHANTS */}
         {activeTab === 'merchants' && (
           <div>
             <div style={styles.card}>
-              <h3>{editingMerchant ? t.editMerchant : t.saveMerchant}</h3>
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <input
-                  type="text"
-                  placeholder={t.merchantName}
-                  value={newMerchantName}
-                  onChange={(e) => setNewMerchantName(e.target.value)}
-                  style={styles.input}
-                />
-                <button onClick={() => {
-                  if (!newMerchantName.trim()) return;
-                  if (editingMerchant) {
-                    setMerchants(merchants.map(m => m.id === editingMerchant.id ? { ...m, name: newMerchantName } : m));
-                    setEditingMerchant(null);
-                  } else {
-                    setMerchants([{ id: Date.now(), name: newMerchantName, totalOrders: 0 }, ...merchants]);
-                  }
-                  setNewMerchantName('');
-                }} style={styles.btnPrimaryCompact}>{t.saveBtn}</button>
-              </div>
+              <h3 style={{ marginTop: 0 }}>{t.saveMerchant}</h3>
+              <input
+                type="text"
+                placeholder={t.merchantName}
+                value={merchantForm.name}
+                onChange={(e) => setMerchantForm({ ...merchantForm, name: e.target.value })}
+                style={styles.inputMargin}
+              />
+              <input
+                type="text"
+                placeholder={t.merchantPhone}
+                value={merchantForm.phone}
+                onChange={(e) => setMerchantForm({ ...merchantForm, phone: e.target.value })}
+                style={styles.inputMargin}
+              />
+              <input
+                type="text"
+                placeholder={t.merchantAddress}
+                value={merchantForm.address}
+                onChange={(e) => setMerchantForm({ ...merchantForm, address: e.target.value })}
+                style={styles.inputMargin}
+              />
+              <textarea
+                rows={3}
+                placeholder={t.merchantNotes}
+                value={merchantForm.notes}
+                onChange={(e) => setMerchantForm({ ...merchantForm, notes: e.target.value })}
+                style={styles.textareaMargin}
+              />
+              <button onClick={() => {
+                if (!merchantForm.name.trim()) return alert('Merchant name required');
+                if (merchantForm.id) {
+                  setMerchants(merchants.map(m => m.id === merchantForm.id ? merchantForm : m));
+                } else {
+                  setMerchants([{ id: Date.now(), ...merchantForm, totalOrders: 0 }, ...merchants]);
+                }
+                setMerchantForm({ id: null, name: '', phone: '', address: '', notes: '' });
+              }} style={styles.btnSuccess}>{t.saveBtn}</button>
             </div>
 
             <div style={styles.grid2}>
@@ -493,16 +634,19 @@ export default function App() {
                 <div key={m.id} style={styles.card}>
                   <div style={styles.rowBetween}>
                     <h3 style={{ margin: 0 }}>🏪 {m.name}</h3>
-                    <button onClick={() => { setEditingMerchant(m); setNewMerchantName(m.name); }} style={styles.btnEdit}>{t.editBtn}</button>
+                    <button onClick={() => setMerchantForm(m)} style={styles.btnEdit}>{t.editBtn}</button>
                   </div>
-                  <p style={{ color: '#94a3b8', margin: '10px 0 0 0' }}>Orders: <strong>{m.totalOrders || 0}</strong></p>
+                  <p style={{ color: '#38bdf8', margin: '6px 0' }}>📞 {m.phone || 'N/A'}</p>
+                  <p style={{ color: '#94a3b8', margin: '6px 0' }}>📍 {m.address || 'N/A'}</p>
+                  {m.notes && <p style={{ color: '#facc15', margin: '6px 0' }}>💬 {m.notes}</p>}
+                  <p style={{ color: '#64748b', margin: '8px 0 0 0', fontSize: '0.85rem' }}>Orders: <strong>{m.totalOrders || 0}</strong></p>
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* TAB 5: CUSTOMER DIRECTORY */}
+        {/* TAB 5: CUSTOMERS */}
         {activeTab === 'customers' && (
           <div>
             <div style={styles.card}>
@@ -575,7 +719,6 @@ export default function App() {
   );
 }
 
-// Status Badges Styling
 const getStatusStyle = (status) => {
   const base = { padding: '6px 10px', borderRadius: '6px', fontWeight: 'bold', border: 'none', cursor: 'pointer', color: '#fff' };
   switch (status) {
@@ -588,7 +731,6 @@ const getStatusStyle = (status) => {
   }
 };
 
-// Application UI Theme
 const styles = {
   container: { maxWidth: '900px', margin: '0 auto', padding: '15px', fontFamily: 'system-ui, -apple-system, sans-serif', backgroundColor: '#0f172a', color: '#f8fafc', minHeight: '100vh' },
   header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1e293b', padding: '16px 20px', borderRadius: '12px', border: '1px solid #334155' },
@@ -608,6 +750,7 @@ const styles = {
   card: { backgroundColor: '#1e293b', padding: '18px', borderRadius: '12px', border: '1px solid #334155', marginBottom: '15px' },
   cardTitle: { marginTop: 0, fontSize: '1.1rem', color: '#f8fafc' },
   textarea: { width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #475569', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box', fontSize: '0.95rem' },
+  textareaMargin: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #475569', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box', marginBottom: '10px' },
   input: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #475569', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box' },
   inputMargin: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #475569', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box', marginBottom: '10px' },
   searchInput: { width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #0284c7', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box', marginBottom: '15px' },
@@ -619,6 +762,11 @@ const styles = {
   btnDelete: { backgroundColor: '#991b1b', color: '#fff', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' },
   btnEdit: { backgroundColor: '#0284c7', color: '#fff', border: 'none', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' },
   extractedBox: { backgroundColor: '#0f172a', border: '1px solid #334155', padding: '15px', borderRadius: '10px', marginTop: '15px' },
+  warningBox: { backgroundColor: '#422006', border: '1px solid #ca8a04', padding: '15px', borderRadius: '10px', marginTop: '15px' },
+  matchOptionBtn: { width: '100%', padding: '10px', backgroundColor: '#713f12', color: '#fff', border: '1px solid #ca8a04', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', fontWeight: 'bold' },
+  newCustOptionBtn: { width: '100%', padding: '10px', backgroundColor: '#0369a1', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' },
+  missingBox: { backgroundColor: '#7f1d1d', border: '1px solid #dc2626', padding: '10px 12px', borderRadius: '8px', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', fontSize: '0.85rem', color: '#fca5a5' },
+  copyMsgBtn: { padding: '4px 8px', backgroundColor: '#991b1b', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' },
   grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
   rowBetween: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' },
   tagStore: { backgroundColor: '#0369a1', color: '#fff', padding: '4px 10px', borderRadius: '6px', fontWeight: 'bold', fontSize: '0.85rem' },
