@@ -11,15 +11,16 @@ const translations = {
     navDrivers: '🛵 الطيارين',
     navMerchants: '🏪 التجار',
     navCustomers: '👥 العملاء',
+    navHistory: '📜 السجل والتعديلات',
     navSettings: '⚙️ الإعدادات',
     kpiTotalCod: 'إجمالي النقدية (COD)',
     kpiActiveOrders: 'طلبات نشطة',
     kpiCompleted: 'تم التوصيل',
     aiHeader: '✨ استخراج بيانات الطلب بواسطة AI',
-    placeholderOrder: 'ألصق نص الطلب هنا (مثال: بص يا باشا الطلب ده من كارفور...)',
+    placeholderOrder: 'ألصق نص الطلب هنا...',
     btnPaste: '📋 لصق من الحافظة',
     btnExtract: '⚡ استخراج البيانات بالذكاء الاصطناعي',
-    btnExtracting: 'جاري التحليل...',
+    btnExtracting: 'جاري التحليل والتدقيق...',
     reviewTitle: 'مراجعة البيانات المستخرجة:',
     store: 'المتجر',
     customer: 'العميل',
@@ -28,10 +29,7 @@ const translations = {
     address: 'العنوان',
     item: 'الصنف',
     notes: 'ملاحظات الطلب',
-    missingInfoAlert: '⚠️ تنبيه: توجد بيانات ناقصة (مثل الهاتف أو العنوان). اضغط لنسخ رسالة استفسار.',
-    addressWarning: '📍 تنبيه عنوان غير مكتمل: قد تحتاج إلى مراجعة وتأكيد تفاصيل العنوان (الشارع/الدور/الشقة)!',
-    copyMissingMsg: '📋 نسخ رسالة طلب البيانات الناقصة',
-    copiedMsg: '✅ تم نسخ الرسالة بنجاح!',
+    addressWarning: '📍 تنبيه عنوان غير مكتمل: يرجى مراجعة وتأكيد العنوان!',
     selectDriver: 'اختيار طيار التوصيل:',
     chooseDriver: '-- اختر طيار --',
     btnConfirm: '✅ تأكيد وحفظ الطلبات',
@@ -45,17 +43,12 @@ const translations = {
     statusCompleted: 'مكتمل (تم التسليم)',
     statusDelayed: 'متأخر',
     statusCancelled: 'ملغي',
-    cancelAlert: '⚠️ تنبيه: تم رصد طلب إلغاء في النص! لن يتم إضافة هذا الطلب.',
     addDriver: 'إضافة طيار جديد',
     driverName: 'اسم الطيار...',
     btnAdd: 'إضافة',
     driverCash: 'النقدية المحصلة (المكتملة):',
     totalTrips: 'إجمالي الرحلات:',
     saveMerchant: 'إضافة أو تعديل تاجر',
-    merchantName: 'اسم التاجر/المحل...',
-    merchantPhone: 'هاتف التاجر...',
-    merchantAddress: 'عنوان التاجر...',
-    merchantNotes: 'ملاحظات وتعليقات التاجر...',
     saveCustomer: 'إضافة عميل يدويًا',
     editCustomer: 'تعديل بيانات العميل',
     saveBtn: 'حفظ',
@@ -63,7 +56,13 @@ const translations = {
     editBtn: 'تعديل',
     settingsTitle: 'إعدادات النظام',
     editAmount: 'تعديل المبلغ',
-    saveAmount: 'تم الحفظ'
+    saveAmount: 'تم الحفظ',
+    confirmDbUpdateTitle: '⚠️ تأكيد تحديث قاعدة البيانات',
+    confirmDbUpdateMsg: 'سيتم تحديث بيانات العميل/المتجر في قاعدة البيانات بالمعلومات الجديدة أو المكتملة. هل أنت موافق على هذا التحديث؟',
+    confirmDeleteMsg: 'هل أنت تأكد من رغبتك في حذف هذا الطلب نهائياً؟',
+    typoAlertTitle: '🔍 تم رصد كلمات قد تحتوي على خطأ إملائي:',
+    historyTitle: '📜 سجل عمليات وتعديلات الطلبات',
+    noHistory: 'لا توجد سجلات تعديل حتى الآن.'
   },
   en: {
     appTitle: '🚀 Express Delivery PRO',
@@ -75,15 +74,16 @@ const translations = {
     navDrivers: '🛵 Drivers',
     navMerchants: '🏪 Stores',
     navCustomers: '👥 Customers',
+    navHistory: '📜 Audit History',
     navSettings: '⚙️ Settings',
     kpiTotalCod: 'Total Earned (COD)',
     kpiActiveOrders: 'Active Orders',
     kpiCompleted: 'Completed Orders',
     aiHeader: '✨ AI Order Extraction',
-    placeholderOrder: 'Paste Egyptian delivery context or order message...',
+    placeholderOrder: 'Paste delivery text here...',
     btnPaste: '📋 Paste Clipboard',
     btnExtract: '⚡ Extract Data with AI',
-    btnExtracting: 'Processing...',
+    btnExtracting: 'Analyzing & Checking...',
     reviewTitle: 'Extracted Orders Review:',
     store: 'Store',
     customer: 'Customer',
@@ -92,14 +92,11 @@ const translations = {
     address: 'Address',
     item: 'Item Details',
     notes: 'Order Notes',
-    missingInfoAlert: '⚠️ Notice: Missing phone or address details.',
-    addressWarning: '📍 Incomplete Address Alert: Double check address details (Street, Floor, Apt)!',
-    copyMissingMsg: '📋 Copy Missing Info Prompt',
-    copiedMsg: '✅ Message copied to clipboard!',
-    selectDriver: 'Assign Delivery Driver:',
+    addressWarning: '📍 Incomplete Address Alert: Double check details!',
+    selectDriver: 'Assign Driver:',
     chooseDriver: '-- Select Driver --',
     btnConfirm: '✅ Confirm & Save Orders',
-    searchPlaceholder: '🔍 Search by Order #, Customer, Store, Phone...',
+    searchPlaceholder: '🔍 Search Order #, Customer, Store, Phone...',
     unspecified: 'N/A',
     currency: 'EGP',
     statusConfirmed: 'Confirmed',
@@ -109,17 +106,12 @@ const translations = {
     statusCompleted: 'Completed',
     statusDelayed: 'Delayed',
     statusCancelled: 'Cancelled',
-    cancelAlert: '⚠️ Alert: Cancellation order detected! Request ignored.',
-    addDriver: 'Add New Driver',
+    addDriver: 'Add Driver',
     driverName: 'Driver Name...',
     btnAdd: 'Add Driver',
     driverCash: 'Collected Cash (Completed):',
     totalTrips: 'Total Trips:',
     saveMerchant: 'Save Store Details',
-    merchantName: 'Store Name...',
-    merchantPhone: 'Store Phone...',
-    merchantAddress: 'Store Address...',
-    merchantNotes: 'Store Notes...',
     saveCustomer: 'Add Customer',
     editCustomer: 'Edit Customer',
     saveBtn: 'Save',
@@ -127,7 +119,13 @@ const translations = {
     editBtn: 'Edit',
     settingsTitle: 'System Settings',
     editAmount: 'Edit Amount',
-    saveAmount: 'Save'
+    saveAmount: 'Save',
+    confirmDbUpdateTitle: '⚠️ Confirm Database Update',
+    confirmDbUpdateMsg: 'This order updates missing/new customer or store records in the database. Are you okay with updating these details?',
+    confirmDeleteMsg: 'Are you sure you want to permanently delete this order?',
+    typoAlertTitle: '🔍 Potential typos or ambiguous phrases detected:',
+    historyTitle: '📜 Audit Log & Order Edits History',
+    noHistory: 'No edit history recorded yet.'
   }
 };
 
@@ -137,12 +135,13 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('new_order');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Core Counter and Storage
+  // Databases & Counters
   const [orderCounter, setOrderCounter] = useState(() => parseInt(localStorage.getItem('order_counter_num') || '1001'));
-  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v2') || '[]'));
-  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v2') || '[]'));
-  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v2') || '[]'));
-  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v2') || '["أحمد", "محمود", "مصطفى"]'));
+  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v3') || '[]'));
+  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v3') || '[]'));
+  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v3') || '[]'));
+  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v3') || '["أحمد", "محمود", "مصطفى"]'));
+  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v3') || '[]'));
 
   // Form & Extraction States
   const [rawText, setRawText] = useState('');
@@ -150,8 +149,12 @@ export default function App() {
   const [extractedOrders, setExtractedOrders] = useState([]);
   const [selectedDriver, setSelectedDriver] = useState('');
   const [newDriverName, setNewDriverName] = useState('');
+  
+  // Typo Verification Dialog
+  const [typoFlags, setTypoFlags] = useState([]);
+  const [showTypoModal, setShowTypoModal] = useState(false);
 
-  // Editing state for order amounts
+  // Editable Amount State
   const [editingAmountId, setEditingAmountId] = useState(null);
   const [tempAmount, setTempAmount] = useState('');
 
@@ -165,10 +168,22 @@ export default function App() {
   useEffect(() => localStorage.setItem('app_lang', lang), [lang]);
   useEffect(() => localStorage.setItem('groq_api_key', apiKey), [apiKey]);
   useEffect(() => localStorage.setItem('order_counter_num', orderCounter.toString()), [orderCounter]);
-  useEffect(() => localStorage.setItem('delivery_orders_v2', JSON.stringify(orders)), [orders]);
-  useEffect(() => localStorage.setItem('delivery_merchants_v2', JSON.stringify(merchants)), [merchants]);
-  useEffect(() => localStorage.setItem('delivery_customers_v2', JSON.stringify(customers)), [customers]);
-  useEffect(() => localStorage.setItem('delivery_drivers_v2', JSON.stringify(drivers)), [drivers]);
+  useEffect(() => localStorage.setItem('delivery_orders_v3', JSON.stringify(orders)), [orders]);
+  useEffect(() => localStorage.setItem('delivery_merchants_v3', JSON.stringify(merchants)), [merchants]);
+  useEffect(() => localStorage.setItem('delivery_customers_v3', JSON.stringify(customers)), [customers]);
+  useEffect(() => localStorage.setItem('delivery_drivers_v3', JSON.stringify(drivers)), [drivers]);
+  useEffect(() => localStorage.setItem('delivery_history_v3', JSON.stringify(historyLogs)), [historyLogs]);
+
+  const addAuditLog = (orderNum, action, details) => {
+    const log = {
+      id: Date.now(),
+      orderNum,
+      action,
+      details,
+      time: new Date().toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US')
+    };
+    setHistoryLogs(prev => [log, ...prev]);
+  };
 
   const handlePasteClipboard = async () => {
     try {
@@ -179,7 +194,6 @@ export default function App() {
     }
   };
 
-  // Check if address is missing details like floor/apartment or is too short
   const isIncompleteAddress = (addressStr) => {
     if (!addressStr || addressStr === t.unspecified || addressStr.length < 12) return true;
     const lower = addressStr.toLowerCase();
@@ -197,25 +211,27 @@ export default function App() {
 
     setLoading(true);
     setExtractedOrders([]);
+    setTypoFlags([]);
 
     const systemPrompt = `You are an Egyptian delivery logistics AI parser.
-Extract information from text messages.
-Return JSON format ONLY:
+Extract information and check for typos or ambiguous slang phrases.
+
+Return JSON format strictly:
 {
   "is_cancelled": false,
+  "ambiguous_flags": ["list of words/phrases that seem like typos or need double-checking"],
   "orders": [
     {
       "store": "Store name",
       "customer": "Customer name",
       "phone": "Phone number",
       "address": "Full delivery address",
-      "cod": 600,
-      "item": "Items description",
-      "notes": "Extra delivery instructions or notes"
+      "cod": 840,
+      "item": "Item details",
+      "notes": "Delivery notes"
     }
   ]
-}
-If split delivery across multiple locations/people, output multiple items in "orders" array.`;
+}`;
 
     try {
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -239,10 +255,10 @@ If split delivery across multiple locations/people, output multiple items in "or
       if (!response.ok) throw new Error(data.error?.message || 'Extraction Failed');
 
       const parsed = JSON.parse(data.choices[0].message.content);
-      if (parsed.is_cancelled) {
-        alert(t.cancelAlert);
-        setLoading(false);
-        return;
+
+      if (parsed.ambiguous_flags && parsed.ambiguous_flags.length > 0) {
+        setTypoFlags(parsed.ambiguous_flags);
+        setShowTypoModal(true);
       }
 
       setExtractedOrders(parsed.orders || []);
@@ -256,9 +272,21 @@ If split delivery across multiple locations/people, output multiple items in "or
   const handleConfirmOrder = () => {
     if (extractedOrders.length === 0) return;
 
+    // Database Sync Check
+    const needsDbUpdate = extractedOrders.some(ord => {
+      const matchCust = customers.find(c => c.name === ord.customer || c.phone === ord.phone);
+      return !matchCust || (ord.address && matchCust.address !== ord.address);
+    });
+
+    if (needsDbUpdate) {
+      const confirmOk = window.confirm(`${t.confirmDbUpdateTitle}\n\n${t.confirmDbUpdateMsg}`);
+      if (!confirmOk) return;
+    }
+
     let currentNum = orderCounter;
     const newCreatedOrders = extractedOrders.map(ord => {
       const orderNumber = `#${currentNum++}`;
+      addAuditLog(orderNumber, 'Created', `Order created for ${ord.customer} (${ord.cod} ${t.currency})`);
       return {
         id: Date.now() + Math.random(),
         orderNum: orderNumber,
@@ -272,7 +300,7 @@ If split delivery across multiple locations/people, output multiple items in "or
     setOrderCounter(currentNum);
     setOrders([...newCreatedOrders, ...orders]);
 
-    // Save Merchants & Customers
+    // Save/Update Database
     extractedOrders.forEach(ord => {
       if (ord.store && ord.store !== t.unspecified) {
         setMerchants(prev => {
@@ -285,7 +313,7 @@ If split delivery across multiple locations/people, output multiple items in "or
         setCustomers(prev => {
           const match = prev.find(c => c.phone === ord.phone || c.name === ord.customer);
           if (!match) return [{ id: Date.now() + Math.random(), name: ord.customer, phone: ord.phone, address: ord.address }, ...prev];
-          return prev;
+          return prev.map(c => (c.name === ord.customer || c.phone === ord.phone) ? { ...c, address: ord.address || c.address } : c);
         });
       }
     });
@@ -296,7 +324,26 @@ If split delivery across multiple locations/people, output multiple items in "or
     setActiveTab('orders');
   };
 
-  // Totals calculations
+  const handleDeleteOrder = (order) => {
+    if (window.confirm(`${t.confirmDeleteMsg} (${order.orderNum})`)) {
+      setOrders(orders.filter(o => o.id !== order.id));
+      addAuditLog(order.orderNum, 'Deleted', `Order for ${order.customer} deleted.`);
+    }
+  };
+
+  const handleStatusChange = (order, newStatus) => {
+    setOrders(orders.map(o => o.id === order.id ? { ...o, status: newStatus } : o));
+    addAuditLog(order.orderNum, 'Status Change', `Status updated from "${order.status}" to "${newStatus}"`);
+  };
+
+  const handleAmountSave = (order) => {
+    const oldAmount = order.cod;
+    setOrders(orders.map(o => o.id === order.id ? { ...o, cod: tempAmount } : o));
+    addAuditLog(order.orderNum, 'Amount Edited', `COD updated from ${oldAmount} to ${tempAmount} ${t.currency}`);
+    setEditingAmountId(null);
+  };
+
+  // Calculations
   const totalEarnedSum = orders.filter(o => o.status !== 'ملغي').reduce((acc, o) => acc + (parseFloat(o.cod) || 0), 0);
   const activeOrdersCount = orders.filter(o => !['مكتمل', 'ملغي'].includes(o.status)).length;
   const completedOrdersCount = orders.filter(o => o.status === 'مكتمل').length;
@@ -311,7 +358,7 @@ If split delivery across multiple locations/people, output multiple items in "or
   return (
     <div style={{ ...styles.container, direction: lang === 'ar' ? 'rtl' : 'ltr' }}>
       
-      {/* Dynamic Gradient Header */}
+      {/* Header */}
       <header style={styles.header}>
         <div>
           <h1 style={styles.appTitle}>{t.appTitle}</h1>
@@ -327,7 +374,7 @@ If split delivery across multiple locations/people, output multiple items in "or
         </div>
       </header>
 
-      {/* Modern KPI Widgets */}
+      {/* KPI Row */}
       <div style={styles.kpiRow}>
         <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg, #1e1b4b, #312e81)' }}>
           <span style={styles.kpiLabel}>{t.kpiTotalCod}</span>
@@ -343,13 +390,14 @@ If split delivery across multiple locations/people, output multiple items in "or
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* Nav Bar */}
       <nav style={styles.nav}>
         <button style={activeTab === 'new_order' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('new_order')}>{t.navNewOrder}</button>
         <button style={activeTab === 'orders' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('orders')}>{t.navOrders} ({orders.length})</button>
         <button style={activeTab === 'drivers' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('drivers')}>{t.navDrivers} ({drivers.length})</button>
         <button style={activeTab === 'merchants' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('merchants')}>{t.navMerchants} ({merchants.length})</button>
         <button style={activeTab === 'customers' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('customers')}>{t.navCustomers} ({customers.length})</button>
+        <button style={activeTab === 'history' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('history')}>{t.navHistory}</button>
         <button style={activeTab === 'settings' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('settings')}>{t.navSettings}</button>
       </nav>
 
@@ -374,6 +422,21 @@ If split delivery across multiple locations/people, output multiple items in "or
             <button onClick={extractOrderInfo} disabled={loading} style={styles.btnPrimaryGradient}>
               {loading ? t.btnExtracting : t.btnExtract}
             </button>
+
+            {/* Typo Verification Modal */}
+            {showTypoModal && (
+              <div style={styles.modalOverlay}>
+                <div style={styles.modalCard}>
+                  <h3 style={{ margin: '0 0 10px 0', color: '#facc15' }}>{t.typoAlertTitle}</h3>
+                  <ul style={{ paddingLeft: '20px', color: '#fca5a5' }}>
+                    {typoFlags.map((flag, idx) => (
+                      <li key={idx}><strong>{flag}</strong></li>
+                    ))}
+                  </ul>
+                  <button onClick={() => setShowTypoModal(false)} style={styles.btnSuccessGradient}>OK, I Reviewed</button>
+                </div>
+              </div>
+            )}
 
             {extractedOrders.length > 0 && (
               <div style={styles.extractedBox}>
@@ -436,25 +499,29 @@ If split delivery across multiple locations/people, output multiple items in "or
                     <span style={styles.tagStore}>{order.store}</span>
                   </div>
 
-                  {/* Status Dropdown */}
-                  <select
-                    value={order.status}
-                    onChange={(e) => setOrders(orders.map(o => o.id === order.id ? { ...o, status: e.target.value } : o))}
-                    style={getStatusStyle(order.status)}
-                  >
-                    <option value="مؤكد">{t.statusConfirmed}</option>
-                    <option value="قيد تجهيز الطلب">{t.statusProcessing}</option>
-                    <option value="خرج للتوصيل">{t.statusOutForDelivery}</option>
-                    <option value="جاري التوصيل">{t.statusInTransit}</option>
-                    <option value="مكتمل">{t.statusCompleted}</option>
-                    <option value="متأخر">{t.statusDelayed}</option>
-                    <option value="ملغي">{t.statusCancelled}</option>
-                  </select>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order, e.target.value)}
+                      style={getStatusStyle(order.status)}
+                    >
+                      <option value="مؤكد">{t.statusConfirmed}</option>
+                      <option value="قيد تجهيز الطلب">{t.statusProcessing}</option>
+                      <option value="خرج للتوصيل">{t.statusOutForDelivery}</option>
+                      <option value="جاري التوصيل">{t.statusInTransit}</option>
+                      <option value="مكتمل">{t.statusCompleted}</option>
+                      <option value="متأخر">{t.statusDelayed}</option>
+                      <option value="ملغي">{t.statusCancelled}</option>
+                    </select>
+
+                    <button onClick={() => handleDeleteOrder(order)} style={styles.btnDeleteCompact}>
+                      🗑️ {t.deleteBtn}
+                    </button>
+                  </div>
                 </div>
 
                 <p style={styles.p}><strong>{t.customer}:</strong> {order.customer} ({order.phone})</p>
                 
-                {/* Incomplete Address Warning Banner */}
                 {isIncompleteAddress(order.address) && (
                   <div style={styles.addressWarningBox}>
                     <span>{t.addressWarning}</span>
@@ -469,7 +536,6 @@ If split delivery across multiple locations/people, output multiple items in "or
                   </p>
                 )}
 
-                {/* Editable Total Amount */}
                 <div style={styles.amountRow}>
                   <div>
                     <strong>{t.cod}: </strong>
@@ -481,13 +547,7 @@ If split delivery across multiple locations/people, output multiple items in "or
                           onChange={(e) => setTempAmount(e.target.value)}
                           style={styles.inlineInput}
                         />
-                        <button
-                          onClick={() => {
-                            setOrders(orders.map(o => o.id === order.id ? { ...o, cod: tempAmount } : o));
-                            setEditingAmountId(null);
-                          }}
-                          style={styles.btnSaveCompact}
-                        >{t.saveAmount}</button>
+                        <button onClick={() => handleAmountSave(order)} style={styles.btnSaveCompact}>{t.saveAmount}</button>
                       </span>
                     ) : (
                       <span style={{ color: '#34d399', fontWeight: 'bold', fontSize: '1.1rem' }}>
@@ -497,10 +557,7 @@ If split delivery across multiple locations/people, output multiple items in "or
                   </div>
 
                   {editingAmountId !== order.id && (
-                    <button
-                      onClick={() => { setEditingAmountId(order.id); setTempAmount(order.cod); }}
-                      style={styles.btnEditCompact}
-                    >
+                    <button onClick={() => { setEditingAmountId(order.id); setTempAmount(order.cod); }} style={styles.btnEditCompact}>
                       ✏️ {t.editAmount}
                     </button>
                   )}
@@ -514,19 +571,36 @@ If split delivery across multiple locations/people, output multiple items in "or
           </div>
         )}
 
-        {/* TAB 3: DRIVERS */}
+        {/* TAB 3: AUDIT HISTORY */}
+        {activeTab === 'history' && (
+          <div style={styles.card}>
+            <h2 style={{ marginTop: 0, color: '#38bdf8' }}>{t.historyTitle}</h2>
+            {historyLogs.length === 0 ? (
+              <p style={styles.empty}>{t.noHistory}</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {historyLogs.map(log => (
+                  <div key={log.id} style={styles.historyCard}>
+                    <div style={styles.rowBetween}>
+                      <span style={styles.orderNumTag}>{log.orderNum}</span>
+                      <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>🕒 {log.time}</span>
+                    </div>
+                    <p style={{ margin: '4px 0', color: '#facc15', fontWeight: 'bold' }}>{log.action}</p>
+                    <p style={{ margin: 0, color: '#cbd5e1', fontSize: '0.9rem' }}>{log.details}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 4: DRIVERS */}
         {activeTab === 'drivers' && (
           <div>
             <div style={styles.card}>
               <h3 style={{ marginTop: 0 }}>{t.addDriver}</h3>
               <div style={{ display: 'flex', gap: '10px' }}>
-                <input
-                  type="text"
-                  placeholder={t.driverName}
-                  value={newDriverName}
-                  onChange={(e) => setNewDriverName(e.target.value)}
-                  style={styles.input}
-                />
+                <input type="text" placeholder={t.driverName} value={newDriverName} onChange={(e) => setNewDriverName(e.target.value)} style={styles.input} />
                 <button onClick={() => {
                   if (newDriverName.trim() && !drivers.includes(newDriverName.trim())) {
                     setDrivers([...drivers, newDriverName.trim()]);
@@ -545,7 +619,7 @@ If split delivery across multiple locations/people, output multiple items in "or
                   <div key={idx} style={styles.card}>
                     <div style={styles.rowBetween}>
                       <h3 style={{ margin: 0, color: '#38bdf8' }}>🛵 {driverName}</h3>
-                      <button onClick={() => setDrivers(drivers.filter(d => d !== driverName))} style={styles.btnDelete}>{t.deleteBtn}</button>
+                      <button onClick={() => setDrivers(drivers.filter(d => d !== driverName))} style={styles.btnDeleteCompact}>{t.deleteBtn}</button>
                     </div>
                     <hr style={styles.hr} />
                     <p style={styles.p}>{t.totalTrips} <strong>{driverOrders.length}</strong></p>
@@ -557,15 +631,15 @@ If split delivery across multiple locations/people, output multiple items in "or
           </div>
         )}
 
-        {/* TAB 4: MERCHANTS */}
+        {/* TAB 5: MERCHANTS */}
         {activeTab === 'merchants' && (
           <div>
             <div style={styles.card}>
               <h3 style={{ marginTop: 0 }}>{t.saveMerchant}</h3>
-              <input type="text" placeholder={t.merchantName} value={merchantForm.name} onChange={(e) => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.inputMargin} />
-              <input type="text" placeholder={t.merchantPhone} value={merchantForm.phone} onChange={(e) => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.inputMargin} />
-              <input type="text" placeholder={t.merchantAddress} value={merchantForm.address} onChange={(e) => setMerchantForm({ ...merchantForm, address: e.target.value })} style={styles.inputMargin} />
-              <textarea rows={2} placeholder={t.merchantNotes} value={merchantForm.notes} onChange={(e) => setMerchantForm({ ...merchantForm, notes: e.target.value })} style={styles.textareaMargin} />
+              <input type="text" placeholder="Store Name..." value={merchantForm.name} onChange={(e) => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.inputMargin} />
+              <input type="text" placeholder="Store Phone..." value={merchantForm.phone} onChange={(e) => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.inputMargin} />
+              <input type="text" placeholder="Store Address..." value={merchantForm.address} onChange={(e) => setMerchantForm({ ...merchantForm, address: e.target.value })} style={styles.inputMargin} />
+              <textarea rows={2} placeholder="Store Notes..." value={merchantForm.notes} onChange={(e) => setMerchantForm({ ...merchantForm, notes: e.target.value })} style={styles.textareaMargin} />
               <button onClick={() => {
                 if (!merchantForm.name.trim()) return alert('Merchant name required');
                 if (merchantForm.id) {
@@ -586,14 +660,13 @@ If split delivery across multiple locations/people, output multiple items in "or
                   </div>
                   <p style={{ color: '#38bdf8', margin: '6px 0' }}>📞 {m.phone || 'N/A'}</p>
                   <p style={{ color: '#94a3b8', margin: '6px 0' }}>📍 {m.address || 'N/A'}</p>
-                  {m.notes && <p style={{ color: '#facc15', margin: '6px 0' }}>💬 {m.notes}</p>}
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {/* TAB 5: CUSTOMERS */}
+        {/* TAB 6: CUSTOMERS */}
         {activeTab === 'customers' && (
           <div>
             <div style={styles.card}>
@@ -628,7 +701,7 @@ If split delivery across multiple locations/people, output multiple items in "or
           </div>
         )}
 
-        {/* TAB 6: SETTINGS */}
+        {/* TAB 7: SETTINGS */}
         {activeTab === 'settings' && (
           <div style={styles.card}>
             <h2>{t.settingsTitle}</h2>
@@ -675,10 +748,11 @@ const styles = {
   kpiLabel: { fontSize: '0.78rem', color: '#cbd5e1', fontWeight: 'bold' },
   kpiValue: { fontSize: '1.35rem', fontWeight: 'bold', marginTop: '4px' },
   nav: { display: 'flex', gap: '8px', marginTop: '18px', overflowX: 'auto', paddingBottom: '6px' },
-  tab: { flex: 1, padding: '11px', border: '1px solid #334155', backgroundColor: '#1e293b', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#94a3b8', minWidth: '100px' },
-  activeTab: { flex: 1, padding: '11px', border: 'none', background: 'linear-gradient(135deg, #0284c7, #2563eb)', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#fff', minWidth: '100px', boxShadow: '0 4px 12px rgba(37,99,235,0.4)' },
+  tab: { flex: 1, padding: '11px', border: '1px solid #334155', backgroundColor: '#1e293b', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#94a3b8', minWidth: '90px' },
+  activeTab: { flex: 1, padding: '11px', border: 'none', background: 'linear-gradient(135deg, #0284c7, #2563eb)', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#fff', minWidth: '90px', boxShadow: '0 4px 12px rgba(37,99,235,0.4)' },
   main: { marginTop: '18px' },
   card: { backgroundColor: '#131c2e', padding: '20px', borderRadius: '16px', border: '1px solid #1e293b', marginBottom: '16px', boxShadow: '0 6px 20px rgba(0,0,0,0.25)' },
+  historyCard: { backgroundColor: '#0a0f1d', border: '1px solid #1e293b', padding: '12px 16px', borderRadius: '10px' },
   cardTitle: { marginTop: 0, fontSize: '1.15rem', color: '#f8fafc' },
   textarea: { width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #334155', backgroundColor: '#0a0f1d', color: '#fff', boxSizing: 'border-box', fontSize: '0.95rem' },
   textareaMargin: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #334155', backgroundColor: '#0a0f1d', color: '#fff', boxSizing: 'border-box', marginBottom: '10px' },
@@ -690,12 +764,14 @@ const styles = {
   btnPrimaryGradient: { width: '100%', padding: '12px', background: 'linear-gradient(135deg, #0284c7, #2563eb)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer', marginTop: '12px' },
   btnGradientCompact: { padding: '6px 14px', background: 'linear-gradient(135deg, #334155, #475569)', color: '#38bdf8', border: '1px solid #0284c7', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem' },
   btnSuccessGradient: { width: '100%', padding: '12px', background: 'linear-gradient(135deg, #059669, #10b981)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer', marginTop: '12px' },
-  btnDelete: { backgroundColor: '#991b1b', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' },
+  btnDeleteCompact: { background: 'linear-gradient(135deg, #dc2626, #b91c1c)', color: '#fff', border: 'none', padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' },
   btnEditCompact: { background: 'linear-gradient(135deg, #0284c7, #0369a1)', color: '#fff', border: 'none', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' },
   btnSaveCompact: { background: 'linear-gradient(135deg, #059669, #10b981)', color: '#fff', border: 'none', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' },
   extractedBox: { backgroundColor: '#0a0f1d', border: '1px solid #334155', padding: '16px', borderRadius: '12px', marginTop: '16px' },
   extractedSubCard: { border: '1px solid #1e293b', padding: '14px', borderRadius: '10px', marginBottom: '12px', backgroundColor: '#131c2e' },
   addressWarningBox: { background: 'linear-gradient(135deg, #7f1d1d, #991b1b)', border: '1px solid #f87171', padding: '8px 12px', borderRadius: '8px', color: '#fecaca', fontWeight: 'bold', fontSize: '0.85rem', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' },
+  modalOverlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.75)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 },
+  modalCard: { backgroundColor: '#131c2e', border: '1px solid #ca8a04', padding: '20px', borderRadius: '14px', maxWidth: '400px', width: '90%' },
   grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
   rowBetween: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' },
   orderNumTag: { background: 'linear-gradient(135deg, #7c3aed, #4c1d95)', color: '#fff', padding: '4px 10px', borderRadius: '6px', fontWeight: 'bold', fontSize: '0.9rem' },
@@ -705,3 +781,4 @@ const styles = {
   hr: { border: 'none', borderTop: '1px solid #334155', margin: '10px 0' },
   empty: { color: '#64748b', textAlign: 'center', marginTop: '30px' }
 };
+ 
