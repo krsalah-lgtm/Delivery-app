@@ -9,6 +9,7 @@ const translations = {
     navNewOrder: '➕ طلب جديد',
     navOrders: '📋 إدارة الطلبات',
     navDrivers: '🛵 الطيارين',
+    navDriverLedger: '📊 كشف حساب الطيارين',
     navMerchants: '🏪 التجار',
     navCustomers: '👥 العملاء',
     navHistory: '📜 السجل والتعديلات',
@@ -46,7 +47,7 @@ const translations = {
     addDriver: 'إضافة طيار جديد',
     driverName: 'اسم الطيار...',
     btnAdd: 'إضافة',
-    driverCash: 'النقدية المحصلة (المكتملة):',
+    driverCash: 'النقدية المطلوب تسليمها (المكتملة):',
     totalTrips: 'إجمالي الرحلات:',
     saveMerchant: 'إضافة أو تعديل تاجر',
     saveCustomer: 'إضافة عميل يدويًا',
@@ -63,7 +64,17 @@ const translations = {
     confirmDeleteMsg: 'هل أنت تأكد من رغبتك في حذف هذا الطلب نهائياً؟',
     typoAlertTitle: '🔍 تم رصد كلمات قد تحتوي على خطأ إملائي غير معروف:',
     historyTitle: '📜 سجل عمليات وتعديلات الطلبات',
-    noHistory: 'لا توجد سجلات تعديل حتى الآن.'
+    noHistory: 'لا توجد سجلات تعديل حتى الآن.',
+    driverLedgerTitle: '📊 كشف حساب وتوريد الطيارين اليومي والشهري',
+    filterDriver: 'تصفية بالطيار:',
+    filterDate: 'التاريخ:',
+    allDrivers: 'كل الطيارين',
+    cashToHandIn: '💵 النقدية الواجب تسليمها اليوم',
+    todaysOrdersCount: '📦 طلبات اليوم',
+    monthsOrdersCount: '📅 طلبات الشهر الحالي',
+    monthsTotalCash: '💰 إجمالي تحصيل الشهر',
+    ordersHandled: 'تفاصيل الطلبات المسندة:',
+    noOrdersForDate: 'لا توجد طلبات مسجلة لهذه الفلاتر.'
   },
   en: {
     appTitle: '🚀 Express Delivery PRO',
@@ -73,6 +84,7 @@ const translations = {
     navNewOrder: '➕ New Order',
     navOrders: '📋 Manage Orders',
     navDrivers: '🛵 Drivers',
+    navDriverLedger: '📊 Driver Ledger',
     navMerchants: '🏪 Stores',
     navCustomers: '👥 Customers',
     navHistory: '📜 Audit History',
@@ -110,7 +122,7 @@ const translations = {
     addDriver: 'Add Driver',
     driverName: 'Driver Name...',
     btnAdd: 'Add Driver',
-    driverCash: 'Collected Cash (Completed):',
+    driverCash: 'Cash to Hand In (Completed):',
     totalTrips: 'Total Trips:',
     saveMerchant: 'Save Store Details',
     saveCustomer: 'Add Customer',
@@ -127,7 +139,17 @@ const translations = {
     confirmDeleteMsg: 'Are you sure you want to permanently delete this order?',
     typoAlertTitle: '🔍 Unrecognized words detected:',
     historyTitle: '📜 Audit Log & Order Edits History',
-    noHistory: 'No edit history recorded yet.'
+    noHistory: 'No edit history recorded yet.',
+    driverLedgerTitle: '📊 Daily & Monthly Driver Cash & Orders Ledger',
+    filterDriver: 'Filter Driver:',
+    filterDate: 'Filter Date:',
+    allDrivers: 'All Drivers',
+    cashToHandIn: '💵 Cash to Hand In Today',
+    todaysOrdersCount: "📦 Today's Orders",
+    monthsOrdersCount: "📅 This Month's Orders",
+    monthsTotalCash: "💰 This Month's Total Cash",
+    ordersHandled: 'Assigned Orders & Details:',
+    noOrdersForDate: 'No orders match selected filters.'
   }
 };
 
@@ -139,11 +161,11 @@ export default function App() {
 
   // Databases & Counters
   const [orderCounter, setOrderCounter] = useState(() => parseInt(localStorage.getItem('order_counter_num') || '1001'));
-  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v4') || '[]'));
-  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v4') || '[]'));
-  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v4') || '[]'));
-  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v4') || '["أحمد", "محمود", "مصطفى"]'));
-  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v4') || '[]'));
+  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v5') || '[]'));
+  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v5') || '[]'));
+  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v5') || '[]'));
+  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v5') || '["أحمد", "محمود", "مصطفى"]'));
+  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v5') || '[]'));
 
   // Form & Extraction States
   const [rawText, setRawText] = useState('');
@@ -152,14 +174,17 @@ export default function App() {
   const [selectedDriver, setSelectedDriver] = useState('');
   const [newDriverName, setNewDriverName] = useState('');
   
+  // Ledger Filters
+  const [ledgerDriver, setLedgerDriver] = useState('');
+  const [ledgerDate, setLedgerDate] = useState(() => new Date().toISOString().split('T')[0]);
+
   // Typo Verification Dialog
   const [typoFlags, setTypoFlags] = useState([]);
   const [showTypoModal, setShowTypoModal] = useState(false);
 
-  // Inline Edits (Amount & Notes)
+  // Inline Edits
   const [editingAmountId, setEditingAmountId] = useState(null);
   const [tempAmount, setTempAmount] = useState('');
-  
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [tempNote, setTempNote] = useState('');
 
@@ -173,11 +198,11 @@ export default function App() {
   useEffect(() => localStorage.setItem('app_lang', lang), [lang]);
   useEffect(() => localStorage.setItem('groq_api_key', apiKey), [apiKey]);
   useEffect(() => localStorage.setItem('order_counter_num', orderCounter.toString()), [orderCounter]);
-  useEffect(() => localStorage.setItem('delivery_orders_v4', JSON.stringify(orders)), [orders]);
-  useEffect(() => localStorage.setItem('delivery_merchants_v4', JSON.stringify(merchants)), [merchants]);
-  useEffect(() => localStorage.setItem('delivery_customers_v4', JSON.stringify(customers)), [customers]);
-  useEffect(() => localStorage.setItem('delivery_drivers_v4', JSON.stringify(drivers)), [drivers]);
-  useEffect(() => localStorage.setItem('delivery_history_v4', JSON.stringify(historyLogs)), [historyLogs]);
+  useEffect(() => localStorage.setItem('delivery_orders_v5', JSON.stringify(orders)), [orders]);
+  useEffect(() => localStorage.setItem('delivery_merchants_v5', JSON.stringify(merchants)), [merchants]);
+  useEffect(() => localStorage.setItem('delivery_customers_v5', JSON.stringify(customers)), [customers]);
+  useEffect(() => localStorage.setItem('delivery_drivers_v5', JSON.stringify(drivers)), [drivers]);
+  useEffect(() => localStorage.setItem('delivery_history_v5', JSON.stringify(historyLogs)), [historyLogs]);
 
   const addAuditLog = (orderNum, action, details) => {
     const log = {
@@ -220,10 +245,12 @@ export default function App() {
 
     const systemPrompt = `You are an Egyptian delivery parser. Extract details from Egyptian Arabic input accurately.
 
-RULES:
-1. "store": Include branch names (e.g., "بي تك - سموحه", "فتح الله - سموحه").
-2. "notes": Include delivery fee, call instructions ("كلمه قبل ما تطلعله"), timing constraints ("بعد الساعة ٨"), and handling instructions.
-3. "ambiguous_flags": Standard Egyptian Arabic terms (like "مقاضي", "كيسين", "شغال", "شقه", "عماره") are NOT typos. Only highlight genuine unintelligible errors or ambiguous words.
+CRITICAL RULES FOR COD AMOUNT & CORRECTIONS:
+1. Pay strict attention to mid-text corrections, cancellations, or updates to item lists.
+2. Always use the FINAL agreed total (COD). If the user states items were canceled (e.g. "الميه اتلغت") and confirms a final lower total (e.g. "يبقى 840 جنيه؟ آه بالضبط"), extract 840 as "cod", NOT any previously mentioned intermediate total (like 930).
+3. "store": Include branch names (e.g., "بي تك - سموحه", "كارفور - سموحه").
+4. "notes": Include delivery fee breakdown, call instructions ("كلمه قبل ما تطلعله"), timing constraints ("وصل بعد الساعة ٧"), and handling notes.
+5. "ambiguous_flags": Standard Egyptian Arabic terms (like "مقاضي", "كيسين", "شغال", "شقه", "عماره", "ساقعة") are NOT typos. Only highlight genuine unintelligible errors or ambiguous words.
 
 JSON output structure:
 {
@@ -281,6 +308,9 @@ JSON output structure:
     if (extractedOrders.length === 0) return;
 
     let currentNum = orderCounter;
+    const now = new Date();
+    const isoDateStr = now.toISOString().split('T')[0];
+
     const newCreatedOrders = extractedOrders.map(ord => {
       const orderNumber = `#${currentNum++}`;
       addAuditLog(orderNumber, 'Created', `Order created for ${ord.customer} (${ord.cod} ${t.currency})`);
@@ -290,14 +320,14 @@ JSON output structure:
         ...ord,
         driver: selectedDriver || t.unspecified,
         status: 'مؤكد',
-        date: new Date().toLocaleTimeString(lang === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })
+        isoDate: isoDateStr,
+        date: now.toLocaleTimeString(lang === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })
       };
     });
 
     setOrderCounter(currentNum);
     setOrders([...newCreatedOrders, ...orders]);
 
-    // Update Merchants & Customers locally without prompt spam
     extractedOrders.forEach(ord => {
       if (ord.store && ord.store !== t.unspecified) {
         setMerchants(prev => {
@@ -333,6 +363,11 @@ JSON output structure:
     addAuditLog(order.orderNum, 'Status Change', `Status changed to "${newStatus}"`);
   };
 
+  const handleDriverReassign = (order, newDriver) => {
+    setOrders(orders.map(o => o.id === order.id ? { ...o, driver: newDriver } : o));
+    addAuditLog(order.orderNum, 'Driver Reassigned', `Driver changed to "${newDriver}"`);
+  };
+
   const handleAmountSave = (order) => {
     const oldAmount = order.cod;
     setOrders(orders.map(o => o.id === order.id ? { ...o, cod: tempAmount } : o));
@@ -347,7 +382,6 @@ JSON output structure:
     setEditingNoteId(null);
   };
 
-  // Explicit confirmation when editing customer records that fill missing info
   const handleSaveCustomerExplicit = () => {
     if (!newCustomer.name.trim() || !newCustomer.phone.trim()) return alert('Name and phone required');
 
@@ -369,7 +403,13 @@ JSON output structure:
   };
 
   // Calculations
-  const totalEarnedSum = orders.filter(o => o.status !== 'ملغي').reduce((acc, o) => acc + (parseFloat(o.cod) || 0), 0);
+  // Direct Fix: Cancelled status (ملغي) returns 0 cash automatically across global and driver totals
+  const getOrderEffectiveCash = (order) => {
+    if (order.status === 'ملغي') return 0;
+    return parseFloat(order.cod) || 0;
+  };
+
+  const totalEarnedSum = orders.filter(o => o.status === 'مكتمل').reduce((acc, o) => acc + getOrderEffectiveCash(o), 0);
   const activeOrdersCount = orders.filter(o => !['مكتمل', 'ملغي'].includes(o.status)).length;
   const completedOrdersCount = orders.filter(o => o.status === 'مكتمل').length;
 
@@ -379,6 +419,29 @@ JSON output structure:
     (o.store || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (o.phone || '').includes(searchQuery)
   );
+
+  // Ledger Filter Calculations
+  const selectedYearMonth = ledgerDate.substring(0, 7); // e.g., "2026-08"
+
+  const filteredLedgerOrders = orders.filter(o => {
+    const matchDriver = !ledgerDriver || o.driver === ledgerDriver;
+    const matchDate = o.isoDate === ledgerDate;
+    return matchDriver && matchDate;
+  });
+
+  const dailyCashToHandIn = filteredLedgerOrders
+    .filter(o => o.status === 'مكتمل')
+    .reduce((sum, o) => sum + getOrderEffectiveCash(o), 0);
+
+  const monthlyOrders = orders.filter(o => {
+    const matchDriver = !ledgerDriver || o.driver === ledgerDriver;
+    const matchMonth = (o.isoDate || '').startsWith(selectedYearMonth);
+    return matchDriver && matchMonth;
+  });
+
+  const monthlyTotalCash = monthlyOrders
+    .filter(o => o.status === 'مكتمل')
+    .reduce((sum, o) => sum + getOrderEffectiveCash(o), 0);
 
   return (
     <div style={{ ...styles.container, direction: lang === 'ar' ? 'rtl' : 'ltr' }}>
@@ -419,6 +482,7 @@ JSON output structure:
       <nav style={styles.nav}>
         <button style={activeTab === 'new_order' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('new_order')}>{t.navNewOrder}</button>
         <button style={activeTab === 'orders' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('orders')}>{t.navOrders} ({orders.length})</button>
+        <button style={activeTab === 'driver_ledger' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('driver_ledger')}>{t.navDriverLedger}</button>
         <button style={activeTab === 'drivers' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('drivers')}>{t.navDrivers} ({drivers.length})</button>
         <button style={activeTab === 'merchants' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('merchants')}>{t.navMerchants} ({merchants.length})</button>
         <button style={activeTab === 'customers' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('customers')}>{t.navCustomers} ({customers.length})</button>
@@ -591,8 +655,8 @@ JSON output structure:
                         <button onClick={() => handleAmountSave(order)} style={styles.btnSaveCompact}>{t.saveAmount}</button>
                       </span>
                     ) : (
-                      <span style={{ color: '#34d399', fontWeight: 'bold', fontSize: '1.1rem' }}>
-                        {order.cod} {t.currency}
+                      <span style={{ color: order.status === 'ملغي' ? '#ef4444' : '#34d399', fontWeight: 'bold', fontSize: '1.1rem', textDecoration: order.status === 'ملغي' ? 'line-through' : 'none' }}>
+                        {order.cod} {t.currency} {order.status === 'ملغي' ? '(0 ج.م للتسليم)' : ''}
                       </span>
                     )}
                   </div>
@@ -604,15 +668,112 @@ JSON output structure:
                   )}
                 </div>
 
-                <p style={{ ...styles.p, fontSize: '0.85rem', color: '#94a3b8' }}>
-                  <strong>🛵 Driver:</strong> {order.driver} | <strong>🕒 Time:</strong> {order.date}
-                </p>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+                  <p style={{ ...styles.p, fontSize: '0.85rem', color: '#94a3b8', margin: 0 }}>
+                    <strong>🕒 Time:</strong> {order.date} ({order.isoDate || 'Today'})
+                  </p>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '0.85rem', color: '#cbd5e1' }}><strong>🛵 Driver:</strong></span>
+                    <select
+                      value={order.driver}
+                      onChange={(e) => handleDriverReassign(order, e.target.value)}
+                      style={{ ...styles.inlineInput, width: 'auto', padding: '4px' }}
+                    >
+                      <option value={t.unspecified}>{t.unspecified}</option>
+                      {drivers.map((d, idx) => <option key={idx} value={d}>{d}</option>)}
+                    </select>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         )}
 
-        {/* TAB 3: AUDIT HISTORY */}
+        {/* TAB 3: NEW DAILY & MONTHLY DRIVER LEDGER TAB */}
+        {activeTab === 'driver_ledger' && (
+          <div>
+            <div style={styles.card}>
+              <h2 style={{ marginTop: 0, color: '#38bdf8' }}>{t.driverLedgerTitle}</h2>
+              
+              <div style={styles.grid2}>
+                <div>
+                  <label style={styles.label}>{t.filterDriver}</label>
+                  <select value={ledgerDriver} onChange={(e) => setLedgerDriver(e.target.value)} style={styles.input}>
+                    <option value="">-- {t.allDrivers} --</option>
+                    {drivers.map((d, i) => <option key={i} value={d}>{d}</option>)}
+                  </select>
+                </div>
+
+                <div>
+                  <label style={styles.label}>{t.filterDate}</label>
+                  <input type="date" value={ledgerDate} onChange={(e) => setLedgerDate(e.target.value)} style={styles.input} />
+                </div>
+              </div>
+            </div>
+
+            {/* Ledger KPI Cards */}
+            <div style={styles.kpiRow}>
+              <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg, #065f46, #047857)' }}>
+                <span style={styles.kpiLabel}>{t.cashToHandIn}</span>
+                <span style={{ ...styles.kpiValue, color: '#34d399' }}>{dailyCashToHandIn.toLocaleString()} {t.currency}</span>
+              </div>
+              <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg, #1e3a8a, #1d4ed8)' }}>
+                <span style={styles.kpiLabel}>{t.todaysOrdersCount}</span>
+                <span style={{ ...styles.kpiValue, color: '#60a5fa' }}>{filteredLedgerOrders.length}</span>
+              </div>
+              <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg, #581c87, #7e22ce)' }}>
+                <span style={styles.kpiLabel}>{t.monthsTotalCash} ({selectedYearMonth})</span>
+                <span style={{ ...styles.kpiValue, color: '#c084fc' }}>{monthlyTotalCash.toLocaleString()} {t.currency}</span>
+              </div>
+            </div>
+
+            {/* Order Details Handled */}
+            <div style={{ ...styles.card, marginTop: '18px' }}>
+              <h3 style={{ marginTop: 0, color: '#facc15' }}>{t.ordersHandled}</h3>
+
+              {filteredLedgerOrders.length === 0 ? (
+                <p style={styles.empty}>{t.noOrdersForDate}</p>
+              ) : (
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={styles.table}>
+                    <thead>
+                      <tr style={styles.tableHeader}>
+                        <th style={styles.th}>Order #</th>
+                        <th style={styles.th}>Driver</th>
+                        <th style={styles.th}>Customer</th>
+                        <th style={styles.th}>Store</th>
+                        <th style={styles.th}>COD</th>
+                        <th style={styles.th}>Effective Cash</th>
+                        <th style={styles.th}>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredLedgerOrders.map(o => {
+                        const effCash = getOrderEffectiveCash(o);
+                        return (
+                          <tr key={o.id} style={styles.tableRow}>
+                            <td style={styles.td}><strong>{o.orderNum}</strong></td>
+                            <td style={styles.td}>{o.driver}</td>
+                            <td style={styles.td}>{o.customer} ({o.phone})</td>
+                            <td style={styles.td}>{o.store}</td>
+                            <td style={{ ...styles.td, textDecoration: o.status === 'ملغي' ? 'line-through' : 'none' }}>{o.cod} {t.currency}</td>
+                            <td style={{ ...styles.td, color: effCash > 0 ? '#34d399' : '#ef4444', fontWeight: 'bold' }}>{effCash} {t.currency}</td>
+                            <td style={styles.td}>
+                              <span style={{ ...getStatusStyle(o.status), padding: '2px 8px', fontSize: '0.75rem' }}>{o.status}</span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: AUDIT HISTORY */}
         {activeTab === 'history' && (
           <div style={styles.card}>
             <h2 style={{ marginTop: 0, color: '#38bdf8' }}>{t.historyTitle}</h2>
@@ -635,7 +796,7 @@ JSON output structure:
           </div>
         )}
 
-        {/* TAB 4: DRIVERS */}
+        {/* TAB 5: DRIVERS */}
         {activeTab === 'drivers' && (
           <div>
             <div style={styles.card}>
@@ -654,7 +815,7 @@ JSON output structure:
             <div style={styles.grid2}>
               {drivers.map((driverName, idx) => {
                 const driverOrders = orders.filter(o => o.driver === driverName);
-                const completedCash = driverOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + (parseFloat(o.cod) || 0), 0);
+                const completedCash = driverOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getOrderEffectiveCash(o), 0);
 
                 return (
                   <div key={idx} style={styles.card}>
@@ -672,7 +833,7 @@ JSON output structure:
           </div>
         )}
 
-        {/* TAB 5: MERCHANTS */}
+        {/* TAB 6: MERCHANTS */}
         {activeTab === 'merchants' && (
           <div>
             <div style={styles.card}>
@@ -707,7 +868,7 @@ JSON output structure:
           </div>
         )}
 
-        {/* TAB 6: CUSTOMERS */}
+        {/* TAB 7: CUSTOMERS */}
         {activeTab === 'customers' && (
           <div>
             <div style={styles.card}>
@@ -733,7 +894,7 @@ JSON output structure:
           </div>
         )}
 
-        {/* TAB 7: SETTINGS */}
+        {/* TAB 8: SETTINGS */}
         {activeTab === 'settings' && (
           <div style={styles.card}>
             <h2>{t.settingsTitle}</h2>
@@ -768,7 +929,7 @@ const getStatusStyle = (status) => {
 };
 
 const styles = {
-  container: { maxWidth: '950px', margin: '0 auto', padding: '15px', fontFamily: 'system-ui, -apple-system, sans-serif', backgroundColor: '#090d16', color: '#f8fafc', minHeight: '100vh' },
+  container: { maxWidth: '980px', margin: '0 auto', padding: '15px', fontFamily: 'system-ui, -apple-system, sans-serif', backgroundColor: '#090d16', color: '#f8fafc', minHeight: '100vh' },
   header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(135deg, #1e293b, #0f172a)', padding: '18px 22px', borderRadius: '16px', border: '1px solid #334155', boxShadow: '0 8px 25px rgba(0,0,0,0.3)' },
   headerRight: { display: 'flex', gap: '10px', alignItems: 'center' },
   appTitle: { margin: 0, fontSize: '1.4rem', background: 'linear-gradient(90deg, #38bdf8, #818cf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' },
@@ -780,8 +941,8 @@ const styles = {
   kpiLabel: { fontSize: '0.78rem', color: '#cbd5e1', fontWeight: 'bold' },
   kpiValue: { fontSize: '1.35rem', fontWeight: 'bold', marginTop: '4px' },
   nav: { display: 'flex', gap: '8px', marginTop: '18px', overflowX: 'auto', paddingBottom: '6px' },
-  tab: { flex: 1, padding: '11px', border: '1px solid #334155', backgroundColor: '#1e293b', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#94a3b8', minWidth: '90px' },
-  activeTab: { flex: 1, padding: '11px', border: 'none', background: 'linear-gradient(135deg, #0284c7, #2563eb)', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#fff', minWidth: '90px', boxShadow: '0 4px 12px rgba(37,99,235,0.4)' },
+  tab: { flex: 1, padding: '11px', border: '1px solid #334155', backgroundColor: '#1e293b', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#94a3b8', minWidth: '90px', fontSize: '0.85rem' },
+  activeTab: { flex: 1, padding: '11px', border: 'none', background: 'linear-gradient(135deg, #0284c7, #2563eb)', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#fff', minWidth: '90px', fontSize: '0.85rem', boxShadow: '0 4px 12px rgba(37,99,235,0.4)' },
   main: { marginTop: '18px' },
   card: { backgroundColor: '#131c2e', padding: '20px', borderRadius: '16px', border: '1px solid #1e293b', marginBottom: '16px', boxShadow: '0 6px 20px rgba(0,0,0,0.25)' },
   historyCard: { backgroundColor: '#0a0f1d', border: '1px solid #1e293b', padding: '12px 16px', borderRadius: '10px' },
@@ -811,5 +972,10 @@ const styles = {
   p: { margin: '6px 0', color: '#cbd5e1' },
   amountRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0', padding: '8px 12px', backgroundColor: '#0a0f1d', borderRadius: '8px', border: '1px solid #1e293b' },
   hr: { border: 'none', borderTop: '1px solid #334155', margin: '10px 0' },
-  empty: { color: '#64748b', textAlign: 'center', marginTop: '30px' }
+  empty: { color: '#64748b', textAlign: 'center', marginTop: '20px' },
+  table: { width: '100%', borderCollapse: 'collapse', marginTop: '10px', textAlign: 'left' },
+  tableHeader: { borderBottom: '2px solid #334155', backgroundColor: '#0f172a' },
+  tableRow: { borderBottom: '1px solid #1e293b' },
+  th: { padding: '10px', color: '#94a3b8', fontSize: '0.85rem' },
+  td: { padding: '10px', fontSize: '0.85rem', color: '#e2e8f0' }
 };
