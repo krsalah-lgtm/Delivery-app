@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const translations = {
   ar: {
-    appTitle: '🚀 Anti Talabat',
+    appTitle: '🚀 إكسبريس دليفري PRO',
     appSubtitle: 'النظام الذكي لإدارة الطلبات واللوجستيات',
     groqConnected: '🟢 AI متصل',
     groqMissing: '🔴 المفتاح مفقود',
@@ -54,13 +54,14 @@ const translations = {
     saveBtn: 'حفظ',
     deleteBtn: 'حذف',
     editBtn: 'تعديل',
+    editNoteBtn: 'تعديل الملاحظات',
     settingsTitle: 'إعدادات النظام',
     editAmount: 'تعديل المبلغ',
     saveAmount: 'تم الحفظ',
-    confirmDbUpdateTitle: '⚠️ تأكيد تحديث قاعدة البيانات',
-    confirmDbUpdateMsg: 'سيتم تحديث بيانات العميل/المتجر في قاعدة البيانات بالمعلومات الجديدة أو المكتملة. هل أنت موافق على هذا التحديث؟',
+    confirmDbUpdateTitle: '⚠️ تأكيد تحديث بيانات قاعدة البيانات',
+    confirmDbUpdateMsg: 'تم العثور على تفاصيل جديدة تملأ بيانات مفقودة لعميل/متجر. هل تريد تحديث السجلات المخزنة؟',
     confirmDeleteMsg: 'هل أنت تأكد من رغبتك في حذف هذا الطلب نهائياً؟',
-    typoAlertTitle: '🔍 تم رصد كلمات قد تحتوي على خطأ إملائي:',
+    typoAlertTitle: '🔍 تم رصد كلمات قد تحتوي على خطأ إملائي غير معروف:',
     historyTitle: '📜 سجل عمليات وتعديلات الطلبات',
     noHistory: 'لا توجد سجلات تعديل حتى الآن.'
   },
@@ -117,13 +118,14 @@ const translations = {
     saveBtn: 'Save',
     deleteBtn: 'Delete',
     editBtn: 'Edit',
+    editNoteBtn: 'Edit Note',
     settingsTitle: 'System Settings',
     editAmount: 'Edit Amount',
     saveAmount: 'Save',
     confirmDbUpdateTitle: '⚠️ Confirm Database Update',
-    confirmDbUpdateMsg: 'This order updates missing/new customer or store records in the database. Are you okay with updating these details?',
+    confirmDbUpdateMsg: 'New details found that fill in missing customer/store entries. Update database records?',
     confirmDeleteMsg: 'Are you sure you want to permanently delete this order?',
-    typoAlertTitle: '🔍 Potential typos or ambiguous phrases detected:',
+    typoAlertTitle: '🔍 Unrecognized words detected:',
     historyTitle: '📜 Audit Log & Order Edits History',
     noHistory: 'No edit history recorded yet.'
   }
@@ -137,11 +139,11 @@ export default function App() {
 
   // Databases & Counters
   const [orderCounter, setOrderCounter] = useState(() => parseInt(localStorage.getItem('order_counter_num') || '1001'));
-  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v3') || '[]'));
-  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v3') || '[]'));
-  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v3') || '[]'));
-  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v3') || '["أحمد", "محمود", "مصطفى"]'));
-  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v3') || '[]'));
+  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v4') || '[]'));
+  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v4') || '[]'));
+  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v4') || '[]'));
+  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v4') || '["أحمد", "محمود", "مصطفى"]'));
+  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v4') || '[]'));
 
   // Form & Extraction States
   const [rawText, setRawText] = useState('');
@@ -154,9 +156,12 @@ export default function App() {
   const [typoFlags, setTypoFlags] = useState([]);
   const [showTypoModal, setShowTypoModal] = useState(false);
 
-  // Editable Amount State
+  // Inline Edits (Amount & Notes)
   const [editingAmountId, setEditingAmountId] = useState(null);
   const [tempAmount, setTempAmount] = useState('');
+  
+  const [editingNoteId, setEditingNoteId] = useState(null);
+  const [tempNote, setTempNote] = useState('');
 
   // Forms
   const [merchantForm, setMerchantForm] = useState({ id: null, name: '', phone: '', address: '', notes: '' });
@@ -168,11 +173,11 @@ export default function App() {
   useEffect(() => localStorage.setItem('app_lang', lang), [lang]);
   useEffect(() => localStorage.setItem('groq_api_key', apiKey), [apiKey]);
   useEffect(() => localStorage.setItem('order_counter_num', orderCounter.toString()), [orderCounter]);
-  useEffect(() => localStorage.setItem('delivery_orders_v3', JSON.stringify(orders)), [orders]);
-  useEffect(() => localStorage.setItem('delivery_merchants_v3', JSON.stringify(merchants)), [merchants]);
-  useEffect(() => localStorage.setItem('delivery_customers_v3', JSON.stringify(customers)), [customers]);
-  useEffect(() => localStorage.setItem('delivery_drivers_v3', JSON.stringify(drivers)), [drivers]);
-  useEffect(() => localStorage.setItem('delivery_history_v3', JSON.stringify(historyLogs)), [historyLogs]);
+  useEffect(() => localStorage.setItem('delivery_orders_v4', JSON.stringify(orders)), [orders]);
+  useEffect(() => localStorage.setItem('delivery_merchants_v4', JSON.stringify(merchants)), [merchants]);
+  useEffect(() => localStorage.setItem('delivery_customers_v4', JSON.stringify(customers)), [customers]);
+  useEffect(() => localStorage.setItem('delivery_drivers_v4', JSON.stringify(drivers)), [drivers]);
+  useEffect(() => localStorage.setItem('delivery_history_v4', JSON.stringify(historyLogs)), [historyLogs]);
 
   const addAuditLog = (orderNum, action, details) => {
     const log = {
@@ -195,7 +200,7 @@ export default function App() {
   };
 
   const isIncompleteAddress = (addressStr) => {
-    if (!addressStr || addressStr === t.unspecified || addressStr.length < 12) return true;
+    if (!addressStr || addressStr === t.unspecified || addressStr.length < 10) return true;
     const lower = addressStr.toLowerCase();
     const keywords = ['شارع', 'ش', 'دور', 'شقة', 'عمارة', 'مبنى', 'street', 'st', 'floor', 'apt', 'flat'];
     return !keywords.some(k => lower.includes(k));
@@ -213,22 +218,25 @@ export default function App() {
     setExtractedOrders([]);
     setTypoFlags([]);
 
-    const systemPrompt = `You are an Egyptian delivery logistics AI parser.
-Extract information and check for typos or ambiguous slang phrases.
+    const systemPrompt = `You are an Egyptian delivery parser. Extract details from Egyptian Arabic input accurately.
 
-Return JSON format strictly:
+RULES:
+1. "store": Include branch names (e.g., "بي تك - سموحه", "فتح الله - سموحه").
+2. "notes": Include delivery fee, call instructions ("كلمه قبل ما تطلعله"), timing constraints ("بعد الساعة ٨"), and handling instructions.
+3. "ambiguous_flags": Standard Egyptian Arabic terms (like "مقاضي", "كيسين", "شغال", "شقه", "عماره") are NOT typos. Only highlight genuine unintelligible errors or ambiguous words.
+
+JSON output structure:
 {
-  "is_cancelled": false,
-  "ambiguous_flags": ["list of words/phrases that seem like typos or need double-checking"],
+  "ambiguous_flags": [],
   "orders": [
     {
-      "store": "Store name",
-      "customer": "Customer name",
+      "store": "Store name and branch",
+      "customer": "Customer/Recipient name",
       "phone": "Phone number",
-      "address": "Full delivery address",
-      "cod": 840,
-      "item": "Item details",
-      "notes": "Delivery notes"
+      "address": "Delivery address",
+      "cod": 0,
+      "item": "Items description",
+      "notes": "Delivery fee, call instructions, and notes"
     }
   ]
 }`;
@@ -272,17 +280,6 @@ Return JSON format strictly:
   const handleConfirmOrder = () => {
     if (extractedOrders.length === 0) return;
 
-    // Database Sync Check
-    const needsDbUpdate = extractedOrders.some(ord => {
-      const matchCust = customers.find(c => c.name === ord.customer || c.phone === ord.phone);
-      return !matchCust || (ord.address && matchCust.address !== ord.address);
-    });
-
-    if (needsDbUpdate) {
-      const confirmOk = window.confirm(`${t.confirmDbUpdateTitle}\n\n${t.confirmDbUpdateMsg}`);
-      if (!confirmOk) return;
-    }
-
     let currentNum = orderCounter;
     const newCreatedOrders = extractedOrders.map(ord => {
       const orderNumber = `#${currentNum++}`;
@@ -300,7 +297,7 @@ Return JSON format strictly:
     setOrderCounter(currentNum);
     setOrders([...newCreatedOrders, ...orders]);
 
-    // Save/Update Database
+    // Update Merchants & Customers locally without prompt spam
     extractedOrders.forEach(ord => {
       if (ord.store && ord.store !== t.unspecified) {
         setMerchants(prev => {
@@ -333,7 +330,7 @@ Return JSON format strictly:
 
   const handleStatusChange = (order, newStatus) => {
     setOrders(orders.map(o => o.id === order.id ? { ...o, status: newStatus } : o));
-    addAuditLog(order.orderNum, 'Status Change', `Status updated from "${order.status}" to "${newStatus}"`);
+    addAuditLog(order.orderNum, 'Status Change', `Status changed to "${newStatus}"`);
   };
 
   const handleAmountSave = (order) => {
@@ -341,6 +338,34 @@ Return JSON format strictly:
     setOrders(orders.map(o => o.id === order.id ? { ...o, cod: tempAmount } : o));
     addAuditLog(order.orderNum, 'Amount Edited', `COD updated from ${oldAmount} to ${tempAmount} ${t.currency}`);
     setEditingAmountId(null);
+  };
+
+  const handleNoteSave = (order) => {
+    const oldNote = order.notes;
+    setOrders(orders.map(o => o.id === order.id ? { ...o, notes: tempNote } : o));
+    addAuditLog(order.orderNum, 'Notes Edited', `Notes updated to "${tempNote}"`);
+    setEditingNoteId(null);
+  };
+
+  // Explicit confirmation when editing customer records that fill missing info
+  const handleSaveCustomerExplicit = () => {
+    if (!newCustomer.name.trim() || !newCustomer.phone.trim()) return alert('Name and phone required');
+
+    const match = customers.find(c => c.id === editingCustomer?.id);
+    const fillsMissing = match && (!match.address && newCustomer.address);
+
+    if (fillsMissing) {
+      const confirmOk = window.confirm(`${t.confirmDbUpdateTitle}\n\n${t.confirmDbUpdateMsg}`);
+      if (!confirmOk) return;
+    }
+
+    if (editingCustomer) {
+      setCustomers(customers.map(c => c.id === editingCustomer.id ? { ...c, ...newCustomer } : c));
+      setEditingCustomer(null);
+    } else {
+      setCustomers([{ id: Date.now(), ...newCustomer }, ...customers]);
+    }
+    setNewCustomer({ name: '', phone: '', address: '' });
   };
 
   // Calculations
@@ -412,7 +437,7 @@ Return JSON format strictly:
             </div>
             
             <textarea
-              rows={5}
+              rows={6}
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
               placeholder={t.placeholderOrder}
@@ -423,7 +448,7 @@ Return JSON format strictly:
               {loading ? t.btnExtracting : t.btnExtract}
             </button>
 
-            {/* Typo Verification Modal */}
+            {/* Typo Modal */}
             {showTypoModal && (
               <div style={styles.modalOverlay}>
                 <div style={styles.modalCard}>
@@ -433,7 +458,7 @@ Return JSON format strictly:
                       <li key={idx}><strong>{flag}</strong></li>
                     ))}
                   </ul>
-                  <button onClick={() => setShowTypoModal(false)} style={styles.btnSuccessGradient}>OK, I Reviewed</button>
+                  <button onClick={() => setShowTypoModal(false)} style={styles.btnSuccessGradient}>OK, Continue</button>
                 </div>
               </div>
             )}
@@ -530,11 +555,27 @@ Return JSON format strictly:
                 
                 <p style={styles.p}><strong>{t.address}:</strong> {order.address}</p>
 
-                {order.notes && (
-                  <p style={{ ...styles.p, color: '#facc15', backgroundColor: 'rgba(250, 204, 21, 0.1)', padding: '8px', borderRadius: '6px', border: '1px solid rgba(250, 204, 21, 0.3)' }}>
-                    <strong>📌 {t.notes}:</strong> {order.notes}
-                  </p>
-                )}
+                {/* EDITABLE NOTE SECTION */}
+                <div style={{ backgroundColor: 'rgba(250, 204, 21, 0.08)', padding: '10px', borderRadius: '8px', border: '1px solid rgba(250, 204, 21, 0.2)', margin: '10px 0' }}>
+                  {editingNoteId === order.id ? (
+                    <div>
+                      <textarea
+                        rows={2}
+                        value={tempNote}
+                        onChange={(e) => setTempNote(e.target.value)}
+                        style={styles.textareaMargin}
+                      />
+                      <button onClick={() => handleNoteSave(order)} style={styles.btnSaveCompact}>{t.saveBtn}</button>
+                    </div>
+                  ) : (
+                    <div style={styles.rowBetween}>
+                      <span style={{ color: '#facc15' }}><strong>📌 {t.notes}:</strong> {order.notes || t.unspecified}</span>
+                      <button onClick={() => { setEditingNoteId(order.id); setTempNote(order.notes || ''); }} style={styles.btnEditCompact}>
+                        ✏️ {t.editNoteBtn}
+                      </button>
+                    </div>
+                  )}
+                </div>
 
                 <div style={styles.amountRow}>
                   <div>
@@ -674,16 +715,7 @@ Return JSON format strictly:
               <input type="text" placeholder={t.customer} value={newCustomer.name} onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })} style={styles.inputMargin} />
               <input type="text" placeholder={t.phone} value={newCustomer.phone} onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })} style={styles.inputMargin} />
               <input type="text" placeholder={t.address} value={newCustomer.address} onChange={(e) => setNewCustomer({ ...newCustomer, address: e.target.value })} style={styles.inputMargin} />
-              <button onClick={() => {
-                if (!newCustomer.name.trim() || !newCustomer.phone.trim()) return alert('Name and phone required');
-                if (editingCustomer) {
-                  setCustomers(customers.map(c => c.id === editingCustomer.id ? { ...c, ...newCustomer } : c));
-                  setEditingCustomer(null);
-                } else {
-                  setCustomers([{ id: Date.now(), ...newCustomer }, ...customers]);
-                }
-                setNewCustomer({ name: '', phone: '', address: '' });
-              }} style={styles.btnSuccessGradient}>{t.saveBtn}</button>
+              <button onClick={handleSaveCustomerExplicit} style={styles.btnSuccessGradient}>{t.saveBtn}</button>
             </div>
 
             <div style={styles.grid2}>
@@ -781,4 +813,3 @@ const styles = {
   hr: { border: 'none', borderTop: '1px solid #334155', margin: '10px 0' },
   empty: { color: '#64748b', textAlign: 'center', marginTop: '30px' }
 };
- 
