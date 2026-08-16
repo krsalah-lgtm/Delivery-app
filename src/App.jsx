@@ -16,32 +16,45 @@ const translations = {
     navHistory: '📜 السجل والتعديلات',
     navSettings: '⚙️ الإعدادات',
 
-    kpiTotalCod: '💰 إجمالي النقدية المحصلة',
-    kpiActiveOrders: '⚡ طلبات نشطة',
-    kpiCompleted: '✅ تم التوصيل',
-    kpiHandIn: '💵 مستحق التوريد',
+    kpiTotalCod: 'إجمالي النقدية المحصلة',
+    kpiActiveOrders: 'طلبات نشطة',
+    kpiCompleted: 'تم التوصيل',
+    kpiRevenue: 'إيراد التوصيل',
+    kpiDriverShares: 'مستحقات الطيارين',
 
     aiHeader: '✨ استخراج بيانات الطلب بواسطة AI',
     placeholderOrder: 'ألصق نص الطلب هنا...',
     btnPaste: '📋 لصق من الحافظة',
     btnExtract: '⚡ استخراج البيانات بالذكاء الاصطناعي',
     btnExtracting: 'جاري التحليل والتدقيق...',
-
     reviewTitle: 'مراجعة البيانات المستخرجة:',
+
     store: 'المتجر',
     customer: 'العميل',
     phone: 'رقم الهاتف',
-    cod: 'الإجمالي المحصل',
-    orderValue: 'قيمة الطلب',
-    deliveryFee: 'التوصيل',
-    handIn: 'المطلوب توريده',
+    cod: 'قيمة الطلب',
+    deliveryFee: 'رسوم التوصيل',
+    totalDue: 'إجمالي المطلوب من العميل',
     address: 'العنوان',
-    item: 'الأصناف',
+    item: 'الصنف',
     notes: 'ملاحظات الطلب',
 
+    paymentMethod: 'طريقة الدفع',
+    paymentCash: 'كاش',
+    paymentOnline: 'دفع أونلاين',
+    paymentPrepaid: 'مدفوع مسبقًا',
+    paymentSettled: 'تم تسوية قيمة الطلب',
+    paymentDue: 'المتبقي للتحصيل',
+
     addressWarning: '📍 تنبيه عنوان غير مكتمل: يرجى مراجعة وتأكيد العنوان!',
+
     selectDriver: 'اختيار طيار التوصيل:',
     chooseDriver: '-- اختر طيار --',
+    revenueShare: 'نسبة إيراد الشركة من التوصيل:',
+    companyRevenue: 'إيراد الشركة',
+    driverShare: 'نصيب الطيار',
+    driverCollection: 'إجمالي ما يحصله الطيار',
+    companyHandIn: 'المبلغ الذي يورده الطيار',
     btnConfirm: '✅ تأكيد وحفظ الطلبات',
 
     searchPlaceholder: '🔍 بحث برقم الطلب، اسم العميل، المتجر، أو الهاتف...',
@@ -52,7 +65,7 @@ const translations = {
     statusProcessing: 'قيد تجهيز الطلب',
     statusOutForDelivery: 'خرج للتوصيل',
     statusInTransit: 'جاري التوصيل',
-    statusCompleted: 'مكتمل',
+    statusCompleted: 'مكتمل (تم التسليم)',
     statusDelayed: 'متأخر',
     statusCancelled: 'ملغي',
 
@@ -60,25 +73,48 @@ const translations = {
     driverName: 'اسم الطيار...',
     btnAdd: 'إضافة',
 
-    driverCash: 'النقدية المطلوب توريدها:',
+    driverCash: 'المبلغ المطلوب توريده:',
     totalTrips: 'إجمالي الرحلات:',
-    deliveredTrips: 'الطلبات المكتملة:',
-    totalCollected: 'إجمالي المحصل:',
-    totalDeliveryFees: 'إجمالي رسوم التوصيل:',
-    driverLedgerHistory: '📒 سجل توريدات الطيار',
-    handInSummary: '💵 إجمالي المطلوب توريده',
+    driverRevenue: 'إجمالي نصيب الطيار:',
+    companyRevenueTotal: 'إجمالي إيراد الشركة:',
+    driverLedgerTitle: '📊 كشف حساب الطيارين — التحصيل والإيرادات',
+
+    cashToHandIn: '💵 إجمالي المبلغ المطلوب توريده',
+    todaysOrdersCount: '📦 طلبات اليوم',
+    monthsOrdersCount: '📅 طلبات الشهر الحالي',
+    monthsTotalCash: '💰 إجمالي توريد الشهر',
+    monthlyRevenue: '📈 إيراد الشركة الشهري',
+    monthlyDriverShare: '🛵 نصيب الطيارين الشهري',
+
+    filterDriver: 'تصفية بالطيار:',
+    filterDate: 'التاريخ:',
+    allDrivers: 'كل الطيارين',
+
+    ordersHandled: 'تفاصيل الطلبات والتحصيل:',
+    noOrdersForDate: 'لا توجد طلبات مسجلة لهذه الفلاتر.',
+
+    orderValue: 'قيمة الطلب',
+    amountAlreadyPaid: 'مدفوع بالفعل',
+    remainingOrderValue: 'المتبقي من قيمة الطلب',
+    customerTotal: 'إجمالي العميل',
+    deliveryRevenue: 'إيراد التوصيل',
+    companyShare: 'نصيب الشركة',
+    driverShareLabel: 'نصيب الطيار',
+    handIn: 'التوريد',
+    collection: 'التحصيل',
+    settled: 'مسدد',
+    unpaid: 'غير مسدد',
 
     saveMerchant: 'إضافة أو تعديل تاجر',
     saveCustomer: 'إضافة عميل يدويًا',
     editCustomer: 'تعديل بيانات العميل',
-
     saveBtn: 'حفظ',
     deleteBtn: 'حذف',
     editBtn: 'تعديل',
     editNoteBtn: 'تعديل الملاحظات',
 
     settingsTitle: 'إعدادات النظام',
-    editAmount: 'تعديل المبلغ',
+    editAmount: 'تعديل قيمة الطلب',
     saveAmount: 'تم الحفظ',
 
     confirmDbUpdateTitle: '⚠️ تأكيد تحديث بيانات قاعدة البيانات',
@@ -91,40 +127,24 @@ const translations = {
     historyTitle: '📜 سجل عمليات وتعديلات الطلبات',
     noHistory: 'لا توجد سجلات تعديل حتى الآن.',
 
-    driverLedgerTitle: '📊 كشف حساب وتوريد الطيارين',
-    filterDriver: 'تصفية بالطيار:',
-    filterDate: 'التاريخ:',
-    allDrivers: 'كل الطيارين',
-
-    cashToHandIn: '💵 النقدية الواجب توريدها',
-    todaysOrdersCount: '📦 طلبات اليوم',
-    monthsOrdersCount: '📅 طلبات الشهر الحالي',
-    monthsTotalCash: '💰 إجمالي تحصيل الشهر',
-
-    ordersHandled: 'تفاصيل الطلبات المسندة:',
-    noOrdersForDate: 'لا توجد طلبات مسجلة لهذه الفلاتر.',
-
-    collected: 'المحصل',
-    breakdown: 'تفاصيل المبلغ',
-    productAmount: 'قيمة المنتجات',
-    fee: 'رسوم التوصيل',
-    driverMustHandIn: 'الطيار يورد',
-    driverKeeps: 'رسوم التوصيل',
-    cancelledZero: 'ملغي — 0 ج.م توريد',
-
-    orderCreated: 'تم إنشاء الطلب',
-    statusChanged: 'تغيير الحالة',
+    created: 'تم إنشاء الطلب',
+    statusChange: 'تغيير الحالة',
     driverReassigned: 'تغيير الطيار',
-    amountEdited: 'تعديل المبلغ',
+    amountEdited: 'تعديل قيمة الطلب',
     notesEdited: 'تعديل الملاحظات',
+    paymentEdited: 'تعديل طريقة الدفع',
+    deliveryFeeEdited: 'تعديل رسوم التوصيل',
+    revenueEdited: 'تعديل نسبة الإيراد',
+    deleted: 'تم حذف الطلب',
+
+    orderBreakdown: '💰 التفاصيل المالية',
+    cashToCollect: 'المبلغ المطلوب تحصيله',
+    cashToHand: 'المبلغ المطلوب توريده',
+    driverKeeps: 'الطيار يحتفظ بـ',
+    youEarn: 'أنت تكسب',
 
     noOrders: 'لا توجد طلبات.',
-    noDrivers: 'لا يوجد طيارون.',
-    okContinue: 'متابعة',
-    time: 'الوقت',
-    driver: 'الطيار',
-    action: 'الإجراء',
-    details: 'التفاصيل'
+    percent: '%'
   },
 
   en: {
@@ -142,32 +162,45 @@ const translations = {
     navHistory: '📜 Audit History',
     navSettings: '⚙️ Settings',
 
-    kpiTotalCod: '💰 Total Collected',
-    kpiActiveOrders: '⚡ Active Orders',
-    kpiCompleted: '✅ Completed',
-    kpiHandIn: '💵 Cash to Hand In',
+    kpiTotalCod: 'Total Customer Collections',
+    kpiActiveOrders: 'Active Orders',
+    kpiCompleted: 'Completed Orders',
+    kpiRevenue: 'Delivery Revenue',
+    kpiDriverShares: 'Driver Shares',
 
     aiHeader: '✨ AI Order Extraction',
     placeholderOrder: 'Paste delivery text here...',
     btnPaste: '📋 Paste Clipboard',
     btnExtract: '⚡ Extract Data with AI',
     btnExtracting: 'Analyzing & Checking...',
-
     reviewTitle: 'Extracted Orders Review:',
+
     store: 'Store',
     customer: 'Customer',
     phone: 'Phone',
-    cod: 'Total Collected',
-    orderValue: 'Order Value',
+    cod: 'Order Value',
     deliveryFee: 'Delivery Fee',
-    handIn: 'Cash to Hand In',
+    totalDue: 'Total Customer Due',
     address: 'Address',
-    item: 'Items',
+    item: 'Item Details',
     notes: 'Order Notes',
 
+    paymentMethod: 'Payment Method',
+    paymentCash: 'Cash',
+    paymentOnline: 'Online',
+    paymentPrepaid: 'Prepaid',
+    paymentSettled: 'Order Already Settled',
+    paymentDue: 'Remaining to Collect',
+
     addressWarning: '📍 Incomplete Address Alert: Double check details!',
+
     selectDriver: 'Assign Driver:',
     chooseDriver: '-- Select Driver --',
+    revenueShare: 'Company Delivery Revenue Share:',
+    companyRevenue: 'Company Revenue',
+    driverShare: 'Driver Share',
+    driverCollection: 'Driver Customer Collection',
+    companyHandIn: 'Driver Hand-In',
     btnConfirm: '✅ Confirm & Save Orders',
 
     searchPlaceholder: '🔍 Search Order #, Customer, Store, Phone...',
@@ -188,23 +221,46 @@ const translations = {
 
     driverCash: 'Cash to Hand In:',
     totalTrips: 'Total Trips:',
-    deliveredTrips: 'Completed Orders:',
-    totalCollected: 'Total Collected:',
-    totalDeliveryFees: 'Total Delivery Fees:',
-    driverLedgerHistory: '📒 Driver Handover History',
-    handInSummary: '💵 Total Cash to Hand In',
+    driverRevenue: 'Total Driver Share:',
+    companyRevenueTotal: 'Total Company Revenue:',
+    driverLedgerTitle: '📊 Driver Ledger — Collections & Revenue',
+
+    cashToHandIn: '💵 Total Cash to Hand In',
+    todaysOrdersCount: "📦 Today's Orders",
+    monthsOrdersCount: "📅 This Month's Orders",
+    monthsTotalCash: "💰 Monthly Hand-In",
+    monthlyRevenue: '📈 Monthly Company Revenue',
+    monthlyDriverShare: '🛵 Monthly Driver Share',
+
+    filterDriver: 'Filter Driver:',
+    filterDate: 'Date:',
+    allDrivers: 'All Drivers',
+
+    ordersHandled: 'Order & Collection Breakdown:',
+    noOrdersForDate: 'No orders match selected filters.',
+
+    orderValue: 'Order Value',
+    amountAlreadyPaid: 'Already Paid',
+    remainingOrderValue: 'Remaining Order Value',
+    customerTotal: 'Customer Total',
+    deliveryRevenue: 'Delivery Revenue',
+    companyShare: 'Company Share',
+    driverShareLabel: 'Driver Share',
+    handIn: 'Hand-In',
+    collection: 'Collection',
+    settled: 'Settled',
+    unpaid: 'Unpaid',
 
     saveMerchant: 'Save Store Details',
     saveCustomer: 'Add Customer',
     editCustomer: 'Edit Customer',
-
     saveBtn: 'Save',
     deleteBtn: 'Delete',
     editBtn: 'Edit',
     editNoteBtn: 'Edit Note',
 
     settingsTitle: 'System Settings',
-    editAmount: 'Edit Amount',
+    editAmount: 'Edit Order Value',
     saveAmount: 'Save',
 
     confirmDbUpdateTitle: '⚠️ Confirm Database Update',
@@ -217,195 +273,43 @@ const translations = {
     historyTitle: '📜 Audit Log & Order Edits History',
     noHistory: 'No edit history recorded yet.',
 
-    driverLedgerTitle: '📊 Driver Cash & Orders Ledger',
-    filterDriver: 'Filter Driver:',
-    filterDate: 'Filter Date:',
-    allDrivers: 'All Drivers',
-
-    cashToHandIn: '💵 Cash to Hand In',
-    todaysOrdersCount: "📦 Today's Orders",
-    monthsOrdersCount: "📅 This Month's Orders",
-    monthsTotalCash: "💰 This Month's Collection",
-
-    ordersHandled: 'Assigned Orders & Financial Breakdown:',
-    noOrdersForDate: 'No orders match selected filters.',
-
-    collected: 'Collected',
-    breakdown: 'Financial Breakdown',
-    productAmount: 'Order Value',
-    fee: 'Delivery Fee',
-    driverMustHandIn: 'Driver Hands In',
-    driverKeeps: 'Delivery Fee',
-    cancelledZero: 'Cancelled — 0 EGP hand-in',
-
-    orderCreated: 'Order Created',
-    statusChanged: 'Status Change',
+    created: 'Order Created',
+    statusChange: 'Status Change',
     driverReassigned: 'Driver Reassigned',
-    amountEdited: 'Amount Edited',
+    amountEdited: 'Order Value Edited',
     notesEdited: 'Notes Edited',
+    paymentEdited: 'Payment Method Edited',
+    deliveryFeeEdited: 'Delivery Fee Edited',
+    revenueEdited: 'Revenue Share Edited',
+    deleted: 'Order Deleted',
 
-    noOrders: 'No orders found.',
-    noDrivers: 'No drivers.',
-    okContinue: 'Continue',
-    time: 'Time',
-    driver: 'Driver',
-    action: 'Action',
-    details: 'Details'
+    orderBreakdown: '💰 Financial Breakdown',
+    cashToCollect: 'Customer Collection',
+    cashToHand: 'Company Hand-In',
+    driverKeeps: 'Driver Keeps',
+    youEarn: 'You Earn',
+
+    noOrders: 'No orders.',
+    percent: '%'
   }
 };
 
-const STATUS_KEYS = [
-  'مؤكد',
-  'قيد تجهيز الطلب',
-  'خرج للتوصيل',
-  'جاري التوصيل',
-  'مكتمل',
-  'متأخر',
-  'ملغي'
-];
+const REVENUE_OPTIONS = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 75, 80, 90, 100];
 
-const getTodayISO = () => new Date().toISOString().split('T')[0];
-
-const safeNumber = value => {
-  if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
-
-  if (typeof value === 'string') {
-    const cleaned = value.replace(/[^\d.-]/g, '');
-    const parsed = parseFloat(cleaned);
-    return Number.isFinite(parsed) ? parsed : 0;
-  }
-
-  return 0;
+const PAYMENT_METHODS = {
+  CASH: 'cash',
+  ONLINE: 'online',
+  PREPAID: 'prepaid'
 };
 
-const getOrderCollectedCash = order => {
-  return safeNumber(order?.cod);
-};
-
-/*
- * Driver hand-in:
- *
- * Normal order:
- *   customer pays = order value + delivery fee
- *   driver hands in = order value
- *   delivery fee = driver/delivery earnings
- *
- * Cancelled:
- *   driver hands in = 0
- *
- * Backward compatibility:
- * Old orders don't have itemAmount/deliveryFee.
- * In that case we treat COD as the hand-in amount.
- */
-const getOrderEffectiveCash = order => {
-  if (order?.status === 'ملغي') return 0;
-
-  if (
-    order &&
-    (order.itemAmount !== undefined ||
-      order.orderValue !== undefined ||
-      order.deliveryFee !== undefined)
-  ) {
-    const orderValue =
-      safeNumber(order.itemAmount ?? order.orderValue);
-
-    if (orderValue > 0) return orderValue;
-
-    const fee = safeNumber(order.deliveryFee);
-
-    if (fee > 0) {
-      return Math.max(0, getOrderCollectedCash(order) - fee);
-    }
-  }
-
-  return getOrderCollectedCash(order);
-};
-
-const getOrderDeliveryFee = order => {
-  const explicit = safeNumber(order?.deliveryFee);
-
-  if (explicit > 0) return explicit;
-
-  const cod = getOrderCollectedCash(order);
-  const handIn = getOrderEffectiveCash(order);
-
-  if (cod > handIn) return cod - handIn;
-
-  return 0;
-};
-
-const getOrderValue = order => {
-  const explicit = safeNumber(order?.itemAmount ?? order?.orderValue);
-
-  if (explicit > 0) return explicit;
-
-  return Math.max(
-    0,
-    getOrderCollectedCash(order) - getOrderDeliveryFee(order)
-  );
-};
-
-const formatMoney = (amount, currency) =>
-  `${safeNumber(amount).toLocaleString()} ${currency}`;
-
-const getStatusStyle = status => {
-  const base = {
-    padding: '7px 12px',
-    borderRadius: '999px',
-    fontWeight: '800',
-    border: '1px solid rgba(255,255,255,0.12)',
-    cursor: 'pointer',
-    color: '#fff',
-    fontSize: '0.78rem',
-    boxShadow: '0 5px 15px rgba(0,0,0,0.18)'
-  };
-
-  switch (status) {
-    case 'مؤكد':
-      return {
-        ...base,
-        background: 'linear-gradient(135deg,#2563eb,#4f46e5)'
-      };
-
-    case 'قيد تجهيز الطلب':
-      return {
-        ...base,
-        background: 'linear-gradient(135deg,#7c3aed,#a855f7)'
-      };
-
-    case 'خرج للتوصيل':
-      return {
-        ...base,
-        background: 'linear-gradient(135deg,#0284c7,#06b6d4)'
-      };
-
-    case 'جاري التوصيل':
-      return {
-        ...base,
-        background: 'linear-gradient(135deg,#d97706,#f59e0b)'
-      };
-
-    case 'مكتمل':
-      return {
-        ...base,
-        background: 'linear-gradient(135deg,#059669,#10b981)'
-      };
-
-    case 'متأخر':
-      return {
-        ...base,
-        background: 'linear-gradient(135deg,#dc2626,#f43f5e)'
-      };
-
-    case 'ملغي':
-      return {
-        ...base,
-        background: 'linear-gradient(135deg,#475569,#1e293b)'
-      };
-
-    default:
-      return base;
-  }
+const STATUS = {
+  CONFIRMED: 'مؤكد',
+  PROCESSING: 'قيد تجهيز الطلب',
+  OUT_FOR_DELIVERY: 'خرج للتوصيل',
+  IN_TRANSIT: 'جاري التوصيل',
+  COMPLETED: 'مكتمل',
+  DELAYED: 'متأخر',
+  CANCELLED: 'ملغي'
 };
 
 export default function App() {
@@ -451,17 +355,41 @@ export default function App() {
   const [rawText, setRawText] = useState('');
   const [loading, setLoading] = useState(false);
   const [extractedOrders, setExtractedOrders] = useState([]);
+
+  /*
+   * Driver assignment now has its own revenue percentage.
+   *
+   * Example:
+   * Order value = 1000
+   * Delivery fee = 60
+   * Company share = 20%
+   *
+   * Company revenue = 12
+   * Driver share = 48
+   */
   const [selectedDriver, setSelectedDriver] = useState('');
+  const [selectedRevenueShare, setSelectedRevenueShare] = useState(20);
+
   const [newDriverName, setNewDriverName] = useState('');
 
   const [ledgerDriver, setLedgerDriver] = useState('');
-  const [ledgerDate, setLedgerDate] = useState(getTodayISO());
+  const [ledgerDate, setLedgerDate] = useState(
+    () => new Date().toISOString().split('T')[0]
+  );
 
   const [typoFlags, setTypoFlags] = useState([]);
   const [showTypoModal, setShowTypoModal] = useState(false);
 
   const [editingAmountId, setEditingAmountId] = useState(null);
   const [tempAmount, setTempAmount] = useState('');
+
+  const [editingFeeId, setEditingFeeId] = useState(null);
+  const [tempFee, setTempFee] = useState('');
+
+  const [editingRevenueId, setEditingRevenueId] = useState(null);
+  const [tempRevenue, setTempRevenue] = useState('');
+
+  const [editingPaymentId, setEditingPaymentId] = useState(null);
 
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [tempNote, setTempNote] = useState('');
@@ -484,113 +412,159 @@ export default function App() {
 
   const t = translations[lang];
 
-  useEffect(
-    () => localStorage.setItem('app_lang', lang),
-    [lang]
-  );
+  useEffect(() => {
+    localStorage.setItem('app_lang', lang);
+  }, [lang]);
 
-  useEffect(
-    () => localStorage.setItem('groq_api_key', apiKey),
-    [apiKey]
-  );
+  useEffect(() => {
+    localStorage.setItem('groq_api_key', apiKey);
+  }, [apiKey]);
 
-  useEffect(
-    () =>
-      localStorage.setItem(
-        'order_counter_num',
-        orderCounter.toString()
-      ),
-    [orderCounter]
-  );
+  useEffect(() => {
+    localStorage.setItem('order_counter_num', orderCounter.toString());
+  }, [orderCounter]);
 
-  useEffect(
-    () =>
-      localStorage.setItem(
-        'delivery_orders_v5',
-        JSON.stringify(orders)
-      ),
-    [orders]
-  );
+  useEffect(() => {
+    localStorage.setItem('delivery_orders_v5', JSON.stringify(orders));
+  }, [orders]);
 
-  useEffect(
-    () =>
-      localStorage.setItem(
-        'delivery_merchants_v5',
-        JSON.stringify(merchants)
-      ),
-    [merchants]
-  );
+  useEffect(() => {
+    localStorage.setItem('delivery_merchants_v5', JSON.stringify(merchants));
+  }, [merchants]);
 
-  useEffect(
-    () =>
-      localStorage.setItem(
-        'delivery_customers_v5',
-        JSON.stringify(customers)
-      ),
-    [customers]
-  );
+  useEffect(() => {
+    localStorage.setItem('delivery_customers_v5', JSON.stringify(customers));
+  }, [customers]);
 
-  useEffect(
-    () =>
-      localStorage.setItem(
-        'delivery_drivers_v5',
-        JSON.stringify(drivers)
-      ),
-    [drivers]
-  );
+  useEffect(() => {
+    localStorage.setItem('delivery_drivers_v5', JSON.stringify(drivers));
+  }, [drivers]);
 
-  useEffect(
-    () =>
-      localStorage.setItem(
-        'delivery_history_v5',
-        JSON.stringify(historyLogs)
-      ),
-    [historyLogs]
-  );
+  useEffect(() => {
+    localStorage.setItem('delivery_history_v5', JSON.stringify(historyLogs));
+  }, [historyLogs]);
 
   /*
-   * Cross-tab synchronization.
-   * Storage events don't fire in the same tab, but they do fire
-   * when another browser tab changes the same key.
+   * ---------------------------------------------------------
+   * FINANCIAL ENGINE
+   * ---------------------------------------------------------
+   *
+   * The important rule:
+   *
+   * order.cod = actual VALUE OF GOODS/ORDER
+   * order.deliveryFee = DELIVERY FEE
+   *
+   * Neither of those is automatically "company revenue".
+   *
+   * Company revenue comes from:
+   *
+   * deliveryFee * revenueShare / 100
+   *
+   * Driver share comes from:
+   *
+   * deliveryFee - companyRevenue
+   *
+   * If the order was already paid online/prepaid:
+   *
+   * remainingOrderValue = 0
+   *
+   * Otherwise:
+   *
+   * remainingOrderValue = order.cod
+   *
+   * Customer collection:
+   *
+   * remainingOrderValue + deliveryFee
+   *
+   * Company hand-in:
+   *
+   * remainingOrderValue + companyRevenue
+   *
+   * Driver keeps:
+   *
+   * driverShare
    */
-  useEffect(() => {
-    const handleStorage = event => {
-      if (!event.key) return;
 
-      try {
-        switch (event.key) {
-          case 'delivery_orders_v5':
-            setOrders(JSON.parse(event.newValue || '[]'));
-            break;
+  const getOrderValue = order => {
+    return Math.max(0, parseFloat(order.cod) || 0);
+  };
 
-          case 'delivery_merchants_v5':
-            setMerchants(JSON.parse(event.newValue || '[]'));
-            break;
+  const getDeliveryFee = order => {
+    return Math.max(0, parseFloat(order.deliveryFee) || 0);
+  };
 
-          case 'delivery_customers_v5':
-            setCustomers(JSON.parse(event.newValue || '[]'));
-            break;
+  const getRevenueShare = order => {
+    const value = parseFloat(order.revenueShare);
 
-          case 'delivery_drivers_v5':
-            setDrivers(JSON.parse(event.newValue || '[]'));
-            break;
+    if (Number.isFinite(value)) {
+      return Math.min(100, Math.max(0, value));
+    }
 
-          case 'delivery_history_v5':
-            setHistoryLogs(JSON.parse(event.newValue || '[]'));
-            break;
+    return 20;
+  };
 
-          default:
-            break;
-        }
-      } catch {
-        // Ignore malformed external localStorage changes.
-      }
-    };
+  const isPaymentSettled = order => {
+    return (
+      order.paymentMethod === PAYMENT_METHODS.ONLINE ||
+      order.paymentMethod === PAYMENT_METHODS.PREPAID ||
+      order.paymentSettled === true
+    );
+  };
 
-    window.addEventListener('storage', handleStorage);
+  const getRemainingOrderValue = order => {
+    if (order.status === STATUS.CANCELLED) return 0;
 
-    return () => window.removeEventListener('storage', handleStorage);
-  }, []);
+    if (isPaymentSettled(order)) return 0;
+
+    return getOrderValue(order);
+  };
+
+  const getCompanyRevenue = order => {
+    if (order.status === STATUS.CANCELLED) return 0;
+
+    const fee = getDeliveryFee(order);
+    const percentage = getRevenueShare(order);
+
+    return fee * (percentage / 100);
+  };
+
+  const getDriverShare = order => {
+    if (order.status === STATUS.CANCELLED) return 0;
+
+    const fee = getDeliveryFee(order);
+
+    return Math.max(0, fee - getCompanyRevenue(order));
+  };
+
+  /*
+   * This is the amount the driver actually collects from the customer.
+   *
+   * Cash:
+   * 1000 order + 60 delivery = 1060
+   *
+   * Online:
+   * 0 remaining order + 60 delivery = 60
+   */
+  const getDriverCustomerCollection = order => {
+    if (order.status === STATUS.CANCELLED) return 0;
+
+    return getRemainingOrderValue(order) + getDeliveryFee(order);
+  };
+
+  /*
+   * This is what the driver gives back to the company.
+   *
+   * Cash order:
+   * 1000 order + 12 company revenue = 1012
+   *
+   * Online:
+   * 0 order + 12 company revenue = 12
+   */
+  const getOrderEffectiveCash = order => {
+    if (order.status === STATUS.CANCELLED) return 0;
+
+    return getRemainingOrderValue(order) + getCompanyRevenue(order);
+  };
 
   const addAuditLog = (orderNum, action, details) => {
     const log = {
@@ -606,11 +580,21 @@ export default function App() {
     setHistoryLogs(prev => [log, ...prev]);
   };
 
+  const formatMoney = amount => {
+    return `${Number(amount || 0).toLocaleString()} ${t.currency}`;
+  };
+
+  const paymentLabel = method => {
+    if (method === PAYMENT_METHODS.ONLINE) return t.paymentOnline;
+    if (method === PAYMENT_METHODS.PREPAID) return t.paymentPrepaid;
+    return t.paymentCash;
+  };
+
   const handlePasteClipboard = async () => {
     try {
       const text = await navigator.clipboard.readText();
       setRawText(text);
-    } catch {
+    } catch (err) {
       alert(
         lang === 'ar'
           ? 'تعذر الوصول إلى الحافظة.'
@@ -632,7 +616,7 @@ export default function App() {
 
     const keywords = [
       'شارع',
-      'ش',
+      'ش ',
       'دور',
       'شقة',
       'عمارة',
@@ -674,61 +658,50 @@ export default function App() {
     setTypoFlags([]);
 
     const systemPrompt = `
-You are an expert Egyptian Arabic delivery-order parser.
+You are an expert Egyptian delivery-order parser.
 
-Your job is to convert messy Egyptian Arabic delivery conversations into strict JSON.
+Your job is to extract structured logistics information from messy Egyptian Arabic,
+Egyptian Arabic slang, English, mixed Arabic/English, typos, conversational messages,
+multiple orders, corrections, cancellations, and price changes.
 
-IMPORTANT EXTRACTION RULES:
+STRICT RULES:
 
-1. Understand Egyptian Arabic slang, spelling mistakes, abbreviations,
-   voice-transcription errors, and informal wording.
+1. Return ONLY valid JSON.
+2. Never add markdown.
+3. Never add explanations outside the JSON.
+4. Extract multiple customers/orders separately when applicable.
+5. Pay extremely close attention to corrections later in the conversation.
+6. If an item is cancelled later, remove it from the final item list and final order value.
+7. If a previous price is replaced by a later price, use ONLY the final agreed value.
+8. "cod" means the VALUE OF THE GOODS/ORDER, NOT the delivery fee.
+9. "delivery_fee" means the delivery charge paid for delivery.
+10. Detect whether the order was paid online/prepaid/already settled.
+11. If the goods/order value has already been paid online, set:
+    payment_method = "online"
+    payment_settled = true
+12. If it is explicitly prepaid, set:
+    payment_method = "prepaid"
+    payment_settled = true
+13. Otherwise use:
+    payment_method = "cash"
+    payment_settled = false
+14. Delivery fee must be extracted separately whenever possible.
+15. Do NOT add delivery fee to "cod".
+16. If the customer says "1000 شامل التوصيل 60", infer the order value and fee carefully
+    from the context. If unclear, preserve the safest interpretation.
+17. Store must include branch where mentioned.
+18. Notes must include:
+    - call before arrival
+    - delivery timing
+    - special instructions
+    - delivery fee wording
+    - payment clarification
+19. Standard Egyptian words such as:
+    "مقاضي", "كيسين", "شقة", "عمارة", "ساقعة", "شغال"
+    are NOT typos.
+20. ambiguous_flags should contain ONLY genuinely ambiguous/unintelligible words.
 
-2. NEVER treat common Egyptian delivery words such as:
-   "مقاضي", "كيسين", "شغال", "شقة", "عمارة", "ساقعة"
-   as spelling mistakes.
-
-3. Track the conversation chronologically.
-
-4. If an item is cancelled, removed, replaced, or its quantity changes,
-   update the final order accordingly.
-
-5. If an earlier total is mentioned and a later total is confirmed,
-   ALWAYS use the FINAL AGREED TOTAL.
-
-6. Example:
-   "الحساب 930 ... الميه اتلغت ... يبقى 840؟ آه بالضبط"
-   => cod must be 840.
-
-7. Extract the store INCLUDING branch when available.
-   Example:
-   "بي تك سموحة" => "بي تك - سموحة"
-
-8. Extract delivery instructions into notes.
-
-9. Extract delivery fee separately whenever mentioned.
-
-10. Extract the merchandise/order value separately whenever possible.
-
-11. Financial relationship:
-   order value + delivery fee = final customer COD.
-
-12. If the final COD is explicitly confirmed but the order value
-   or delivery fee is not explicitly known, do NOT invent them.
-   Use 0 for unknown fields.
-
-13. phone must contain only the phone number as much as possible.
-
-14. If there are multiple customers/orders in the same message,
-   return multiple objects.
-
-15. "ambiguous_flags" should ONLY contain genuinely unclear or
-   potentially mistyped words that could materially affect the order.
-
-16. Do not put explanations outside JSON.
-
-RETURN ONLY VALID JSON.
-
-Required structure:
+JSON:
 
 {
   "ambiguous_flags": [],
@@ -738,10 +711,11 @@ Required structure:
       "customer": "",
       "phone": "",
       "address": "",
-      "item": "",
-      "item_amount": 0,
-      "delivery_fee": 0,
       "cod": 0,
+      "delivery_fee": 0,
+      "payment_method": "cash",
+      "payment_settled": false,
+      "item": "",
       "notes": ""
     }
   ]
@@ -797,40 +771,54 @@ Required structure:
         setShowTypoModal(true);
       }
 
-      const normalizedOrders = (parsed.orders || []).map(
-        order => {
-          const cod = safeNumber(order.cod);
-          const itemAmount = safeNumber(
-            order.item_amount
-          );
-
-          const deliveryFee = safeNumber(
-            order.delivery_fee
-          );
-
-          /*
-           * If AI extracted COD but one of the components is missing,
-           * preserve the final COD and avoid inventing data.
-           */
-          return {
-            ...order,
-            cod,
-            itemAmount,
-            deliveryFee
-          };
-        }
-      );
+      const normalizedOrders = (parsed.orders || []).map(order => ({
+        ...order,
+        cod: Number(order.cod) || 0,
+        delivery_fee:
+          Number(order.delivery_fee) || 0,
+        payment_method:
+          order.payment_method || PAYMENT_METHODS.CASH,
+        payment_settled:
+          Boolean(order.payment_settled)
+      }));
 
       setExtractedOrders(normalizedOrders);
     } catch (err) {
       alert(
-        `${lang === 'ar' ? 'خطأ في تحليل الطلب' : 'Error parsing order'}: ${
-          err.message
-        }`
+        (lang === 'ar'
+          ? 'خطأ أثناء تحليل الطلب: '
+          : 'Error parsing order: ') + err.message
       );
     } finally {
       setLoading(false);
     }
+  };
+
+  const buildFinancialData = order => {
+    const normalized = {
+      ...order,
+      cod: Number(order.cod) || 0,
+      deliveryFee: Number(order.deliveryFee) || 0,
+      revenueShare: Number(order.revenueShare) || 20,
+      paymentMethod:
+        order.paymentMethod || PAYMENT_METHODS.CASH,
+      paymentSettled:
+        order.paymentSettled ||
+        order.paymentMethod === PAYMENT_METHODS.ONLINE ||
+        order.paymentMethod === PAYMENT_METHODS.PREPAID
+    };
+
+    return {
+      ...normalized,
+      remainingOrderValue:
+        getRemainingOrderValue(normalized),
+      companyRevenue:
+        getCompanyRevenue(normalized),
+      driverShare:
+        getDriverShare(normalized),
+      driverCustomerCollection:
+        getDriverCustomerCollection(normalized)
+    };
   };
 
   const handleConfirmOrder = () => {
@@ -844,27 +832,40 @@ Required structure:
     const newCreatedOrders = extractedOrders.map(ord => {
       const orderNumber = `#${currentNum++}`;
 
-      const cod = safeNumber(ord.cod);
-      const itemAmount = safeNumber(ord.itemAmount);
-      const deliveryFee = safeNumber(ord.deliveryFee);
-
-      addAuditLog(
-        orderNumber,
-        t.orderCreated,
-        `${ord.customer} — ${formatMoney(cod, t.currency)}`
-      );
-
-      return {
+      const baseOrder = {
         id: Date.now() + Math.random(),
+
         orderNum: orderNumber,
-        ...ord,
-        cod,
-        itemAmount,
-        deliveryFee,
+
+        store: ord.store || t.unspecified,
+        customer: ord.customer || t.unspecified,
+        phone: ord.phone || '',
+        address: ord.address || '',
+        cod: Number(ord.cod) || 0,
+        deliveryFee: Number(ord.delivery_fee) || 0,
+        item: ord.item || '',
+        notes: ord.notes || '',
+
+        paymentMethod:
+          ord.payment_method || PAYMENT_METHODS.CASH,
+
+        paymentSettled:
+          Boolean(ord.payment_settled) ||
+          ord.payment_method === PAYMENT_METHODS.ONLINE ||
+          ord.payment_method === PAYMENT_METHODS.PREPAID,
+
         driver: selectedDriver || t.unspecified,
-        status: 'مؤكد',
+
+        /*
+         * The selected percentage is the COMPANY'S percentage
+         * of the DELIVERY FEE.
+         */
+        revenueShare: selectedRevenueShare,
+
+        status: STATUS.CONFIRMED,
+
         isoDate: isoDateStr,
-        createdAt: now.toISOString(),
+
         date: now.toLocaleTimeString(
           lang === 'ar' ? 'ar-EG' : 'en-US',
           {
@@ -872,6 +873,33 @@ Required structure:
             minute: '2-digit'
           }
         )
+      };
+
+      const financial = buildFinancialData(baseOrder);
+
+      addAuditLog(
+        orderNumber,
+        t.created,
+        lang === 'ar'
+          ? `تم إنشاء الطلب بقيمة ${formatMoney(
+              baseOrder.cod
+            )} ورسوم توصيل ${formatMoney(
+              baseOrder.deliveryFee
+            )}. نسبة الشركة ${selectedRevenueShare}%. طريقة الدفع: ${paymentLabel(
+              baseOrder.paymentMethod
+            )}.`
+          : `Created order value ${formatMoney(
+              baseOrder.cod
+            )}, delivery fee ${formatMoney(
+              baseOrder.deliveryFee
+            )}. Company share ${selectedRevenueShare}%. Payment: ${paymentLabel(
+              baseOrder.paymentMethod
+            )}.`
+      );
+
+      return {
+        ...baseOrder,
+        ...financial
       };
     });
 
@@ -890,7 +918,7 @@ Required structure:
         setMerchants(prev => {
           const match = prev.find(
             m =>
-              m.name.toLowerCase() ===
+              m.name?.toLowerCase() ===
               ord.store.toLowerCase()
           );
 
@@ -909,7 +937,7 @@ Required structure:
           }
 
           return prev.map(m =>
-            m.name.toLowerCase() ===
+            m.name?.toLowerCase() ===
             ord.store.toLowerCase()
               ? {
                   ...m,
@@ -961,6 +989,7 @@ Required structure:
     setRawText('');
     setExtractedOrders([]);
     setSelectedDriver('');
+    setSelectedRevenueShare(20);
     setActiveTab('orders');
   };
 
@@ -976,27 +1005,21 @@ Required structure:
 
       addAuditLog(
         order.orderNum,
-        'Deleted',
-        `Order for ${order.customer} deleted.`
+        t.deleted,
+        lang === 'ar'
+          ? `تم حذف الطلب الخاص بـ ${order.customer}.`
+          : `Order for ${order.customer} deleted.`
       );
     }
   };
 
   const handleStatusChange = (order, newStatus) => {
-    const oldStatus = order.status;
-
     setOrders(prev =>
       prev.map(o =>
         o.id === order.id
           ? {
               ...o,
-              status: newStatus,
-              ...(newStatus === 'مكتمل'
-                ? {
-                    completedAt:
-                      new Date().toISOString()
-                  }
-                : {})
+              status: newStatus
             }
           : o
       )
@@ -1004,15 +1027,14 @@ Required structure:
 
     addAuditLog(
       order.orderNum,
-      t.statusChanged,
-      `${oldStatus} → ${newStatus}`
+      t.statusChange,
+      lang === 'ar'
+        ? `تم تغيير الحالة من "${order.status}" إلى "${newStatus}".`
+        : `Status changed from "${order.status}" to "${newStatus}".`
     );
   };
 
-  const handleDriverReassign = (
-    order,
-    newDriver
-  ) => {
+  const handleDriverReassign = (order, newDriver) => {
     const oldDriver = order.driver;
 
     setOrders(prev =>
@@ -1029,21 +1051,23 @@ Required structure:
     addAuditLog(
       order.orderNum,
       t.driverReassigned,
-      `${oldDriver} → ${newDriver}`
+      lang === 'ar'
+        ? `تم تغيير الطيار من "${oldDriver}" إلى "${newDriver}".`
+        : `Driver changed from "${oldDriver}" to "${newDriver}".`
     );
   };
 
   const handleAmountSave = order => {
-    const oldAmount = order.cod;
-    const newAmount = safeNumber(tempAmount);
+    const oldAmount = getOrderValue(order);
+    const newAmount = Number(tempAmount) || 0;
 
     setOrders(prev =>
       prev.map(o =>
         o.id === order.id
-          ? {
+          ? buildFinancialData({
               ...o,
               cod: newAmount
-            }
+            })
           : o
       )
     );
@@ -1051,10 +1075,104 @@ Required structure:
     addAuditLog(
       order.orderNum,
       t.amountEdited,
-      `${oldAmount} → ${newAmount} ${t.currency}`
+      lang === 'ar'
+        ? `تم تعديل قيمة الطلب من ${formatMoney(
+            oldAmount
+          )} إلى ${formatMoney(newAmount)}.`
+        : `Order value changed from ${formatMoney(
+            oldAmount
+          )} to ${formatMoney(newAmount)}.`
     );
 
     setEditingAmountId(null);
+  };
+
+  const handleDeliveryFeeSave = order => {
+    const oldFee = getDeliveryFee(order);
+    const newFee = Number(tempFee) || 0;
+
+    setOrders(prev =>
+      prev.map(o =>
+        o.id === order.id
+          ? buildFinancialData({
+              ...o,
+              deliveryFee: newFee
+            })
+          : o
+      )
+    );
+
+    addAuditLog(
+      order.orderNum,
+      t.deliveryFeeEdited,
+      lang === 'ar'
+        ? `تم تعديل رسوم التوصيل من ${formatMoney(
+            oldFee
+          )} إلى ${formatMoney(newFee)}.`
+        : `Delivery fee changed from ${formatMoney(
+            oldFee
+          )} to ${formatMoney(newFee)}.`
+    );
+
+    setEditingFeeId(null);
+  };
+
+  const handleRevenueSave = order => {
+    const oldRevenue = getRevenueShare(order);
+    const newRevenue = Number(tempRevenue);
+
+    setOrders(prev =>
+      prev.map(o =>
+        o.id === order.id
+          ? buildFinancialData({
+              ...o,
+              revenueShare: newRevenue
+            })
+          : o
+      )
+    );
+
+    addAuditLog(
+      order.orderNum,
+      t.revenueEdited,
+      lang === 'ar'
+        ? `تم تغيير نسبة إيراد الشركة من ${oldRevenue}% إلى ${newRevenue}%.`
+        : `Company revenue share changed from ${oldRevenue}% to ${newRevenue}%.`
+    );
+
+    setEditingRevenueId(null);
+  };
+
+  const handlePaymentChange = (order, method) => {
+    const settled =
+      method === PAYMENT_METHODS.ONLINE ||
+      method === PAYMENT_METHODS.PREPAID;
+
+    setOrders(prev =>
+      prev.map(o =>
+        o.id === order.id
+          ? buildFinancialData({
+              ...o,
+              paymentMethod: method,
+              paymentSettled: settled
+            })
+          : o
+      )
+    );
+
+    addAuditLog(
+      order.orderNum,
+      t.paymentEdited,
+      lang === 'ar'
+        ? `تم تغيير طريقة الدفع إلى "${paymentLabel(
+            method
+          )}". ${settled ? 'قيمة الطلب مسددة بالفعل.' : 'قيمة الطلب غير مسددة.'}`
+        : `Payment method changed to "${paymentLabel(
+            method
+          )}". ${settled ? 'Order value is already settled.' : 'Order value is unpaid.'}`
+    );
+
+    setEditingPaymentId(null);
   };
 
   const handleNoteSave = order => {
@@ -1074,7 +1192,9 @@ Required structure:
     addAuditLog(
       order.orderNum,
       t.notesEdited,
-      `"${oldNote || ''}" → "${tempNote}"`
+      lang === 'ar'
+        ? `تم تعديل الملاحظات من "${oldNote || ''}" إلى "${tempNote}".`
+        : `Notes updated from "${oldNote || ''}" to "${tempNote}".`
     );
 
     setEditingNoteId(null);
@@ -1139,41 +1259,42 @@ Required structure:
     });
   };
 
-  const totalCollectedSum = useMemo(
-    () =>
-      orders
-        .filter(o => o.status === 'مكتمل')
-        .reduce(
-          (sum, o) =>
-            sum + getOrderCollectedCash(o),
-          0
-        ),
-    [orders]
-  );
+  const totalCollected = orders
+    .filter(o => o.status === STATUS.COMPLETED)
+    .reduce(
+      (sum, o) =>
+        sum + getDriverCustomerCollection(o),
+      0
+    );
 
-  const totalHandInSum = useMemo(
-    () =>
-      orders
-        .filter(o => o.status === 'مكتمل')
-        .reduce(
-          (sum, o) =>
-            sum + getOrderEffectiveCash(o),
-          0
-        ),
-    [orders]
-  );
+  const totalCompanyRevenue = orders
+    .filter(o => o.status === STATUS.COMPLETED)
+    .reduce(
+      (sum, o) => sum + getCompanyRevenue(o),
+      0
+    );
+
+  const totalDriverShares = orders
+    .filter(o => o.status === STATUS.COMPLETED)
+    .reduce(
+      (sum, o) => sum + getDriverShare(o),
+      0
+    );
 
   const activeOrdersCount = orders.filter(
     o =>
-      !['مكتمل', 'ملغي'].includes(o.status)
+      ![
+        STATUS.COMPLETED,
+        STATUS.CANCELLED
+      ].includes(o.status)
   ).length;
 
-  const completedOrdersCount =
-    orders.filter(o => o.status === 'مكتمل').length;
+  const completedOrdersCount = orders.filter(
+    o => o.status === STATUS.COMPLETED
+  ).length;
 
   const filteredOrders = orders.filter(o => {
-    const query =
-      searchQuery.toLowerCase();
+    const query = searchQuery.toLowerCase();
 
     return (
       (o.orderNum || '')
@@ -1185,111 +1306,119 @@ Required structure:
       (o.store || '')
         .toLowerCase()
         .includes(query) ||
-      (o.phone || '').includes(searchQuery)
+      (o.phone || '')
+        .includes(searchQuery)
     );
   });
 
-  const selectedYearMonth =
-    ledgerDate.substring(0, 7);
-
-  const filteredLedgerOrders = orders.filter(
-    order => {
-      const matchDriver =
-        !ledgerDriver ||
-        order.driver === ledgerDriver;
-
-      const matchDate =
-        order.isoDate === ledgerDate;
-
-      return matchDriver && matchDate;
-    }
+  const selectedYearMonth = ledgerDate.substring(
+    0,
+    7
   );
+
+  const filteredLedgerOrders = orders.filter(o => {
+    const matchDriver =
+      !ledgerDriver ||
+      o.driver === ledgerDriver;
+
+    const matchDate =
+      o.isoDate === ledgerDate;
+
+    return matchDriver && matchDate;
+  });
 
   const dailyCashToHandIn =
     filteredLedgerOrders
-      .filter(o => o.status === 'مكتمل')
+      .filter(o => o.status === STATUS.COMPLETED)
       .reduce(
         (sum, o) =>
           sum + getOrderEffectiveCash(o),
         0
       );
 
-  const dailyCollected =
+  const dailyCompanyRevenue =
     filteredLedgerOrders
-      .filter(o => o.status === 'مكتمل')
+      .filter(o => o.status === STATUS.COMPLETED)
       .reduce(
         (sum, o) =>
-          sum + getOrderCollectedCash(o),
+          sum + getCompanyRevenue(o),
         0
       );
 
-  const dailyDeliveryFees =
+  const dailyDriverShare =
     filteredLedgerOrders
-      .filter(o => o.status === 'مكتمل')
+      .filter(o => o.status === STATUS.COMPLETED)
       .reduce(
         (sum, o) =>
-          sum + getOrderDeliveryFee(o),
+          sum + getDriverShare(o),
         0
       );
 
-  const monthlyOrders = orders.filter(
-    order => {
-      const matchDriver =
-        !ledgerDriver ||
-        order.driver === ledgerDriver;
+  const monthlyOrders = orders.filter(o => {
+    const matchDriver =
+      !ledgerDriver ||
+      o.driver === ledgerDriver;
 
-      const matchMonth =
-        (order.isoDate || '').startsWith(
-          selectedYearMonth
-        );
+    const matchMonth =
+      (o.isoDate || '').startsWith(
+        selectedYearMonth
+      );
 
-      return matchDriver && matchMonth;
-    }
-  );
+    return matchDriver && matchMonth;
+  });
 
   const monthlyTotalCash =
     monthlyOrders
-      .filter(o => o.status === 'مكتمل')
+      .filter(o => o.status === STATUS.COMPLETED)
       .reduce(
         (sum, o) =>
-          sum + getOrderCollectedCash(o),
+          sum + getOrderEffectiveCash(o),
         0
       );
 
-  const driverStats = drivers.map(
-    driverName => {
-      const driverOrders =
-        orders.filter(
-          o => o.driver === driverName
-        );
+  const monthlyCompanyRevenue =
+    monthlyOrders
+      .filter(o => o.status === STATUS.COMPLETED)
+      .reduce(
+        (sum, o) =>
+          sum + getCompanyRevenue(o),
+        0
+      );
 
-      const completed =
-        driverOrders.filter(
-          o => o.status === 'مكتمل'
-        );
+  const monthlyDriverShare =
+    monthlyOrders
+      .filter(o => o.status === STATUS.COMPLETED)
+      .reduce(
+        (sum, o) =>
+          sum + getDriverShare(o),
+        0
+      );
 
-      return {
-        driverName,
-        totalTrips: driverOrders.length,
-        completedTrips: completed.length,
-        collected: completed.reduce(
-          (sum, o) =>
-            sum + getOrderCollectedCash(o),
-          0
-        ),
-        deliveryFees: completed.reduce(
-          (sum, o) =>
-            sum + getOrderDeliveryFee(o),
-          0
-        ),
-        handIn: completed.reduce(
-          (sum, o) =>
-            sum + getOrderEffectiveCash(o),
-          0
-        )
-      };
-    }
-  );
+  const selectedPreviewOrder = useMemo(() => {
+    if (!extractedOrders.length) return null;
+
+    const order = extractedOrders[0];
+
+    return buildFinancialData({
+      ...order,
+      deliveryFee:
+        Number(order.delivery_fee) || 0,
+      revenueShare:
+        selectedRevenueShare,
+      paymentMethod:
+        order.payment_method ||
+        PAYMENT_METHODS.CASH,
+      paymentSettled:
+        Boolean(order.payment_settled) ||
+        order.payment_method ===
+          PAYMENT_METHODS.ONLINE ||
+        order.payment_method ===
+          PAYMENT_METHODS.PREPAID
+    });
+  }, [
+    extractedOrders,
+    selectedRevenueShare
+  ]);
 
   return (
     <div
@@ -1299,25 +1428,17 @@ Required structure:
           lang === 'ar' ? 'rtl' : 'ltr'
       }}
     >
-      <div style={styles.backgroundGlowOne} />
-      <div style={styles.backgroundGlowTwo} />
-
       {/* HEADER */}
+
       <header style={styles.header}>
         <div>
-          <div style={styles.brandRow}>
-            <div style={styles.brandIcon}>🚀</div>
+          <h1 style={styles.appTitle}>
+            {t.appTitle}
+          </h1>
 
-            <div>
-              <h1 style={styles.appTitle}>
-                {t.appTitle.replace('🚀 ', '')}
-              </h1>
-
-              <p style={styles.appSubtitle}>
-                {t.appSubtitle}
-              </p>
-            </div>
-          </div>
+          <p style={styles.appSubtitle}>
+            {t.appSubtitle}
+          </p>
         </div>
 
         <div style={styles.headerRight}>
@@ -1339,9 +1460,9 @@ Required structure:
           <div
             style={{
               ...styles.badge,
-              ...(apiKey
-                ? styles.badgeSuccess
-                : styles.badgeDanger)
+              background: apiKey
+                ? 'linear-gradient(135deg,#059669,#10b981)'
+                : 'linear-gradient(135deg,#dc2626,#ef4444)'
             }}
           >
             {apiKey
@@ -1351,146 +1472,216 @@ Required structure:
         </div>
       </header>
 
-      {/* KPI DASHBOARD */}
+      {/* KPI */}
+
       <div style={styles.kpiRow}>
-        <KpiCard
-          icon="💰"
-          title={t.kpiTotalCod}
-          value={formatMoney(
-            totalCollectedSum,
-            t.currency
-          )}
-          gradient="linear-gradient(135deg,#312e81,#4f46e5,#7c3aed)"
-          accent="#a5b4fc"
-        />
+        <div
+          style={{
+            ...styles.kpiCard,
+            background:
+              'linear-gradient(135deg,#0f172a,#312e81,#4f46e5)'
+          }}
+        >
+          <span style={styles.kpiLabel}>
+            {t.kpiTotalCod}
+          </span>
 
-        <KpiCard
-          icon="⚡"
-          title={t.kpiActiveOrders}
-          value={activeOrdersCount}
-          gradient="linear-gradient(135deg,#064e3b,#059669,#10b981)"
-          accent="#6ee7b7"
-        />
+          <span
+            style={{
+              ...styles.kpiValue,
+              color: '#67e8f9'
+            }}
+          >
+            {formatMoney(totalCollected)}
+          </span>
+        </div>
 
-        <KpiCard
-          icon="✅"
-          title={t.kpiCompleted}
-          value={completedOrdersCount}
-          gradient="linear-gradient(135deg,#831843,#be185d,#ec4899)"
-          accent="#f9a8d4"
-        />
+        <div
+          style={{
+            ...styles.kpiCard,
+            background:
+              'linear-gradient(135deg,#064e3b,#059669,#10b981)'
+          }}
+        >
+          <span style={styles.kpiLabel}>
+            {t.kpiActiveOrders}
+          </span>
 
-        <KpiCard
-          icon="💵"
-          title={t.kpiHandIn}
-          value={formatMoney(
-            totalHandInSum,
-            t.currency
-          )}
-          gradient="linear-gradient(135deg,#92400e,#d97706,#f59e0b)"
-          accent="#fde68a"
-        />
+          <span
+            style={{
+              ...styles.kpiValue,
+              color: '#6ee7b7'
+            }}
+          >
+            {activeOrdersCount}
+          </span>
+        </div>
+
+        <div
+          style={{
+            ...styles.kpiCard,
+            background:
+              'linear-gradient(135deg,#701a75,#a21caf,#ec4899)'
+          }}
+        >
+          <span style={styles.kpiLabel}>
+            {t.kpiCompleted}
+          </span>
+
+          <span
+            style={{
+              ...styles.kpiValue,
+              color: '#f9a8d4'
+            }}
+          >
+            {completedOrdersCount}
+          </span>
+        </div>
+
+        <div
+          style={{
+            ...styles.kpiCard,
+            background:
+              'linear-gradient(135deg,#0c4a6e,#0284c7,#38bdf8)'
+          }}
+        >
+          <span style={styles.kpiLabel}>
+            {t.kpiRevenue}
+          </span>
+
+          <span
+            style={{
+              ...styles.kpiValue,
+              color: '#bae6fd'
+            }}
+          >
+            {formatMoney(totalCompanyRevenue)}
+          </span>
+        </div>
       </div>
 
       {/* NAV */}
+
       <nav style={styles.nav}>
-        <NavButton
-          active={activeTab === 'new_order'}
+        <button
+          style={
+            activeTab === 'new_order'
+              ? styles.activeTab
+              : styles.tab
+          }
           onClick={() =>
             setActiveTab('new_order')
           }
         >
           {t.navNewOrder}
-        </NavButton>
+        </button>
 
-        <NavButton
-          active={activeTab === 'orders'}
+        <button
+          style={
+            activeTab === 'orders'
+              ? styles.activeTab
+              : styles.tab
+          }
           onClick={() =>
             setActiveTab('orders')
           }
         >
           {t.navOrders} ({orders.length})
-        </NavButton>
+        </button>
 
-        <NavButton
-          active={
+        <button
+          style={
             activeTab === 'driver_ledger'
+              ? styles.activeTab
+              : styles.tab
           }
           onClick={() =>
             setActiveTab('driver_ledger')
           }
         >
           {t.navDriverLedger}
-        </NavButton>
+        </button>
 
-        <NavButton
-          active={activeTab === 'drivers'}
+        <button
+          style={
+            activeTab === 'drivers'
+              ? styles.activeTab
+              : styles.tab
+          }
           onClick={() =>
             setActiveTab('drivers')
           }
         >
           {t.navDrivers} ({drivers.length})
-        </NavButton>
+        </button>
 
-        <NavButton
-          active={activeTab === 'merchants'}
+        <button
+          style={
+            activeTab === 'merchants'
+              ? styles.activeTab
+              : styles.tab
+          }
           onClick={() =>
             setActiveTab('merchants')
           }
         >
           {t.navMerchants} ({merchants.length})
-        </NavButton>
+        </button>
 
-        <NavButton
-          active={activeTab === 'customers'}
+        <button
+          style={
+            activeTab === 'customers'
+              ? styles.activeTab
+              : styles.tab
+          }
           onClick={() =>
             setActiveTab('customers')
           }
         >
           {t.navCustomers} ({customers.length})
-        </NavButton>
+        </button>
 
-        <NavButton
-          active={activeTab === 'history'}
+        <button
+          style={
+            activeTab === 'history'
+              ? styles.activeTab
+              : styles.tab
+          }
           onClick={() =>
             setActiveTab('history')
           }
         >
           {t.navHistory}
-        </NavButton>
+        </button>
 
-        <NavButton
-          active={activeTab === 'settings'}
+        <button
+          style={
+            activeTab === 'settings'
+              ? styles.activeTab
+              : styles.tab
+          }
           onClick={() =>
             setActiveTab('settings')
           }
         >
           {t.navSettings}
-        </NavButton>
+        </button>
       </nav>
 
       <main style={styles.main}>
+
         {/* NEW ORDER */}
+
         {activeTab === 'new_order' && (
           <div style={styles.card}>
-            <div style={styles.cardHeaderFancy}>
-              <div>
-                <div style={styles.eyebrow}>
-                  AI ORDER INTELLIGENCE
-                </div>
-
-                <h2 style={styles.cardTitle}>
-                  {t.aiHeader}
-                </h2>
-              </div>
+            <div style={styles.rowBetween}>
+              <h2 style={styles.cardTitle}>
+                {t.aiHeader}
+              </h2>
 
               <button
-                onClick={
-                  handlePasteClipboard
-                }
-                style={
-                  styles.btnGradientCompact
-                }
+                onClick={handlePasteClipboard}
+                style={styles.btnGradientCompact}
               >
                 {t.btnPaste}
               </button>
@@ -1502,9 +1693,7 @@ Required structure:
               onChange={e =>
                 setRawText(e.target.value)
               }
-              placeholder={
-                t.placeholderOrder
-              }
+              placeholder={t.placeholderOrder}
               style={styles.textarea}
             />
 
@@ -1513,7 +1702,7 @@ Required structure:
               disabled={loading}
               style={{
                 ...styles.btnPrimaryGradient,
-                opacity: loading ? 0.65 : 1
+                opacity: loading ? 0.6 : 1
               }}
             >
               {loading
@@ -1524,22 +1713,21 @@ Required structure:
             {showTypoModal && (
               <div style={styles.modalOverlay}>
                 <div style={styles.modalCard}>
-                  <div style={styles.modalIcon}>
-                    🔍
-                  </div>
-
                   <h3
-                    style={
-                      styles.modalTitle
-                    }
+                    style={{
+                      margin:
+                        '0 0 10px 0',
+                      color: '#facc15'
+                    }}
                   >
                     {t.typoAlertTitle}
                   </h3>
 
                   <ul
-                    style={
-                      styles.typoList
-                    }
+                    style={{
+                      paddingLeft: '20px',
+                      color: '#fca5a5'
+                    }}
                   >
                     {typoFlags.map(
                       (flag, idx) => (
@@ -1554,57 +1742,59 @@ Required structure:
 
                   <button
                     onClick={() =>
-                      setShowTypoModal(false)
+                      setShowTypoModal(
+                        false
+                      )
                     }
                     style={
                       styles.btnSuccessGradient
                     }
                   >
-                    {t.okContinue}
+                    OK, Continue
                   </button>
                 </div>
               </div>
             )}
 
-            {extractedOrders.length > 0 && (
-              <div style={styles.extractedBox}>
-                <div style={styles.sectionHeader}>
-                  <div>
-                    <span style={styles.sectionBadge}>
-                      AI
-                    </span>
-
-                    <h3
-                      style={
-                        styles.sectionTitle
-                      }
-                    >
-                      {t.reviewTitle}
-                    </h3>
-                  </div>
-
-                  <span style={styles.orderCountBadge}>
-                    {extractedOrders.length}{' '}
-                    {lang === 'ar'
-                      ? 'طلب'
-                      : 'orders'}
-                  </span>
-                </div>
+            {extractedOrders.length >
+              0 && (
+              <div
+                style={
+                  styles.extractedBox
+                }
+              >
+                <h3
+                  style={{
+                    marginTop: 0,
+                    color: '#facc15'
+                  }}
+                >
+                  {t.reviewTitle}
+                </h3>
 
                 {extractedOrders.map(
                   (ord, idx) => {
-                    const orderValue =
-                      safeNumber(
-                        ord.itemAmount
-                      );
-
-                    const deliveryFee =
-                      safeNumber(
-                        ord.deliveryFee
-                      );
-
-                    const cod =
-                      safeNumber(ord.cod);
+                    const preview =
+                      buildFinancialData({
+                        ...ord,
+                        deliveryFee:
+                          Number(
+                            ord.delivery_fee
+                          ) || 0,
+                        revenueShare:
+                          selectedRevenueShare,
+                        paymentMethod:
+                          ord.payment_method ||
+                          PAYMENT_METHODS.CASH,
+                        paymentSettled:
+                          Boolean(
+                            ord.payment_settled
+                          ) ||
+                          ord.payment_method ===
+                            PAYMENT_METHODS.ONLINE ||
+                          ord.payment_method ===
+                            PAYMENT_METHODS.PREPAID
+                      });
 
                     return (
                       <div
@@ -1615,36 +1805,37 @@ Required structure:
                       >
                         <div
                           style={
-                            styles.orderCardTop
+                            styles.orderHero
                           }
                         >
                           <div>
-                            <span
+                            <div
                               style={
-                                styles.orderIndex
+                                styles.orderHeroTitle
                               }
                             >
-                              #{idx + 1}
-                            </span>
-
-                            <h4
-                              style={
-                                styles.customerTitle
-                              }
-                            >
+                              📦{' '}
                               {ord.customer ||
                                 t.unspecified}
-                            </h4>
+                            </div>
+
+                            <div
+                              style={
+                                styles.orderHeroSub
+                              }
+                            >
+                              {ord.store ||
+                                t.unspecified}
+                            </div>
                           </div>
 
                           <div
                             style={
-                              styles.collectedPill
+                              styles.moneyPill
                             }
                           >
                             {formatMoney(
-                              cod,
-                              t.currency
+                              preview.cod
                             )}
                           </div>
                         </div>
@@ -1666,117 +1857,375 @@ Required structure:
                             styles.grid2
                           }
                         >
-                          <InfoItem
-                            label={t.store}
-                            value={
-                              ord.store ||
-                              t.unspecified
-                            }
-                          />
+                          <div>
+                            <strong>
+                              {t.store}:
+                            </strong>{' '}
+                            {ord.store ||
+                              t.unspecified}
+                          </div>
 
-                          <InfoItem
-                            label={t.phone}
-                            value={
-                              ord.phone ||
-                              t.unspecified
-                            }
-                          />
+                          <div>
+                            <strong>
+                              {t.customer}:
+                            </strong>{' '}
+                            {ord.customer ||
+                              t.unspecified}
+                          </div>
+
+                          <div>
+                            <strong>
+                              {t.phone}:
+                            </strong>{' '}
+                            {ord.phone ||
+                              t.unspecified}
+                          </div>
+
+                          <div>
+                            <strong>
+                              {t.cod}:
+                            </strong>{' '}
+                            {formatMoney(
+                              preview.cod
+                            )}
+                          </div>
+
+                          <div>
+                            <strong>
+                              {t.deliveryFee}:
+                            </strong>{' '}
+                            {formatMoney(
+                              preview.deliveryFee
+                            )}
+                          </div>
+
+                          <div>
+                            <strong>
+                              {t.paymentMethod}:
+                            </strong>{' '}
+                            <span
+                              style={
+                                styles.paymentBadge
+                              }
+                            >
+                              {paymentLabel(
+                                preview.paymentMethod
+                              )}
+                            </span>
+                          </div>
 
                           <div
+                            style={{
+                              gridColumn:
+                                '1 / -1'
+                            }}
+                          >
+                            <strong>
+                              {t.address}:
+                            </strong>{' '}
+                            {ord.address ||
+                              t.unspecified}
+                          </div>
+
+                          <div
+                            style={{
+                              gridColumn:
+                                '1 / -1'
+                            }}
+                          >
+                            <strong>
+                              {t.item}:
+                            </strong>{' '}
+                            {ord.item ||
+                              t.unspecified}
+                          </div>
+
+                          {ord.notes && (
+                            <div
+                              style={{
+                                gridColumn:
+                                  '1 / -1',
+                                color:
+                                  '#facc15'
+                              }}
+                            >
+                              <strong>
+                                📌 {t.notes}:
+                              </strong>{' '}
+                              {ord.notes}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* FINANCIAL PREVIEW */}
+
+                        <div
+                          style={
+                            styles.financialPanel
+                          }
+                        >
+                          <div
                             style={
-                              styles.fullWidth
+                              styles.sectionTitle
                             }
                           >
-                            <InfoItem
-                              label={t.address}
-                              value={
-                                ord.address ||
-                                t.unspecified
-                              }
-                            />
+                            {t.orderBreakdown}
                           </div>
 
                           <div
                             style={
-                              styles.fullWidth
+                              styles.financeGrid
                             }
                           >
-                            <InfoItem
-                              label={t.item}
-                              value={
-                                ord.item ||
-                                t.unspecified
+                            <FinanceMetric
+                              label={
+                                t.orderValue
                               }
+                              value={formatMoney(
+                                preview.cod
+                              )}
+                            />
+
+                            <FinanceMetric
+                              label={
+                                t.deliveryFee
+                              }
+                              value={formatMoney(
+                                preview.deliveryFee
+                              )}
+                            />
+
+                            <FinanceMetric
+                              label={
+                                t.remainingOrderValue
+                              }
+                              value={formatMoney(
+                                preview.remainingOrderValue
+                              )}
+                            />
+
+                            <FinanceMetric
+                              label={
+                                t.customerTotal
+                              }
+                              value={formatMoney(
+                                preview.driverCustomerCollection
+                              )}
+                              highlight
+                            />
+
+                            <FinanceMetric
+                              label={
+                                `${t.companyShare} (${selectedRevenueShare}%)`
+                              }
+                              value={formatMoney(
+                                preview.companyRevenue
+                              )}
+                              positive
+                            />
+
+                            <FinanceMetric
+                              label={
+                                t.driverShareLabel
+                              }
+                              value={formatMoney(
+                                preview.driverShare
+                              )}
+                              accent
+                            />
+
+                            <FinanceMetric
+                              label={
+                                t.companyHandIn
+                              }
+                              value={formatMoney(
+                                preview.remainingOrderValue +
+                                  preview.companyRevenue
+                              )}
+                              highlight
                             />
                           </div>
                         </div>
-
-                        <FinancialBreakdown
-                          orderValue={
-                            orderValue
-                          }
-                          deliveryFee={
-                            deliveryFee
-                          }
-                          cod={cod}
-                          currency={
-                            t.currency
-                          }
-                          t={t}
-                        />
-
-                        {ord.notes && (
-                          <div
-                            style={
-                              styles.noteBox
-                            }
-                          >
-                            📌 <strong>
-                              {t.notes}:
-                            </strong>{' '}
-                            {ord.notes}
-                          </div>
-                        )}
                       </div>
                     );
                   }
                 )}
 
+                {/* DRIVER ASSIGNMENT */}
+
                 <div
-                  style={{
-                    marginTop: '16px'
-                  }}
+                  style={
+                    styles.assignmentPanel
+                  }
                 >
-                  <label
-                    style={styles.label}
-                  >
-                    {t.selectDriver}
-                  </label>
-
-                  <select
-                    value={selectedDriver}
-                    onChange={e =>
-                      setSelectedDriver(
-                        e.target.value
-                      )
+                  <div
+                    style={
+                      styles.assignmentTitle
                     }
-                    style={styles.input}
                   >
-                    <option value="">
-                      {t.chooseDriver}
-                    </option>
+                    🛵 {t.selectDriver}
+                  </div>
 
-                    {drivers.map(
-                      (driver, i) => (
-                        <option
-                          key={i}
-                          value={driver}
-                        >
-                          {driver}
+                  <div
+                    style={
+                      styles.grid2
+                    }
+                  >
+                    <div>
+                      <label
+                        style={
+                          styles.label
+                        }
+                      >
+                        {t.selectDriver}
+                      </label>
+
+                      <select
+                        value={
+                          selectedDriver
+                        }
+                        onChange={e =>
+                          setSelectedDriver(
+                            e.target.value
+                          )
+                        }
+                        style={
+                          styles.input
+                        }
+                      >
+                        <option value="">
+                          {
+                            t.chooseDriver
+                          }
                         </option>
-                      )
-                    )}
-                  </select>
+
+                        {drivers.map(
+                          (
+                            d,
+                            i
+                          ) => (
+                            <option
+                              key={i}
+                              value={d}
+                            >
+                              {d}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label
+                        style={
+                          styles.label
+                        }
+                      >
+                        {t.revenueShare}
+                      </label>
+
+                      <select
+                        value={
+                          selectedRevenueShare
+                        }
+                        onChange={e =>
+                          setSelectedRevenueShare(
+                            Number(
+                              e.target.value
+                            )
+                          )
+                        }
+                        style={
+                          styles.input
+                        }
+                      >
+                        {REVENUE_OPTIONS.map(
+                          percentage => (
+                            <option
+                              key={
+                                percentage
+                              }
+                              value={
+                                percentage
+                              }
+                            >
+                              {percentage}%
+                            </option>
+                          )
+                        )}
+                      </select>
+                    </div>
+                  </div>
+
+                  {selectedPreviewOrder && (
+                    <div
+                      style={
+                        styles.assignmentSummary
+                      }
+                    >
+                      <div>
+                        <span>
+                          🏪{' '}
+                          {t.orderValue}
+                        </span>
+
+                        <strong>
+                          {formatMoney(
+                            selectedPreviewOrder.cod
+                          )}
+                        </strong>
+                      </div>
+
+                      <div>
+                        <span>
+                          🚚{' '}
+                          {t.deliveryFee}
+                        </span>
+
+                        <strong>
+                          {formatMoney(
+                            selectedPreviewOrder.deliveryFee
+                          )}
+                        </strong>
+                      </div>
+
+                      <div>
+                        <span>
+                          📈{' '}
+                          {t.youEarn}
+                        </span>
+
+                        <strong
+                          style={{
+                            color:
+                              '#34d399'
+                          }}
+                        >
+                          {formatMoney(
+                            selectedPreviewOrder.companyRevenue
+                          )}
+                        </strong>
+                      </div>
+
+                      <div>
+                        <span>
+                          🛵{' '}
+                          {t.driverKeeps}
+                        </span>
+
+                        <strong
+                          style={{
+                            color:
+                              '#60a5fa'
+                          }}
+                        >
+                          {formatMoney(
+                            selectedPreviewOrder.driverShare
+                          )}
+                        </strong>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <button
@@ -1795,6 +2244,7 @@ Required structure:
         )}
 
         {/* ORDERS */}
+
         {activeTab === 'orders' && (
           <div>
             <input
@@ -1815,33 +2265,34 @@ Required structure:
 
             {filteredOrders.length ===
             0 ? (
-              <div
-                style={styles.emptyState}
-              >
-                <div
-                  style={styles.emptyIcon}
-                >
-                  📦
-                </div>
-                <p
-                  style={styles.empty}
-                >
-                  {t.noOrders}
-                </p>
-              </div>
+              <p style={styles.empty}>
+                {t.noOrders}
+              </p>
             ) : (
               filteredOrders.map(
                 order => {
-                  const orderValue =
-                    getOrderValue(order);
-
-                  const deliveryFee =
-                    getOrderDeliveryFee(
+                  const remaining =
+                    getRemainingOrderValue(
                       order
                     );
 
-                  const collected =
-                    getOrderCollectedCash(
+                  const fee =
+                    getDeliveryFee(
+                      order
+                    );
+
+                  const companyRevenue =
+                    getCompanyRevenue(
+                      order
+                    );
+
+                  const driverShare =
+                    getDriverShare(
+                      order
+                    );
+
+                  const customerCollection =
+                    getDriverCustomerCollection(
                       order
                     );
 
@@ -1854,7 +2305,7 @@ Required structure:
                     <div
                       key={order.id}
                       style={
-                        styles.orderCard
+                        styles.card
                       }
                     >
                       <div
@@ -1863,17 +2314,24 @@ Required structure:
                         }
                       >
                         <div
-                          style={
-                            styles.orderIdentity
-                          }
+                          style={{
+                            display:
+                              'flex',
+                            gap: '8px',
+                            alignItems:
+                              'center',
+                            flexWrap:
+                              'wrap'
+                          }}
                         >
                           <span
                             style={
                               styles.orderNumTag
                             }
                           >
-                            {order.orderNum ||
-                              '#1000'}
+                            {
+                              order.orderNum
+                            }
                           </span>
 
                           <span
@@ -1881,15 +2339,30 @@ Required structure:
                               styles.tagStore
                             }
                           >
-                            {order.store ||
-                              t.unspecified}
+                            {
+                              order.store
+                            }
+                          </span>
+
+                          <span
+                            style={
+                              styles.paymentBadge
+                            }
+                          >
+                            {paymentLabel(
+                              order.paymentMethod
+                            )}
                           </span>
                         </div>
 
                         <div
-                          style={
-                            styles.actionRow
-                          }
+                          style={{
+                            display:
+                              'flex',
+                            gap: '8px',
+                            alignItems:
+                              'center'
+                          }}
                         >
                           <select
                             value={
@@ -1898,27 +2371,55 @@ Required structure:
                             onChange={e =>
                               handleStatusChange(
                                 order,
-                                e.target.value
+                                e.target
+                                  .value
                               )
                             }
                             style={getStatusStyle(
                               order.status
                             )}
                           >
-                            {STATUS_KEYS.map(
-                              status => (
-                                <option
-                                  key={
-                                    status
-                                  }
-                                  value={
-                                    status
-                                  }
-                                >
-                                  {status}
-                                </option>
-                              )
-                            )}
+                            <option value="مؤكد">
+                              {
+                                t.statusConfirmed
+                              }
+                            </option>
+
+                            <option value="قيد تجهيز الطلب">
+                              {
+                                t.statusProcessing
+                              }
+                            </option>
+
+                            <option value="خرج للتوصيل">
+                              {
+                                t.statusOutForDelivery
+                              }
+                            </option>
+
+                            <option value="جاري التوصيل">
+                              {
+                                t.statusInTransit
+                              }
+                            </option>
+
+                            <option value="مكتمل">
+                              {
+                                t.statusCompleted
+                              }
+                            </option>
+
+                            <option value="متأخر">
+                              {
+                                t.statusDelayed
+                              }
+                            </option>
+
+                            <option value="ملغي">
+                              {
+                                t.statusCancelled
+                              }
+                            </option>
                           </select>
 
                           <button
@@ -1931,28 +2432,19 @@ Required structure:
                               styles.btnDeleteCompact
                             }
                           >
-                            🗑️
+                            🗑️{' '}
+                            {t.deleteBtn}
                           </button>
                         </div>
                       </div>
 
-                      <div
-                        style={
-                          styles.orderCustomerLine
-                        }
-                      >
+                      <p style={styles.p}>
                         <strong>
-                          👤{' '}
-                          {order.customer ||
-                            t.unspecified}
-                        </strong>
-
-                        <span>
-                          📞{' '}
-                          {order.phone ||
-                            t.unspecified}
-                        </span>
-                      </div>
+                          {t.customer}:
+                        </strong>{' '}
+                        {order.customer}{' '}
+                        ({order.phone})
+                      </p>
 
                       {isIncompleteAddress(
                         order.address
@@ -1962,101 +2454,121 @@ Required structure:
                             styles.addressWarningBox
                           }
                         >
-                          {t.addressWarning}
+                          {
+                            t.addressWarning
+                          }
                         </div>
                       )}
 
                       <p style={styles.p}>
                         <strong>
-                          📍 {t.address}:
+                          {t.address}:
                         </strong>{' '}
-                        {order.address ||
-                          t.unspecified}
+                        {order.address}
                       </p>
 
-                      <p style={styles.p}>
-                        <strong>
-                          📦 {t.item}:
-                        </strong>{' '}
-                        {order.item ||
-                          t.unspecified}
-                      </p>
+                      {/* PAYMENT */}
 
                       <div
                         style={
-                          styles.financialPanel
+                          styles.editPanel
                         }
                       >
-                        <div
-                          style={
-                            styles.financialTitle
-                          }
-                        >
-                          💰 {t.breakdown}
+                        <div>
+                          <strong>
+                            💳{' '}
+                            {
+                              t.paymentMethod
+                            }
+                            :
+                          </strong>
                         </div>
 
-                        <div
-                          style={
-                            styles.financeGrid
-                          }
-                        >
-                          <FinanceCell
-                            label={
-                              t.orderValue
+                        {editingPaymentId ===
+                        order.id ? (
+                          <select
+                            value={
+                              order.paymentMethod ||
+                              PAYMENT_METHODS.CASH
                             }
-                            value={formatMoney(
-                              orderValue,
-                              t.currency
-                            )}
-                          />
+                            onChange={e =>
+                              handlePaymentChange(
+                                order,
+                                e.target
+                                  .value
+                              )
+                            }
+                            style={
+                              styles.inlineSelect
+                            }
+                          >
+                            <option value="cash">
+                              {
+                                t.paymentCash
+                              }
+                            </option>
 
-                          <FinanceCell
-                            label={
-                              t.deliveryFee
-                            }
-                            value={formatMoney(
-                              deliveryFee,
-                              t.currency
-                            )}
-                          />
+                            <option value="online">
+                              {
+                                t.paymentOnline
+                              }
+                            </option>
 
-                          <FinanceCell
-                            label={t.collected}
-                            value={formatMoney(
-                              collected,
-                              t.currency
-                            )}
-                            highlight
-                          />
+                            <option value="prepaid">
+                              {
+                                t.paymentPrepaid
+                              }
+                            </option>
+                          </select>
+                        ) : (
+                          <div
+                            style={{
+                              display:
+                                'flex',
+                              gap: '8px',
+                              alignItems:
+                                'center'
+                            }}
+                          >
+                            <span
+                              style={
+                                styles.paymentBadge
+                              }
+                            >
+                              {paymentLabel(
+                                order.paymentMethod
+                              )}
+                            </span>
 
-                          <FinanceCell
-                            label={
-                              t.handIn
-                            }
-                            value={formatMoney(
-                              handIn,
-                              t.currency
-                            )}
-                            highlight={
-                              order.status !==
-                              'ملغي'
-                            }
-                            danger={
-                              order.status ===
-                              'ملغي'
-                            }
-                          />
-                        </div>
+                            <button
+                              onClick={() =>
+                                setEditingPaymentId(
+                                  order.id
+                                )
+                              }
+                              style={
+                                styles.btnEditCompact
+                              }
+                            >
+                              ✏️{' '}
+                              {
+                                t.editBtn
+                              }
+                            </button>
+                          </div>
+                        )}
                       </div>
+
+                      {/* NOTES */}
 
                       <div
                         style={
-                          styles.noteBox
+                          styles.notePanel
                         }
                       >
                         {editingNoteId ===
                         order.id ? (
-                          <>
+                          <div>
                             <textarea
                               rows={2}
                               value={
@@ -2083,19 +2595,29 @@ Required structure:
                                 styles.btnSaveCompact
                               }
                             >
-                              {t.saveBtn}
+                              {
+                                t.saveBtn
+                              }
                             </button>
-                          </>
+                          </div>
                         ) : (
                           <div
                             style={
                               styles.rowBetween
                             }
                           >
-                            <span>
-                              📌{' '}
+                            <span
+                              style={{
+                                color:
+                                  '#facc15'
+                              }}
+                            >
                               <strong>
-                                {t.notes}:
+                                📌{' '}
+                                {
+                                  t.notes
+                                }
+                                :
                               </strong>{' '}
                               {order.notes ||
                                 t.unspecified}
@@ -2106,6 +2628,7 @@ Required structure:
                                 setEditingNoteId(
                                   order.id
                                 );
+
                                 setTempNote(
                                   order.notes ||
                                     ''
@@ -2115,15 +2638,145 @@ Required structure:
                                 styles.btnEditCompact
                               }
                             >
-                              ✏️
+                              ✏️{' '}
+                              {
+                                t.editNoteBtn
+                              }
                             </button>
                           </div>
                         )}
                       </div>
 
+                      {/* FINANCIAL BREAKDOWN */}
+
                       <div
                         style={
-                          styles.amountRow
+                          styles.orderFinancialCard
+                        }
+                      >
+                        <div
+                          style={
+                            styles.financialHeader
+                          }
+                        >
+                          <span>
+                            {t.orderBreakdown}
+                          </span>
+
+                          <span
+                            style={
+                              styles.bigRevenueBadge
+                            }
+                          >
+                            {getRevenueShare(
+                              order
+                            )}
+                            %
+                          </span>
+                        </div>
+
+                        <div
+                          style={
+                            styles.financeGrid
+                          }
+                        >
+                          <FinanceMetric
+                            label={
+                              t.orderValue
+                            }
+                            value={formatMoney(
+                              getOrderValue(
+                                order
+                              )
+                            )}
+                          />
+
+                          <FinanceMetric
+                            label={
+                              t.deliveryFee
+                            }
+                            value={formatMoney(
+                              fee
+                            )}
+                          />
+
+                          <FinanceMetric
+                            label={
+                              t.amountAlreadyPaid
+                            }
+                            value={
+                              isPaymentSettled(
+                                order
+                              )
+                                ? formatMoney(
+                                    getOrderValue(
+                                      order
+                                    )
+                                  )
+                                : formatMoney(
+                                    0
+                                  )
+                            }
+                          />
+
+                          <FinanceMetric
+                            label={
+                              t.remainingOrderValue
+                            }
+                            value={formatMoney(
+                              remaining
+                            )}
+                          />
+
+                          <FinanceMetric
+                            label={
+                              t.cashToCollect
+                            }
+                            value={formatMoney(
+                              customerCollection
+                            )}
+                            highlight
+                          />
+
+                          <FinanceMetric
+                            label={
+                              `${t.companyShare} (${getRevenueShare(
+                                order
+                              )}%)`
+                            }
+                            value={formatMoney(
+                              companyRevenue
+                            )}
+                            positive
+                          />
+
+                          <FinanceMetric
+                            label={
+                              t.driverShareLabel
+                            }
+                            value={formatMoney(
+                              driverShare
+                            )}
+                            accent
+                          />
+
+                          <FinanceMetric
+                            label={
+                              t.cashToHand
+                            }
+                            value={formatMoney(
+                              handIn
+                            )}
+                            highlight
+                          />
+                        </div>
+                      </div>
+
+                      {/* EDIT VALUES */}
+
+                      <div
+                        style={
+                          styles.editGrid
                         }
                       >
                         <div>
@@ -2134,9 +2787,11 @@ Required structure:
                           {editingAmountId ===
                           order.id ? (
                             <span
-                              style={
-                                styles.inlineEdit
-                              }
+                              style={{
+                                display:
+                                  'inline-flex',
+                                gap: '5px'
+                              }}
                             >
                               <input
                                 type="number"
@@ -2164,53 +2819,206 @@ Required structure:
                                   styles.btnSaveCompact
                                 }
                               >
-                                {t.saveAmount}
+                                {
+                                  t.saveAmount
+                                }
                               </button>
                             </span>
                           ) : (
-                            <span
-                              style={{
-                                color:
-                                  order.status ===
-                                  'ملغي'
-                                    ? '#f87171'
-                                    : '#6ee7b7',
-                                fontWeight: 900,
-                                fontSize:
-                                  '1.05rem',
-                                textDecoration:
-                                  order.status ===
-                                  'ملغي'
-                                    ? 'line-through'
-                                    : 'none'
-                              }}
-                            >
-                              {formatMoney(
-                                collected,
-                                t.currency
-                              )}
-                            </span>
+                            <>
+                              <strong
+                                style={{
+                                  color:
+                                    '#67e8f9'
+                                }}
+                              >
+                                {formatMoney(
+                                  getOrderValue(
+                                    order
+                                  )
+                                )}
+                              </strong>
+
+                              <button
+                                onClick={() => {
+                                  setEditingAmountId(
+                                    order.id
+                                  );
+
+                                  setTempAmount(
+                                    getOrderValue(
+                                      order
+                                    )
+                                  );
+                                }}
+                                style={
+                                  styles.btnEditCompact
+                                }
+                              >
+                                ✏️
+                              </button>
+                            </>
                           )}
                         </div>
 
-                        {editingAmountId !==
-                          order.id && (
-                          <button
-                            onClick={() => {
-                              setEditingAmountId(
-                                order.id
-                              );
-                              setTempAmount(
-                                order.cod
-                              );
-                            }}
-                            style={
-                              styles.btnEditCompact
-                            }
-                          >
-                            ✏️ {t.editAmount}
-                          </button>
-                        )}
+                        <div>
+                          <strong>
+                            {
+                              t.deliveryFee
+                            }:{' '}
+                          </strong>
+
+                          {editingFeeId ===
+                          order.id ? (
+                            <span
+                              style={{
+                                display:
+                                  'inline-flex',
+                                gap: '5px'
+                              }}
+                            >
+                              <input
+                                type="number"
+                                value={
+                                  tempFee
+                                }
+                                onChange={e =>
+                                  setTempFee(
+                                    e.target
+                                      .value
+                                  )
+                                }
+                                style={
+                                  styles.inlineInput
+                                }
+                              />
+
+                              <button
+                                onClick={() =>
+                                  handleDeliveryFeeSave(
+                                    order
+                                  )
+                                }
+                                style={
+                                  styles.btnSaveCompact
+                                }
+                              >
+                                {
+                                  t.saveAmount
+                                }
+                              </button>
+                            </span>
+                          ) : (
+                            <>
+                              <strong
+                                style={{
+                                  color:
+                                    '#a7f3d0'
+                                }}
+                              >
+                                {formatMoney(
+                                  fee
+                                )}
+                              </strong>
+
+                              <button
+                                onClick={() => {
+                                  setEditingFeeId(
+                                    order.id
+                                  );
+
+                                  setTempFee(
+                                    fee
+                                  );
+                                }}
+                                style={
+                                  styles.btnEditCompact
+                                }
+                              >
+                                ✏️
+                              </button>
+                            </>
+                          )}
+                        </div>
+
+                        <div>
+                          <strong>
+                            {t.revenueShare}:{' '}
+                          </strong>
+
+                          {editingRevenueId ===
+                          order.id ? (
+                            <select
+                              value={
+                                tempRevenue
+                              }
+                              onChange={e =>
+                                setTempRevenue(
+                                  e.target.value
+                                )
+                              }
+                              onBlur={() =>
+                                handleRevenueSave(
+                                  order
+                                )
+                              }
+                              style={
+                                styles.inlineSelect
+                              }
+                            >
+                              {REVENUE_OPTIONS.map(
+                                percentage => (
+                                  <option
+                                    key={
+                                      percentage
+                                    }
+                                    value={
+                                      percentage
+                                    }
+                                  >
+                                    {
+                                      percentage
+                                    }
+                                    %
+                                  </option>
+                                )
+                              )}
+                            </select>
+                          ) : (
+                            <>
+                              <strong
+                                style={{
+                                  color:
+                                    '#facc15'
+                                }}
+                              >
+                                {getRevenueShare(
+                                  order
+                                )}
+                                %
+                              </strong>
+
+                              <button
+                                onClick={() => {
+                                  setEditingRevenueId(
+                                    order.id
+                                  );
+
+                                  setTempRevenue(
+                                    getRevenueShare(
+                                      order
+                                    )
+                                  );
+                                }}
+                                style={
+                                  styles.btnEditCompact
+                                }
+                              >
+                                ✏️
+                              </button>
+                            </>
+                          )}
+                        </div>
                       </div>
 
                       <div
@@ -2218,19 +3026,31 @@ Required structure:
                           styles.orderFooter
                         }
                       >
-                        <span>
+                        <p
+                          style={{
+                            ...styles.p,
+                            fontSize:
+                              '0.8rem',
+                            color:
+                              '#94a3b8',
+                            margin: 0
+                          }}
+                        >
                           🕒 {order.date}{' '}
                           ({order.isoDate})
-                        </span>
+                        </p>
 
                         <div
-                          style={
-                            styles.driverSelector
-                          }
+                          style={{
+                            display:
+                              'flex',
+                            alignItems:
+                              'center',
+                            gap: '6px'
+                          }}
                         >
                           <span>
-                            🛵{' '}
-                            {t.driver}:
+                            🛵
                           </span>
 
                           <select
@@ -2244,30 +3064,36 @@ Required structure:
                                   .value
                               )
                             }
-                            style={
-                              styles.smallSelect
-                            }
+                            style={{
+                              ...styles.inlineInput,
+                              width:
+                                'auto',
+                              padding:
+                                '5px 8px'
+                            }}
                           >
                             <option
                               value={
                                 t.unspecified
                               }
                             >
-                              {t.unspecified}
+                              {
+                                t.unspecified
+                              }
                             </option>
 
                             {drivers.map(
                               (
-                                driver,
+                                d,
                                 idx
                               ) => (
                                 <option
-                                  key={idx}
-                                  value={
-                                    driver
+                                  key={
+                                    idx
                                   }
+                                  value={d}
                                 >
-                                  {driver}
+                                  {d}
                                 </option>
                               )
                             )}
@@ -2283,65 +3109,22 @@ Required structure:
         )}
 
         {/* DRIVER LEDGER */}
+
         {activeTab ===
           'driver_ledger' && (
           <div>
             <div
-              style={
-                styles.heroLedger
-              }
+              style={styles.card}
             >
-              <div>
-                <div
-                  style={
-                    styles.eyebrow
-                  }
-                >
-                  DRIVER FINANCIAL CONTROL
-                </div>
-
-                <h2
-                  style={
-                    styles.heroLedgerTitle
-                  }
-                >
-                  {t.driverLedgerTitle}
-                </h2>
-
-                <p
-                  style={
-                    styles.heroLedgerSubtitle
-                  }
-                >
-                  {ledgerDriver ||
-                    t.allDrivers}{' '}
-                  · {ledgerDate}
-                </p>
-              </div>
-
-              <div
-                style={
-                  styles.heroHandIn
-                }
+              <h2
+                style={{
+                  marginTop: 0,
+                  color: '#67e8f9'
+                }}
               >
-                <span>
-                  {t.handInSummary}
-                </span>
+                {t.driverLedgerTitle}
+              </h2>
 
-                <strong>
-                  {formatMoney(
-                    dailyCashToHandIn,
-                    t.currency
-                  )}
-                </strong>
-              </div>
-            </div>
-
-            <div
-              style={
-                styles.card
-              }
-            >
               <div
                 style={
                   styles.grid2
@@ -2362,8 +3145,7 @@ Required structure:
                     }
                     onChange={e =>
                       setLedgerDriver(
-                        e.target
-                          .value
+                        e.target.value
                       )
                     }
                     style={
@@ -2375,12 +3157,15 @@ Required structure:
                     </option>
 
                     {drivers.map(
-                      (driver, i) => (
+                      (
+                        d,
+                        i
+                      ) => (
                         <option
                           key={i}
-                          value={driver}
+                          value={d}
                         >
-                          {driver}
+                          {d}
                         </option>
                       )
                     )}
@@ -2403,8 +3188,7 @@ Required structure:
                     }
                     onChange={e =>
                       setLedgerDate(
-                        e.target
-                          .value
+                        e.target.value
                       )
                     }
                     style={
@@ -2416,132 +3200,206 @@ Required structure:
             </div>
 
             <div
-              style={
-                styles.kpiRow
-              }
+              style={styles.kpiRow}
             >
-              <KpiCard
-                icon="💵"
-                title={
-                  t.cashToHandIn
-                }
-                value={formatMoney(
-                  dailyCashToHandIn,
-                  t.currency
-                )}
-                gradient="linear-gradient(135deg,#065f46,#059669,#10b981)"
-                accent="#6ee7b7"
-              />
+              <div
+                style={{
+                  ...styles.kpiCard,
+                  background:
+                    'linear-gradient(135deg,#064e3b,#059669,#10b981)'
+                }}
+              >
+                <span
+                  style={
+                    styles.kpiLabel
+                  }
+                >
+                  {
+                    t.cashToHandIn
+                  }
+                </span>
 
-              <KpiCard
-                icon="💳"
-                title={
-                  t.collected
-                }
-                value={formatMoney(
-                  dailyCollected,
-                  t.currency
-                )}
-                gradient="linear-gradient(135deg,#1e3a8a,#2563eb,#06b6d4)"
-                accent="#93c5fd"
-              />
+                <span
+                  style={{
+                    ...styles.kpiValue,
+                    color:
+                      '#6ee7b7'
+                  }}
+                >
+                  {formatMoney(
+                    dailyCashToHandIn
+                  )}
+                </span>
+              </div>
 
-              <KpiCard
-                icon="🛵"
-                title={
-                  t.deliveryFee
-                }
-                value={formatMoney(
-                  dailyDeliveryFees,
-                  t.currency
-                )}
-                gradient="linear-gradient(135deg,#7c2d12,#ea580c,#f59e0b)"
-                accent="#fed7aa"
-              />
+              <div
+                style={{
+                  ...styles.kpiCard,
+                  background:
+                    'linear-gradient(135deg,#0c4a6e,#0284c7,#2563eb)'
+                }}
+              >
+                <span
+                  style={
+                    styles.kpiLabel
+                  }
+                >
+                  {
+                    t.todaysOrdersCount
+                  }
+                </span>
 
-              <KpiCard
-                icon="📦"
-                title={
-                  t.todaysOrdersCount
-                }
-                value={
-                  filteredLedgerOrders.length
-                }
-                gradient="linear-gradient(135deg,#581c87,#7e22ce,#c026d3)"
-                accent="#e9d5ff"
-              />
+                <span
+                  style={{
+                    ...styles.kpiValue,
+                    color:
+                      '#bae6fd'
+                  }}
+                >
+                  {
+                    filteredLedgerOrders.length
+                  }
+                </span>
+              </div>
+
+              <div
+                style={{
+                  ...styles.kpiCard,
+                  background:
+                    'linear-gradient(135deg,#581c87,#9333ea,#c026d3)'
+                }}
+              >
+                <span
+                  style={
+                    styles.kpiLabel
+                  }
+                >
+                  {t.youEarn}
+                </span>
+
+                <span
+                  style={{
+                    ...styles.kpiValue,
+                    color:
+                      '#e9d5ff'
+                  }}
+                >
+                  {formatMoney(
+                    dailyCompanyRevenue
+                  )}
+                </span>
+              </div>
+
+              <div
+                style={{
+                  ...styles.kpiCard,
+                  background:
+                    'linear-gradient(135deg,#713f12,#ca8a04,#f59e0b)'
+                }}
+              >
+                <span
+                  style={
+                    styles.kpiLabel
+                  }
+                >
+                  {t.driverKeeps}
+                </span>
+
+                <span
+                  style={{
+                    ...styles.kpiValue,
+                    color:
+                      '#fef08a'
+                  }}
+                >
+                  {formatMoney(
+                    dailyDriverShare
+                  )}
+                </span>
+              </div>
             </div>
 
             <div
               style={{
                 ...styles.card,
-                marginTop: '18px'
+                marginTop:
+                  '18px'
               }}
             >
               <div
                 style={
-                  styles.sectionHeader
+                  styles.ledgerHero
                 }
               >
                 <div>
-                  <div
+                  <span
                     style={
-                      styles.eyebrow
+                      styles.ledgerHeroLabel
                     }
                   >
-                    DAILY HANDOVER
-                  </div>
+                    {t.cashToHand}
+                  </span>
 
-                  <h3
+                  <strong
                     style={
-                      styles.sectionTitle
+                      styles.ledgerHeroAmount
                     }
                   >
-                    {t.driverLedgerHistory}
-                  </h3>
+                    {formatMoney(
+                      dailyCashToHandIn
+                    )}
+                  </strong>
                 </div>
 
                 <div
                   style={
-                    styles.totalPill
+                    styles.ledgerHeroSide
                   }
                 >
-                  💵{' '}
-                  {formatMoney(
-                    dailyCashToHandIn,
-                    t.currency
-                  )}
+                  <span>
+                    {t.youEarn}
+                  </span>
+
+                  <strong>
+                    {formatMoney(
+                      dailyCompanyRevenue
+                    )}
+                  </strong>
                 </div>
               </div>
 
+              <h3
+                style={{
+                  marginTop:
+                    '20px',
+                  color:
+                    '#facc15'
+                }}
+              >
+                {t.ordersHandled}
+              </h3>
+
               {filteredLedgerOrders.length ===
               0 ? (
-                <div
+                <p
                   style={
-                    styles.emptyState
+                    styles.empty
                   }
                 >
-                  <div
-                    style={
-                      styles.emptyIcon
-                    }
-                  >
-                    📭
-                  </div>
-
-                  <p
-                    style={
-                      styles.empty
-                    }
-                  >
-                    {t.noOrdersForDate}
-                  </p>
-                </div>
+                  {
+                    t.noOrdersForDate
+                  }
+                </p>
               ) : (
                 <div
-                  style={
-                    styles.ledgerList
-                  }
+                  style={{
+                    display:
+                      'flex',
+                    flexDirection:
+                      'column',
+                    gap:
+                      '12px'
+                  }}
                 >
                   {filteredLedgerOrders.map(
                     order => {
@@ -2550,13 +3408,28 @@ Required structure:
                           order
                         );
 
-                      const deliveryFee =
-                        getOrderDeliveryFee(
+                      const fee =
+                        getDeliveryFee(
                           order
                         );
 
-                      const collected =
-                        getOrderCollectedCash(
+                      const remaining =
+                        getRemainingOrderValue(
+                          order
+                        );
+
+                      const collection =
+                        getDriverCustomerCollection(
+                          order
+                        );
+
+                      const company =
+                        getCompanyRevenue(
+                          order
+                        );
+
+                      const driver =
+                        getDriverShare(
                           order
                         );
 
@@ -2564,10 +3437,6 @@ Required structure:
                         getOrderEffectiveCash(
                           order
                         );
-
-                      const cancelled =
-                        order.status ===
-                        'ملغي';
 
                       return (
                         <div
@@ -2580,7 +3449,7 @@ Required structure:
                         >
                           <div
                             style={
-                              styles.ledgerOrderHeader
+                              styles.ledgerOrderTop
                             }
                           >
                             <div>
@@ -2594,2314 +3463,28 @@ Required structure:
                                 }
                               </span>
 
-                              <strong
+                              <span
                                 style={{
-                                  marginInlineStart:
-                                    '8px'
+                                  margin:
+                                    '0 6px',
+                                  color:
+                                    '#38bdf8',
+                                  fontWeight:
+                                    'bold'
                                 }}
                               >
-                                {order.customer ||
-                                  t.unspecified}
-                              </strong>
+                                {
+                                  order.customer
+                                }
+                              </span>
 
-                              <div
+                              <span
                                 style={
-                                  styles.miniMeta
+                                  styles.paymentBadge
                                 }
                               >
-                                🏪{' '}
-                                {order.store ||
-                                  t.unspecified}
-                                {' · '}
-                                📞{' '}
-                                {order.phone ||
-                                  t.unspecified}
-                              </div>
-                            </div>
-
-                            <span
-                              style={getStatusStyle(
-                                order.status
-                              )}
-                            >
-                              {order.status}
-                            </span>
-                          </div>
-
-                          <div
-                            style={
-                              styles.breakdownGrid
-                            }
-                          >
-                            <BreakdownItem
-                              icon="📦"
-                              label={
-                                t.orderValue
-                              }
-                              value={formatMoney(
-                                orderValue,
-                                t.currency
-                              )}
-                            />
-
-                            <BreakdownItem
-                              icon="🛵"
-                              label={
-                                t.deliveryFee
-                              }
-                              value={formatMoney(
-                                deliveryFee,
-                                t.currency
-                              )}
-                              secondary
-                            />
-
-                            <BreakdownItem
-                              icon="💳"
-                              label={
-                                t.collected
-                              }
-                              value={formatMoney(
-                                collected,
-                                t.currency
-                              )}
-                              highlight
-                            />
-
-                            <BreakdownItem
-                              icon="💵"
-                              label={
-                                t.driverMustHandIn
-                              }
-                              value={
-                                cancelled
-                                  ? t.cancelledZero
-                                  : formatMoney(
-                                      handIn,
-                                      t.currency
-                                    )
-                              }
-                              danger={
-                                cancelled
-                              }
-                              highlight={
-                                !cancelled
-                              }
-                            />
-                          </div>
-
-                          {!cancelled &&
-                            deliveryFee >
-                              0 && (
-                              <div
-                                style={
-                                  styles.driverEarningsBar
-                                }
-                              >
-                                <span>
-                                  🛵{' '}
-                                  {
-                                    t.driverKeeps
-                                  }
-                                </span>
-
-                                <strong>
-                                  {formatMoney(
-                                    deliveryFee,
-                                    t.currency
-                                  )}
-                                </strong>
-                              </div>
-                            )}
-
-                          {cancelled && (
-                            <div
-                              style={
-                                styles.cancelledBar
-                              }
-                            >
-                              🚫{' '}
-                              {
-                                t.cancelledZero
-                              }
-                            </div>
-                          )}
-                        </div>
-                      );
-                    }
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div
-              style={{
-                ...styles.card,
-                marginTop: '18px'
-              }}
-            >
-              <div
-                style={
-                  styles.sectionHeader
-                }
-              >
-                <h3
-                  style={
-                    styles.sectionTitle
-                  }
-                >
-                  📅 {t.monthsTotalCash}
-                </h3>
-
-                <div
-                  style={
-                    styles.monthlyBadge
-                  }
-                >
-                  {selectedYearMonth}
-                </div>
-              </div>
-
-              <div
-                style={
-                  styles.monthSummary
-                }
-              >
-                <div>
-                  <span>
-                    {t.collected}
-                  </span>
-
-                  <strong>
-                    {formatMoney(
-                      monthlyTotalCash,
-                      t.currency
-                    )}
-                  </strong>
-                </div>
-
-                <div>
-                  <span>
-                    {t.monthsOrdersCount}
-                  </span>
-
-                  <strong>
-                    {
-                      monthlyOrders.length
-                    }
-                  </strong>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* HISTORY */}
-        {activeTab === 'history' && (
-          <div style={styles.card}>
-            <div
-              style={
-                styles.sectionHeader
-              }
-            >
-              <div>
-                <div
-                  style={
-                    styles.eyebrow
-                  }
-                >
-                  SYSTEM AUDIT TRAIL
-                </div>
-
-                <h2
-                  style={
-                    styles.sectionTitle
-                  }
-                >
-                  {t.historyTitle}
-                </h2>
-              </div>
-
-              <span
-                style={
-                  styles.orderCountBadge
-                }
-              >
-                {historyLogs.length}
-              </span>
-            </div>
-
-            {historyLogs.length ===
-            0 ? (
-              <p
-                style={
-                  styles.empty
-                }
-              >
-                {t.noHistory}
-              </p>
-            ) : (
-              <div
-                style={
-                  styles.historyList
-                }
-              >
-                {historyLogs.map(
-                  log => (
-                    <div
-                      key={log.id}
-                      style={
-                        styles.historyCard
-                      }
-                    >
-                      <div
-                        style={
-                          styles.rowBetween
-                        }
-                      >
-                        <span
-                          style={
-                            styles.orderNumTag
-                          }
-                        >
-                          {
-                            log.orderNum
-                          }
-                        </span>
-
-                        <span
-                          style={
-                            styles.historyTime
-                          }
-                        >
-                          🕒 {log.time}
-                        </span>
-                      </div>
-
-                      <p
-                        style={
-                          styles.historyAction
-                        }
-                      >
-                        {log.action}
-                      </p>
-
-                      <p
-                        style={
-                          styles.historyDetails
-                        }
-                      >
-                        {log.details}
-                      </p>
-                    </div>
-                  )
-                )}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* DRIVERS */}
-        {activeTab === 'drivers' && (
-          <div>
-            <div
-              style={
-                styles.card
-              }
-            >
-              <div
-                style={
-                  styles.cardHeaderFancy
-                }
-              >
-                <div>
-                  <div
-                    style={
-                      styles.eyebrow
-                    }
-                  >
-                    FLEET MANAGEMENT
-                  </div>
-
-                  <h3
-                    style={
-                      styles.sectionTitle
-                    }
-                  >
-                    {t.addDriver}
-                  </h3>
-                </div>
-              </div>
-
-              <div
-                style={
-                  styles.addDriverRow
-                }
-              >
-                <input
-                  type="text"
-                  placeholder={
-                    t.driverName
-                  }
-                  value={
-                    newDriverName
-                  }
-                  onChange={e =>
-                    setNewDriverName(
-                      e.target.value
-                    )
-                  }
-                  style={
-                    styles.input
-                  }
-                />
-
-                <button
-                  onClick={() => {
-                    const name =
-                      newDriverName.trim();
-
-                    if (
-                      name &&
-                      !drivers.includes(
-                        name
-                      )
-                    ) {
-                      setDrivers(prev => [
-                        ...prev,
-                        name
-                      ]);
-
-                      setNewDriverName(
-                        ''
-                      );
-                    }
-                  }}
-                  style={
-                    styles.btnPrimaryGradient
-                  }
-                >
-                  {t.btnAdd}
-                </button>
-              </div>
-            </div>
-
-            <div
-              style={
-                styles.grid2
-              }
-            >
-              {driverStats.map(
-                stats => (
-                  <div
-                    key={
-                      stats.driverName
-                    }
-                    style={
-                      styles.driverCard
-                    }
-                  >
-                    <div
-                      style={
-                        styles.driverAvatar
-                      }
-                    >
-                      🛵
-                    </div>
-
-                    <div
-                      style={
-                        styles.rowBetween
-                      }
-                    >
-                      <h3
-                        style={
-                          styles.driverName
-                        }
-                      >
-                        {
-                          stats.driverName
-                        }
-                      </h3>
-
-                      <button
-                        onClick={() =>
-                          setDrivers(
-                            prev =>
-                              prev.filter(
-                                d =>
-                                  d !==
-                                  stats.driverName
-                              )
-                          )
-                        }
-                        style={
-                          styles.btnDeleteCompact
-                        }
-                      >
-                        🗑️
-                      </button>
-                    </div>
-
-                    <div
-                      style={
-                        styles.driverMetricGrid
-                      }
-                    >
-                      <DriverMetric
-                        label={
-                          t.totalTrips
-                        }
-                        value={
-                          stats.totalTrips
-                        }
-                      />
-
-                      <DriverMetric
-                        label={
-                          t.deliveredTrips
-                        }
-                        value={
-                          stats.completedTrips
-                        }
-                      />
-
-                      <DriverMetric
-                        label={
-                          t.totalCollected
-                        }
-                        value={formatMoney(
-                          stats.collected,
-                          t.currency
-                        )}
-                      />
-
-                      <DriverMetric
-                        label={
-                          t.driverCash
-                        }
-                        value={formatMoney(
-                          stats.handIn,
-                          t.currency
-                        )}
-                        accent
-                      />
-                    </div>
-
-                    <div
-                      style={
-                        styles.driverFeeBar
-                      }
-                    >
-                      🛵{' '}
-                      {t.totalDeliveryFees}:{' '}
-                      <strong>
-                        {formatMoney(
-                          stats.deliveryFees,
-                          t.currency
-                        )}
-                      </strong>
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* MERCHANTS */}
-        {activeTab ===
-          'merchants' && (
-          <div>
-            <div
-              style={
-                styles.card
-              }
-            >
-              <h3>
-                {t.saveMerchant}
-              </h3>
-
-              <input
-                type="text"
-                placeholder="Store Name..."
-                value={
-                  merchantForm.name
-                }
-                onChange={e =>
-                  setMerchantForm({
-                    ...merchantForm,
-                    name: e.target
-                      .value
-                  })
-                }
-                style={
-                  styles.inputMargin
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Store Phone..."
-                value={
-                  merchantForm.phone
-                }
-                onChange={e =>
-                  setMerchantForm({
-                    ...merchantForm,
-                    phone: e.target
-                      .value
-                  })
-                }
-                style={
-                  styles.inputMargin
-                }
-              />
-
-              <input
-                type="text"
-                placeholder="Store Address..."
-                value={
-                  merchantForm.address
-                }
-                onChange={e =>
-                  setMerchantForm({
-                    ...merchantForm,
-                    address: e.target
-                      .value
-                  })
-                }
-                style={
-                  styles.inputMargin
-                }
-              />
-
-              <textarea
-                rows={2}
-                placeholder="Store Notes..."
-                value={
-                  merchantForm.notes
-                }
-                onChange={e =>
-                  setMerchantForm({
-                    ...merchantForm,
-                    notes: e.target
-                      .value
-                  })
-                }
-                style={
-                  styles.textareaMargin
-                }
-              />
-
-              <button
-                onClick={() => {
-                  if (
-                    !merchantForm.name.trim()
-                  ) {
-                    return alert(
-                      'Merchant name required'
-                    );
-                  }
-
-                  if (merchantForm.id) {
-                    setMerchants(
-                      prev =>
-                        prev.map(m =>
-                          m.id ===
-                          merchantForm.id
-                            ? merchantForm
-                            : m
-                        )
-                    );
-                  } else {
-                    setMerchants(
-                      prev => [
-                        {
-                          id: Date.now(),
-                          ...merchantForm,
-                          totalOrders: 0
-                        },
-                        ...prev
-                      ]
-                    );
-                  }
-
-                  setMerchantForm({
-                    id: null,
-                    name: '',
-                    phone: '',
-                    address: '',
-                    notes: ''
-                  });
-                }}
-                style={
-                  styles.btnSuccessGradient
-                }
-              >
-                {t.saveBtn}
-              </button>
-            </div>
-
-            <div
-              style={
-                styles.grid2
-              }
-            >
-              {merchants.map(
-                merchant => (
-                  <div
-                    key={
-                      merchant.id
-                    }
-                    style={
-                      styles.card
-                    }
-                  >
-                    <div
-                      style={
-                        styles.rowBetween
-                      }
-                    >
-                      <h3
-                        style={{
-                          margin: 0,
-                          color: '#facc15'
-                        }}
-                      >
-                        🏪{' '}
-                        {
-                          merchant.name
-                        }
-                      </h3>
-
-                      <button
-                        onClick={() =>
-                          setMerchantForm(
-                            merchant
-                          )
-                        }
-                        style={
-                          styles.btnEditCompact
-                        }
-                      >
-                        {t.editBtn}
-                      </button>
-                    </div>
-
-                    <p
-                      style={
-                        styles.mutedLine
-                      }
-                    >
-                      📞{' '}
-                      {merchant.phone ||
-                        t.unspecified}
-                    </p>
-
-                    <p
-                      style={
-                        styles.mutedLine
-                      }
-                    >
-                      📍{' '}
-                      {merchant.address ||
-                        t.unspecified}
-                    </p>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* CUSTOMERS */}
-        {activeTab ===
-          'customers' && (
-          <div>
-            <div
-              style={
-                styles.card
-              }
-            >
-              <h3>
-                {editingCustomer
-                  ? t.editCustomer
-                  : t.saveCustomer}
-              </h3>
-
-              <input
-                type="text"
-                placeholder={
-                  t.customer
-                }
-                value={
-                  newCustomer.name
-                }
-                onChange={e =>
-                  setNewCustomer({
-                    ...newCustomer,
-                    name: e.target
-                      .value
-                  })
-                }
-                style={
-                  styles.inputMargin
-                }
-              />
-
-              <input
-                type="text"
-                placeholder={
-                  t.phone
-                }
-                value={
-                  newCustomer.phone
-                }
-                onChange={e =>
-                  setNewCustomer({
-                    ...newCustomer,
-                    phone: e.target
-                      .value
-                  })
-                }
-                style={
-                  styles.inputMargin
-                }
-              />
-
-              <input
-                type="text"
-                placeholder={
-                  t.address
-                }
-                value={
-                  newCustomer.address
-                }
-                onChange={e =>
-                  setNewCustomer({
-                    ...newCustomer,
-                    address: e.target
-                      .value
-                  })
-                }
-                style={
-                  styles.inputMargin
-                }
-              />
-
-              <button
-                onClick={
-                  handleSaveCustomerExplicit
-                }
-                style={
-                  styles.btnSuccessGradient
-                }
-              >
-                {t.saveBtn}
-              </button>
-            </div>
-
-            <div
-              style={
-                styles.grid2
-              }
-            >
-              {customers.map(
-                customer => (
-                  <div
-                    key={
-                      customer.id
-                    }
-                    style={
-                      styles.card
-                    }
-                  >
-                    <div
-                      style={
-                        styles.rowBetween
-                      }
-                    >
-                      <h3
-                        style={{
-                          margin: 0,
-                          color: '#c084fc'
-                        }}
-                      >
-                        👤{' '}
-                        {
-                          customer.name
-                        }
-                      </h3>
-
-                      <button
-                        onClick={() => {
-                          setEditingCustomer(
-                            customer
-                          );
-
-                          setNewCustomer({
-                            name:
-                              customer.name ||
-                              '',
-                            phone:
-                              customer.phone ||
-                              '',
-                            address:
-                              customer.address ||
-                              ''
-                          });
-                        }}
-                        style={
-                          styles.btnEditCompact
-                        }
-                      >
-                        {t.editBtn}
-                      </button>
-                    </div>
-
-                    <p
-                      style={
-                        styles.mutedLine
-                      }
-                    >
-                      📞{' '}
-                      {customer.phone}
-                    </p>
-
-                    <p
-                      style={
-                        styles.mutedLine
-                      }
-                    >
-                      📍{' '}
-                      {customer.address}
-                    </p>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* SETTINGS */}
-        {activeTab ===
-          'settings' && (
-          <div
-            style={
-              styles.card
-            }
-          >
-            <div
-              style={
-                styles.eyebrow
-              }
-            >
-              SYSTEM CONFIGURATION
-            </div>
-
-            <h2>
-              {t.settingsTitle}
-            </h2>
-
-            <label
-              style={
-                styles.label
-              }
-            >
-              Groq API Key:
-            </label>
-
-            <input
-              type="password"
-              value={apiKey}
-              onChange={e =>
-                setApiKey(
-                  e.target.value
-                )
-              }
-              placeholder="gsk_..."
-              style={
-                styles.input
-              }
-            />
-          </div>
-        )}
-      </main>
-    </div>
-  );
-}
-
-/* ---------------- COMPONENTS ---------------- */
-
-function KpiCard({
-  icon,
-  title,
-  value,
-  gradient,
-  accent
-}) {
-  return (
-    <div
-      style={{
-        ...styles.kpiCard,
-        background: gradient
-      }}
-    >
-      <div
-        style={
-          styles.kpiIcon
-        }
-      >
-        {icon}
-      </div>
-
-      <span
-        style={
-          styles.kpiLabel
-        }
-      >
-        {title}
-      </span>
-
-      <span
-        style={{
-          ...styles.kpiValue,
-          color: accent
-        }}
-      >
-        {value}
-      </span>
-
-      <div
-        style={
-          styles.kpiShine
-        }
-      />
-    </div>
-  );
-}
-
-function NavButton({
-  active,
-  onClick,
-  children
-}) {
-  return (
-    <button
-      style={
-        active
-          ? styles.activeTab
-          : styles.tab
-      }
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  );
-}
-
-function InfoItem({
-  label,
-  value
-}) {
-  return (
-    <div
-      style={
-        styles.infoItem
-      }
-    >
-      <span
-        style={
-          styles.infoLabel
-        }
-      >
-        {label}
-      </span>
-
-      <strong>
-        {value}
-      </strong>
-    </div>
-  );
-}
-
-function FinancialBreakdown({
-  orderValue,
-  deliveryFee,
-  cod,
-  currency,
-  t
-}) {
-  const handIn =
-    orderValue > 0
-      ? orderValue
-      : Math.max(
-          0,
-          cod - deliveryFee
-        );
-
-  return (
-    <div
-      style={
-        styles.financialPanel
-      }
-    >
-      <div
-        style={
-          styles.financialTitle
-        }
-      >
-        💰 {t.breakdown}
-      </div>
-
-      <div
-        style={
-          styles.financeGrid
-        }
-      >
-        <FinanceCell
-          label={t.orderValue}
-          value={formatMoney(
-            orderValue,
-            currency
-          )}
-        />
-
-        <FinanceCell
-          label={t.deliveryFee}
-          value={formatMoney(
-            deliveryFee,
-            currency
-          )}
-        />
-
-        <FinanceCell
-          label={t.collected}
-          value={formatMoney(
-            cod,
-            currency
-          )}
-          highlight
-        />
-
-        <FinanceCell
-          label={t.handIn}
-          value={formatMoney(
-            handIn,
-            currency
-          )}
-          highlight
-        />
-      </div>
-    </div>
-  );
-}
-
-function FinanceCell({
-  label,
-  value,
-  highlight,
-  danger
-}) {
-  return (
-    <div
-      style={{
-        ...styles.financeCell,
-        ...(highlight
-          ? styles.financeHighlight
-          : {}),
-        ...(danger
-          ? styles.financeDanger
-          : {})
-      }}
-    >
-      <span>
-        {label}
-      </span>
-
-      <strong>
-        {value}
-      </strong>
-    </div>
-  );
-}
-
-function BreakdownItem({
-  icon,
-  label,
-  value,
-  secondary,
-  highlight,
-  danger
-}) {
-  return (
-    <div
-      style={{
-        ...styles.breakdownItem,
-        ...(secondary
-          ? styles.breakdownSecondary
-          : {}),
-        ...(highlight
-          ? styles.breakdownHighlight
-          : {}),
-        ...(danger
-          ? styles.breakdownDanger
-          : {})
-      }}
-    >
-      <div
-        style={
-          styles.breakdownIcon
-        }
-      >
-        {icon}
-      </div>
-
-      <div>
-        <span
-          style={
-            styles.breakdownLabel
-          }
-        >
-          {label}
-        </span>
-
-        <strong
-          style={
-            styles.breakdownValue
-          }
-        >
-          {value}
-        </strong>
-      </div>
-    </div>
-  );
-}
-
-function DriverMetric({
-  label,
-  value,
-  accent
-}) {
-  return (
-    <div
-      style={
-        styles.driverMetric
-      }
-    >
-      <span>
-        {label}
-      </span>
-
-      <strong
-        style={{
-          color: accent
-            ? '#6ee7b7'
-            : '#f8fafc'
-        }}
-      >
-        {value}
-      </strong>
-    </div>
-  );
-}
-
-/* ---------------- STYLES ---------------- */
-
-const styles = {
-  container: {
-    maxWidth: '1180px',
-    margin: '0 auto',
-    padding: '18px',
-    fontFamily:
-      'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-    background:
-      'radial-gradient(circle at 10% 0%, rgba(59,130,246,.12), transparent 28%), radial-gradient(circle at 90% 20%, rgba(168,85,247,.10), transparent 30%), #070b14',
-    color: '#f8fafc',
-    minHeight: '100vh',
-    position: 'relative',
-    overflow: 'hidden'
-  },
-
-  backgroundGlowOne: {
-    position: 'fixed',
-    width: '380px',
-    height: '380px',
-    borderRadius: '50%',
-    background:
-      'radial-gradient(circle, rgba(37,99,235,.13), transparent 70%)',
-    top: '-180px',
-    left: '-120px',
-    pointerEvents: 'none'
-  },
-
-  backgroundGlowTwo: {
-    position: 'fixed',
-    width: '420px',
-    height: '420px',
-    borderRadius: '50%',
-    background:
-      'radial-gradient(circle, rgba(168,85,247,.10), transparent 70%)',
-    bottom: '-180px',
-    right: '-150px',
-    pointerEvents: 'none'
-  },
-
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '16px',
-    background:
-      'linear-gradient(135deg, rgba(30,41,59,.94), rgba(15,23,42,.88))',
-    padding: '20px 22px',
-    borderRadius: '22px',
-    border:
-      '1px solid rgba(148,163,184,.18)',
-    boxShadow:
-      '0 20px 60px rgba(0,0,0,.28)',
-    backdropFilter: 'blur(18px)',
-    position: 'relative',
-    zIndex: 2
-  },
-
-  brandRow: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '13px'
-  },
-
-  brandIcon: {
-    width: '48px',
-    height: '48px',
-    borderRadius: '15px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '1.55rem',
-    background:
-      'linear-gradient(135deg,#0ea5e9,#6366f1,#a855f7)',
-    boxShadow:
-      '0 10px 30px rgba(99,102,241,.35)'
-  },
-
-  headerRight: {
-    display: 'flex',
-    gap: '9px',
-    alignItems: 'center',
-    flexWrap: 'wrap'
-  },
-
-  appTitle: {
-    margin: 0,
-    fontSize: '1.5rem',
-    fontWeight: 900,
-    background:
-      'linear-gradient(90deg,#38bdf8,#818cf8,#c084fc)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent'
-  },
-
-  appSubtitle: {
-    margin: '5px 0 0',
-    fontSize: '.82rem',
-    color: '#94a3b8'
-  },
-
-  badge: {
-    padding: '7px 13px',
-    borderRadius: '999px',
-    fontSize: '.78rem',
-    fontWeight: 800,
-    color: '#fff',
-    border:
-      '1px solid rgba(255,255,255,.12)'
-  },
-
-  badgeSuccess: {
-    background:
-      'linear-gradient(135deg,#047857,#10b981)'
-  },
-
-  badgeDanger: {
-    background:
-      'linear-gradient(135deg,#b91c1c,#ef4444)'
-  },
-
-  langBtn: {
-    padding: '7px 13px',
-    background:
-      'rgba(51,65,85,.75)',
-    color: '#fff',
-    border:
-      '1px solid rgba(148,163,184,.25)',
-    borderRadius: '999px',
-    cursor: 'pointer',
-    fontWeight: 800,
-    fontSize: '.78rem'
-  },
-
-  kpiRow: {
-    display: 'grid',
-    gridTemplateColumns:
-      'repeat(4, minmax(0,1fr))',
-    gap: '13px',
-    marginTop: '18px',
-    position: 'relative',
-    zIndex: 1
-  },
-
-  kpiCard: {
-    minHeight: '125px',
-    border:
-      '1px solid rgba(255,255,255,.10)',
-    padding: '16px 18px',
-    borderRadius: '18px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    boxShadow:
-      '0 15px 35px rgba(0,0,0,.22)',
-    position: 'relative',
-    overflow: 'hidden'
-  },
-
-  kpiIcon: {
-    fontSize: '1.15rem',
-    marginBottom: '5px'
-  },
-
-  kpiLabel: {
-    fontSize: '.75rem',
-    color: '#dbeafe',
-    fontWeight: 800
-  },
-
-  kpiValue: {
-    fontSize: '1.35rem',
-    fontWeight: 950,
-    marginTop: '4px'
-  },
-
-  kpiShine: {
-    position: 'absolute',
-    width: '100px',
-    height: '100px',
-    borderRadius: '50%',
-    background:
-      'rgba(255,255,255,.08)',
-    right: '-35px',
-    bottom: '-40px'
-  },
-
-  nav: {
-    display: 'flex',
-    gap: '7px',
-    marginTop: '18px',
-    overflowX: 'auto',
-    paddingBottom: '6px',
-    position: 'relative',
-    zIndex: 2
-  },
-
-  tab: {
-    padding: '10px 13px',
-    border:
-      '1px solid rgba(71,85,105,.55)',
-    background:
-      'rgba(30,41,59,.72)',
-    borderRadius: '11px',
-    cursor: 'pointer',
-    fontWeight: 800,
-    color: '#94a3b8',
-    whiteSpace: 'nowrap',
-    fontSize: '.78rem',
-    backdropFilter: 'blur(12px)'
-  },
-
-  activeTab: {
-    padding: '10px 13px',
-    border: 'none',
-    background:
-      'linear-gradient(135deg,#0284c7,#4f46e5,#7c3aed)',
-    borderRadius: '11px',
-    cursor: 'pointer',
-    fontWeight: 900,
-    color: '#fff',
-    whiteSpace: 'nowrap',
-    fontSize: '.78rem',
-    boxShadow:
-      '0 8px 22px rgba(79,70,229,.35)'
-  },
-
-  main: {
-    marginTop: '18px',
-    position: 'relative',
-    zIndex: 1
-  },
-
-  card: {
-    background:
-      'linear-gradient(145deg, rgba(19,28,46,.96), rgba(11,18,32,.96))',
-    padding: '20px',
-    borderRadius: '20px',
-    border:
-      '1px solid rgba(51,65,85,.65)',
-    marginBottom: '16px',
-    boxShadow:
-      '0 18px 50px rgba(0,0,0,.22)',
-    backdropFilter: 'blur(18px)'
-  },
-
-  orderCard: {
-    background:
-      'linear-gradient(145deg, rgba(19,28,46,.98), rgba(9,15,27,.98))',
-    padding: '18px',
-    borderRadius: '20px',
-    border:
-      '1px solid rgba(71,85,105,.55)',
-    marginBottom: '14px',
-    boxShadow:
-      '0 15px 40px rgba(0,0,0,.20)'
-  },
-
-  cardHeaderFancy: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '12px',
-    marginBottom: '14px'
-  },
-
-  eyebrow: {
-    color: '#38bdf8',
-    fontSize: '.65rem',
-    fontWeight: 900,
-    letterSpacing: '1.6px',
-    marginBottom: '4px'
-  },
-
-  cardTitle: {
-    margin: 0,
-    fontSize: '1.2rem'
-  },
-
-  sectionTitle: {
-    margin: 0,
-    color: '#f8fafc',
-    fontSize: '1.05rem'
-  },
-
-  textarea: {
-    width: '100%',
-    padding: '14px',
-    borderRadius: '13px',
-    border:
-      '1px solid rgba(71,85,105,.7)',
-    background:
-      'linear-gradient(145deg,#0a0f1d,#0f172a)',
-    color: '#fff',
-    boxSizing: 'border-box',
-    fontSize: '.95rem',
-    outline: 'none',
-    resize: 'vertical'
-  },
-
-  textareaMargin: {
-    width: '100%',
-    padding: '10px',
-    borderRadius: '9px',
-    border:
-      '1px solid #334155',
-    background: '#0a0f1d',
-    color: '#fff',
-    boxSizing: 'border-box',
-    marginBottom: '10px'
-  },
-
-  input: {
-    width: '100%',
-    padding: '11px',
-    borderRadius: '10px',
-    border:
-      '1px solid #334155',
-    background: '#080e19',
-    color: '#fff',
-    boxSizing: 'border-box',
-    outline: 'none'
-  },
-
-  inlineInput: {
-    width: '80px',
-    padding: '5px 8px',
-    borderRadius: '7px',
-    border:
-      '1px solid #38bdf8',
-    background: '#080e19',
-    color: '#fff',
-    fontWeight: 'bold'
-  },
-
-  inputMargin: {
-    width: '100%',
-    padding: '11px',
-    borderRadius: '10px',
-    border:
-      '1px solid #334155',
-    background: '#080e19',
-    color: '#fff',
-    boxSizing: 'border-box',
-    marginBottom: '10px'
-  },
-
-  searchInput: {
-    width: '100%',
-    padding: '14px',
-    borderRadius: '13px',
-    border:
-      '1px solid #2563eb',
-    background:
-      'linear-gradient(145deg,#0f172a,#0a0f1d)',
-    color: '#fff',
-    boxSizing: 'border-box',
-    marginBottom: '18px',
-    fontSize: '.95rem',
-    outline: 'none'
-  },
-
-  label: {
-    display: 'block',
-    fontWeight: 800,
-    marginBottom: '7px',
-    color: '#cbd5e1'
-  },
-
-  btnPrimaryGradient: {
-    width: '100%',
-    padding: '12px',
-    background:
-      'linear-gradient(135deg,#0284c7,#4f46e5,#7c3aed)',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '11px',
-    fontSize: '.95rem',
-    fontWeight: 900,
-    cursor: 'pointer',
-    marginTop: '12px',
-    boxShadow:
-      '0 10px 25px rgba(79,70,229,.28)'
-  },
-
-  btnGradientCompact: {
-    padding: '8px 13px',
-    background:
-      'linear-gradient(135deg,#334155,#475569)',
-    color: '#67e8f9',
-    border:
-      '1px solid #0284c7',
-    borderRadius: '9px',
-    fontWeight: 900,
-    cursor: 'pointer',
-    fontSize: '.78rem'
-  },
-
-  btnSuccessGradient: {
-    width: '100%',
-    padding: '12px',
-    background:
-      'linear-gradient(135deg,#059669,#10b981,#14b8a6)',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '11px',
-    fontSize: '.95rem',
-    fontWeight: 900,
-    cursor: 'pointer',
-    marginTop: '12px',
-    boxShadow:
-      '0 10px 25px rgba(16,185,129,.22)'
-  },
-
-  btnDeleteCompact: {
-    background:
-      'linear-gradient(135deg,#dc2626,#be123c)',
-    color: '#fff',
-    border: 'none',
-    padding: '6px 10px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontSize: '.8rem',
-    fontWeight: 900
-  },
-
-  btnEditCompact: {
-    background:
-      'linear-gradient(135deg,#0284c7,#4f46e5)',
-    color: '#fff',
-    border: 'none',
-    padding: '5px 10px',
-    borderRadius: '7px',
-    cursor: 'pointer',
-    fontSize: '.78rem',
-    fontWeight: 900
-  },
-
-  btnSaveCompact: {
-    background:
-      'linear-gradient(135deg,#059669,#10b981)',
-    color: '#fff',
-    border: 'none',
-    padding: '5px 10px',
-    borderRadius: '7px',
-    cursor: 'pointer',
-    fontSize: '.78rem',
-    fontWeight: 900
-  },
-
-  extractedBox: {
-    background:
-      'linear-gradient(145deg,#090f1c,#101827)',
-    border:
-      '1px solid #334155',
-    padding: '17px',
-    borderRadius: '15px',
-    marginTop: '17px'
-  },
-
-  extractedSubCard: {
-    border:
-      '1px solid rgba(71,85,105,.55)',
-    padding: '15px',
-    borderRadius: '14px',
-    marginBottom: '13px',
-    background:
-      'linear-gradient(145deg,#131c2e,#0e1727)'
-  },
-
-  orderCardTop: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '10px',
-    marginBottom: '13px'
-  },
-
-  orderIndex: {
-    display: 'inline-block',
-    padding: '3px 8px',
-    borderRadius: '999px',
-    background:
-      'linear-gradient(135deg,#4f46e5,#7c3aed)',
-    fontSize: '.7rem',
-    fontWeight: 900,
-    marginInlineEnd: '7px'
-  },
-
-  customerTitle: {
-    display: 'inline',
-    color: '#67e8f9',
-    margin: 0
-  },
-
-  collectedPill: {
-    padding: '7px 11px',
-    borderRadius: '999px',
-    background:
-      'linear-gradient(135deg,#047857,#10b981)',
-    color: '#fff',
-    fontWeight: 900,
-    fontSize: '.78rem'
-  },
-
-  addressWarningBox: {
-    background:
-      'linear-gradient(135deg,#7f1d1d,#991b1b)',
-    border:
-      '1px solid #f87171',
-    padding: '8px 11px',
-    borderRadius: '9px',
-    color: '#fecaca',
-    fontWeight: 800,
-    fontSize: '.82rem',
-    marginBottom: '10px'
-  },
-
-  modalOverlay: {
-    position: 'fixed',
-    inset: 0,
-    backgroundColor:
-      'rgba(0,0,0,.78)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1000,
-    backdropFilter: 'blur(8px)'
-  },
-
-  modalCard: {
-    background:
-      'linear-gradient(145deg,#182337,#0b1220)',
-    border:
-      '1px solid #ca8a04',
-    padding: '23px',
-    borderRadius: '18px',
-    maxWidth: '420px',
-    width: '90%',
-    boxShadow:
-      '0 30px 90px rgba(0,0,0,.5)'
-  },
-
-  modalIcon: {
-    fontSize: '2rem',
-    marginBottom: '8px'
-  },
-
-  modalTitle: {
-    margin: '0 0 12px',
-    color: '#facc15'
-  },
-
-  typoList: {
-    paddingInlineStart: '20px',
-    color: '#fca5a5',
-    lineHeight: 1.8
-  },
-
-  grid2: {
-    display: 'grid',
-    gridTemplateColumns:
-      'repeat(2,minmax(0,1fr))',
-    gap: '12px'
-  },
-
-  fullWidth: {
-    gridColumn: '1 / -1'
-  },
-
-  rowBetween: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '10px',
-    marginBottom: '12px'
-  },
-
-  orderIdentity: {
-    display: 'flex',
-    gap: '8px',
-    alignItems: 'center',
-    flexWrap: 'wrap'
-  },
-
-  actionRow: {
-    display: 'flex',
-    gap: '7px',
-    alignItems: 'center'
-  },
-
-  orderNumTag: {
-    background:
-      'linear-gradient(135deg,#7c3aed,#4c1d95)',
-    color: '#fff',
-    padding: '4px 9px',
-    borderRadius: '7px',
-    fontWeight: 900,
-    fontSize: '.78rem'
-  },
-
-  tagStore: {
-    background:
-      'linear-gradient(135deg,#0369a1,#0e7490)',
-    color: '#fff',
-    padding: '4px 9px',
-    borderRadius: '7px',
-    fontWeight: 900,
-    fontSize: '.78rem'
-  },
-
-  orderCustomerLine: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    gap: '10px',
-    flexWrap: 'wrap',
-    padding: '9px 11px',
-    borderRadius: '10px',
-    background:
-      'rgba(30,41,59,.55)',
-    color: '#cbd5e1',
-    marginBottom: '10px'
-  },
-
-  p: {
-    margin: '7px 0',
-    color: '#cbd5e1',
-    lineHeight: 1.55
-  },
-
-  infoItem: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '3px',
-    padding: '9px',
-    background:
-      'rgba(15,23,42,.65)',
-    borderRadius: '9px'
-  },
-
-  infoLabel: {
-    fontSize: '.7rem',
-    color: '#64748b',
-    fontWeight: 800
-  },
-
-  financialPanel: {
-    margin: '12px 0',
-    padding: '12px',
-    borderRadius: '13px',
-    background:
-      'linear-gradient(145deg,rgba(15,23,42,.95),rgba(30,41,59,.75))',
-    border:
-      '1px solid rgba(56,189,248,.14)'
-  },
-
-  financialTitle: {
-    fontSize: '.75rem',
-    fontWeight: 900,
-    color: '#67e8f9',
-    marginBottom: '9px'
-  },
-
-  financeGrid: {
-    display: 'grid',
-    gridTemplateColumns:
-      'repeat(4,minmax(0,1fr))',
-    gap: '7px'
-  },
-
-  financeCell: {
-    padding: '9px',
-    borderRadius: '9px',
-    background:
-      'rgba(30,41,59,.55)',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '3px'
-  },
-
-  financeHighlight: {
-    border:
-      '1px solid rgba(16,185,129,.28)'
-  },
-
-  financeDanger: {
-    border:
-      '1px solid rgba(239,68,68,.35)'
-  },
-
-  noteBox: {
-    background:
-      'rgba(250,204,21,.06)',
-    padding: '10px',
-    borderRadius: '9px',
-    border:
-      '1px solid rgba(250,204,21,.16)',
-    color: '#fde68a',
-    margin: '10px 0',
-    fontSize: '.84rem'
-  },
-
-  amountRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '10px',
-    margin: '10px 0',
-    padding: '9px 12px',
-    background: '#080e19',
-    borderRadius: '9px',
-    border:
-      '1px solid #1e293b'
-  },
-
-  inlineEdit: {
-    display: 'inline-flex',
-    gap: '5px',
-    alignItems: 'center'
-  },
-
-  orderFooter: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '10px',
-    flexWrap: 'wrap',
-    marginTop: '10px',
-    paddingTop: '10px',
-    borderTop:
-      '1px solid rgba(51,65,85,.55)',
-    fontSize: '.78rem',
-    color: '#64748b'
-  },
-
-  driverSelector: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '6px'
-  },
-
-  smallSelect: {
-    padding: '5px 8px',
-    borderRadius: '7px',
-    border:
-      '1px solid #334155',
-    background: '#080e19',
-    color: '#fff'
-  },
-
-  empty: {
-    color: '#64748b',
-    textAlign: 'center',
-    marginTop: '10px'
-  },
-
-  emptyState: {
-    padding: '50px 20px',
-    textAlign: 'center'
-  },
-
-  emptyIcon: {
-    fontSize: '2.5rem',
-    opacity: .65
-  },
-
-  sectionHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '12px',
-    marginBottom: '14px'
-  },
-
-  orderCountBadge: {
-    padding: '5px 9px',
-    borderRadius: '999px',
-    background:
-      'linear-gradient(135deg,#4f46e5,#7c3aed)',
-    fontSize: '.72rem',
-    fontWeight: 900
-  },
-
-  heroLedger: {
-    padding: '23px',
-    borderRadius: '22px',
-    background:
-      'linear-gradient(135deg,#0f766e,#0284c7,#4f46e5,#7c3aed)',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '20px',
-    marginBottom: '16px',
-    boxShadow:
-      '0 20px 60px rgba(37,99,235,.25)',
-    overflow: 'hidden',
-    position: 'relative'
-  },
-
-  heroLedgerTitle: {
-    margin: 0,
-    fontSize: '1.35rem',
-    fontWeight: 950
-  },
-
-  heroLedgerSubtitle: {
-    margin: '6px 0 0',
-    color: '#dbeafe',
-    fontSize: '.8rem'
-  },
-
-  heroHandIn: {
-    minWidth: '190px',
-    padding: '14px 17px',
-    borderRadius: '15px',
-    background:
-      'rgba(0,0,0,.18)',
-    border:
-      '1px solid rgba(255,255,255,.16)',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '4px'
-  },
-
-  heroHandIn: {
-    minWidth: '190px',
-    padding: '14px 17px',
-    borderRadius: '15px',
-    background:
-      'rgba(0,0,0,.18)',
-    border:
-      '1px solid rgba(255,255,255,.16)',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '4px'
-  },
-
-  ledgerList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '11px'
-  },
-
-  ledgerOrderCard: {
-    padding: '15px',
-    borderRadius: '15px',
-    background:
-      'linear-gradient(145deg,#101a2c,#0a111e)',
-    border:
-      '1px solid rgba(71,85,105,.6)',
-    boxShadow:
-      '0 8px 25px rgba(0,0,0,.15)'
-  },
-
-  ledgerOrderHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: '12px',
-    marginBottom: '12px'
-  },
-
-  miniMeta: {
-    color: '#64748b',
-    fontSize: '.72rem',
-    marginTop: '5px'
-  },
-
-  breakdownGrid: {
-    display: 'grid',
-    gridTemplateColumns:
-      'repeat(4,minmax(0,1fr))',
-    gap: '8px'
-  },
-
-  breakdownItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    padding: '10px',
-    borderRadius: '11px',
-    background:
-      'rgba(30,41,59,.65)',
-    border:
-      '1px solid rgba(71,85,105,.45)'
-  },
-
-  breakdownSecondary: {
-    background:
-      'rgba(14,116,144,.10)'
-  },
-
-  breakdownHighlight: {
-    border:
-      '1px solid rgba(16,185,129,.32)',
-    background:
-      'rgba(16,185,129,.08)'
-  },
-
-  breakdownDanger: {
-    border:
-      '1px solid rgba(239,68,68,.32)',
-    background:
-      'rgba(239,68,68,.08)'
-  },
-
-  breakdownIcon: {
-    fontSize: '1.05rem'
-  },
-
-  breakdownLabel: {
-    display: 'block',
-    color: '#64748b',
-    fontSize: '.68rem',
-    fontWeight: 800
-  },
-
-  breakdownValue: {
-    display: 'block',
-    marginTop: '2px',
-    fontSize: '.86rem'
-  },
-
-  driverEarningsBar: {
-    marginTop: '9px',
-    padding: '8px 10px',
-    borderRadius: '9px',
-    background:
-      'linear-gradient(90deg,rgba(16,185,129,.08),rgba(6,182,212,.08))',
-    border:
-      '1px solid rgba(16,185,129,.18)',
-    display: 'flex',
-    justifyContent: 'space-between',
-    color: '#a7f3d0',
-    fontSize: '.76rem'
-  },
-
-  cancelledBar: {
-    marginTop: '9px',
-    padding: '8px 10px',
-    borderRadius: '9px',
-    background:
-      'rgba(239,68,68,.08)',
-    border:
-      '1px solid rgba(239,68,68,.22)',
-    color: '#fca5a5',
-    fontWeight: 800,
-    fontSize: '.76rem'
-  },
-
-  totalPill: {
-    padding: '8px 12px',
-    borderRadius: '999px',
-    background:
-      'linear-gradient(135deg,#047857,#10b981)',
-    fontWeight: 900,
-    fontSize: '.78rem'
-  },
-
-  monthlyBadge: {
-    padding: '6px 10px',
-    borderRadius: '8px',
-    background:
-      'rgba(124,58,237,.15)',
-    color: '#c4b5fd',
-    fontWeight: 900
-  },
-
-  monthSummary: {
-    display: 'grid',
-    gridTemplateColumns:
-      'repeat(2,1fr)',
-    gap: '10px'
-  },
-
-  monthSummary: {
-    display: 'grid',
-    gridTemplateColumns:
-      'repeat(2,1fr)',
-    gap: '10px'
-  },
-
-  historyList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '9px'
-  },
-
-  historyCard: {
-    background:
-      'linear-gradient(145deg,#0d1524,#080e19)',
-    border:
-      '1px solid #1e293b',
-    padding: '12px 15px',
-    borderRadius: '11px'
-  },
-
-  historyTime: {
-    fontSize: '.72rem',
-    color: '#64748b'
-  },
-
-  historyAction: {
-    margin: '5px 0',
-    color: '#facc15',
-    fontWeight: 900,
-    fontSize: '.82rem'
-  },
-
-  historyDetails: {
-    margin: 0,
-    color: '#cbd5e1',
-    fontSize: '.82rem'
-  },
-
-  addDriverRow: {
-    display: 'grid',
-    gridTemplateColumns:
-      '1fr 160px',
-    gap: '10px',
-    alignItems: 'center'
-  },
-
-  driverCard: {
-    background:
-      'linear-gradient(145deg,#131c2e,#0b1220)',
-    padding: '18px',
-    borderRadius: '18px',
-    border:
-      '1px solid rgba(71,85,105,.55)',
-    boxShadow:
-      '0 15px 40px rgba(0,0,0,.18)'
-  },
-
-  driverAvatar: {
-    width: '48px',
-    height: '48px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '14px',
-    background:
-      'linear-gradient(135deg,#0284c7,#4f46e5)',
-    fontSize: '1.4rem',
-    marginBottom: '10px'
-  },
-
-  driverName: {
-    margin: 0,
-    color: '#67e8f9',
-    fontSize: '1.05rem'
-  },
-
-  driverMetricGrid: {
-    display: 'grid',
-    gridTemplateColumns:
-      'repeat(2,1fr)',
-    gap: '8px',
-    marginTop: '10px'
-  },
-
-  driverMetric: {
-    padding: '9px',
-    borderRadius: '9px',
-    background:
-      'rgba(15,23,42,.75)',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '3px'
-  },
-
-  driverMetric: {
-    padding: '9px',
-    borderRadius: '9px',
-    background:
-      'rgba(15,23,42,.75)',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '3px'
-  },
-
-  driverFeeBar: {
-    marginTop: '10px',
-    padding: '9px',
-    borderRadius: '9px',
-    background:
-      'rgba(245,158,11,.08)',
-    color: '#fde68a',
-    fontSize: '.78rem'
-  },
-
-  mutedLine: {
-    color: '#94a3b8',
-    margin: '7px 0',
-    fontSize: '.82rem'
-  }
-};
+                                {paymentLabel(
+                                  order.paymentMethod
+                                )}
+                              </span>
+        </
