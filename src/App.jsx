@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
-// Language Localization Dictionary
 const translations = {
   ar: {
-    appTitle: '⚡ عمليات التوصيل السريع',
-    appSubtitle: 'نظام الذكاء الاصطناعي وإدارة التوصيل المتقدم',
-    groqConnected: '🟢 Groq متصل',
+    appTitle: '🚀 Anti Talabat',
+    appSubtitle: 'النظام الذكي لإدارة الطلبات واللوجستيات',
+    groqConnected: '🟢 AI متصل',
     groqMissing: '🔴 المفتاح مفقود',
     navNewOrder: '➕ طلب جديد',
-    navOrders: '📋 الطلبات',
+    navOrders: '📋 إدارة الطلبات',
     navDrivers: '🛵 الطيارين',
     navMerchants: '🏪 التجار',
     navCustomers: '👥 العملاء',
     navSettings: '⚙️ الإعدادات',
     kpiTotalCod: 'إجمالي النقدية (COD)',
     kpiActiveOrders: 'طلبات نشطة',
-    kpiCompleted: 'تم تسليمها',
-    aiHeader: 'استخراج بيانات الطلب بواسطة AI',
+    kpiCompleted: 'تم التوصيل',
+    aiHeader: '✨ استخراج بيانات الطلب بواسطة AI',
     placeholderOrder: 'ألصق نص الطلب هنا (مثال: بص يا باشا الطلب ده من كارفور...)',
     btnPaste: '📋 لصق من الحافظة',
     btnExtract: '⚡ استخراج البيانات بالذكاء الاصطناعي',
@@ -29,25 +28,28 @@ const translations = {
     address: 'العنوان',
     item: 'الصنف',
     notes: 'ملاحظات الطلب',
-    missingInfoAlert: '⚠️ تنبيه: توجد بيانات ناقصة (مثل الهاتف أو العنوان). اضغط هنا لنسخ رسالة استفسار.',
+    missingInfoAlert: '⚠️ تنبيه: توجد بيانات ناقصة (مثل الهاتف أو العنوان). اضغط لنسخ رسالة استفسار.',
+    addressWarning: '📍 تنبيه عنوان غير مكتمل: قد تحتاج إلى مراجعة وتأكيد تفاصيل العنوان (الشارع/الدور/الشقة)!',
     copyMissingMsg: '📋 نسخ رسالة طلب البيانات الناقصة',
     copiedMsg: '✅ تم نسخ الرسالة بنجاح!',
     selectDriver: 'اختيار طيار التوصيل:',
     chooseDriver: '-- اختر طيار --',
     btnConfirm: '✅ تأكيد وحفظ الطلبات',
-    searchPlaceholder: '🔍 بحث عن طريق الاسم، المتجر، أو رقم الهاتف...',
+    searchPlaceholder: '🔍 بحث برقم الطلب، اسم العميل، المتجر، أو الهاتف...',
     unspecified: 'غير محدد',
     currency: 'ج.م',
     statusConfirmed: 'مؤكد',
+    statusProcessing: 'قيد تجهيز الطلب',
+    statusOutForDelivery: 'خرج للتوصيل',
     statusInTransit: 'جاري التوصيل',
-    statusDelivered: 'تم التسليم',
+    statusCompleted: 'مكتمل (تم التسليم)',
     statusDelayed: 'متأخر',
     statusCancelled: 'ملغي',
     cancelAlert: '⚠️ تنبيه: تم رصد طلب إلغاء في النص! لن يتم إضافة هذا الطلب.',
     addDriver: 'إضافة طيار جديد',
     driverName: 'اسم الطيار...',
     btnAdd: 'إضافة',
-    driverCash: 'النقدية الواجب تسليمها (تم التوصيل):',
+    driverCash: 'النقدية المحصلة (المكتملة):',
     totalTrips: 'إجمالي الرحلات:',
     saveMerchant: 'إضافة أو تعديل تاجر',
     merchantName: 'اسم التاجر/المحل...',
@@ -60,31 +62,29 @@ const translations = {
     deleteBtn: 'حذف',
     editBtn: 'تعديل',
     settingsTitle: 'إعدادات النظام',
-    matchPrompt: 'تم العثور على أكثر من عميل مطابق للأسماء المسجلة. هل تقصد أحد هؤلاء أم عميل جديد؟',
-    newCustomerOption: '+ تسجيل كعميل جديد تماماً',
-    discrepancyAlert: '⚠️ تنبيه اختلاف بيانات: العنوان أو الهاتف المدخل يختلف عن المسجل مسبقاً لهذا العميل!',
-    multiOrderNotice: '💡 تم اكتشاف طلب مجزأ لأكثر من عنوان/عميل! تم تقسيمه تلقائياً:'
+    editAmount: 'تعديل المبلغ',
+    saveAmount: 'تم الحفظ'
   },
   en: {
-    appTitle: '⚡ Express Delivery Operations',
-    appSubtitle: 'AI-Powered Order Extraction & Operations Dashboard',
-    groqConnected: '🟢 Groq Connected',
+    appTitle: '🚀 Express Delivery PRO',
+    appSubtitle: 'AI Logistics & Multi-Order Management Platform',
+    groqConnected: '🟢 AI Active',
     groqMissing: '🔴 Key Missing',
     navNewOrder: '➕ New Order',
-    navOrders: '📋 Orders',
+    navOrders: '📋 Manage Orders',
     navDrivers: '🛵 Drivers',
     navMerchants: '🏪 Stores',
     navCustomers: '👥 Customers',
     navSettings: '⚙️ Settings',
-    kpiTotalCod: 'Total COD Revenue',
+    kpiTotalCod: 'Total Earned (COD)',
     kpiActiveOrders: 'Active Orders',
-    kpiCompleted: 'Delivered Orders',
-    aiHeader: 'AI Order Data Extraction',
-    placeholderOrder: 'Paste Egyptian chat or delivery text here...',
+    kpiCompleted: 'Completed Orders',
+    aiHeader: '✨ AI Order Extraction',
+    placeholderOrder: 'Paste Egyptian delivery context or order message...',
     btnPaste: '📋 Paste Clipboard',
     btnExtract: '⚡ Extract Data with AI',
-    btnExtracting: 'Analyzing...',
-    reviewTitle: 'Extracted Data Review:',
+    btnExtracting: 'Processing...',
+    reviewTitle: 'Extracted Orders Review:',
     store: 'Store',
     customer: 'Customer',
     phone: 'Phone',
@@ -92,41 +92,42 @@ const translations = {
     address: 'Address',
     item: 'Item Details',
     notes: 'Order Notes',
-    missingInfoAlert: '⚠️ Notice: Missing required information (phone or address). Click to copy inquiry message.',
-    copyMissingMsg: '📋 Copy Missing Info Inquiry',
-    copiedMsg: '✅ Message copied successfully!',
-    selectDriver: 'Assign Driver:',
-    chooseDriver: '-- Choose Driver --',
+    missingInfoAlert: '⚠️ Notice: Missing phone or address details.',
+    addressWarning: '📍 Incomplete Address Alert: Double check address details (Street, Floor, Apt)!',
+    copyMissingMsg: '📋 Copy Missing Info Prompt',
+    copiedMsg: '✅ Message copied to clipboard!',
+    selectDriver: 'Assign Delivery Driver:',
+    chooseDriver: '-- Select Driver --',
     btnConfirm: '✅ Confirm & Save Orders',
-    searchPlaceholder: '🔍 Search by name, store, or phone...',
+    searchPlaceholder: '🔍 Search by Order #, Customer, Store, Phone...',
     unspecified: 'N/A',
     currency: 'EGP',
     statusConfirmed: 'Confirmed',
+    statusProcessing: 'Processing',
+    statusOutForDelivery: 'Out for Delivery',
     statusInTransit: 'In Transit',
-    statusDelivered: 'Delivered',
+    statusCompleted: 'Completed',
     statusDelayed: 'Delayed',
     statusCancelled: 'Cancelled',
-    cancelAlert: '⚠️ Alert: Cancellation order detected in text! Request ignored.',
+    cancelAlert: '⚠️ Alert: Cancellation order detected! Request ignored.',
     addDriver: 'Add New Driver',
-    driverName: 'Driver name...',
-    btnAdd: 'Add',
-    driverCash: 'Cash to Collect (Delivered):',
+    driverName: 'Driver Name...',
+    btnAdd: 'Add Driver',
+    driverCash: 'Collected Cash (Completed):',
     totalTrips: 'Total Trips:',
-    saveMerchant: 'Add or Edit Store',
+    saveMerchant: 'Save Store Details',
     merchantName: 'Store Name...',
     merchantPhone: 'Store Phone...',
     merchantAddress: 'Store Address...',
-    merchantNotes: 'Store Notes & Details...',
-    saveCustomer: 'Add Customer Manually',
-    editCustomer: 'Edit Customer Details',
+    merchantNotes: 'Store Notes...',
+    saveCustomer: 'Add Customer',
+    editCustomer: 'Edit Customer',
     saveBtn: 'Save',
     deleteBtn: 'Delete',
     editBtn: 'Edit',
     settingsTitle: 'System Settings',
-    matchPrompt: 'Multiple matching customers found. Did you mean one of these or a new customer?',
-    newCustomerOption: '+ Register as Brand New Customer',
-    discrepancyAlert: '⚠️ Data Discrepancy Warning: Entered address or phone differs from existing records for this customer!',
-    multiOrderNotice: '💡 Multi-destination delivery detected! Split into individual orders:'
+    editAmount: 'Edit Amount',
+    saveAmount: 'Save'
   }
 };
 
@@ -136,82 +137,70 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('new_order');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Core Databases
-  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders') || '[]'));
-  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants') || '[]'));
-  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers') || '[]'));
-  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers') || '["أحمد", "محمود", "مصطفى"]'));
+  // Core Counter and Storage
+  const [orderCounter, setOrderCounter] = useState(() => parseInt(localStorage.getItem('order_counter_num') || '1001'));
+  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v2') || '[]'));
+  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v2') || '[]'));
+  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v2') || '[]'));
+  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v2') || '["أحمد", "محمود", "مصطفى"]'));
 
-  // Input & Extraction States
+  // Form & Extraction States
   const [rawText, setRawText] = useState('');
   const [loading, setLoading] = useState(false);
   const [extractedOrders, setExtractedOrders] = useState([]);
   const [selectedDriver, setSelectedDriver] = useState('');
   const [newDriverName, setNewDriverName] = useState('');
 
-  // Disambiguation & Discrepancy State per Sub-order
-  const [activeSubIndex, setActiveSubIndex] = useState(0);
-  const [customerMatches, setCustomerMatches] = useState([]);
-  const [discrepancyWarning, setDiscrepancyWarning] = useState(false);
+  // Editing state for order amounts
+  const [editingAmountId, setEditingAmountId] = useState(null);
+  const [tempAmount, setTempAmount] = useState('');
 
-  // Merchant Editing State
+  // Forms
   const [merchantForm, setMerchantForm] = useState({ id: null, name: '', phone: '', address: '', notes: '' });
-
-  // Customer Form State
-  const [editingCustomer, setEditingCustomer] = useState(null);
   const [newCustomer, setNewCustomer] = useState({ name: '', phone: '', address: '' });
+  const [editingCustomer, setEditingCustomer] = useState(null);
 
   const t = translations[lang];
 
   useEffect(() => localStorage.setItem('app_lang', lang), [lang]);
   useEffect(() => localStorage.setItem('groq_api_key', apiKey), [apiKey]);
-  useEffect(() => localStorage.setItem('delivery_orders', JSON.stringify(orders)), [orders]);
-  useEffect(() => localStorage.setItem('delivery_merchants', JSON.stringify(merchants)), [merchants]);
-  useEffect(() => localStorage.setItem('delivery_customers', JSON.stringify(customers)), [customers]);
-  useEffect(() => localStorage.setItem('delivery_drivers', JSON.stringify(drivers)), [drivers]);
+  useEffect(() => localStorage.setItem('order_counter_num', orderCounter.toString()), [orderCounter]);
+  useEffect(() => localStorage.setItem('delivery_orders_v2', JSON.stringify(orders)), [orders]);
+  useEffect(() => localStorage.setItem('delivery_merchants_v2', JSON.stringify(merchants)), [merchants]);
+  useEffect(() => localStorage.setItem('delivery_customers_v2', JSON.stringify(customers)), [customers]);
+  useEffect(() => localStorage.setItem('delivery_drivers_v2', JSON.stringify(drivers)), [drivers]);
 
   const handlePasteClipboard = async () => {
     try {
       const text = await navigator.clipboard.readText();
       setRawText(text);
     } catch (err) {
-      alert('Failed to read clipboard.');
+      alert('Clipboard permission denied.');
     }
   };
 
-  // Enhanced AI Parser with Multi-Order / Multi-Recipient Logic
+  // Check if address is missing details like floor/apartment or is too short
+  const isIncompleteAddress = (addressStr) => {
+    if (!addressStr || addressStr === t.unspecified || addressStr.length < 12) return true;
+    const lower = addressStr.toLowerCase();
+    const keywords = ['شارع', 'ش', 'دور', 'شقة', 'عمارة', 'مبنى', 'street', 'st', 'floor', 'apt', 'flat'];
+    return !keywords.some(k => lower.includes(k));
+  };
+
   const extractOrderInfo = async () => {
     if (!apiKey.trim()) {
-      alert(lang === 'ar' ? 'يرجى إدخال مفتاح Groq API من تبويب الإعدادات أولاً.' : 'Please enter your Groq API key in Settings.');
+      alert(lang === 'ar' ? 'يرجى إدخال مفتاح Groq API في الإعدادات.' : 'Please add your Groq API key in Settings.');
       setActiveTab('settings');
       return;
     }
-    if (!rawText.trim()) return alert(lang === 'ar' ? 'يرجى إدخال نص الطلب.' : 'Please enter order text.');
+    if (!rawText.trim()) return alert(lang === 'ar' ? 'يرجى إدخال نص الطلب أولاً.' : 'Please enter order text.');
 
     setLoading(true);
     setExtractedOrders([]);
-    setCustomerMatches([]);
-    setDiscrepancyWarning(false);
 
-    const knownStores = merchants.map(m => m.name).join(', ');
-    const knownCustomers = customers.map(c => `${c.name} (${c.phone})`).join(', ');
-
-    const systemPrompt = `You are an elite Egyptian dialect (عامية مصرية) Order Extraction Agent for delivery operations.
-
-### KNOWN DATABASE REPOSITORY:
-- Known Stores: [${knownStores || 'None'}]
-- Known Customers: [${knownCustomers || 'None'}]
-
-### CRITICAL RULES:
-1. MULTI-RECIPIENT / SPLIT ORDERS:
-   - If a message contains multiple drop-off points, distinct recipients, or split deliveries (e.g., "واحدة لمحمود في سموحة والتانية لأخته منى في كامب شيزار"), split them into separate order objects in the "orders" array.
-   - Calculate math carefully: If total price is 1150 and delivery is 40 per address, calculate individual COD payments properly based on instructions (e.g. Mahmoud pays 600 + 40 delivery = 640).
-2. STORE VS CUSTOMER RECOGNITION:
-   - Correctly identify the store (e.g., "من كارفور") and assign it to each sub-order.
-3. NOTES EXTRACTION:
-   - Extract extra operational notes (e.g., gate codes, special instructions) into "notes".
-
-### STRICT JSON SCHEMA:
+    const systemPrompt = `You are an Egyptian delivery logistics AI parser.
+Extract information from text messages.
+Return JSON format ONLY:
 {
   "is_cancelled": false,
   "orders": [
@@ -220,12 +209,13 @@ export default function App() {
       "customer": "Customer name",
       "phone": "Phone number",
       "address": "Full delivery address",
-      "cod": "Numeric amount to collect",
-      "item": "Item description",
-      "notes": "Specific notes for this delivery"
+      "cod": 600,
+      "item": "Items description",
+      "notes": "Extra delivery instructions or notes"
     }
   ]
-}`;
+}
+If split delivery across multiple locations/people, output multiple items in "orders" array.`;
 
     try {
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -241,82 +231,48 @@ export default function App() {
             { role: 'user', content: rawText }
           ],
           response_format: { type: 'json_object' },
-          temperature: 0.0
+          temperature: 0.1
         })
       });
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.error?.message || 'Extraction Failed');
-      
-      const parsed = JSON.parse(data.choices[0].message.content);
 
+      const parsed = JSON.parse(data.choices[0].message.content);
       if (parsed.is_cancelled) {
         alert(t.cancelAlert);
         setLoading(false);
         return;
       }
 
-      const extractedList = parsed.orders || [];
-      setExtractedOrders(extractedList);
-
-      // Perform initial check on first sub-order
-      if (extractedList.length > 0) {
-        checkCustomerMatches(extractedList[0]);
-      }
-
+      setExtractedOrders(parsed.orders || []);
     } catch (err) {
-      alert('Parsing Error: ' + err.message);
+      alert('Error parsing order: ' + err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const checkCustomerMatches = (orderObj) => {
-    if (orderObj?.customer && orderObj.customer !== t.unspecified) {
-      const queryName = orderObj.customer.trim().toLowerCase();
-      const matches = customers.filter(c => c.name.toLowerCase().includes(queryName) || queryName.includes(c.name.toLowerCase()));
-      
-      if (matches.length > 1) {
-        setCustomerMatches(matches);
-      } else if (matches.length === 1) {
-        const existing = matches[0];
-        if ((orderObj.phone && orderObj.phone !== existing.phone) || (orderObj.address && orderObj.address !== existing.address)) {
-          setDiscrepancyWarning(true);
-        } else {
-          setDiscrepancyWarning(false);
-        }
-      } else {
-        setCustomerMatches([]);
-        setDiscrepancyWarning(false);
-      }
-    }
-  };
-
-  const handleSelectMatchedCustomer = (cust, subIndex) => {
-    setExtractedOrders(prev => prev.map((ord, idx) => idx === subIndex ? {
-      ...ord,
-      customer: cust.name,
-      phone: cust.phone || ord.phone,
-      address: cust.address || ord.address
-    } : ord));
-    setCustomerMatches([]);
-    setDiscrepancyWarning(false);
-  };
-
   const handleConfirmOrder = () => {
     if (extractedOrders.length === 0) return;
 
-    const newCreatedOrders = extractedOrders.map(ord => ({
-      id: Date.now() + Math.random(),
-      ...ord,
-      driver: selectedDriver || t.unspecified,
-      status: 'مؤكد',
-      date: new Date().toLocaleTimeString(lang === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })
-    }));
+    let currentNum = orderCounter;
+    const newCreatedOrders = extractedOrders.map(ord => {
+      const orderNumber = `#${currentNum++}`;
+      return {
+        id: Date.now() + Math.random(),
+        orderNum: orderNumber,
+        ...ord,
+        driver: selectedDriver || t.unspecified,
+        status: 'مؤكد',
+        date: new Date().toLocaleTimeString(lang === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })
+      };
+    });
 
+    setOrderCounter(currentNum);
     setOrders([...newCreatedOrders, ...orders]);
 
-    // Save/Update Stores and Customers
+    // Save Merchants & Customers
     extractedOrders.forEach(ord => {
       if (ord.store && ord.store !== t.unspecified) {
         setMerchants(prev => {
@@ -325,7 +281,6 @@ export default function App() {
           return prev.map(m => m.name.toLowerCase() === ord.store.toLowerCase() ? { ...m, totalOrders: (m.totalOrders || 0) + 1 } : m);
         });
       }
-
       if (ord.customer && ord.customer !== t.unspecified) {
         setCustomers(prev => {
           const match = prev.find(c => c.phone === ord.phone || c.name === ord.customer);
@@ -338,29 +293,16 @@ export default function App() {
     setRawText('');
     setExtractedOrders([]);
     setSelectedDriver('');
-    setCustomerMatches([]);
-    setDiscrepancyWarning(false);
     setActiveTab('orders');
   };
 
-  const copyMissingInfoMessage = (ord) => {
-    const missingFields = [];
-    if (!ord.phone || ord.phone === t.unspecified) missingFields.push(lang === 'ar' ? 'رقم الهاتف' : 'phone number');
-    if (!ord.address || ord.address === t.unspecified) missingFields.push(lang === 'ar' ? 'العنوان بالتفصيل' : 'detailed address');
-    
-    const msg = lang === 'ar' 
-      ? `مرحباً، برجاء تزويدنا بالبيانات الناقصة للطلب الخاصة بـ (${ord.customer || 'العميل'}) (${missingFields.join(' و ')}) لضمان سرعة التوصيل.`
-      : `Hello, please provide the missing information (${missingFields.join(' and ')}) for ${ord.customer || 'customer'} to ensure prompt delivery.`;
-    
-    navigator.clipboard.writeText(msg);
-    alert(t.copiedMsg);
-  };
-
-  const totalCodSum = orders.reduce((acc, o) => acc + (parseFloat(o.cod) || 0), 0);
-  const activeOrdersCount = orders.filter(o => o.status !== 'تم التسليم' && o.status !== 'ملغي').length;
-  const deliveredOrdersCount = orders.filter(o => o.status === 'تم التسليم').length;
+  // Totals calculations
+  const totalEarnedSum = orders.filter(o => o.status !== 'ملغي').reduce((acc, o) => acc + (parseFloat(o.cod) || 0), 0);
+  const activeOrdersCount = orders.filter(o => !['مكتمل', 'ملغي'].includes(o.status)).length;
+  const completedOrdersCount = orders.filter(o => o.status === 'مكتمل').length;
 
   const filteredOrders = orders.filter(o => 
+    (o.orderNum || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (o.customer || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (o.store || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (o.phone || '').includes(searchQuery)
@@ -369,7 +311,7 @@ export default function App() {
   return (
     <div style={{ ...styles.container, direction: lang === 'ar' ? 'rtl' : 'ltr' }}>
       
-      {/* Header Bar */}
+      {/* Dynamic Gradient Header */}
       <header style={styles.header}>
         <div>
           <h1 style={styles.appTitle}>{t.appTitle}</h1>
@@ -377,31 +319,31 @@ export default function App() {
         </div>
         <div style={styles.headerRight}>
           <button style={styles.langBtn} onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}>
-            {lang === 'ar' ? '🇬🇧 English' : '🇪🇬 العربية'}
+            {lang === 'ar' ? '🌐 English' : '🌐 العربية'}
           </button>
-          <div style={{ ...styles.badge, backgroundColor: apiKey ? '#065f46' : '#991b1b' }}>
+          <div style={{ ...styles.badge, background: apiKey ? 'linear-gradient(135deg, #059669, #10b981)' : 'linear-gradient(135deg, #dc2626, #ef4444)' }}>
             {apiKey ? t.groqConnected : t.groqMissing}
           </div>
         </div>
       </header>
 
-      {/* KPI Cards */}
+      {/* Modern KPI Widgets */}
       <div style={styles.kpiRow}>
-        <div style={styles.kpiCard}>
+        <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg, #1e1b4b, #312e81)' }}>
           <span style={styles.kpiLabel}>{t.kpiTotalCod}</span>
-          <span style={styles.kpiValue}>{totalCodSum.toLocaleString()} {t.currency}</span>
+          <span style={{ ...styles.kpiValue, color: '#38bdf8' }}>{totalEarnedSum.toLocaleString()} {t.currency}</span>
         </div>
-        <div style={styles.kpiCard}>
+        <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg, #064e3b, #047857)' }}>
           <span style={styles.kpiLabel}>{t.kpiActiveOrders}</span>
-          <span style={{ ...styles.kpiValue, color: '#38bdf8' }}>{activeOrdersCount}</span>
+          <span style={{ ...styles.kpiValue, color: '#34d399' }}>{activeOrdersCount}</span>
         </div>
-        <div style={styles.kpiCard}>
+        <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg, #701a75, #a21caf)' }}>
           <span style={styles.kpiLabel}>{t.kpiCompleted}</span>
-          <span style={{ ...styles.kpiValue, color: '#10b981' }}>{deliveredOrdersCount}</span>
+          <span style={{ ...styles.kpiValue, color: '#f472b6' }}>{completedOrdersCount}</span>
         </div>
       </div>
 
-      {/* Nav Tabs */}
+      {/* Navigation */}
       <nav style={styles.nav}>
         <button style={activeTab === 'new_order' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('new_order')}>{t.navNewOrder}</button>
         <button style={activeTab === 'orders' ? styles.activeTab : styles.tab} onClick={() => setActiveTab('orders')}>{t.navOrders} ({orders.length})</button>
@@ -418,7 +360,7 @@ export default function App() {
           <div style={styles.card}>
             <div style={styles.rowBetween}>
               <h2 style={styles.cardTitle}>{t.aiHeader}</h2>
-              <button onClick={handlePasteClipboard} style={styles.btnSecondaryCompact}>{t.btnPaste}</button>
+              <button onClick={handlePasteClipboard} style={styles.btnGradientCompact}>{t.btnPaste}</button>
             </div>
             
             <textarea
@@ -429,27 +371,21 @@ export default function App() {
               style={styles.textarea}
             />
             
-            <button onClick={extractOrderInfo} disabled={loading} style={styles.btnPrimary}>
+            <button onClick={extractOrderInfo} disabled={loading} style={styles.btnPrimaryGradient}>
               {loading ? t.btnExtracting : t.btnExtract}
             </button>
 
-            {/* Extracted Orders Display */}
             {extractedOrders.length > 0 && (
               <div style={styles.extractedBox}>
-                <h3 style={{ marginTop: 0 }}>{t.reviewTitle}</h3>
-
-                {extractedOrders.length > 1 && (
-                  <p style={{ color: '#38bdf8', fontWeight: 'bold' }}>{t.multiOrderNotice}</p>
-                )}
+                <h3 style={{ marginTop: 0, color: '#facc15' }}>{t.reviewTitle}</h3>
 
                 {extractedOrders.map((ord, idx) => (
-                  <div key={idx} style={{ border: '1px solid #334155', padding: '12px', borderRadius: '8px', marginBottom: '12px', backgroundColor: '#1e293b' }}>
-                    <h4 style={{ margin: '0 0 10px 0', color: '#facc15' }}>📦 {t.customer}: {ord.customer}</h4>
+                  <div key={idx} style={styles.extractedSubCard}>
+                    <h4 style={{ margin: '0 0 10px 0', color: '#38bdf8' }}>📦 {t.customer}: {ord.customer}</h4>
                     
-                    {(!ord.phone || ord.phone === t.unspecified || !ord.address || ord.address === t.unspecified) && (
-                      <div style={styles.missingBox} onClick={() => copyMissingInfoMessage(ord)}>
-                        <span>{t.missingInfoAlert}</span>
-                        <button style={styles.copyMsgBtn}>{t.copyMissingMsg}</button>
+                    {isIncompleteAddress(ord.address) && (
+                      <div style={styles.addressWarningBox}>
+                        <span>{t.addressWarning}</span>
                       </div>
                     )}
 
@@ -467,27 +403,6 @@ export default function App() {
                   </div>
                 ))}
 
-                {/* Disambiguation Box */}
-                {customerMatches.length > 0 && (
-                  <div style={styles.warningBox}>
-                    <p style={{ fontWeight: 'bold', color: '#facc15', margin: '0 0 10px 0' }}>{t.matchPrompt}</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {customerMatches.map(c => (
-                        <button key={c.id} onClick={() => handleSelectMatchedCustomer(c, activeSubIndex)} style={styles.matchOptionBtn}>
-                          👤 <strong>{c.name}</strong> - 📞 {c.phone} - 📍 {c.address}
-                        </button>
-                      ))}
-                      <button onClick={() => setCustomerMatches([])} style={styles.newCustOptionBtn}>{t.newCustomerOption}</button>
-                    </div>
-                  </div>
-                )}
-
-                {discrepancyWarning && customerMatches.length === 0 && (
-                  <div style={styles.warningBox}>
-                    <p style={{ color: '#f87171', margin: 0, fontWeight: 'bold' }}>{t.discrepancyAlert}</p>
-                  </div>
-                )}
-
                 <div style={{ marginTop: '12px' }}>
                   <label style={styles.label}>{t.selectDriver}</label>
                   <select value={selectedDriver} onChange={(e) => setSelectedDriver(e.target.value)} style={styles.input}>
@@ -496,7 +411,7 @@ export default function App() {
                   </select>
                 </div>
 
-                <button onClick={handleConfirmOrder} style={styles.btnSuccess}>{t.btnConfirm}</button>
+                <button onClick={handleConfirmOrder} style={styles.btnSuccessGradient}>{t.btnConfirm}</button>
               </div>
             )}
           </div>
@@ -516,27 +431,84 @@ export default function App() {
             {filteredOrders.length === 0 ? <p style={styles.empty}>No orders found.</p> : filteredOrders.map(order => (
               <div key={order.id} style={styles.card}>
                 <div style={styles.rowBetween}>
-                  <span style={styles.tagStore}>{order.store}</span>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <span style={styles.orderNumTag}>{order.orderNum || '#1000'}</span>
+                    <span style={styles.tagStore}>{order.store}</span>
+                  </div>
+
+                  {/* Status Dropdown */}
                   <select
                     value={order.status}
                     onChange={(e) => setOrders(orders.map(o => o.id === order.id ? { ...o, status: e.target.value } : o))}
                     style={getStatusStyle(order.status)}
                   >
                     <option value="مؤكد">{t.statusConfirmed}</option>
+                    <option value="قيد تجهيز الطلب">{t.statusProcessing}</option>
+                    <option value="خرج للتوصيل">{t.statusOutForDelivery}</option>
                     <option value="جاري التوصيل">{t.statusInTransit}</option>
-                    <option value="تم التسليم">{t.statusDelivered}</option>
+                    <option value="مكتمل">{t.statusCompleted}</option>
                     <option value="متأخر">{t.statusDelayed}</option>
                     <option value="ملغي">{t.statusCancelled}</option>
                   </select>
                 </div>
+
                 <p style={styles.p}><strong>{t.customer}:</strong> {order.customer} ({order.phone})</p>
+                
+                {/* Incomplete Address Warning Banner */}
+                {isIncompleteAddress(order.address) && (
+                  <div style={styles.addressWarningBox}>
+                    <span>{t.addressWarning}</span>
+                  </div>
+                )}
+                
                 <p style={styles.p}><strong>{t.address}:</strong> {order.address}</p>
+
                 {order.notes && (
-                  <p style={{ ...styles.p, color: '#facc15', backgroundColor: '#332900', padding: '6px', borderRadius: '6px' }}>
+                  <p style={{ ...styles.p, color: '#facc15', backgroundColor: 'rgba(250, 204, 21, 0.1)', padding: '8px', borderRadius: '6px', border: '1px solid rgba(250, 204, 21, 0.3)' }}>
                     <strong>📌 {t.notes}:</strong> {order.notes}
                   </p>
                 )}
-                <p style={styles.p}><strong>{t.cod}:</strong> <span style={{ color: '#10b981', fontWeight: 'bold' }}>{order.cod} {t.currency}</span> | <strong>Driver:</strong> {order.driver}</p>
+
+                {/* Editable Total Amount */}
+                <div style={styles.amountRow}>
+                  <div>
+                    <strong>{t.cod}: </strong>
+                    {editingAmountId === order.id ? (
+                      <span style={{ display: 'inline-flex', gap: '5px' }}>
+                        <input
+                          type="number"
+                          value={tempAmount}
+                          onChange={(e) => setTempAmount(e.target.value)}
+                          style={styles.inlineInput}
+                        />
+                        <button
+                          onClick={() => {
+                            setOrders(orders.map(o => o.id === order.id ? { ...o, cod: tempAmount } : o));
+                            setEditingAmountId(null);
+                          }}
+                          style={styles.btnSaveCompact}
+                        >{t.saveAmount}</button>
+                      </span>
+                    ) : (
+                      <span style={{ color: '#34d399', fontWeight: 'bold', fontSize: '1.1rem' }}>
+                        {order.cod} {t.currency}
+                      </span>
+                    )}
+                  </div>
+
+                  {editingAmountId !== order.id && (
+                    <button
+                      onClick={() => { setEditingAmountId(order.id); setTempAmount(order.cod); }}
+                      style={styles.btnEditCompact}
+                    >
+                      ✏️ {t.editAmount}
+                    </button>
+                  )}
+                </div>
+
+                <p style={{ ...styles.p, fontSize: '0.85rem', color: '#94a3b8' }}>
+                  <strong>🛵 Driver:</strong> {order.driver} | <strong>🕒 Time:</strong> {order.date}
+                </p>
               </div>
             ))}
           </div>
@@ -560,24 +532,24 @@ export default function App() {
                     setDrivers([...drivers, newDriverName.trim()]);
                     setNewDriverName('');
                   }
-                }} style={styles.btnPrimaryCompact}>{t.btnAdd}</button>
+                }} style={styles.btnPrimaryGradient}>{t.btnAdd}</button>
               </div>
             </div>
 
             <div style={styles.grid2}>
               {drivers.map((driverName, idx) => {
                 const driverOrders = orders.filter(o => o.driver === driverName);
-                const deliveredCash = driverOrders.filter(o => o.status === 'تم التسليم').reduce((sum, o) => sum + (parseFloat(o.cod) || 0), 0);
+                const completedCash = driverOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + (parseFloat(o.cod) || 0), 0);
 
                 return (
                   <div key={idx} style={styles.card}>
                     <div style={styles.rowBetween}>
-                      <h3 style={{ margin: 0 }}>🛵 {driverName}</h3>
+                      <h3 style={{ margin: 0, color: '#38bdf8' }}>🛵 {driverName}</h3>
                       <button onClick={() => setDrivers(drivers.filter(d => d !== driverName))} style={styles.btnDelete}>{t.deleteBtn}</button>
                     </div>
                     <hr style={styles.hr} />
                     <p style={styles.p}>{t.totalTrips} <strong>{driverOrders.length}</strong></p>
-                    <p style={styles.p}>{t.driverCash} <strong style={{ color: '#10b981' }}>{deliveredCash} {t.currency}</strong></p>
+                    <p style={styles.p}>{t.driverCash} <strong style={{ color: '#34d399' }}>{completedCash} {t.currency}</strong></p>
                   </div>
                 );
               })}
@@ -590,34 +562,10 @@ export default function App() {
           <div>
             <div style={styles.card}>
               <h3 style={{ marginTop: 0 }}>{t.saveMerchant}</h3>
-              <input
-                type="text"
-                placeholder={t.merchantName}
-                value={merchantForm.name}
-                onChange={(e) => setMerchantForm({ ...merchantForm, name: e.target.value })}
-                style={styles.inputMargin}
-              />
-              <input
-                type="text"
-                placeholder={t.merchantPhone}
-                value={merchantForm.phone}
-                onChange={(e) => setMerchantForm({ ...merchantForm, phone: e.target.value })}
-                style={styles.inputMargin}
-              />
-              <input
-                type="text"
-                placeholder={t.merchantAddress}
-                value={merchantForm.address}
-                onChange={(e) => setMerchantForm({ ...merchantForm, address: e.target.value })}
-                style={styles.inputMargin}
-              />
-              <textarea
-                rows={3}
-                placeholder={t.merchantNotes}
-                value={merchantForm.notes}
-                onChange={(e) => setMerchantForm({ ...merchantForm, notes: e.target.value })}
-                style={styles.textareaMargin}
-              />
+              <input type="text" placeholder={t.merchantName} value={merchantForm.name} onChange={(e) => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.inputMargin} />
+              <input type="text" placeholder={t.merchantPhone} value={merchantForm.phone} onChange={(e) => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.inputMargin} />
+              <input type="text" placeholder={t.merchantAddress} value={merchantForm.address} onChange={(e) => setMerchantForm({ ...merchantForm, address: e.target.value })} style={styles.inputMargin} />
+              <textarea rows={2} placeholder={t.merchantNotes} value={merchantForm.notes} onChange={(e) => setMerchantForm({ ...merchantForm, notes: e.target.value })} style={styles.textareaMargin} />
               <button onClick={() => {
                 if (!merchantForm.name.trim()) return alert('Merchant name required');
                 if (merchantForm.id) {
@@ -626,20 +574,19 @@ export default function App() {
                   setMerchants([{ id: Date.now(), ...merchantForm, totalOrders: 0 }, ...merchants]);
                 }
                 setMerchantForm({ id: null, name: '', phone: '', address: '', notes: '' });
-              }} style={styles.btnSuccess}>{t.saveBtn}</button>
+              }} style={styles.btnSuccessGradient}>{t.saveBtn}</button>
             </div>
 
             <div style={styles.grid2}>
               {merchants.map(m => (
                 <div key={m.id} style={styles.card}>
                   <div style={styles.rowBetween}>
-                    <h3 style={{ margin: 0 }}>🏪 {m.name}</h3>
-                    <button onClick={() => setMerchantForm(m)} style={styles.btnEdit}>{t.editBtn}</button>
+                    <h3 style={{ margin: 0, color: '#facc15' }}>🏪 {m.name}</h3>
+                    <button onClick={() => setMerchantForm(m)} style={styles.btnEditCompact}>{t.editBtn}</button>
                   </div>
                   <p style={{ color: '#38bdf8', margin: '6px 0' }}>📞 {m.phone || 'N/A'}</p>
                   <p style={{ color: '#94a3b8', margin: '6px 0' }}>📍 {m.address || 'N/A'}</p>
                   {m.notes && <p style={{ color: '#facc15', margin: '6px 0' }}>💬 {m.notes}</p>}
-                  <p style={{ color: '#64748b', margin: '8px 0 0 0', fontSize: '0.85rem' }}>Orders: <strong>{m.totalOrders || 0}</strong></p>
                 </div>
               ))}
             </div>
@@ -651,27 +598,9 @@ export default function App() {
           <div>
             <div style={styles.card}>
               <h3>{editingCustomer ? t.editCustomer : t.saveCustomer}</h3>
-              <input
-                type="text"
-                placeholder={t.customer}
-                value={newCustomer.name}
-                onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })}
-                style={styles.inputMargin}
-              />
-              <input
-                type="text"
-                placeholder={t.phone}
-                value={newCustomer.phone}
-                onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })}
-                style={styles.inputMargin}
-              />
-              <input
-                type="text"
-                placeholder={t.address}
-                value={newCustomer.address}
-                onChange={(e) => setNewCustomer({ ...newCustomer, address: e.target.value })}
-                style={styles.inputMargin}
-              />
+              <input type="text" placeholder={t.customer} value={newCustomer.name} onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })} style={styles.inputMargin} />
+              <input type="text" placeholder={t.phone} value={newCustomer.phone} onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })} style={styles.inputMargin} />
+              <input type="text" placeholder={t.address} value={newCustomer.address} onChange={(e) => setNewCustomer({ ...newCustomer, address: e.target.value })} style={styles.inputMargin} />
               <button onClick={() => {
                 if (!newCustomer.name.trim() || !newCustomer.phone.trim()) return alert('Name and phone required');
                 if (editingCustomer) {
@@ -681,15 +610,15 @@ export default function App() {
                   setCustomers([{ id: Date.now(), ...newCustomer }, ...customers]);
                 }
                 setNewCustomer({ name: '', phone: '', address: '' });
-              }} style={styles.btnSuccess}>{t.saveBtn}</button>
+              }} style={styles.btnSuccessGradient}>{t.saveBtn}</button>
             </div>
 
             <div style={styles.grid2}>
               {customers.map(c => (
                 <div key={c.id} style={styles.card}>
                   <div style={styles.rowBetween}>
-                    <h3 style={{ margin: 0 }}>👤 {c.name}</h3>
-                    <button onClick={() => { setEditingCustomer(c); setNewCustomer(c); }} style={styles.btnEdit}>{t.editBtn}</button>
+                    <h3 style={{ margin: 0, color: '#a855f7' }}>👤 {c.name}</h3>
+                    <button onClick={() => { setEditingCustomer(c); setNewCustomer(c); }} style={styles.btnEditCompact}>{t.editBtn}</button>
                   </div>
                   <p style={{ color: '#38bdf8', margin: '5px 0' }}>📞 {c.phone}</p>
                   <p style={{ color: '#94a3b8', margin: 0 }}>📍 {c.address}</p>
@@ -720,57 +649,59 @@ export default function App() {
 }
 
 const getStatusStyle = (status) => {
-  const base = { padding: '6px 10px', borderRadius: '6px', fontWeight: 'bold', border: 'none', cursor: 'pointer', color: '#fff' };
+  const base = { padding: '6px 12px', borderRadius: '8px', fontWeight: 'bold', border: 'none', cursor: 'pointer', color: '#fff', fontSize: '0.85rem' };
   switch (status) {
-    case 'مؤكد': return { ...base, backgroundColor: '#2563eb' };
-    case 'جاري التوصيل': return { ...base, backgroundColor: '#d97706' };
-    case 'تم التسليم': return { ...base, backgroundColor: '#059669' };
-    case 'متأخر': return { ...base, backgroundColor: '#dc2626' };
-    case 'ملغي': return { ...base, backgroundColor: '#4b5563' };
+    case 'مؤكد': return { ...base, background: 'linear-gradient(135deg, #2563eb, #1d4ed8)' };
+    case 'قيد تجهيز الطلب': return { ...base, background: 'linear-gradient(135deg, #7c3aed, #6d28d9)' };
+    case 'خرج للتوصيل': return { ...base, background: 'linear-gradient(135deg, #0284c7, #0369a1)' };
+    case 'جاري التوصيل': return { ...base, background: 'linear-gradient(135deg, #d97706, #b45309)' };
+    case 'مكتمل': return { ...base, background: 'linear-gradient(135deg, #059669, #047857)' };
+    case 'متأخر': return { ...base, background: 'linear-gradient(135deg, #dc2626, #b91c1c)' };
+    case 'ملغي': return { ...base, background: 'linear-gradient(135deg, #4b5563, #374151)' };
     default: return base;
   }
 };
 
 const styles = {
-  container: { maxWidth: '900px', margin: '0 auto', padding: '15px', fontFamily: 'system-ui, -apple-system, sans-serif', backgroundColor: '#0f172a', color: '#f8fafc', minHeight: '100vh' },
-  header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#1e293b', padding: '16px 20px', borderRadius: '12px', border: '1px solid #334155' },
+  container: { maxWidth: '950px', margin: '0 auto', padding: '15px', fontFamily: 'system-ui, -apple-system, sans-serif', backgroundColor: '#090d16', color: '#f8fafc', minHeight: '100vh' },
+  header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'linear-gradient(135deg, #1e293b, #0f172a)', padding: '18px 22px', borderRadius: '16px', border: '1px solid #334155', boxShadow: '0 8px 25px rgba(0,0,0,0.3)' },
   headerRight: { display: 'flex', gap: '10px', alignItems: 'center' },
-  appTitle: { margin: 0, fontSize: '1.3rem', color: '#38bdf8' },
-  appSubtitle: { margin: '4px 0 0 0', fontSize: '0.8rem', color: '#94a3b8' },
-  badge: { padding: '6px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold' },
+  appTitle: { margin: 0, fontSize: '1.4rem', background: 'linear-gradient(90deg, #38bdf8, #818cf8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' },
+  appSubtitle: { margin: '4px 0 0 0', fontSize: '0.82rem', color: '#94a3b8' },
+  badge: { padding: '6px 14px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 'bold', color: '#fff' },
   langBtn: { padding: '6px 12px', backgroundColor: '#334155', color: '#fff', border: '1px solid #475569', borderRadius: '20px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.8rem' },
-  kpiRow: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginTop: '15px' },
-  kpiCard: { backgroundColor: '#1e293b', border: '1px solid #334155', padding: '12px 15px', borderRadius: '10px', display: 'flex', flexDirection: 'column' },
-  kpiLabel: { fontSize: '0.75rem', color: '#94a3b8', fontWeight: 'bold' },
-  kpiValue: { fontSize: '1.2rem', fontWeight: 'bold', color: '#f8fafc', marginTop: '4px' },
-  nav: { display: 'flex', gap: '8px', marginTop: '15px', overflowX: 'auto', paddingBottom: '6px' },
-  tab: { flex: 1, padding: '10px', border: '1px solid #334155', backgroundColor: '#1e293b', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#94a3b8', minWidth: '95px' },
-  activeTab: { flex: 1, padding: '10px', border: 'none', backgroundColor: '#0284c7', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#fff', minWidth: '95px' },
-  main: { marginTop: '15px' },
-  card: { backgroundColor: '#1e293b', padding: '18px', borderRadius: '12px', border: '1px solid #334155', marginBottom: '15px' },
-  cardTitle: { marginTop: 0, fontSize: '1.1rem', color: '#f8fafc' },
-  textarea: { width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #475569', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box', fontSize: '0.95rem' },
-  textareaMargin: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #475569', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box', marginBottom: '10px' },
-  input: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #475569', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box' },
-  inputMargin: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #475569', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box', marginBottom: '10px' },
-  searchInput: { width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid #0284c7', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box', marginBottom: '15px' },
+  kpiRow: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginTop: '18px' },
+  kpiCard: { border: '1px solid rgba(255,255,255,0.1)', padding: '14px 18px', borderRadius: '14px', display: 'flex', flexDirection: 'column', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' },
+  kpiLabel: { fontSize: '0.78rem', color: '#cbd5e1', fontWeight: 'bold' },
+  kpiValue: { fontSize: '1.35rem', fontWeight: 'bold', marginTop: '4px' },
+  nav: { display: 'flex', gap: '8px', marginTop: '18px', overflowX: 'auto', paddingBottom: '6px' },
+  tab: { flex: 1, padding: '11px', border: '1px solid #334155', backgroundColor: '#1e293b', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#94a3b8', minWidth: '100px' },
+  activeTab: { flex: 1, padding: '11px', border: 'none', background: 'linear-gradient(135deg, #0284c7, #2563eb)', borderRadius: '10px', cursor: 'pointer', fontWeight: 'bold', color: '#fff', minWidth: '100px', boxShadow: '0 4px 12px rgba(37,99,235,0.4)' },
+  main: { marginTop: '18px' },
+  card: { backgroundColor: '#131c2e', padding: '20px', borderRadius: '16px', border: '1px solid #1e293b', marginBottom: '16px', boxShadow: '0 6px 20px rgba(0,0,0,0.25)' },
+  cardTitle: { marginTop: 0, fontSize: '1.15rem', color: '#f8fafc' },
+  textarea: { width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid #334155', backgroundColor: '#0a0f1d', color: '#fff', boxSizing: 'border-box', fontSize: '0.95rem' },
+  textareaMargin: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #334155', backgroundColor: '#0a0f1d', color: '#fff', boxSizing: 'border-box', marginBottom: '10px' },
+  input: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #334155', backgroundColor: '#0a0f1d', color: '#fff', boxSizing: 'border-box' },
+  inlineInput: { width: '80px', padding: '4px 8px', borderRadius: '6px', border: '1px solid #38bdf8', backgroundColor: '#0a0f1d', color: '#fff', fontWeight: 'bold' },
+  inputMargin: { width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid #334155', backgroundColor: '#0a0f1d', color: '#fff', boxSizing: 'border-box', marginBottom: '10px' },
+  searchInput: { width: '100%', padding: '14px', borderRadius: '10px', border: '1px solid #0284c7', backgroundColor: '#0f172a', color: '#fff', boxSizing: 'border-box', marginBottom: '18px', fontSize: '0.95rem' },
   label: { display: 'block', fontWeight: 'bold', marginBottom: '6px', color: '#cbd5e1' },
-  btnPrimary: { width: '100%', padding: '12px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer', marginTop: '10px' },
-  btnPrimaryCompact: { padding: '10px 20px', backgroundColor: '#0284c7', color: '#fff', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' },
-  btnSecondaryCompact: { padding: '6px 12px', backgroundColor: '#334155', color: '#38bdf8', border: '1px solid #0284c7', borderRadius: '6px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem' },
-  btnSuccess: { width: '100%', padding: '12px', backgroundColor: '#059669', color: '#fff', border: 'none', borderRadius: '8px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer', marginTop: '12px' },
-  btnDelete: { backgroundColor: '#991b1b', color: '#fff', border: 'none', padding: '4px 8px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' },
-  btnEdit: { backgroundColor: '#0284c7', color: '#fff', border: 'none', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' },
-  extractedBox: { backgroundColor: '#0f172a', border: '1px solid #334155', padding: '15px', borderRadius: '10px', marginTop: '15px' },
-  warningBox: { backgroundColor: '#422006', border: '1px solid #ca8a04', padding: '15px', borderRadius: '10px', marginTop: '15px' },
-  matchOptionBtn: { width: '100%', padding: '10px', backgroundColor: '#713f12', color: '#fff', border: '1px solid #ca8a04', borderRadius: '6px', cursor: 'pointer', textAlign: 'left', fontWeight: 'bold' },
-  newCustOptionBtn: { width: '100%', padding: '10px', backgroundColor: '#0369a1', color: '#fff', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' },
-  missingBox: { backgroundColor: '#7f1d1d', border: '1px solid #dc2626', padding: '10px 12px', borderRadius: '8px', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', fontSize: '0.85rem', color: '#fca5a5' },
-  copyMsgBtn: { padding: '4px 8px', backgroundColor: '#991b1b', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer', fontWeight: 'bold' },
+  btnPrimaryGradient: { width: '100%', padding: '12px', background: 'linear-gradient(135deg, #0284c7, #2563eb)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer', marginTop: '12px' },
+  btnGradientCompact: { padding: '6px 14px', background: 'linear-gradient(135deg, #334155, #475569)', color: '#38bdf8', border: '1px solid #0284c7', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', fontSize: '0.85rem' },
+  btnSuccessGradient: { width: '100%', padding: '12px', background: 'linear-gradient(135deg, #059669, #10b981)', color: '#fff', border: 'none', borderRadius: '10px', fontSize: '1rem', fontWeight: 'bold', cursor: 'pointer', marginTop: '12px' },
+  btnDelete: { backgroundColor: '#991b1b', color: '#fff', border: 'none', padding: '5px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem' },
+  btnEditCompact: { background: 'linear-gradient(135deg, #0284c7, #0369a1)', color: '#fff', border: 'none', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' },
+  btnSaveCompact: { background: 'linear-gradient(135deg, #059669, #10b981)', color: '#fff', border: 'none', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 'bold' },
+  extractedBox: { backgroundColor: '#0a0f1d', border: '1px solid #334155', padding: '16px', borderRadius: '12px', marginTop: '16px' },
+  extractedSubCard: { border: '1px solid #1e293b', padding: '14px', borderRadius: '10px', marginBottom: '12px', backgroundColor: '#131c2e' },
+  addressWarningBox: { background: 'linear-gradient(135deg, #7f1d1d, #991b1b)', border: '1px solid #f87171', padding: '8px 12px', borderRadius: '8px', color: '#fecaca', fontWeight: 'bold', fontSize: '0.85rem', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' },
   grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
-  rowBetween: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' },
+  rowBetween: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' },
+  orderNumTag: { background: 'linear-gradient(135deg, #7c3aed, #4c1d95)', color: '#fff', padding: '4px 10px', borderRadius: '6px', fontWeight: 'bold', fontSize: '0.9rem' },
   tagStore: { backgroundColor: '#0369a1', color: '#fff', padding: '4px 10px', borderRadius: '6px', fontWeight: 'bold', fontSize: '0.85rem' },
   p: { margin: '6px 0', color: '#cbd5e1' },
+  amountRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '10px 0', padding: '8px 12px', backgroundColor: '#0a0f1d', borderRadius: '8px', border: '1px solid #1e293b' },
   hr: { border: 'none', borderTop: '1px solid #334155', margin: '10px 0' },
   empty: { color: '#64748b', textAlign: 'center', marginTop: '30px' }
 };
