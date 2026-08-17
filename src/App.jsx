@@ -66,9 +66,11 @@ const translations = {
     statusCompleted: 'مكتمل (تم التسليم)',
     statusDelayed: 'متأخر',
     statusCancelled: 'ملغي',
+    statusLate: 'متأخر جداً (تجاوز ETA)',
 
     addDriver: 'إضافة طيار جديد',
     driverName: 'اسم الطيار...',
+    driverPhone: 'رقم هاتف الطيار...',
     btnAdd: 'إضافة',
 
     driverCash: 'إجمالي المبالغ المحصلة:',
@@ -135,7 +137,6 @@ const translations = {
     cancel: 'إلغاء',
     confirm: 'تأكيد',
 
-    // New Translations
     matchTitle: '🔍 مطابقة البيانات المسجلة',
     matchPrompt: 'تم العثور على أسماء مشابهة في النظام. يرجى اختيار جهة معينة أو إنشائها كجديدة:',
     createNew: '➕ إضافة كـ جديد',
@@ -146,7 +147,28 @@ const translations = {
     addNotePlaceholder: 'أدخل ملاحظة هنا...',
     noOrdersFound: 'لا توجد طلبات مسجلة لهذا الاسم.',
     deletedBadge: '🗑️ طلب محذوف',
-    orderDetailsModal: 'تفاصيل الطلب والسجل التاريخي'
+    orderDetailsModal: 'تفاصيل الطلب والسجل التاريخي',
+
+    // New Features & Modals Translations
+    appNameLabel: 'اسم التطبيق المخصص',
+    whatsappModalTitle: '💬 استيراد / تصدير واتساب والنصوص',
+    whatsappImportHeader: '📥 استيراد نص خام / واتساب',
+    whatsappExportHeader: '📤 إنشاء رسالة إرسال للطيار',
+    btnGenerateWhatsapp: 'أنشئ رسالة الواتساب',
+    copyWhatsapp: '📋 نسخ الرسالة',
+    exportImportJson: '💾 النسخ الاحتياطي واسترجاع البيانات (JSON)',
+    exportData: 'تصدير النسخة الاحتياطية',
+    importData: 'استرجاع النسخة الاحتياطية',
+    expectedEta: 'وقت الوصول المتوقع (ETA)',
+    etaExceeded: '⏰ متأخر جداً (تجاوز الوقت المتوقع)',
+    weeklyRevenue: 'الإيراد الأسبوعي',
+    monthlyRevenue: 'الإيراد الشهري',
+    deliveredOrdersCount: 'طلبات تم توصيلها',
+    systemCurrency: 'عملة النظام',
+    defaultCommission: 'نسبة العمولة الافتراضية (%)',
+    autoAssignDriver: 'تعيين الطيار تلقائياً',
+    exportCsv: '📊 تصدير البيانات (CSV)',
+    importCsv: '📥 استيراد بيانات (CSV)'
   },
 
   en: {
@@ -214,9 +236,11 @@ const translations = {
     statusCompleted: 'Completed',
     statusDelayed: 'Delayed',
     statusCancelled: 'Cancelled',
+    statusLate: 'Late (ETA Exceeded)',
 
     addDriver: 'Add Driver',
     driverName: 'Driver Name...',
+    driverPhone: 'Driver Phone...',
     btnAdd: 'Add Driver',
 
     driverCash: 'Total Collected:',
@@ -283,7 +307,6 @@ const translations = {
     cancel: 'Cancel',
     confirm: 'Confirm',
 
-    // New Translations
     matchTitle: '🔍 Duplicate Name Matcher',
     matchPrompt: 'Multiple matches found. Select an existing record or create a new entry:',
     createNew: '➕ Create New Entry',
@@ -294,7 +317,28 @@ const translations = {
     addNotePlaceholder: 'Add a note here...',
     noOrdersFound: 'No orders associated with this entry.',
     deletedBadge: '🗑️ Deleted Order',
-    orderDetailsModal: 'Order Profile & Audit Log'
+    orderDetailsModal: 'Order Profile & Audit Log',
+
+    // New Features & Modals Translations
+    appNameLabel: 'Custom App Name',
+    whatsappModalTitle: '💬 WhatsApp & Raw Text Import / Export',
+    whatsappImportHeader: '📥 Paste Raw Text / WhatsApp',
+    whatsappExportHeader: '📤 Generate Driver Dispatch Message',
+    btnGenerateWhatsapp: 'Generate Message',
+    copyWhatsapp: '📋 Copy Text',
+    exportImportJson: '💾 Backup & Restore Full System Data (JSON)',
+    exportData: 'Export Backup JSON',
+    importData: 'Import Backup JSON',
+    expectedEta: 'Expected Arrival Time (ETA)',
+    etaExceeded: '⏰ Late (ETA Exceeded)',
+    weeklyRevenue: 'Weekly Revenue',
+    monthlyRevenue: 'Monthly Revenue',
+    deliveredOrdersCount: 'Delivered Orders',
+    systemCurrency: 'System Currency',
+    defaultCommission: 'Default Commission (%)',
+    autoAssignDriver: 'Auto Driver Assignment',
+    exportCsv: '📊 Export Data (CSV)',
+    importCsv: '📥 Import Data (CSV)'
   }
 };
 
@@ -320,7 +364,7 @@ const styles = {
     padding: '16px'
   },
   container: {
-    maxWidth: '520px',
+    maxWidth: '560px',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -545,17 +589,6 @@ const styles = {
     fontSize: '0.9rem',
     outline: 'none'
   },
-  textareaMargin: {
-    width: '100%',
-    backgroundColor: 'rgba(11, 7, 24, 0.8)',
-    border: '1px solid rgba(168, 85, 247, 0.25)',
-    borderRadius: '10px',
-    color: '#FFF',
-    padding: '10px',
-    boxSizing: 'border-box',
-    marginBottom: '8px',
-    fontFamily: 'inherit'
-  },
   extractedBox: { marginTop: '20px', borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '20px' },
   extractedSubCard: {
     background: 'rgba(11, 7, 24, 0.6)',
@@ -604,7 +637,6 @@ const styles = {
     marginTop: '10px',
     border: '1px solid rgba(255, 255, 255, 0.05)'
   },
-  infoMessage: { fontSize: '0.78rem', color: '#94A3B8', marginTop: '8px' },
   confirmationPanel: {
     background: 'rgba(11, 7, 24, 0.7)',
     border: '1px solid #7C3AED',
@@ -612,7 +644,6 @@ const styles = {
     padding: '16px',
     marginTop: '20px'
   },
-  confirmationHeader: { marginBottom: '12px' },
   label: { display: 'block', fontSize: '0.82rem', color: '#CBD5E1', marginBottom: '6px', fontWeight: '500' },
   input: {
     width: '100%',
@@ -634,13 +665,6 @@ const styles = {
     fontWeight: '700',
     boxSizing: 'border-box',
     outline: 'none'
-  },
-  revenueExplanationBox: {
-    background: 'rgba(15, 23, 42, 0.6)',
-    border: '1px dashed #38BDF8',
-    padding: '12px',
-    borderRadius: '12px',
-    marginTop: '15px'
   },
   searchInput: {
     width: '100%',
@@ -676,59 +700,6 @@ const styles = {
     margin: '8px 0',
     fontSize: '0.82rem'
   },
-  orderFinancialCard: {
-    background: 'rgba(11, 7, 24, 0.6)',
-    border: '1px solid rgba(255, 255, 255, 0.08)',
-    borderRadius: '12px',
-    padding: '14px',
-    margin: '10px 0'
-  },
-  summaryMetric: { display: 'flex', flexDirection: 'column', gap: '2px' },
-  btnSaveCompact: {
-    background: '#10B981',
-    color: '#FFF',
-    border: 'none',
-    padding: '4px 8px',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    fontWeight: '600'
-  },
-  btnEditTiny: {
-    background: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: '0.85rem',
-    marginLeft: '4px'
-  },
-  cancelledBox: {
-    background: 'rgba(239, 68, 68, 0.2)',
-    color: '#FCA5A5',
-    padding: '8px',
-    borderRadius: '8px',
-    textAlign: 'center',
-    marginTop: '8px',
-    fontSize: '0.85rem'
-  },
-  btnEditCompact: {
-    background: 'rgba(255, 255, 255, 0.08)',
-    color: '#CBD5E1',
-    border: 'none',
-    padding: '6px 12px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontSize: '0.8rem',
-    fontWeight: '600'
-  },
-  amountRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '8px 0' },
-  inlineInput: {
-    background: 'rgba(11, 7, 24, 0.8)',
-    border: '1px solid rgba(168, 85, 247, 0.3)',
-    color: '#FFF',
-    padding: '4px 8px',
-    borderRadius: '6px',
-    width: '80px',
-    outline: 'none'
-  },
   monthlySummary: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
@@ -738,13 +709,6 @@ const styles = {
     borderRadius: '14px',
     marginTop: '15px',
     border: '1px solid rgba(255, 255, 255, 0.08)'
-  },
-  ledgerOrderCard: {
-    background: 'rgba(11, 7, 24, 0.6)',
-    border: '1px solid rgba(255, 255, 255, 0.08)',
-    borderRadius: '12px',
-    padding: '12px',
-    marginTop: '10px'
   },
   modalOverlay: {
     position: 'fixed',
@@ -765,7 +729,7 @@ const styles = {
     border: '1px solid #7C3AED',
     borderRadius: '20px',
     padding: '24px',
-    maxWidth: '500px',
+    maxWidth: '520px',
     width: '100%',
     maxHeight: '90vh',
     overflowY: 'auto'
@@ -788,6 +752,7 @@ const getStatusStyle = status => {
     case 'ملغي':
       return { ...base, background: '#DC2626' };
     case 'متأخر':
+    case 'متأخر جداً (تجاوز ETA)':
       return { ...base, background: '#D97706' };
     case 'خرج للتوصيل':
     case 'جاري التوصيل':
@@ -803,13 +768,19 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('new_order');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Enterprise Settings & App Custom Name State
+  const [customAppName, setCustomAppName] = useState(() => localStorage.getItem('custom_app_name') || '');
+  const [currencySymbol, setCurrencySymbol] = useState(() => localStorage.getItem('app_currency_symbol') || 'ج.م');
+  const [defaultCommission, setDefaultCommission] = useState(() => parseInt(localStorage.getItem('app_default_commission') || '20'));
+  const [autoAssignDriver, setAutoAssignDriver] = useState(() => localStorage.getItem('app_auto_assign_driver') === 'true');
+
   const [orderCounter, setOrderCounter] = useState(() => parseInt(localStorage.getItem('order_counter_num') || '1001'));
   const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v5') || '[]'));
   const [deletedOrders, setDeletedOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_deleted_orders_v5') || '[]'));
   
   const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v5') || '[]'));
   const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v5') || '[]'));
-  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v5') || '["أحمد", "محمود", "مصطفى"]'));
+  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v5') || '[{"name":"أحمد","phone":"01000000000"},{"name":"محمود","phone":"01100000000"}]'));
   
   const [driverNotes, setDriverNotes] = useState(() => JSON.parse(localStorage.getItem('delivery_driver_notes_v5') || '{}'));
   const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v5') || '[]'));
@@ -819,8 +790,9 @@ export default function App() {
   const [extractedOrders, setExtractedOrders] = useState([]);
 
   const [selectedDriver, setSelectedDriver] = useState('');
-  const [selectedRevenuePercent, setSelectedRevenuePercent] = useState(20);
+  const [selectedRevenuePercent, setSelectedRevenuePercent] = useState(defaultCommission);
   const [newDriverName, setNewDriverName] = useState('');
+  const [newDriverPhone, setNewDriverPhone] = useState('');
 
   const [ledgerDriver, setLedgerDriver] = useState('');
   const [ledgerDate, setLedgerDate] = useState(() => new Date().toISOString().split('T')[0]);
@@ -840,14 +812,23 @@ export default function App() {
   const [editingCustomer, setEditingCustomer] = useState(null);
 
   // Modals state for entity drill-down & matching
-  const [activeEntityModal, setActiveEntityModal] = useState(null); // { type: 'customer'|'merchant'|'driver', data: object/string }
+  const [activeEntityModal, setActiveEntityModal] = useState(null);
   const [selectedOrderForDetails, setSelectedOrderForDetails] = useState(null);
-  const [matchingPromptModal, setMatchingPromptModal] = useState(null); // { index, type: 'customer'|'store', name, extracted, matches }
+  const [matchingPromptModal, setMatchingPromptModal] = useState(null);
+  
+  // Modals state for WhatsApp & Import/Export
+  const [showWhatsappModal, setShowWhatsappModal] = useState(false);
+  const [whatsappExportOrder, setWhatsappExportOrder] = useState(null);
+  const [generatedWhatsappMsg, setGeneratedWhatsappMsg] = useState('');
 
   const t = translations[lang];
 
   useEffect(() => { localStorage.setItem('app_lang', lang); }, [lang]);
   useEffect(() => { localStorage.setItem('groq_api_key', apiKey); }, [apiKey]);
+  useEffect(() => { localStorage.setItem('custom_app_name', customAppName); }, [customAppName]);
+  useEffect(() => { localStorage.setItem('app_currency_symbol', currencySymbol); }, [currencySymbol]);
+  useEffect(() => { localStorage.setItem('app_default_commission', defaultCommission.toString()); }, [defaultCommission]);
+  useEffect(() => { localStorage.setItem('app_auto_assign_driver', autoAssignDriver.toString()); }, [autoAssignDriver]);
   useEffect(() => { localStorage.setItem('order_counter_num', orderCounter.toString()); }, [orderCounter]);
   useEffect(() => { localStorage.setItem('delivery_orders_v5', JSON.stringify(orders)); }, [orders]);
   useEffect(() => { localStorage.setItem('delivery_deleted_orders_v5', JSON.stringify(deletedOrders)); }, [deletedOrders]);
@@ -856,6 +837,25 @@ export default function App() {
   useEffect(() => { localStorage.setItem('delivery_drivers_v5', JSON.stringify(drivers)); }, [drivers]);
   useEffect(() => { localStorage.setItem('delivery_driver_notes_v5', JSON.stringify(driverNotes)); }, [driverNotes]);
   useEffect(() => { localStorage.setItem('delivery_history_v5', JSON.stringify(historyLogs)); }, [historyLogs]);
+
+  // Automatic ETA Exceeded Status Update Loop
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setOrders(prevOrders =>
+        prevOrders.map(o => {
+          if (o.eta && o.status !== 'مكتمل' && o.status !== 'ملغي' && o.status !== 'متأخر جداً (تجاوز ETA)') {
+            const etaTime = new Date(o.eta);
+            if (!isNaN(etaTime.getTime()) && now > etaTime) {
+              return { ...o, status: 'متأخر جداً (تجاوز ETA)' };
+            }
+          }
+          return o;
+        })
+      );
+    }, 30000); // Check every 30 seconds
+    return () => clearInterval(interval);
+  }, []);
 
   /* Financial logic */
   const isCancelled = order => order?.status === 'ملغي';
@@ -963,7 +963,8 @@ OUTPUT FORMAT:
       "deliveryFee": 0,
       "paymentMethod": "cash",
       "item": "",
-      "notes": ""
+      "notes": "",
+      "eta": ""
     }
   ]
 }
@@ -1004,12 +1005,17 @@ OUTPUT FORMAT:
         paymentMethod:
           order.paymentMethod === PAYMENT_ONLINE || order.paymentMethod === PAYMENT_PREPAID
             ? order.paymentMethod
-            : PAYMENT_CASH
+            : PAYMENT_CASH,
+        eta: order.eta || ''
       }));
 
       setExtractedOrders(normalizedOrders);
 
-      // Check for duplicate names (Matching logic)
+      if (autoAssignDriver && drivers.length > 0) {
+        const dObj = drivers[0];
+        setSelectedDriver(typeof dObj === 'object' ? dObj.name : dObj);
+      }
+
       checkDuplicateMatches(normalizedOrders);
 
     } catch (err) {
@@ -1116,6 +1122,7 @@ OUTPUT FORMAT:
         driver: selectedDriver,
         status: 'مؤكد',
         isoDate: isoDateStr,
+        eta: ord.eta || '',
         date: now.toLocaleTimeString(lang === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })
       };
 
@@ -1130,16 +1137,16 @@ OUTPUT FORMAT:
         orderNumber,
         'Created',
         lang === 'ar'
-          ? `تم إنشاء الطلب للعميل ${newOrder.customer}. قيمة الطلب ${normalizedCod} ج.م، التوصيل ${normalizedDeliveryFee} ج.م، الدفع ${
+          ? `تم إنشاء الطلب للعميل ${newOrder.customer}. قيمة الطلب ${normalizedCod} ${currencySymbol}، التوصيل ${normalizedDeliveryFee} ${currencySymbol}، الدفع ${
               paymentMethod === PAYMENT_CASH ? 'كاش' : 'مدفوع أونلاين'
-            }، نسبة الشركة ${selectedRevenuePercent}% = ${companyRevenue.toFixed(2)} ج.م، نصيب الطيار = ${driverRevenue.toFixed(
+            }، نسبة الشركة ${selectedRevenuePercent}% = ${companyRevenue.toFixed(2)} ${currencySymbol}، نصيب الطيار = ${driverRevenue.toFixed(
               2
-            )} ج.م، إجمالي تحصيل الطيار = ${customerCollection.toFixed(2)} ج.م.`
-          : `Order created for ${newOrder.customer}. Order value: ${normalizedCod} EGP, delivery fee: ${normalizedDeliveryFee} EGP, payment: ${
+            )} ${currencySymbol}، إجمالي تحصيل الطيار = ${customerCollection.toFixed(2)} ${currencySymbol}.`
+          : `Order created for ${newOrder.customer}. Order value: ${normalizedCod} ${currencySymbol}, delivery fee: ${normalizedDeliveryFee} ${currencySymbol}, payment: ${
               paymentMethod === PAYMENT_CASH ? 'Cash' : 'Paid Online'
-            }, company share ${selectedRevenuePercent}% = ${companyRevenue.toFixed(2)} EGP, driver share = ${driverRevenue.toFixed(
+            }, company share ${selectedRevenuePercent}% = ${companyRevenue.toFixed(2)} ${currencySymbol}, driver share = ${driverRevenue.toFixed(
               2
-            )} EGP, driver collection = ${customerCollection.toFixed(2)} EGP.`
+            )} ${currencySymbol}, driver collection = ${customerCollection.toFixed(2)} ${currencySymbol}.`
       );
 
       return newOrder;
@@ -1173,7 +1180,7 @@ OUTPUT FORMAT:
     setRawText('');
     setExtractedOrders([]);
     setSelectedDriver('');
-    setSelectedRevenuePercent(20);
+    setSelectedRevenuePercent(defaultCommission);
     setActiveTab('orders');
   };
 
@@ -1206,7 +1213,7 @@ OUTPUT FORMAT:
     const oldAmount = order.cod;
     const newAmount = normalizeNumber(tempAmount);
     setOrders(prev => prev.map(o => (o.id === order.id ? { ...o, cod: newAmount } : o)));
-    addAuditLog(order.orderNum, 'Amount Edited', `Order value updated from ${oldAmount} to ${newAmount} ${t.currency}`);
+    addAuditLog(order.orderNum, 'Amount Edited', `Order value updated from ${oldAmount} to ${newAmount} ${currencySymbol}`);
     setEditingAmountId(null);
   };
 
@@ -1214,7 +1221,7 @@ OUTPUT FORMAT:
     const oldFee = getDeliveryFee(order);
     const newFee = normalizeNumber(tempDeliveryFee);
     setOrders(prev => prev.map(o => (o.id === order.id ? { ...o, deliveryFee: newFee } : o)));
-    addAuditLog(order.orderNum, 'Delivery Fee Edited', `Delivery fee updated from ${oldFee} to ${newFee} ${t.currency}`);
+    addAuditLog(order.orderNum, 'Delivery Fee Edited', `Delivery fee updated from ${oldFee} to ${newFee} ${currencySymbol}`);
     setEditingDeliveryId(null);
   };
 
@@ -1226,12 +1233,14 @@ OUTPUT FORMAT:
 
   const handleAddDriver = () => {
     if (!newDriverName.trim()) return;
-    if (drivers.includes(newDriverName.trim())) {
+    const driverList = drivers.map(d => typeof d === 'object' ? d.name : d);
+    if (driverList.includes(newDriverName.trim())) {
       alert(lang === 'ar' ? 'الطيار موجود بالفعل.' : 'Driver already exists.');
       return;
     }
-    setDrivers(prev => [...prev, newDriverName.trim()]);
+    setDrivers(prev => [...prev, { name: newDriverName.trim(), phone: newDriverPhone.trim() }]);
     setNewDriverName('');
+    setNewDriverPhone('');
   };
 
   const handleSaveCustomerExplicit = () => {
@@ -1273,6 +1282,93 @@ OUTPUT FORMAT:
     }
   };
 
+  // Dispatch WhatsApp Message Generator
+  const generateWhatsappDispatchText = (ord) => {
+    const text = lang === 'ar' ?
+      `🚚 *تفاصيل أمر التوصيل* (${ord.orderNum})
+👤 *العميل:* ${ord.customer}
+📞 *الهاتف:* ${ord.phone}
+📍 *العنوان:* ${ord.address}
+🏪 *المتجر:* ${ord.store}
+📦 *الصنف:* ${ord.item || 'غير محدد'}
+💰 *مبلغ التحصيل:* ${getCustomerCollection(ord)} ${currencySymbol}
+📝 *ملاحظات:* ${ord.notes || 'لا يوجد'}` :
+      `🚚 *Delivery Order Dispatch* (${ord.orderNum})
+👤 *Customer:* ${ord.customer}
+📞 *Phone:* ${ord.phone}
+📍 *Address:* ${ord.address}
+🏪 *Store:* ${ord.store}
+📦 *Item:* ${ord.item || 'N/A'}
+💰 *Collection Amount:* ${getCustomerCollection(ord)} ${currencySymbol}
+📝 *Notes:* ${ord.notes || 'None'}`;
+    setGeneratedWhatsappMsg(text);
+  };
+
+  // Export JSON Backup
+  const handleExportFullJSON = () => {
+    const fullBackup = {
+      orders,
+      deletedOrders,
+      merchants,
+      customers,
+      drivers,
+      driverNotes,
+      historyLogs,
+      orderCounter,
+      customAppName,
+      currencySymbol,
+      defaultCommission,
+      exportedAt: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(fullBackup, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `express_delivery_backup_${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+  };
+
+  // Import JSON Backup
+  const handleImportFullJSON = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const data = JSON.parse(evt.target.result);
+        if (data.orders) setOrders(data.orders);
+        if (data.deletedOrders) setDeletedOrders(data.deletedOrders);
+        if (data.merchants) setMerchants(data.merchants);
+        if (data.customers) setCustomers(data.customers);
+        if (data.drivers) setDrivers(data.drivers);
+        if (data.driverNotes) setDriverNotes(data.driverNotes);
+        if (data.historyLogs) setHistoryLogs(data.historyLogs);
+        if (data.orderCounter) setOrderCounter(data.orderCounter);
+        if (data.customAppName) setCustomAppName(data.customAppName);
+        if (data.currencySymbol) setCurrencySymbol(data.currencySymbol);
+        alert(lang === 'ar' ? 'تم استرجاع البيانات بنجاح!' : 'Data restored successfully!');
+      } catch (err) {
+        alert(lang === 'ar' ? 'ملف النسخة الاحتياطية غير صالحة.' : 'Invalid backup JSON file.');
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  // Export CSV
+  const handleExportCSV = () => {
+    let csvContent = 'data:text/csv;charset=utf-8,OrderNum,Customer,Phone,Store,Address,COD,DeliveryFee,Status,Driver,Date\n';
+    orders.forEach(o => {
+      csvContent += `"${o.orderNum}","${o.customer}","${o.phone}","${o.store}","${o.address}",${o.cod},${o.deliveryFee},"${o.status}","${o.driver}","${o.isoDate}"\n`;
+    });
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `orders_export_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   /* Calculated metrics */
   const completedOrders = orders.filter(o => o.status === 'مكتمل');
   const activeOrdersCount = orders.filter(o => !['مكتمل', 'ملغي'].includes(o.status)).length;
@@ -1297,8 +1393,40 @@ OUTPUT FORMAT:
 
   const monthlyOrders = orders.filter(o => (!ledgerDriver || o.driver === ledgerDriver) && (o.isoDate || '').startsWith(selectedYearMonth));
   const monthlyTotalCash = monthlyOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getOrderEffectiveCash(o), 0);
-  const monthlyCompanyRevenue = monthlyOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getCompanyRevenue(o), 0);
-  const monthlyDriverRevenue = monthlyOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getDriverRevenue(o), 0);
+
+  // Helper for driver analytics
+  const getDriverMetrics = (driverName) => {
+    const dOrders = orders.filter(o => o.driver === driverName);
+    const completed = dOrders.filter(o => o.status === 'مكتمل');
+    const totalCollected = completed.reduce((sum, o) => sum + getOrderEffectiveCash(o), 0);
+    const driverRevenue = completed.reduce((sum, o) => sum + getDriverRevenue(o), 0);
+    const companyRev = completed.reduce((sum, o) => sum + getCompanyRevenue(o), 0);
+
+    // Weekly calculation (last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const weeklyRevenue = completed
+      .filter(o => new Date(o.isoDate) >= sevenDaysAgo)
+      .reduce((sum, o) => sum + getDriverRevenue(o), 0);
+
+    // Monthly calculation
+    const currentMonth = new Date().toISOString().substring(0, 7);
+    const monthlyRev = completed
+      .filter(o => (o.isoDate || '').startsWith(currentMonth))
+      .reduce((sum, o) => sum + getDriverRevenue(o), 0);
+
+    return {
+      totalOrders: dOrders.length,
+      deliveredOrders: completed.length,
+      totalCollected,
+      driverRevenue,
+      companyRev,
+      weeklyRevenue,
+      monthlyRev
+    };
+  };
+
+  const displayAppName = customAppName.trim() ? customAppName : t.appTitle;
 
   return (
     <div style={styles.appWrapper}>
@@ -1307,7 +1435,7 @@ OUTPUT FORMAT:
         {/* HEADER */}
         <header style={styles.header}>
           <div style={styles.logoBox}><span style={styles.logoIcon}>⚡</span></div>
-          <h1 style={styles.appTitle}><span>🚀</span> {t.appTitle}</h1>
+          <h1 style={styles.appTitle}><span>🚀</span> {displayAppName}</h1>
           <p style={styles.appSubtitle}>{t.appSubtitle}</p>
         </header>
 
@@ -1355,8 +1483,11 @@ OUTPUT FORMAT:
           </button>
         </div>
 
-        {/* BOTTOM CONTROLS */}
+        {/* BOTTOM CONTROLS & UTILITIES */}
         <div style={styles.bottomSection}>
+          <button style={styles.langPill} onClick={() => setShowWhatsappModal(true)}>
+            <span>💬</span> {t.whatsappModalTitle}
+          </button>
           <button style={styles.langPill} onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}>
             <span>🌐</span> {lang === 'ar' ? 'English' : 'العربية'}
           </button>
@@ -1449,7 +1580,7 @@ OUTPUT FORMAT:
                             <div style={styles.miniLabel}>{t.customer}</div>
                             <div style={styles.heroCustomer}>👤 {ord.customer || t.unspecified}</div>
                           </div>
-                          <div style={styles.heroMoney}>{collection.toLocaleString()} {t.currency}</div>
+                          <div style={styles.heroMoney}>{collection.toLocaleString()} {currencySymbol}</div>
                         </div>
                         {isIncompleteAddress(ord.address) && <div style={styles.addressWarningBox}>{t.addressWarning}</div>}
                         <div style={styles.grid2}>
@@ -1479,11 +1610,20 @@ OUTPUT FORMAT:
                               </select>
                             </div>
                           </div>
+                          <div style={{ marginTop: '10px' }}>
+                            <label style={styles.label}>{t.expectedEta}</label>
+                            <input
+                              type="datetime-local"
+                              value={ord.eta || ''}
+                              onChange={e => updateExtractedOrder(idx, 'eta', e.target.value)}
+                              style={styles.input}
+                            />
+                          </div>
                           <div style={styles.calculationStrip}>
-                            <div><span>{t.customerCollection}</span><strong>{collection.toLocaleString()} {t.currency}</strong></div>
-                            <div><span>{t.merchantAmount}</span><strong>{orderValue.toLocaleString()} {t.currency}</strong></div>
-                            <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{company.toFixed(2)} {t.currency}</strong></div>
-                            <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{driver.toFixed(2)} {t.currency}</strong></div>
+                            <div><span>{t.customerCollection}</span><strong>{collection.toLocaleString()} {currencySymbol}</strong></div>
+                            <div><span>{t.merchantAmount}</span><strong>{orderValue.toLocaleString()} {currencySymbol}</strong></div>
+                            <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{company.toFixed(2)} {currencySymbol}</strong></div>
+                            <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{driver.toFixed(2)} {currencySymbol}</strong></div>
                           </div>
                         </div>
                       </div>
@@ -1496,7 +1636,10 @@ OUTPUT FORMAT:
                         <label style={styles.label}>{t.selectDriver}</label>
                         <select value={selectedDriver} onChange={e => setSelectedDriver(e.target.value)} style={styles.input}>
                           <option value="">{t.chooseDriver}</option>
-                          {drivers.map((d, i) => (<option key={i} value={d}>{d}</option>))}
+                          {drivers.map((d, i) => {
+                            const dName = typeof d === 'object' ? d.name : d;
+                            return <option key={i} value={dName}>{dName}</option>;
+                          })}
                         </select>
                       </div>
                       <div>
@@ -1517,13 +1660,18 @@ OUTPUT FORMAT:
           {/* MANAGING ORDERS */}
           {activeTab === 'orders' && (
             <div>
-              <input
-                type="text"
-                placeholder={t.searchPlaceholder}
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                style={styles.searchInput}
-              />
+              <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                <input
+                  type="text"
+                  placeholder={t.searchPlaceholder}
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  style={{ ...styles.searchInput, marginBottom: 0 }}
+                />
+                <button onClick={handleExportCSV} style={styles.btnGradientCompact}>
+                  {t.exportCsv}
+                </button>
+              </div>
               {filteredOrders.length === 0 ? (
                 <p style={styles.empty}>No orders found.</p>
               ) : (
@@ -1542,18 +1690,30 @@ OUTPUT FORMAT:
                           <option value="جاري التوصيل">{t.statusInTransit}</option>
                           <option value="مكتمل">{t.statusCompleted}</option>
                           <option value="متأخر">{t.statusDelayed}</option>
+                          <option value="متأخر جداً (تجاوز ETA)">{t.statusLate}</option>
                           <option value="ملغي">{t.statusCancelled}</option>
                         </select>
+                        <button
+                          onClick={() => {
+                            setWhatsappExportOrder(order);
+                            generateWhatsappDispatchText(order);
+                            setShowWhatsappModal(true);
+                          }}
+                          style={{ ...styles.btnGradientCompact, background: '#25D366' }}
+                        >
+                          💬
+                        </button>
                         <button onClick={() => handleDeleteOrder(order)} style={styles.btnDeleteCompact}>🗑️</button>
                       </div>
                     </div>
                     <p style={styles.p}><strong>{t.customer}:</strong> {order.customer} ({order.phone})</p>
                     <p style={styles.p}><strong>{t.address}:</strong> {order.address}</p>
+                    {order.eta && <p style={styles.p}><strong>⏱️ ETA:</strong> {new Date(order.eta).toLocaleString()}</p>}
                     <div style={styles.calculationStrip}>
-                      <div><span>{t.cod}</span><strong>{getOrderValue(order)} {t.currency}</strong></div>
-                      <div><span>{t.deliveryFee}</span><strong>{getDeliveryFee(order)} {t.currency}</strong></div>
-                      <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{getCompanyRevenue(order).toFixed(2)} {t.currency}</strong></div>
-                      <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{getDriverRevenue(order).toFixed(2)} {t.currency}</strong></div>
+                      <div><span>{t.cod}</span><strong>{getOrderValue(order)} {currencySymbol}</strong></div>
+                      <div><span>{t.deliveryFee}</span><strong>{getDeliveryFee(order)} {currencySymbol}</strong></div>
+                      <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{getCompanyRevenue(order).toFixed(2)} {currencySymbol}</strong></div>
+                      <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{getDriverRevenue(order).toFixed(2)} {currencySymbol}</strong></div>
                     </div>
                   </div>
                 ))
@@ -1570,7 +1730,10 @@ OUTPUT FORMAT:
                   <label style={styles.label}>{t.filterDriver}</label>
                   <select value={ledgerDriver} onChange={e => setLedgerDriver(e.target.value)} style={styles.input}>
                     <option value="">-- {t.allDrivers} --</option>
-                    {drivers.map((d, i) => (<option key={i} value={d}>{d}</option>))}
+                    {drivers.map((d, i) => {
+                      const dName = typeof d === 'object' ? d.name : d;
+                      return <option key={i} value={dName}>{dName}</option>;
+                    })}
                   </select>
                 </div>
                 <div>
@@ -1579,28 +1742,35 @@ OUTPUT FORMAT:
                 </div>
               </div>
               <div style={styles.monthlySummary}>
-                <div><span>{t.cashToHandIn}</span><br /><strong>{dailyCollected.toLocaleString()} {t.currency}</strong></div>
-                <div><span>{t.companyRevenueLedger}</span><br /><strong style={{ color: '#34D399' }}>{dailyCompanyRevenue.toFixed(2)} {t.currency}</strong></div>
-                <div><span>{t.driverRevenueLedger}</span><br /><strong style={{ color: '#60A5FA' }}>{dailyDriverRevenue.toFixed(2)} {t.currency}</strong></div>
+                <div><span>{t.cashToHandIn}</span><br /><strong>{dailyCollected.toLocaleString()} {currencySymbol}</strong></div>
+                <div><span>{t.companyRevenueLedger}</span><br /><strong style={{ color: '#34D399' }}>{dailyCompanyRevenue.toFixed(2)} {currencySymbol}</strong></div>
+                <div><span>{t.driverRevenueLedger}</span><br /><strong style={{ color: '#60A5FA' }}>{dailyDriverRevenue.toFixed(2)} {currencySymbol}</strong></div>
               </div>
             </div>
           )}
 
-          {/* DRIVERS TAB WITH DRILL-DOWN */}
+          {/* DRIVERS TAB WITH DRILL-DOWN & ENHANCED METRICS */}
           {activeTab === 'drivers' && (
             <div style={styles.card}>
               <h2 style={styles.cardTitle}>{t.addDriver}</h2>
-              <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
                 <input type="text" placeholder={t.driverName} value={newDriverName} onChange={e => setNewDriverName(e.target.value)} style={styles.input} />
+                <input type="text" placeholder={t.driverPhone} value={newDriverPhone} onChange={e => setNewDriverPhone(e.target.value)} style={styles.input} />
                 <button onClick={handleAddDriver} style={styles.btnGradientCompact}>{t.btnAdd}</button>
               </div>
               <div style={styles.grid2}>
                 {drivers.map((d, i) => {
-                  const driverOrders = orders.filter(o => o.driver === d);
+                  const dName = typeof d === 'object' ? d.name : d;
+                  const dPhone = typeof d === 'object' ? d.phone : '';
+                  const metrics = getDriverMetrics(dName);
+
                   return (
                     <div key={i} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'driver', data: d })}>
-                      <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>🛵 {d}</h3>
-                      <p style={styles.p}>{t.totalTrips} <strong>{driverOrders.length}</strong></p>
+                      <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>🛵 {dName}</h3>
+                      <p style={styles.p}>📞 {dPhone || t.unspecified}</p>
+                      <p style={styles.p}>{t.totalTrips}: <strong>{metrics.totalOrders}</strong> | {t.deliveredOrdersCount}: <strong>{metrics.deliveredOrders}</strong></p>
+                      <p style={styles.p}>📅 {t.weeklyRevenue}: <strong style={{ color: '#34D399' }}>{metrics.weeklyRevenue.toFixed(2)} {currencySymbol}</strong></p>
+                      <p style={styles.p}>🗓️ {t.monthlyRevenue}: <strong style={{ color: '#60A5FA' }}>{metrics.monthlyRev.toFixed(2)} {currencySymbol}</strong></p>
                       <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
                     </div>
                   );
@@ -1616,6 +1786,8 @@ OUTPUT FORMAT:
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
                 <input type="text" placeholder={t.store} value={merchantForm.name} onChange={e => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.input} />
                 <input type="text" placeholder={t.phone} value={merchantForm.phone} onChange={e => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.address} value={merchantForm.address} onChange={e => setMerchantForm({ ...merchantForm, address: e.target.value })} style={styles.input} />
+                <textarea placeholder={t.notes} value={merchantForm.notes} onChange={e => setMerchantForm({ ...merchantForm, notes: e.target.value })} style={styles.textarea} />
                 <button onClick={handleSaveMerchant} style={styles.btnGradientCompact}>{t.saveBtn}</button>
               </div>
               <div style={styles.grid2}>
@@ -1625,6 +1797,7 @@ OUTPUT FORMAT:
                     <div key={m.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'merchant', data: m })}>
                       <h3 style={{ margin: '0 0 8px', color: '#FACC15' }}>🏪 {m.name}</h3>
                       <p style={styles.p}>📞 {m.phone || t.unspecified}</p>
+                      <p style={styles.p}>📍 {m.address || t.unspecified}</p>
                       <p style={styles.p}>📦 Orders: {merchantOrders.length}</p>
                       <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
                     </div>
@@ -1641,6 +1814,8 @@ OUTPUT FORMAT:
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
                 <input type="text" placeholder={t.customer} value={newCustomer.name} onChange={e => setNewCustomer({ ...newCustomer, name: e.target.value })} style={styles.input} />
                 <input type="text" placeholder={t.phone} value={newCustomer.phone} onChange={e => setNewCustomer({ ...newCustomer, phone: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.address} value={newCustomer.address} onChange={e => setNewCustomer({ ...newCustomer, address: e.target.value })} style={styles.input} />
+                <textarea placeholder={t.notes} value={newCustomer.notes} onChange={e => setNewCustomer({ ...newCustomer, notes: e.target.value })} style={styles.textarea} />
                 <button onClick={handleSaveCustomerExplicit} style={styles.btnGradientCompact}>{t.saveBtn}</button>
               </div>
               <div style={styles.grid2}>
@@ -1650,6 +1825,7 @@ OUTPUT FORMAT:
                     <div key={c.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'customer', data: c })}>
                       <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>👤 {c.name}</h3>
                       <p style={styles.p}>📞 {c.phone}</p>
+                      <p style={styles.p}>📍 {c.address || t.unspecified}</p>
                       <p style={styles.p}>📦 Orders: {customerOrders.length}</p>
                       <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
                     </div>
@@ -1691,14 +1867,133 @@ OUTPUT FORMAT:
             </div>
           )}
 
-          {/* SETTINGS */}
+          {/* ENTERPRISE SETTINGS */}
           {activeTab === 'settings' && (
             <div style={styles.card}>
               <h2 style={styles.cardTitle}>{t.settingsTitle}</h2>
-              <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Groq API Key..." style={styles.input} />
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <div>
+                  <label style={styles.label}>{t.appNameLabel}</label>
+                  <input
+                    type="text"
+                    value={customAppName}
+                    onChange={e => setCustomAppName(e.target.value)}
+                    placeholder="Express Delivery PRO..."
+                    style={styles.input}
+                  />
+                </div>
+
+                <div>
+                  <label style={styles.label}>Groq API Key</label>
+                  <input
+                    type="password"
+                    value={apiKey}
+                    onChange={e => setApiKey(e.target.value)}
+                    placeholder="Groq API Key..."
+                    style={styles.input}
+                  />
+                </div>
+
+                <div style={styles.grid2}>
+                  <div>
+                    <label style={styles.label}>{t.systemCurrency}</label>
+                    <select value={currencySymbol} onChange={e => setCurrencySymbol(e.target.value)} style={styles.input}>
+                      <option value="ج.م">EGP (ج.م)</option>
+                      <option value="USD">USD ($)</option>
+                      <option value="SAR">SAR (ر.س)</option>
+                      <option value="AED">AED (د.إ)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label style={styles.label}>{t.defaultCommission}</label>
+                    <input
+                      type="number"
+                      value={defaultCommission}
+                      onChange={e => setDefaultCommission(normalizeNumber(e.target.value))}
+                      style={styles.input}
+                    />
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <input
+                    type="checkbox"
+                    id="autoAssign"
+                    checked={autoAssignDriver}
+                    onChange={e => setAutoAssignDriver(e.target.checked)}
+                  />
+                  <label htmlFor="autoAssign" style={{ ...styles.label, margin: 0 }}>{t.autoAssignDriver}</label>
+                </div>
+
+                <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '10px 0' }} />
+
+                <div>
+                  <h3 style={{ color: '#FACC15', margin: '0 0 10px' }}>{t.exportImportJson}</h3>
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <button onClick={handleExportFullJSON} style={styles.btnGradientCompact}>
+                      📥 {t.exportData}
+                    </button>
+                    <label style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg, #059669, #10B981)', cursor: 'pointer' }}>
+                      📤 {t.importData}
+                      <input type="file" accept=".json" onChange={handleImportFullJSON} style={{ display: 'none' }} />
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </main>
+
+        {/* WHATSAPP & RAW TEXT IMPORT/EXPORT MODAL */}
+        {showWhatsappModal && (
+          <div style={styles.modalOverlay}>
+            <div style={styles.modalCard}>
+              <div style={styles.rowBetween}>
+                <h3 style={{ margin: 0, color: '#25D366' }}>{t.whatsappModalTitle}</h3>
+                <button onClick={() => setShowWhatsappModal(false)} style={styles.btnDeleteCompact}>✕</button>
+              </div>
+
+              {whatsappExportOrder ? (
+                <div>
+                  <h4 style={{ color: '#CBD5E1', marginBottom: '8px' }}>{t.whatsappExportHeader}</h4>
+                  <textarea rows={8} value={generatedWhatsappMsg} readOnly style={styles.textarea} />
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(generatedWhatsappMsg);
+                      alert(lang === 'ar' ? 'تم نسخ الرسالة!' : 'Message copied!');
+                    }}
+                    style={styles.btnSuccessGradient}
+                  >
+                    {t.copyWhatsapp}
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <h4 style={{ color: '#CBD5E1', marginBottom: '8px' }}>{t.whatsappImportHeader}</h4>
+                  <textarea
+                    rows={7}
+                    value={rawText}
+                    onChange={e => setRawText(e.target.value)}
+                    placeholder={t.placeholderOrder}
+                    style={styles.textarea}
+                  />
+                  <button
+                    onClick={() => {
+                      setShowWhatsappModal(false);
+                      setActiveTab('new_order');
+                      extractOrderInfo();
+                    }}
+                    style={styles.btnPrimaryGradient}
+                  >
+                    {t.btnExtract}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* ENTITY DRILL-DOWN MODAL */}
         {activeEntityModal && (
@@ -1706,7 +2001,7 @@ OUTPUT FORMAT:
             <div style={styles.modalCard}>
               <div style={styles.rowBetween}>
                 <h2 style={{ margin: 0, color: '#C084FC' }}>
-                  {activeEntityModal.type === 'driver' && `🛵 ${activeEntityModal.data}`}
+                  {activeEntityModal.type === 'driver' && `🛵 ${typeof activeEntityModal.data === 'object' ? activeEntityModal.data.name : activeEntityModal.data}`}
                   {activeEntityModal.type === 'merchant' && `🏪 ${activeEntityModal.data.name}`}
                   {activeEntityModal.type === 'customer' && `👤 ${activeEntityModal.data.name}`}
                 </h2>
@@ -1721,13 +2016,13 @@ OUTPUT FORMAT:
                   placeholder={t.addNotePlaceholder}
                   value={
                     activeEntityModal.type === 'driver'
-                      ? driverNotes[activeEntityModal.data] || ''
+                      ? driverNotes[typeof activeEntityModal.data === 'object' ? activeEntityModal.data.name : activeEntityModal.data] || ''
                       : activeEntityModal.data.notes || ''
                   }
                   onChange={e =>
                     updateEntityNote(
                       activeEntityModal.type,
-                      activeEntityModal.type === 'driver' ? activeEntityModal.data : activeEntityModal.data.id,
+                      activeEntityModal.type === 'driver' ? (typeof activeEntityModal.data === 'object' ? activeEntityModal.data.name : activeEntityModal.data) : activeEntityModal.data.id,
                       e.target.value
                     )
                   }
@@ -1738,8 +2033,9 @@ OUTPUT FORMAT:
               {/* ASSOCIATED ORDERS */}
               <h3 style={{ color: '#FACC15', marginBottom: '10px' }}>Orders History</h3>
               {(() => {
+                const driverName = typeof activeEntityModal.data === 'object' ? activeEntityModal.data.name : activeEntityModal.data;
                 const assocOrders = orders.filter(o => {
-                  if (activeEntityModal.type === 'driver') return o.driver === activeEntityModal.data;
+                  if (activeEntityModal.type === 'driver') return o.driver === driverName;
                   if (activeEntityModal.type === 'merchant') return o.store?.toLowerCase() === activeEntityModal.data.name?.toLowerCase();
                   if (activeEntityModal.type === 'customer') return o.customer?.toLowerCase() === activeEntityModal.data.name?.toLowerCase() || o.phone === activeEntityModal.data.phone;
                   return false;
@@ -1757,7 +2053,7 @@ OUTPUT FORMAT:
                       <span style={styles.orderNumTag}>{o.orderNum}</span>
                       <span style={getStatusStyle(o.status)}>{o.status}</span>
                     </div>
-                    <div><strong>{t.cod}:</strong> {o.cod} {t.currency} | <strong>{t.deliveryFee}:</strong> {o.deliveryFee} {t.currency}</div>
+                    <div><strong>{t.cod}:</strong> {o.cod} {currencySymbol} | <strong>{t.deliveryFee}:</strong> {o.deliveryFee} {currencySymbol}</div>
                   </div>
                 ));
               })()}
@@ -1778,8 +2074,9 @@ OUTPUT FORMAT:
                 <p style={styles.p}><strong>{t.customer}:</strong> {selectedOrderForDetails.customer} ({selectedOrderForDetails.phone})</p>
                 <p style={styles.p}><strong>{t.store}:</strong> {selectedOrderForDetails.store}</p>
                 <p style={styles.p}><strong>{t.address}:</strong> {selectedOrderForDetails.address}</p>
-                <p style={styles.p}><strong>{t.cod}:</strong> {selectedOrderForDetails.cod} {t.currency}</p>
-                <p style={styles.p}><strong>{t.deliveryFee}:</strong> {selectedOrderForDetails.deliveryFee} {t.currency}</p>
+                <p style={styles.p}><strong>{t.cod}:</strong> {selectedOrderForDetails.cod} {currencySymbol}</p>
+                <p style={styles.p}><strong>{t.deliveryFee}:</strong> {selectedOrderForDetails.deliveryFee} {currencySymbol}</p>
+                {selectedOrderForDetails.eta && <p style={styles.p}><strong>⏱️ ETA:</strong> {new Date(selectedOrderForDetails.eta).toLocaleString()}</p>}
               </div>
 
               <h4 style={{ color: '#FACC15', marginBottom: '8px' }}>Audit Trail</h4>
