@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const translations = {
   ar: {
-    appTitle: 'Anti Talabat',
+    appTitle: 'إكسبريس دليفري PRO',
     appSubtitle: 'النظام الذكي لإدارة الطلبات واللوجستيات',
     groqConnected: '🟢 AI متصل',
     groqMissing: '🔴 المفتاح مفقود',
@@ -57,7 +57,6 @@ const translations = {
 
     searchPlaceholder: '🔍 بحث برقم الطلب، اسم العميل، المتجر، أو الهاتف...',
     unspecified: 'غير محدد',
-    currency: 'ج.م',
 
     statusConfirmed: 'مؤكد',
     statusProcessing: 'قيد تجهيز الطلب',
@@ -79,12 +78,10 @@ const translations = {
 
     saveMerchant: 'إضافة أو تعديل تاجر',
     saveCustomer: 'إضافة عميل يدويًا',
-    editCustomer: 'تعديل بيانات العميل',
 
     saveBtn: 'حفظ',
     deleteBtn: 'حذف',
     editBtn: 'تعديل',
-    editNoteBtn: 'تعديل الملاحظات',
 
     settingsTitle: 'إعدادات النظام المتقدمة',
     defaultRevenuePercent: 'نسبة عمولة الشركة الافتراضية (%)',
@@ -94,15 +91,7 @@ const translations = {
     downloadBackup: '💾 تحميل نسخة احتياطية (JSON)',
     restoreBackup: '📥 استعادة من نسخة احتياطية',
 
-    confirmDbUpdateTitle: '⚠️ تأكيد تحديث بيانات قاعدة البيانات',
-    confirmDbUpdateMsg: 'تم العثور على تفاصيل جديدة. هل تريد تحديث السجلات المخزنة أم ملء البيانات السابقة؟',
-
-    confirmDeleteMsg: 'هل أنت متأكد من رغبتك في حذف هذا الطلب نهائيًا؟',
-
-    typoAlertTitle: '🔍 تم رصد كلمات قد تحتوي على خطأ إملائي غير معروف:',
     historyTitle: '📜 سجل عمليات وتعديلات الطلبات',
-    noHistory: 'لا توجد سجلات تعديل حتى الآن.',
-
     driverLedgerTitle: '📊 كشف حساب وتوريد الطيارين',
     filterDriver: 'تصفية بالطيار:',
     filterDate: 'التاريخ:',
@@ -111,39 +100,20 @@ const translations = {
     cashToHandIn: '💵 إجمالي التحصيل',
     companyRevenueLedger: '💰 إيراد الشركة',
     driverRevenueLedger: '🛵 نصيب الطيار',
-    todaysOrdersCount: '📦 طلبات اليوم',
-    monthsOrdersCount: '📅 طلبات الشهر الحالي',
-    monthsTotalCash: '💰 إجمالي تحصيل الشهر',
-
-    ordersHandled: 'تفاصيل الطلبات المسندة:',
-    noOrdersForDate: 'لا توجد طلبات مسجلة لهذه الفلاتر.',
 
     financialBreakdown: '💰 التفاصيل المالية',
 
-    cancel: 'إلغاء',
-    confirm: 'تأكيد',
-
     matchTitle: '🔍 مطابقة البيانات المسجلة',
-    matchPrompt: 'تم العثور على أسماء مشابهة في النظام. يرجى اختيار جهة معينة أو إنشائها كجديدة:',
+    matchPrompt: 'تم العثور على اسم مشابه في النظام. يرجى التحديد لهذا الطلب بالتحديد:',
     createNew: '➕ إضافة كـ جديد',
     autofillBtn: '📋 استخدام البيانات المسجلة',
-    updateBtn: '🔄 تحديث بالبيانات الجديدة',
+    updateBtn: '🔄 تحديث البيانات المسجلة بالجديدة',
     viewDetails: 'عرض التفاصيل والطلبات',
     entityNotes: 'الملاحظات الخاصة:',
-    addNotePlaceholder: 'أدخل ملاحظة هنا...',
-    noOrdersFound: 'لا توجد طلبات مسجلة لهذا الاسم.',
-    deletedBadge: '🗑️ طلب محذوف',
-    orderDetailsModal: 'تفاصيل الطلب والسجل التاريخي',
-
-    exportTitle: '📤 التصدير والاستيراد وواتساب',
-    btnExportExcel: '📊 تصدير Excel',
-    btnExportPdf: '📄 تصدير PDF',
-    btnExportTxt: '📝 تصدير النص/التاريخ',
-    btnImportFile: '📥 استيراد من ملف (Excel / PDF / Text)',
-    importSuccessMsg: 'تم استيراد البيانات بنجاح!',
+    noOrdersFound: 'لا توجد طلبات مسجلة.',
+    
     whatsappModalTitle: '📱 أداة واتساب والنصوص',
     btnOpenWhatsappModal: '💬 فتح معالج واتساب',
-    btnGenerateWaText: '📤 إنشاء نص إرسال للطيار',
     waTextCopied: 'تم نسخ نص الواتساب بنجاح!'
   },
 
@@ -203,7 +173,6 @@ const translations = {
 
     searchPlaceholder: '🔍 Search Order #, Customer, Store, Phone...',
     unspecified: 'N/A',
-    currency: 'EGP',
 
     statusConfirmed: 'Confirmed',
     statusProcessing: 'Processing',
@@ -225,12 +194,10 @@ const translations = {
 
     saveMerchant: 'Save Store Details',
     saveCustomer: 'Add Customer',
-    editCustomer: 'Edit Customer',
 
     saveBtn: 'Save',
     deleteBtn: 'Delete',
     editBtn: 'Edit',
-    editNoteBtn: 'Edit Note',
 
     settingsTitle: 'Enterprise System Settings',
     defaultRevenuePercent: 'Default Company Commission Rate (%)',
@@ -240,15 +207,7 @@ const translations = {
     downloadBackup: '💾 Download JSON Backup',
     restoreBackup: '📥 Restore System JSON Backup',
 
-    confirmDbUpdateTitle: '⚠️ Confirm Database Update',
-    confirmDbUpdateMsg: 'New details found. Do you want to update existing records or autofill saved ones?',
-
-    confirmDeleteMsg: 'Are you sure you want to permanently delete this order?',
-
-    typoAlertTitle: '🔍 Unrecognized words detected:',
     historyTitle: '📜 Audit Log & Order Edits History',
-    noHistory: 'No edit history recorded yet.',
-
     driverLedgerTitle: '📊 Driver Cash & Revenue Ledger',
     filterDriver: 'Filter Driver:',
     filterDate: 'Filter Date:',
@@ -257,40 +216,21 @@ const translations = {
     cashToHandIn: '💵 Total Collected',
     companyRevenueLedger: '💰 Company Revenue',
     driverRevenueLedger: '🛵 Driver Share',
-    todaysOrdersCount: "📦 Today's Orders",
-    monthsOrdersCount: "📅 This Month's Orders",
-    monthsTotalCash: "💰 This Month's Collection",
-
-    ordersHandled: 'Assigned Orders & Financial Details:',
-    noOrdersForDate: 'No orders match selected filters.',
 
     financialBreakdown: '💰 Financial Breakdown',
 
-    cancel: 'Cancel',
-    confirm: 'Confirm',
-
-    matchTitle: '🔍 Duplicate Name Matcher',
-    matchPrompt: 'Multiple matches found. Select an existing record or create a new entry:',
-    createNew: '➕ Create New Entry',
-    autofillBtn: '📋 Autofill Saved Details',
-    updateBtn: '🔄 Update Saved Details',
+    matchTitle: '🔍 Duplicate Matcher',
+    matchPrompt: 'Similar match found for this order. Please select an option for this item:',
+    createNew: '➕ Keep as New',
+    autofillBtn: '📋 Autofill Saved Data',
+    updateBtn: '🔄 Update Saved Data',
     viewDetails: 'View Profile & Orders History',
     entityNotes: 'Entity Notes:',
-    addNotePlaceholder: 'Add a note here...',
-    noOrdersFound: 'No orders associated with this entry.',
-    deletedBadge: '🗑️ Deleted Order',
-    orderDetailsModal: 'Order Profile & Audit Log',
+    noOrdersFound: 'No associated orders found.',
 
-    exportTitle: '📤 Export, Import & WhatsApp',
-    btnExportExcel: '📊 Export Excel',
-    btnExportPdf: '📄 Export PDF',
-    btnExportTxt: '📝 Export TXT',
-    btnImportFile: '📥 Import File (Excel / PDF / Text)',
-    importSuccessMsg: 'Data imported successfully!',
     whatsappModalTitle: '📱 Plain Text / WhatsApp Parser Tool',
-    btnOpenWhatsappModal: '💬 Open WhatsApp Parser',
-    btnGenerateWaText: '📤 Generate Dispatch Message',
-    waTextCopied: 'Dispatch message copied to clipboard!'
+    btnOpenWhatsappModal: '💬 Open WhatsApp Tool',
+    waTextCopied: 'Copied to clipboard!'
   }
 };
 
@@ -326,8 +266,7 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     textAlign: 'center',
-    marginTop: '10px',
-    marginBottom: '10px'
+    marginTop: '10px'
   },
   logoBox: {
     width: '72px',
@@ -341,17 +280,9 @@ const styles = {
     marginBottom: '14px'
   },
   logoIcon: { fontSize: '32px', color: '#FFF' },
-  appTitle: {
-    fontSize: '1.6rem',
-    margin: 0,
-    fontWeight: '800',
-    letterSpacing: '-0.5px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px'
-  },
+  appTitle: { fontSize: '1.6rem', margin: 0, fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' },
   appSubtitle: { fontSize: '0.85rem', color: '#C084FC', margin: '6px 0 0 0', fontWeight: '500' },
-  kpiRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '10px' },
+  kpiRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
   kpiCard: {
     padding: '16px',
     borderRadius: '18px',
@@ -377,9 +308,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '8px',
-    boxShadow: '0 4px 20px rgba(124, 58, 237, 0.3)',
-    transition: 'transform 0.2s ease, opacity 0.2s ease'
+    gap: '8px'
   },
   navItem: {
     background: 'rgba(23, 15, 38, 0.7)',
@@ -392,8 +321,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     fontSize: '0.95rem',
-    fontWeight: '600',
-    transition: 'all 0.2s ease'
+    fontWeight: '600'
   },
   navItemActive: {
     background: 'rgba(124, 58, 237, 0.25)',
@@ -406,21 +334,16 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     fontSize: '0.95rem',
-    fontWeight: '700',
-    boxShadow: '0 0 15px rgba(168, 85, 247, 0.2)'
+    fontWeight: '700'
   },
-  navLeftLabel: { display: 'flex', alignItems: 'center', gap: '12px' },
-  navIcon: { fontSize: '1.2rem', opacity: 0.85 },
   countBadge: {
     background: 'rgba(255, 255, 255, 0.08)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
     borderRadius: '12px',
     padding: '2px 10px',
     fontSize: '0.8rem',
-    fontWeight: '700',
     color: '#CBD5E1'
   },
-  bottomSection: { display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' },
+  bottomSection: { display: 'flex', flexDirection: 'column', gap: '10px' },
   langPill: {
     background: 'rgba(15, 23, 42, 0.8)',
     border: '1px solid rgba(51, 65, 85, 0.8)',
@@ -430,20 +353,7 @@ const styles = {
     fontSize: '0.9rem',
     fontWeight: '600',
     cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px'
-  },
-  aiStatusPill: {
-    padding: '12px',
-    borderRadius: '14px',
-    fontSize: '0.88rem',
-    fontWeight: '700',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px'
+    textAlign: 'center'
   },
   main: { display: 'flex', flexDirection: 'column', gap: '16px' },
   card: {
@@ -451,12 +361,11 @@ const styles = {
     border: '1px solid rgba(168, 85, 247, 0.15)',
     borderRadius: '20px',
     padding: '20px',
-    backdropFilter: 'blur(12px)',
-    marginBottom: '10px'
+    backdropFilter: 'blur(12px)'
   },
   clickableCard: {
-    background: 'rgba(23, 15, 38, 0.75)',
-    border: '1px solid rgba(168, 85, 247, 0.25)',
+    background: 'rgba(23, 15, 38, 0.85)',
+    border: '1px solid rgba(168, 85, 247, 0.3)',
     borderRadius: '16px',
     padding: '16px',
     cursor: 'pointer',
@@ -484,8 +393,7 @@ const styles = {
     fontWeight: '700',
     width: '100%',
     marginTop: '12px',
-    fontSize: '0.95rem',
-    boxShadow: '0 4px 15px rgba(236, 72, 153, 0.3)'
+    fontSize: '0.95rem'
   },
   btnSuccessGradient: {
     background: 'linear-gradient(135deg, #059669, #10B981)',
@@ -527,7 +435,7 @@ const styles = {
     borderRadius: '12px',
     marginBottom: '15px'
   },
-  miniLabel: { fontSize: '0.72rem', color: '#94A3B8', textTransform: 'uppercase' },
+  miniLabel: { fontSize: '0.72rem', color: '#94A3B8' },
   heroCustomer: { fontSize: '1.05rem', fontWeight: '700', marginTop: '2px' },
   heroMoney: { fontSize: '1.3rem', fontWeight: '800', color: '#38BDF8' },
   grid2: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' },
@@ -556,8 +464,7 @@ const styles = {
     background: 'rgba(11, 7, 24, 0.8)',
     padding: '12px',
     borderRadius: '10px',
-    marginTop: '10px',
-    border: '1px solid rgba(255, 255, 255, 0.05)'
+    marginTop: '10px'
   },
   confirmationPanel: {
     background: 'rgba(11, 7, 24, 0.7)',
@@ -566,7 +473,7 @@ const styles = {
     padding: '16px',
     marginTop: '20px'
   },
-  label: { display: 'block', fontSize: '0.82rem', color: '#CBD5E1', marginBottom: '6px', fontWeight: '500' },
+  label: { display: 'block', fontSize: '0.82rem', color: '#CBD5E1', marginBottom: '6px' },
   input: {
     width: '100%',
     background: 'rgba(11, 7, 24, 0.8)',
@@ -585,8 +492,7 @@ const styles = {
     padding: '10px 14px',
     borderRadius: '10px',
     fontWeight: '700',
-    boxSizing: 'border-box',
-    outline: 'none'
+    boxSizing: 'border-box'
   },
   searchInput: {
     width: '100%',
@@ -596,22 +502,11 @@ const styles = {
     padding: '14px',
     borderRadius: '14px',
     marginBottom: '15px',
-    boxSizing: 'border-box',
-    outline: 'none'
+    boxSizing: 'border-box'
   },
-  empty: { textAlign: 'center', color: '#64748B', padding: '40px 0' },
+  empty: { textAlign: 'center', color: '#64748B', padding: '30px 0' },
   orderNumTag: { background: '#2563EB', color: '#FFF', padding: '3px 10px', borderRadius: '8px', fontWeight: '700', fontSize: '0.85rem' },
   tagStore: { background: 'rgba(255,255,255,0.1)', color: '#E2E8F0', padding: '3px 10px', borderRadius: '8px', fontSize: '0.85rem' },
-  btnDeleteCompact: {
-    background: '#EF4444',
-    color: '#FFF',
-    border: 'none',
-    padding: '6px 12px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontSize: '0.8rem',
-    fontWeight: '600'
-  },
   p: { margin: '6px 0', color: '#CBD5E1', fontSize: '0.9rem' },
   addressWarningBox: {
     background: 'rgba(239, 68, 68, 0.15)',
@@ -622,22 +517,9 @@ const styles = {
     margin: '8px 0',
     fontSize: '0.82rem'
   },
-  monthlySummary: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-    gap: '12px',
-    background: 'rgba(23, 15, 38, 0.7)',
-    padding: '15px',
-    borderRadius: '14px',
-    marginTop: '15px',
-    border: '1px solid rgba(255, 255, 255, 0.08)'
-  },
   modalOverlay: {
     position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    top: 0, left: 0, right: 0, bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.85)',
     backdropFilter: 'blur(8px)',
     display: 'flex',
@@ -655,41 +537,16 @@ const styles = {
     width: '100%',
     maxHeight: '90vh',
     overflowY: 'auto'
-  },
-  exportBox: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
-    background: 'rgba(15, 23, 42, 0.5)',
-    padding: '15px',
-    borderRadius: '14px',
-    border: '1px solid rgba(255, 255, 255, 0.08)',
-    marginBottom: '15px'
   }
 };
 
 const getStatusStyle = status => {
-  const base = {
-    padding: '6px 12px',
-    borderRadius: '8px',
-    fontSize: '0.8rem',
-    fontWeight: '700',
-    border: 'none',
-    color: '#FFF',
-    cursor: 'pointer'
-  };
+  const base = { padding: '6px 12px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '700', border: 'none', color: '#FFF' };
   switch (status) {
-    case 'مكتمل':
-      return { ...base, background: '#059669' };
-    case 'ملغي':
-      return { ...base, background: '#DC2626' };
-    case 'متأخر':
-      return { ...base, background: '#D97706' };
-    case 'خرج للتوصيل':
-    case 'جاري التوصيل':
-      return { ...base, background: '#2563EB' };
-    default:
-      return { ...base, background: '#475569' };
+    case 'مكتمل': return { ...base, background: '#059669' };
+    case 'ملغي': return { ...base, background: '#DC2626' };
+    case 'متأخر': return { ...base, background: '#D97706' };
+    default: return { ...base, background: '#2563EB' };
   }
 };
 
@@ -699,32 +556,28 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('new_order');
   const [searchQuery, setSearchQuery] = useState('');
 
-  /* Enterprise Settings State */
   const [defaultRevenuePercent, setDefaultRevenuePercent] = useState(() => parseInt(localStorage.getItem('sys_default_revenue') || '20'));
   const [systemCurrency, setSystemCurrency] = useState(() => localStorage.getItem('sys_currency') || 'EGP');
   const [autoAssignDriverEnabled, setAutoAssignDriverEnabled] = useState(() => localStorage.getItem('sys_auto_assign') === 'true');
 
   const [orderCounter, setOrderCounter] = useState(() => parseInt(localStorage.getItem('order_counter_num') || '1001'));
-  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v5') || '[]'));
-  const [deletedOrders, setDeletedOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_deleted_orders_v5') || '[]'));
-  
-  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v5') || '[]'));
-  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v5') || '[]'));
+  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v6') || '[]'));
+  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v6') || '[]'));
+  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v6') || '[]'));
   const [driverObjects, setDriverObjects] = useState(() => {
-    const saved = localStorage.getItem('delivery_driver_objs_v5');
+    const saved = localStorage.getItem('delivery_driver_objs_v6');
     if (saved) return JSON.parse(saved);
     return [
       { id: 'd1', name: 'أحمد', phone: '01000000001', notes: '' },
-      { id: 'd2', name: 'محمود', phone: '01100000002', notes: '' },
-      { id: 'd3', name: 'مصطفى', phone: '01200000003', notes: '' }
+      { id: 'd2', name: 'محمود', phone: '01100000002', notes: '' }
     ];
   });
-  
-  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v5') || '[]'));
+  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v6') || '[]'));
 
   const [rawText, setRawText] = useState('');
   const [loading, setLoading] = useState(false);
   const [extractedOrders, setExtractedOrders] = useState([]);
+  const [pendingMatches, setPendingMatches] = useState([]);
 
   const [selectedDriver, setSelectedDriver] = useState('');
   const [selectedRevenuePercent, setSelectedRevenuePercent] = useState(defaultRevenuePercent);
@@ -733,50 +586,26 @@ export default function App() {
   const [ledgerDriver, setLedgerDriver] = useState('');
   const [ledgerDate, setLedgerDate] = useState(() => new Date().toISOString().split('T')[0]);
 
-  const [typoFlags, setTypoFlags] = useState([]);
-  const [showTypoModal, setShowTypoModal] = useState(false);
-
-  /* Form & Modals state */
   const [merchantForm, setMerchantForm] = useState({ id: null, name: '', phone: '', address: '', notes: '' });
   const [customerForm, setCustomerForm] = useState({ id: null, name: '', phone: '', address: '', notes: '' });
 
-  const [activeEntityModal, setActiveEntityModal] = useState(null);
-  const [selectedOrderForDetails, setSelectedOrderForDetails] = useState(null);
-  const [matchingPromptModal, setMatchingPromptModal] = useState(null);
+  const [activeModal, setActiveModal] = useState(null); // { type: 'order'|'driver'|'merchant'|'customer', data }
   const [showWhatsappModal, setShowWhatsappModal] = useState(false);
   const [whatsappFormattedText, setWhatsappFormattedText] = useState('');
 
   const t = translations[lang];
-
-  useEffect(() => {
-    if (!window.XLSX) {
-      const scriptXlsx = document.createElement('script');
-      scriptXlsx.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.min.js';
-      document.head.appendChild(scriptXlsx);
-    }
-    if (!window.jspdf) {
-      const scriptPdf = document.createElement('script');
-      scriptPdf.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-      document.head.appendChild(scriptPdf);
-      const scriptPdfTable = document.createElement('script');
-      scriptPdfTable.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js';
-      document.head.appendChild(scriptPdfTable);
-    }
-  }, []);
 
   useEffect(() => { localStorage.setItem('app_lang', lang); }, [lang]);
   useEffect(() => { localStorage.setItem('groq_api_key', apiKey); }, [apiKey]);
   useEffect(() => { localStorage.setItem('sys_default_revenue', defaultRevenuePercent.toString()); }, [defaultRevenuePercent]);
   useEffect(() => { localStorage.setItem('sys_currency', systemCurrency); }, [systemCurrency]);
   useEffect(() => { localStorage.setItem('sys_auto_assign', autoAssignDriverEnabled.toString()); }, [autoAssignDriverEnabled]);
-
   useEffect(() => { localStorage.setItem('order_counter_num', orderCounter.toString()); }, [orderCounter]);
-  useEffect(() => { localStorage.setItem('delivery_orders_v5', JSON.stringify(orders)); }, [orders]);
-  useEffect(() => { localStorage.setItem('delivery_deleted_orders_v5', JSON.stringify(deletedOrders)); }, [deletedOrders]);
-  useEffect(() => { localStorage.setItem('delivery_merchants_v5', JSON.stringify(merchants)); }, [merchants]);
-  useEffect(() => { localStorage.setItem('delivery_customers_v5', JSON.stringify(customers)); }, [customers]);
-  useEffect(() => { localStorage.setItem('delivery_driver_objs_v5', JSON.stringify(driverObjects)); }, [driverObjects]);
-  useEffect(() => { localStorage.setItem('delivery_history_v5', JSON.stringify(historyLogs)); }, [historyLogs]);
+  useEffect(() => { localStorage.setItem('delivery_orders_v6', JSON.stringify(orders)); }, [orders]);
+  useEffect(() => { localStorage.setItem('delivery_merchants_v6', JSON.stringify(merchants)); }, [merchants]);
+  useEffect(() => { localStorage.setItem('delivery_customers_v6', JSON.stringify(customers)); }, [customers]);
+  useEffect(() => { localStorage.setItem('delivery_driver_objs_v6', JSON.stringify(driverObjects)); }, [driverObjects]);
+  useEffect(() => { localStorage.setItem('delivery_history_v6', JSON.stringify(historyLogs)); }, [historyLogs]);
 
   const isCancelled = order => order?.status === 'ملغي';
   const getOrderValue = order => normalizeNumber(order?.cod);
@@ -788,9 +617,7 @@ export default function App() {
 
   const getCustomerCollection = order => {
     if (isCancelled(order)) return 0;
-    if (order?.paymentMethod === PAYMENT_ONLINE || order?.paymentMethod === PAYMENT_PREPAID) {
-      return getDeliveryFee(order);
-    }
+    if (order?.paymentMethod === PAYMENT_ONLINE || order?.paymentMethod === PAYMENT_PREPAID) return getDeliveryFee(order);
     return getOrderValue(order) + getDeliveryFee(order);
   };
 
@@ -807,50 +634,21 @@ export default function App() {
     setHistoryLogs(prev => [log, ...prev]);
   };
 
-  const handlePasteClipboard = async () => {
-    try {
-      const text = await navigator.clipboard.readText();
-      setRawText(text);
-    } catch {
-      alert(lang === 'ar' ? 'تم رفض صلاحية الحافظة.' : 'Clipboard permission denied.');
-    }
-  };
-
-  const isIncompleteAddress = addressStr => {
-    if (!addressStr || addressStr === t.unspecified || addressStr.length < 10) return true;
-    const lower = addressStr.toLowerCase();
-    const keywords = ['شارع', 'ش', 'دور', 'شقة', 'عمارة', 'مبنى', 'street', 'st', 'floor', 'apt', 'flat'];
-    return !keywords.some(k => lower.includes(k));
-  };
-
-  /* AI Extraction */
   const extractOrderInfo = async () => {
     if (!apiKey.trim()) {
-      alert(lang === 'ar' ? 'يرجى إدخال مفتاح Groq API في الإعدادات.' : 'Please add your Groq API key in Settings.');
+      alert(lang === 'ar' ? 'يرجى إدخال مفتاح Groq API في الإعدادات.' : 'Please enter your Groq API key.');
       setActiveTab('settings');
       return;
     }
-    if (!rawText.trim()) {
-      alert(lang === 'ar' ? 'يرجى إدخال نص الطلب أولاً.' : 'Please enter order text.');
-      return;
-    }
+    if (!rawText.trim()) return;
 
     setLoading(true);
     setExtractedOrders([]);
-    setTypoFlags([]);
+    setPendingMatches([]);
 
     const systemPrompt = `
-You are an expert Egyptian Arabic delivery-order parser.
-Your job is to extract one or multiple delivery orders from messy text or WhatsApp strings.
-
-STRICT RULES:
-1. Extract Store, Customer, Phone, Complete Address, COD (item value), Delivery Fee, Payment Method (cash/online/prepaid), Item, and Notes.
-2. Multiple orders should be separate entries in JSON.
-3. Output ONLY strict JSON.
-
-FORMAT:
+Extract orders in JSON format:
 {
-  "ambiguous_flags": [],
   "orders": [
     {
       "store": "",
@@ -880,14 +678,7 @@ FORMAT:
       });
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error?.message || 'Extraction Failed');
-
       const parsed = JSON.parse(data.choices[0].message.content);
-      if (parsed.ambiguous_flags?.length > 0) {
-        setTypoFlags(parsed.ambiguous_flags);
-        setShowTypoModal(true);
-      }
-
       const normalizedOrders = (parsed.orders || []).map(order => ({
         ...order,
         cod: normalizeNumber(order.cod),
@@ -896,10 +687,21 @@ FORMAT:
       }));
 
       setExtractedOrders(normalizedOrders);
-      if (autoAssignDriverEnabled && driverObjects.length > 0) {
-        setSelectedDriver(driverObjects[0].name);
-      }
-      checkDuplicateMatches(normalizedOrders);
+      if (autoAssignDriverEnabled && driverObjects.length > 0) setSelectedDriver(driverObjects[0].name);
+
+      // Build sequential duplicate prompt queue per individual order
+      const matchesQueue = [];
+      normalizedOrders.forEach((ord, orderIndex) => {
+        if (ord.customer) {
+          const matchedCust = customers.filter(c => c.name.toLowerCase().includes(ord.customer.toLowerCase()));
+          if (matchedCust.length > 0) matchesQueue.push({ orderIndex, type: 'customer', name: ord.customer, matches: matchedCust });
+        }
+        if (ord.store) {
+          const matchedMerch = merchants.filter(m => m.name.toLowerCase().includes(ord.store.toLowerCase()));
+          if (matchedMerch.length > 0) matchesQueue.push({ orderIndex, type: 'store', name: ord.store, matches: matchedMerch });
+        }
+      });
+      setPendingMatches(matchesQueue);
     } catch (err) {
       alert(`Error parsing order: ${err.message}`);
     } finally {
@@ -907,80 +709,50 @@ FORMAT:
     }
   };
 
-  const checkDuplicateMatches = (extractedList) => {
-    for (let i = 0; i < extractedList.length; i++) {
-      const ord = extractedList[i];
-      if (ord.customer) {
-        const matches = customers.filter(c => c.name.toLowerCase().includes(ord.customer.toLowerCase()));
-        if (matches.length > 0) {
-          setMatchingPromptModal({ index: i, type: 'customer', name: ord.customer, extracted: ord, matches });
-          break;
-        }
-      }
-      if (ord.store) {
-        const matches = merchants.filter(m => m.name.toLowerCase().includes(ord.store.toLowerCase()));
-        if (matches.length > 0) {
-          setMatchingPromptModal({ index: i, type: 'store', name: ord.store, extracted: ord, matches });
-          break;
-        }
-      }
-    }
-  };
-
   const handleResolveMatching = (selectedMatch, action) => {
-    const { index, type, extracted } = matchingPromptModal;
-    setExtractedOrders(prev =>
-      prev.map((ord, idx) => {
-        if (idx !== index) return ord;
-        if (action === 'autofill') {
-          return {
-            ...ord,
-            [type === 'customer' ? 'customer' : 'store']: selectedMatch.name,
-            phone: selectedMatch.phone || ord.phone,
-            address: selectedMatch.address || ord.address
-          };
-        } else if (action === 'update') {
-          if (type === 'customer') {
-            setCustomers(cList => cList.map(c => c.id === selectedMatch.id ? { ...c, phone: extracted.phone || c.phone, address: extracted.address || c.address } : c));
-          } else {
-            setMerchants(mList => mList.map(m => m.id === selectedMatch.id ? { ...m, phone: extracted.phone || m.phone, address: extracted.address || m.address } : m));
-          }
-          return { ...ord, [type === 'customer' ? 'customer' : 'store']: selectedMatch.name };
+    if (pendingMatches.length === 0) return;
+    const currentPrompt = pendingMatches[0];
+    const { orderIndex, type } = currentPrompt;
+
+    setExtractedOrders(prev => prev.map((ord, idx) => {
+      if (idx !== orderIndex) return ord;
+      if (action === 'autofill') {
+        return {
+          ...ord,
+          [type === 'customer' ? 'customer' : 'store']: selectedMatch.name,
+          phone: selectedMatch.phone || ord.phone,
+          address: selectedMatch.address || ord.address
+        };
+      } else if (action === 'update') {
+        if (type === 'customer') {
+          setCustomers(cList => cList.map(c => c.id === selectedMatch.id ? { ...c, phone: ord.phone || c.phone, address: ord.address || c.address } : c));
+        } else {
+          setMerchants(mList => mList.map(m => m.id === selectedMatch.id ? { ...m, phone: ord.phone || m.phone, address: ord.address || m.address } : m));
         }
-        return ord;
-      })
-    );
-    setMatchingPromptModal(null);
+        return { ...ord, [type === 'customer' ? 'customer' : 'store']: selectedMatch.name };
+      }
+      return ord;
+    }));
+
+    setPendingMatches(prev => prev.slice(1));
   };
 
   const updateExtractedOrder = (index, field, value) => {
-    setExtractedOrders(prev =>
-      prev.map((order, i) =>
-        i === index
-          ? { ...order, [field]: ['cod', 'deliveryFee'].includes(field) ? normalizeNumber(value) : value }
-          : order
-      )
-    );
+    setExtractedOrders(prev => prev.map((ord, i) => i === index ? { ...ord, [field]: ['cod', 'deliveryFee'].includes(field) ? normalizeNumber(value) : value } : ord));
   };
 
-  /* Confirm Orders */
   const handleConfirmOrder = () => {
     if (extractedOrders.length === 0) return;
     if (!selectedDriver) {
-      alert(lang === 'ar' ? 'يرجى اختيار طيار قبل تأكيد الطلب.' : 'Please select a driver before confirming the orders.');
+      alert(lang === 'ar' ? 'يرجى اختيار طيار أولاً.' : 'Please select a driver.');
       return;
     }
 
     let currentNum = orderCounter;
-    const now = new Date();
-    const isoDateStr = now.toISOString().split('T')[0];
+    const isoDateStr = new Date().toISOString().split('T')[0];
 
     const newCreatedOrders = extractedOrders.map(ord => {
       const orderNumber = `#${currentNum++}`;
-      const normalizedCod = normalizeNumber(ord.cod);
-      const normalizedDeliveryFee = normalizeNumber(ord.deliveryFee);
-      const paymentMethod = ord.paymentMethod || PAYMENT_CASH;
-
       const newOrder = {
         id: Date.now() + Math.random(),
         orderNum: orderNumber,
@@ -988,139 +760,64 @@ FORMAT:
         customer: ord.customer || t.unspecified,
         phone: ord.phone || '',
         address: ord.address || t.unspecified,
-        cod: normalizedCod,
-        deliveryFee: normalizedDeliveryFee,
-        paymentMethod,
+        cod: normalizeNumber(ord.cod),
+        deliveryFee: normalizeNumber(ord.deliveryFee),
+        paymentMethod: ord.paymentMethod || PAYMENT_CASH,
         revenuePercent: selectedRevenuePercent,
         item: ord.item || '',
         notes: ord.notes || '',
         driver: selectedDriver,
         status: 'مؤكد',
         isoDate: isoDateStr,
-        date: now.toLocaleTimeString(lang === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })
+        date: new Date().toLocaleTimeString()
       };
-
-      addAuditLog(orderNumber, 'Created', `Created order for ${newOrder.customer} via ${newOrder.driver}. COD: ${normalizedCod}, Fee: ${normalizedDeliveryFee}`);
+      addAuditLog(orderNumber, 'Created', `Order created for ${newOrder.customer}`);
       return newOrder;
     });
 
     setOrderCounter(currentNum);
     setOrders(prev => [...newCreatedOrders, ...prev]);
 
+    // Auto add new merchants/customers
     extractedOrders.forEach(ord => {
       if (ord.store && ord.store !== t.unspecified) {
-        setMerchants(prev => {
-          const match = prev.find(m => m.name?.toLowerCase() === ord.store?.toLowerCase());
-          if (!match) {
-            return [{ id: Date.now() + Math.random(), name: ord.store, phone: ord.phone || '', address: ord.address || '', notes: '' }, ...prev];
-          }
-          return prev;
-        });
+        setMerchants(prev => prev.some(m => m.name.toLowerCase() === ord.store.toLowerCase()) ? prev : [{ id: Date.now() + Math.random(), name: ord.store, phone: ord.phone || '', address: ord.address || '', notes: '' }, ...prev]);
       }
       if (ord.customer && ord.customer !== t.unspecified) {
-        setCustomers(prev => {
-          const match = prev.find(c => c.phone === ord.phone || c.name === ord.customer);
-          if (!match) {
-            return [{ id: Date.now() + Math.random(), name: ord.customer, phone: ord.phone || '', address: ord.address || '', notes: '' }, ...prev];
-          }
-          return prev;
-        });
+        setCustomers(prev => prev.some(c => c.name.toLowerCase() === ord.customer.toLowerCase()) ? prev : [{ id: Date.now() + Math.random(), name: ord.customer, phone: ord.phone || '', address: ord.address || '', notes: '' }, ...prev]);
       }
     });
 
     setRawText('');
     setExtractedOrders([]);
-    setSelectedDriver('');
     setActiveTab('orders');
   };
 
-  /* Driver, Merchant, Customer Form Handlers */
   const handleAddDriver = () => {
     if (!newDriver.name.trim()) return;
-    if (driverObjects.some(d => d.name.toLowerCase() === newDriver.name.trim().toLowerCase())) {
-      alert(lang === 'ar' ? 'الطيار موجود بالفعل.' : 'Driver already exists.');
-      return;
-    }
     setDriverObjects(prev => [...prev, { id: 'd_' + Date.now(), ...newDriver }]);
     setNewDriver({ name: '', phone: '', notes: '' });
   };
 
   const handleSaveMerchant = () => {
     if (!merchantForm.name.trim()) return;
-    if (merchantForm.id) {
-      setMerchants(prev => prev.map(m => m.id === merchantForm.id ? { ...merchantForm } : m));
-    } else {
-      setMerchants(prev => [{ ...merchantForm, id: Date.now() }, ...prev]);
-    }
+    setMerchants(prev => merchantForm.id ? prev.map(m => m.id === merchantForm.id ? merchantForm : m) : [{ ...merchantForm, id: Date.now() }, ...prev]);
     setMerchantForm({ id: null, name: '', phone: '', address: '', notes: '' });
   };
 
   const handleSaveCustomer = () => {
     if (!customerForm.name.trim()) return;
-    if (customerForm.id) {
-      setCustomers(prev => prev.map(c => c.id === customerForm.id ? { ...customerForm } : c));
-    } else {
-      setCustomers(prev => [{ ...customerForm, id: Date.now() }, ...prev]);
-    }
+    setCustomers(prev => customerForm.id ? prev.map(c => c.id === customerForm.id ? customerForm : c) : [{ ...customerForm, id: Date.now() }, ...prev]);
     setCustomerForm({ id: null, name: '', phone: '', address: '', notes: '' });
   };
 
-  /* WhatsApp Dispatch Generator */
-  const handleGenerateWhatsappText = (order) => {
-    const text = `🛵 *طلب جديد للتوصيل ${order.orderNum}*\n\n🏪 *المتجر:* ${order.store}\n👤 *العميل:* ${order.customer}\n📞 *الهاتف:* ${order.phone}\n📍 *العنوان:* ${order.address}\n📦 *الصنف:* ${order.item || 'N/A'}\n💵 *المبلغ المطلوب من العميل:* ${getCustomerCollection(order)} ${systemCurrency}\n📝 *ملاحظات:* ${order.notes || 'لا يوجد'}`;
-    setWhatsappFormattedText(text);
-    setShowWhatsappModal(true);
-  };
-
-  /* Import / Export & Backup System */
-  const handleDownloadBackup = () => {
-    const data = { orders, merchants, customers, driverObjects, historyLogs, defaultRevenuePercent, systemCurrency };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `Express_Delivery_System_Backup_${new Date().toISOString().split('T')[0]}.json`;
-    link.click();
-  };
-
-  const handleRestoreBackup = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = event => {
-      try {
-        const backup = JSON.parse(event.target.result);
-        if (backup.orders) setOrders(backup.orders);
-        if (backup.merchants) setMerchants(backup.merchants);
-        if (backup.customers) setCustomers(backup.customers);
-        if (backup.driverObjects) setDriverObjects(backup.driverObjects);
-        if (backup.historyLogs) setHistoryLogs(backup.historyLogs);
-        alert(t.importSuccessMsg);
-      } catch (err) {
-        alert('Invalid JSON backup file: ' + err.message);
-      }
-    };
-    reader.readAsText(file);
-  };
-
-  /* Aggregations */
-  const activeOrdersCount = orders.filter(o => !['مكتمل', 'ملغي'].includes(o.status)).length;
-  const completedOrdersCount = orders.filter(o => o.status === 'مكتمل').length;
-
   const filteredOrders = orders.filter(o => {
-    const query = searchQuery.toLowerCase();
-    return (
-      (o.orderNum || '').toLowerCase().includes(query) ||
-      (o.customer || '').toLowerCase().includes(query) ||
-      (o.store || '').toLowerCase().includes(query) ||
-      (o.phone || '').includes(searchQuery)
-    );
+    const q = searchQuery.toLowerCase();
+    return (o.orderNum || '').toLowerCase().includes(q) || (o.customer || '').toLowerCase().includes(q) || (o.store || '').toLowerCase().includes(q) || (o.phone || '').includes(searchQuery);
   });
 
   const filteredLedgerOrders = orders.filter(o => (!ledgerDriver || o.driver === ledgerDriver) && o.isoDate === ledgerDate);
   const dailyCollected = filteredLedgerOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getOrderEffectiveCash(o), 0);
-  const dailyCompanyRevenue = filteredLedgerOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getCompanyRevenue(o), 0);
-  const dailyDriverRevenue = filteredLedgerOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getDriverRevenue(o), 0);
 
   return (
     <div style={styles.appWrapper}>
@@ -1129,7 +826,7 @@ FORMAT:
         {/* HEADER */}
         <header style={styles.header}>
           <div style={styles.logoBox}><span style={styles.logoIcon}>⚡</span></div>
-          <h1 style={styles.appTitle}><span>🚀</span> {t.appTitle}</h1>
+          <h1 style={styles.appTitle}>🚀 {t.appTitle}</h1>
           <p style={styles.appSubtitle}>{t.appSubtitle}</p>
         </header>
 
@@ -1137,158 +834,79 @@ FORMAT:
         <div style={styles.kpiRow}>
           <div style={styles.kpiCard}>
             <span style={styles.kpiLabel}>⏱️ {t.kpiActiveOrders}</span>
-            <span style={{ ...styles.kpiValue, color: '#C084FC' }}>{activeOrdersCount}</span>
+            <span style={{ ...styles.kpiValue, color: '#C084FC' }}>{orders.filter(o => !['مكتمل', 'ملغي'].includes(o.status)).length}</span>
           </div>
           <div style={styles.kpiCard}>
             <span style={styles.kpiLabel}>📦 {t.kpiCompleted}</span>
-            <span style={{ ...styles.kpiValue, color: '#38BDF8' }}>{completedOrdersCount}</span>
+            <span style={{ ...styles.kpiValue, color: '#38BDF8' }}>{orders.filter(o => o.status === 'مكتمل').length}</span>
           </div>
         </div>
 
         {/* NAVIGATION */}
         <div style={styles.navList}>
-          <button style={styles.primaryBtn} onClick={() => setActiveTab('new_order')}>
-            <span>➕</span> {t.navNewOrder}
-          </button>
+          <button style={styles.primaryBtn} onClick={() => setActiveTab('new_order')}>➕ {t.navNewOrder}</button>
           <button style={activeTab === 'orders' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('orders')}>
-            <div style={styles.navLeftLabel}><span style={styles.navIcon}>📦</span><span>{t.navOrders}</span></div>
-            <span style={styles.countBadge}>{orders.length}</span>
+            <span>📦 {t.navOrders}</span><span style={styles.countBadge}>{orders.length}</span>
           </button>
           <button style={activeTab === 'driver_ledger' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('driver_ledger')}>
-            <div style={styles.navLeftLabel}><span style={styles.navIcon}>📋</span><span>{t.navDriverLedger}</span></div>
+            <span>📋 {t.navDriverLedger}</span>
           </button>
           <button style={activeTab === 'drivers' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('drivers')}>
-            <div style={styles.navLeftLabel}><span style={styles.navIcon}>🛵</span><span>{t.navDrivers}</span></div>
-            <span style={styles.countBadge}>{driverObjects.length}</span>
+            <span>🛵 {t.navDrivers}</span><span style={styles.countBadge}>{driverObjects.length}</span>
           </button>
           <button style={activeTab === 'merchants' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('merchants')}>
-            <div style={styles.navLeftLabel}><span style={styles.navIcon}>🏪</span><span>{t.navMerchants}</span></div>
-            <span style={styles.countBadge}>{merchants.length}</span>
+            <span>🏪 {t.navMerchants}</span><span style={styles.countBadge}>{merchants.length}</span>
           </button>
           <button style={activeTab === 'customers' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('customers')}>
-            <div style={styles.navLeftLabel}><span style={styles.navIcon}>👥</span><span>{t.navCustomers}</span></div>
-            <span style={styles.countBadge}>{customers.length}</span>
+            <span>👥 {t.navCustomers}</span><span style={styles.countBadge}>{customers.length}</span>
           </button>
           <button style={activeTab === 'history' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('history')}>
-            <div style={styles.navLeftLabel}><span style={styles.navIcon}>🕒</span><span>{t.navHistory}</span></div>
+            <span>🕒 {t.navHistory}</span>
           </button>
           <button style={activeTab === 'settings' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('settings')}>
-            <div style={styles.navLeftLabel}><span style={styles.navIcon}>⚙️</span><span>{t.navSettings}</span></div>
+            <span>⚙️ {t.navSettings}</span>
           </button>
         </div>
 
-        {/* BOTTOM CONTROLS */}
-        <div style={styles.bottomSection}>
-          <button style={styles.langPill} onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}>
-            <span>🌐</span> {lang === 'ar' ? 'English' : 'العربية'}
-          </button>
-          <div style={{
-            ...styles.aiStatusPill,
-            background: apiKey ? 'rgba(6, 78, 59, 0.6)' : 'rgba(127, 29, 29, 0.6)',
-            border: apiKey ? '1px solid #10B981' : '1px solid #EF4444',
-            color: apiKey ? '#A7F3D0' : '#FCA5A5'
-          }}>
-            {apiKey ? t.groqConnected : t.groqMissing}
-          </div>
-        </div>
+        <button style={styles.langPill} onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}>
+          🌐 {lang === 'ar' ? 'English' : 'العربية'}
+        </button>
 
-        {/* MAIN VIEWS */}
+        {/* MAIN BODY */}
         <main style={styles.main}>
-          {/* NEW ORDER / WHATSAPP PARSER */}
+          {/* NEW ORDER */}
           {activeTab === 'new_order' && (
             <div style={styles.card}>
-              <div style={styles.rowBetween}>
-                <h2 style={styles.cardTitle}>{t.aiHeader}</h2>
-                <div style={{ display: 'flex', gap: '6px' }}>
-                  <button onClick={handlePasteClipboard} style={styles.btnGradientCompact}>{t.btnPaste}</button>
-                  <button onClick={() => setShowWhatsappModal(true)} style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg, #059669, #10B981)' }}>{t.btnOpenWhatsappModal}</button>
-                </div>
-              </div>
-              <textarea
-                rows={7}
-                value={rawText}
-                onChange={e => setRawText(e.target.value)}
-                placeholder={t.placeholderOrder}
-                style={styles.textarea}
-              />
+              <h2 style={styles.cardTitle}>{t.aiHeader}</h2>
+              <textarea rows={6} value={rawText} onChange={e => setRawText(e.target.value)} placeholder={t.placeholderOrder} style={styles.textarea} />
               <button onClick={extractOrderInfo} disabled={loading} style={styles.btnPrimaryGradient}>
                 {loading ? t.btnExtracting : t.btnExtract}
               </button>
 
-              {/* EXTRACTED ORDERS REVIEW */}
               {extractedOrders.length > 0 && (
                 <div style={styles.extractedBox}>
-                  <h3 style={{ marginTop: 0, color: '#FACC15' }}>{t.reviewTitle}</h3>
-                  {extractedOrders.map((ord, idx) => {
-                    const orderValue = normalizeNumber(ord.cod);
-                    const fee = normalizeNumber(ord.deliveryFee);
-                    const company = fee * (selectedRevenuePercent / 100);
-                    const driver = fee - company;
-                    const collection = [PAYMENT_ONLINE, PAYMENT_PREPAID].includes(ord.paymentMethod) ? fee : orderValue + fee;
-
-                    return (
-                      <div key={idx} style={styles.extractedSubCard}>
-                        <div style={{ ...styles.orderHero, background: 'linear-gradient(135deg,rgba(168,85,247,0.2),rgba(236,72,153,0.2))' }}>
-                          <div>
-                            <div style={styles.miniLabel}>{t.customer}</div>
-                            <div style={styles.heroCustomer}>👤 {ord.customer || t.unspecified}</div>
-                          </div>
-                          <div style={styles.heroMoney}>{collection.toLocaleString()} {systemCurrency}</div>
-                        </div>
-                        {isIncompleteAddress(ord.address) && <div style={styles.addressWarningBox}>{t.addressWarning}</div>}
-                        <div style={styles.grid2}>
-                          <div><strong>{t.store}:</strong> {ord.store || t.unspecified}</div>
-                          <div><strong>{t.phone}:</strong> {ord.phone || t.unspecified}</div>
-                          <div style={{ gridColumn: '1 / -1' }}><strong>{t.address}:</strong> {ord.address || t.unspecified}</div>
-                          <div style={{ gridColumn: '1 / -1' }}><strong>{t.item}:</strong> {ord.item || t.unspecified}</div>
-                        </div>
-
-                        <div style={styles.financePanel}>
-                          <div style={styles.financeTitle}>💰 {t.financialBreakdown}</div>
-                          <div style={styles.financeGrid}>
-                            <div style={styles.financeBox}>
-                              <span>{t.cod}</span>
-                              <input type="number" value={ord.cod} onChange={e => updateExtractedOrder(idx, 'cod', e.target.value)} style={styles.financeInput} />
-                            </div>
-                            <div style={styles.financeBox}>
-                              <span>{t.deliveryFee}</span>
-                              <input type="number" value={ord.deliveryFee} onChange={e => updateExtractedOrder(idx, 'deliveryFee', e.target.value)} style={styles.financeInput} />
-                            </div>
-                            <div style={styles.financeBox}>
-                              <span>{t.paymentMethod}</span>
-                              <select value={ord.paymentMethod || PAYMENT_CASH} onChange={e => updateExtractedOrder(idx, 'paymentMethod', e.target.value)} style={styles.financeInput}>
-                                <option value="cash">{t.paymentCash}</option>
-                                <option value="online">{t.paymentOnline}</option>
-                                <option value="prepaid">{t.paymentPrepaid}</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div style={styles.calculationStrip}>
-                            <div><span>{t.customerCollection}</span><strong>{collection.toLocaleString()} {systemCurrency}</strong></div>
-                            <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{company.toFixed(2)} {systemCurrency}</strong></div>
-                            <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{driver.toFixed(2)} {systemCurrency}</strong></div>
-                          </div>
-                        </div>
+                  <h3 style={{ color: '#FACC15' }}>{t.reviewTitle}</h3>
+                  {extractedOrders.map((ord, idx) => (
+                    <div key={idx} style={styles.extractedSubCard}>
+                      <div style={styles.grid2}>
+                        <div><strong>{t.customer}:</strong> {ord.customer}</div>
+                        <div><strong>{t.store}:</strong> {ord.store}</div>
+                        <div><strong>{t.phone}:</strong> {ord.phone}</div>
+                        <div style={{ gridColumn: '1 / -1' }}><strong>{t.address}:</strong> {ord.address}</div>
                       </div>
-                    );
-                  })}
-
-                  <div style={styles.confirmationPanel}>
-                    <div style={styles.grid2}>
-                      <div>
-                        <label style={styles.label}>{t.selectDriver}</label>
-                        <select value={selectedDriver} onChange={e => setSelectedDriver(e.target.value)} style={styles.input}>
-                          <option value="">{t.chooseDriver}</option>
-                          {driverObjects.map(d => (<option key={d.id} value={d.name}>{d.name}</option>))}
-                        </select>
-                      </div>
-                      <div>
-                        <label style={styles.label}>{t.chooseRevenue}</label>
-                        <select value={selectedRevenuePercent} onChange={e => setSelectedRevenuePercent(Number(e.target.value))} style={styles.revenueSelect}>
-                          {REVENUE_OPTIONS.map(p => (<option key={p} value={p}>{p}%</option>))}
-                        </select>
+                      <div style={styles.financeGrid}>
+                        <div><span>{t.cod}</span><input type="number" value={ord.cod} onChange={e => updateExtractedOrder(idx, 'cod', e.target.value)} style={styles.financeInput} /></div>
+                        <div><span>{t.deliveryFee}</span><input type="number" value={ord.deliveryFee} onChange={e => updateExtractedOrder(idx, 'deliveryFee', e.target.value)} style={styles.financeInput} /></div>
                       </div>
                     </div>
+                  ))}
+
+                  <div style={styles.confirmationPanel}>
+                    <label style={styles.label}>{t.selectDriver}</label>
+                    <select value={selectedDriver} onChange={e => setSelectedDriver(e.target.value)} style={styles.input}>
+                      <option value="">{t.chooseDriver}</option>
+                      {driverObjects.map(d => <option key={d.id} value={d.name}>{d.name}</option>)}
+                    </select>
                   </div>
 
                   <button onClick={handleConfirmOrder} style={styles.btnSuccessGradient}>{t.btnConfirm}</button>
@@ -1300,273 +918,195 @@ FORMAT:
           {/* MANAGING ORDERS */}
           {activeTab === 'orders' && (
             <div>
-              <input
-                type="text"
-                placeholder={t.searchPlaceholder}
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                style={styles.searchInput}
-              />
-              {filteredOrders.length === 0 ? (
-                <p style={styles.empty}>No orders found.</p>
-              ) : (
-                filteredOrders.map(order => (
-                  <div key={order.id} style={styles.card}>
-                    <div style={styles.rowBetween}>
-                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <span style={styles.orderNumTag}>{order.orderNum}</span>
-                        <span style={styles.tagStore}>{order.store}</span>
-                      </div>
-                      <div style={{ display: 'flex', gap: '6px' }}>
-                        <button onClick={() => handleGenerateWhatsappText(order)} style={{ ...styles.btnGradientCompact, background: '#059669' }}>📲</button>
-                        <select value={order.status} onChange={e => {
-                          setOrders(prev => prev.map(o => o.id === order.id ? { ...o, status: e.target.value } : o));
-                        }} style={getStatusStyle(order.status)}>
-                          <option value="مؤكد">{t.statusConfirmed}</option>
-                          <option value="قيد تجهيز الطلب">{t.statusProcessing}</option>
-                          <option value="خرج للتوصيل">{t.statusOutForDelivery}</option>
-                          <option value="جاري التوصيل">{t.statusInTransit}</option>
-                          <option value="مكتمل">{t.statusCompleted}</option>
-                          <option value="متأخر">{t.statusDelayed}</option>
-                          <option value="ملغي">{t.statusCancelled}</option>
-                        </select>
-                      </div>
-                    </div>
-                    <p style={styles.p}><strong>{t.customer}:</strong> {order.customer} ({order.phone})</p>
-                    <p style={styles.p}><strong>{t.address}:</strong> {order.address}</p>
-                    <div style={styles.calculationStrip}>
-                      <div><span>{t.cod}</span><strong>{getOrderValue(order)} {systemCurrency}</strong></div>
-                      <div><span>{t.deliveryFee}</span><strong>{getDeliveryFee(order)} {systemCurrency}</strong></div>
-                      <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{getCompanyRevenue(order).toFixed(2)} {systemCurrency}</strong></div>
-                      <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{getDriverRevenue(order).toFixed(2)} {systemCurrency}</strong></div>
-                    </div>
+              <input type="text" placeholder={t.searchPlaceholder} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} style={styles.searchInput} />
+              {filteredOrders.map(order => (
+                <div key={order.id} style={{ ...styles.card, cursor: 'pointer' }} onClick={() => setActiveModal({ type: 'order', data: order })}>
+                  <div style={styles.rowBetween}>
+                    <span style={styles.orderNumTag}>{order.orderNum}</span>
+                    <select value={order.status} onClick={e => e.stopPropagation()} onChange={e => {
+                      setOrders(prev => prev.map(o => o.id === order.id ? { ...o, status: e.target.value } : o));
+                    }} style={getStatusStyle(order.status)}>
+                      <option value="مؤكد">{t.statusConfirmed}</option>
+                      <option value="مكتمل">{t.statusCompleted}</option>
+                      <option value="ملغي">{t.statusCancelled}</option>
+                    </select>
                   </div>
-                ))
-              )}
-            </div>
-          )}
-
-          {/* LEDGER */}
-          {activeTab === 'driver_ledger' && (
-            <div style={styles.card}>
-              <h2 style={{ color: '#67E8F9', marginTop: 0 }}>{t.driverLedgerTitle}</h2>
-              <div style={styles.grid2}>
-                <div>
-                  <label style={styles.label}>{t.filterDriver}</label>
-                  <select value={ledgerDriver} onChange={e => setLedgerDriver(e.target.value)} style={styles.input}>
-                    <option value="">-- {t.allDrivers} --</option>
-                    {driverObjects.map(d => (<option key={d.id} value={d.name}>{d.name}</option>))}
-                  </select>
-                </div>
-                <div>
-                  <label style={styles.label}>{t.filterDate}</label>
-                  <input type="date" value={ledgerDate} onChange={e => setLedgerDate(e.target.value)} style={styles.input} />
-                </div>
-              </div>
-              <div style={styles.monthlySummary}>
-                <div><span>{t.cashToHandIn}</span><br /><strong>{dailyCollected.toLocaleString()} {systemCurrency}</strong></div>
-                <div><span>{t.companyRevenueLedger}</span><br /><strong style={{ color: '#34D399' }}>{dailyCompanyRevenue.toFixed(2)} {systemCurrency}</strong></div>
-                <div><span>{t.driverRevenueLedger}</span><br /><strong style={{ color: '#60A5FA' }}>{dailyDriverRevenue.toFixed(2)} {systemCurrency}</strong></div>
-              </div>
-            </div>
-          )}
-
-          {/* DRIVERS TAB WITH DETAILED METRICS & DRILL-DOWN */}
-          {activeTab === 'drivers' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.addDriver}</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-                <input type="text" placeholder={t.driverName} value={newDriver.name} onChange={e => setNewDriver({ ...newDriver, name: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.driverPhone} value={newDriver.phone} onChange={e => setNewDriver({ ...newDriver, phone: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.entityNotes} value={newDriver.notes} onChange={e => setNewDriver({ ...newDriver, notes: e.target.value })} style={styles.input} />
-                <button onClick={handleAddDriver} style={styles.btnGradientCompact}>{t.btnAdd}</button>
-              </div>
-              <div style={styles.grid2}>
-                {driverObjects.map(d => {
-                  const driverOrders = orders.filter(o => o.driver === d.name);
-                  const completedDriverOrders = driverOrders.filter(o => o.status === 'مكتمل');
-                  const totalDriverRev = completedDriverOrders.reduce((acc, o) => acc + getDriverRevenue(o), 0);
-
-                  return (
-                    <div key={d.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'driver', data: d })}>
-                      <h3 style={{ margin: '0 0 4px', color: '#38BDF8' }}>🛵 {d.name}</h3>
-                      <p style={styles.p}>📞 {d.phone || t.unspecified}</p>
-                      <p style={styles.p}>{t.totalTrips}: <strong>{driverOrders.length}</strong></p>
-                      <p style={styles.p}>{t.driverRevenueTotal}: <strong style={{ color: '#60A5FA' }}>{totalDriverRev.toFixed(2)} {systemCurrency}</strong></p>
-                      <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* MERCHANTS TAB WITH ADDRESS & NOTES */}
-          {activeTab === 'merchants' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.saveMerchant}</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-                <input type="text" placeholder={t.store} value={merchantForm.name} onChange={e => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.phone} value={merchantForm.phone} onChange={e => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.address} value={merchantForm.address} onChange={e => setMerchantForm({ ...merchantForm, address: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.entityNotes} value={merchantForm.notes} onChange={e => setMerchantForm({ ...merchantForm, notes: e.target.value })} style={styles.input} />
-                <button onClick={handleSaveMerchant} style={styles.btnGradientCompact}>{t.saveBtn}</button>
-              </div>
-              <div style={styles.grid2}>
-                {merchants.map(m => (
-                  <div key={m.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'merchant', data: m })}>
-                    <h3 style={{ margin: '0 0 6px', color: '#FACC15' }}>🏪 {m.name}</h3>
-                    <p style={styles.p}>📞 {m.phone || t.unspecified}</p>
-                    <p style={styles.p}>📍 {m.address || t.unspecified}</p>
-                    {m.notes && <p style={{ ...styles.p, color: '#94A3B8' }}>📝 {m.notes}</p>}
-                    <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* CUSTOMERS TAB WITH ADDRESS & NOTES */}
-          {activeTab === 'customers' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.saveCustomer}</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-                <input type="text" placeholder={t.customer} value={customerForm.name} onChange={e => setCustomerForm({ ...customerForm, name: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.phone} value={customerForm.phone} onChange={e => setCustomerForm({ ...customerForm, phone: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.address} value={customerForm.address} onChange={e => setCustomerForm({ ...customerForm, address: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.entityNotes} value={customerForm.notes} onChange={e => setCustomerForm({ ...customerForm, notes: e.target.value })} style={styles.input} />
-                <button onClick={handleSaveCustomer} style={styles.btnGradientCompact}>{t.saveBtn}</button>
-              </div>
-              <div style={styles.grid2}>
-                {customers.map(c => (
-                  <div key={c.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'customer', data: c })}>
-                    <h3 style={{ margin: '0 0 6px', color: '#38BDF8' }}>👤 {c.name}</h3>
-                    <p style={styles.p}>📞 {c.phone || t.unspecified}</p>
-                    <p style={styles.p}>📍 {c.address || t.unspecified}</p>
-                    {c.notes && <p style={{ ...styles.p, color: '#94A3B8' }}>📝 {c.notes}</p>}
-                    <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* AUDIT LOG */}
-          {activeTab === 'history' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.historyTitle}</h2>
-              {historyLogs.map(log => (
-                <div key={log.id} style={{ padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                  <span style={styles.orderNumTag}>{log.orderNum}</span> <strong style={{ color: '#38BDF8' }}>[{log.action}]</strong> {log.details}
-                  <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '4px' }}>🕒 {log.time}</div>
+                  <p style={styles.p}><strong>👤 {order.customer}</strong> ({order.phone})</p>
+                  <p style={styles.p}>🏪 {order.store} | 🛵 {order.driver}</p>
                 </div>
               ))}
             </div>
           )}
 
-          {/* ENTERPRISE SETTINGS */}
+          {/* DRIVER LEDGER */}
+          {activeTab === 'driver_ledger' && (
+            <div style={styles.card}>
+              <h2 style={{ color: '#67E8F9', marginTop: 0 }}>{t.driverLedgerTitle}</h2>
+              <div style={styles.grid2}>
+                <select value={ledgerDriver} onChange={e => setLedgerDriver(e.target.value)} style={styles.input}>
+                  <option value="">-- {t.allDrivers} --</option>
+                  {driverObjects.map(d => <option key={d.id} value={d.name}>{d.name}</option>)}
+                </select>
+                <input type="date" value={ledgerDate} onChange={e => setLedgerDate(e.target.value)} style={styles.input} />
+              </div>
+              <div style={{ marginTop: '20px', fontSize: '1.2rem', color: '#34D399', fontWeight: '800' }}>
+                {t.cashToHandIn}: {dailyCollected.toLocaleString()} {systemCurrency}
+              </div>
+            </div>
+          )}
+
+          {/* DRIVERS */}
+          {activeTab === 'drivers' && (
+            <div style={styles.card}>
+              <h2 style={styles.cardTitle}>{t.addDriver}</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
+                <input type="text" placeholder={t.driverName} value={newDriver.name} onChange={e => setNewDriver({ ...newDriver, name: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.driverPhone} value={newDriver.phone} onChange={e => setNewDriver({ ...newDriver, phone: e.target.value })} style={styles.input} />
+                <button onClick={handleAddDriver} style={styles.btnGradientCompact}>{t.btnAdd}</button>
+              </div>
+              <div style={styles.grid2}>
+                {driverObjects.map(d => (
+                  <div key={d.id} style={styles.clickableCard} onClick={() => setActiveModal({ type: 'driver', data: d })}>
+                    <h3 style={{ margin: 0, color: '#38BDF8' }}>🛵 {d.name}</h3>
+                    <p style={styles.p}>📞 {d.phone || t.unspecified}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* MERCHANTS */}
+          {activeTab === 'merchants' && (
+            <div style={styles.card}>
+              <h2 style={styles.cardTitle}>{t.saveMerchant}</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
+                <input type="text" placeholder={t.store} value={merchantForm.name} onChange={e => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.phone} value={merchantForm.phone} onChange={e => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.address} value={merchantForm.address} onChange={e => setMerchantForm({ ...merchantForm, address: e.target.value })} style={styles.input} />
+                <button onClick={handleSaveMerchant} style={styles.btnGradientCompact}>{t.saveBtn}</button>
+              </div>
+              <div style={styles.grid2}>
+                {merchants.map(m => (
+                  <div key={m.id} style={styles.clickableCard} onClick={() => setActiveModal({ type: 'merchant', data: m })}>
+                    <h3 style={{ margin: 0, color: '#FACC15' }}>🏪 {m.name}</h3>
+                    <p style={styles.p}>📞 {m.phone || t.unspecified}</p>
+                    <p style={styles.p}>📍 {m.address || t.unspecified}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* CUSTOMERS */}
+          {activeTab === 'customers' && (
+            <div style={styles.card}>
+              <h2 style={styles.cardTitle}>{t.saveCustomer}</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
+                <input type="text" placeholder={t.customer} value={customerForm.name} onChange={e => setCustomerForm({ ...customerForm, name: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.phone} value={customerForm.phone} onChange={e => setCustomerForm({ ...customerForm, phone: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.address} value={customerForm.address} onChange={e => setCustomerForm({ ...customerForm, address: e.target.value })} style={styles.input} />
+                <button onClick={handleSaveCustomer} style={styles.btnGradientCompact}>{t.saveBtn}</button>
+              </div>
+              <div style={styles.grid2}>
+                {customers.map(c => (
+                  <div key={c.id} style={styles.clickableCard} onClick={() => setActiveModal({ type: 'customer', data: c })}>
+                    <h3 style={{ margin: 0, color: '#38BDF8' }}>👤 {c.name}</h3>
+                    <p style={styles.p}>📞 {c.phone || t.unspecified}</p>
+                    <p style={styles.p}>📍 {c.address || t.unspecified}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* HISTORY */}
+          {activeTab === 'history' && (
+            <div style={styles.card}>
+              <h2 style={styles.cardTitle}>{t.historyTitle}</h2>
+              {historyLogs.map(log => (
+                <div key={log.id} style={{ padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <span style={styles.orderNumTag}>{log.orderNum}</span> - {log.details}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* SETTINGS */}
           {activeTab === 'settings' && (
             <div style={styles.card}>
               <h2 style={styles.cardTitle}>{t.settingsTitle}</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <div>
-                  <label style={styles.label}>Groq API Key</label>
-                  <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Groq API Key..." style={styles.input} />
-                </div>
-                <div>
-                  <label style={styles.label}>{t.defaultRevenuePercent}</label>
-                  <select value={defaultRevenuePercent} onChange={e => setDefaultRevenuePercent(Number(e.target.value))} style={styles.revenueSelect}>
-                    {REVENUE_OPTIONS.map(p => (<option key={p} value={p}>{p}%</option>))}
-                  </select>
-                </div>
-                <div>
-                  <label style={styles.label}>{t.systemCurrency}</label>
-                  <select value={systemCurrency} onChange={e => setSystemCurrency(e.target.value)} style={styles.input}>
-                    <option value="EGP">EGP (ج.م)</option>
-                    <option value="USD">USD ($)</option>
-                    <option value="SAR">SAR (ر.س)</option>
-                    <option value="AED">AED (د.إ)</option>
-                  </select>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <input type="checkbox" id="autoAssign" checked={autoAssignDriverEnabled} onChange={e => setAutoAssignDriverEnabled(e.target.checked)} />
-                  <label htmlFor="autoAssign" style={styles.label}>{t.autoAssignDriver}</label>
-                </div>
-                
-                <hr style={{ borderColor: 'rgba(255,255,255,0.1)', margin: '10px 0' }} />
-                <h3 style={{ color: '#FACC15', margin: 0 }}>{t.backupRestore}</h3>
-                <button onClick={handleDownloadBackup} style={styles.btnGradientCompact}>{t.downloadBackup}</button>
-                <label style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg,#059669,#10B981)', display: 'inline-block', textAlign: 'center', cursor: 'pointer' }}>
-                  {t.restoreBackup}
-                  <input type="file" accept=".json" onChange={handleRestoreBackup} style={{ display: 'none' }} />
-                </label>
-              </div>
+              <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Groq API Key..." style={styles.input} />
             </div>
           )}
         </main>
 
-        {/* WHATSAPP / PLAIN TEXT MODAL */}
-        {showWhatsappModal && (
+        {/* DUPLICATE MATCHER MODAL QUEUE */}
+        {pendingMatches.length > 0 && (
           <div style={styles.modalOverlay}>
             <div style={styles.modalCard}>
-              <div style={styles.rowBetween}>
-                <h3 style={{ margin: 0, color: '#34D399' }}>{t.whatsappModalTitle}</h3>
-                <button onClick={() => setShowWhatsappModal(false)} style={styles.btnDeleteCompact}>✕</button>
-              </div>
-              <textarea rows={8} value={whatsappFormattedText} readOnly style={styles.textarea} />
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(whatsappFormattedText);
-                  alert(t.waTextCopied);
-                }}
-                style={styles.btnSuccessGradient}
-              >
-                📋 {t.waTextCopied}
-              </button>
+              <h3 style={{ color: '#FACC15', marginTop: 0 }}>{t.matchTitle}</h3>
+              <p style={styles.p}>{t.matchPrompt}</p>
+              <p style={{ ...styles.p, color: '#38BDF8', fontWeight: '700' }}>
+                Item: {pendingMatches[0].name} ({pendingMatches[0].type})
+              </p>
+              {pendingMatches[0].matches.map(m => (
+                <div key={m.id} style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '12px', marginBottom: '10px' }}>
+                  <strong>{m.name}</strong> - 📞 {m.phone || 'N/A'} - 📍 {m.address || 'N/A'}
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                    <button onClick={() => handleResolveMatching(m, 'autofill')} style={styles.btnGradientCompact}>{t.autofillBtn}</button>
+                    <button onClick={() => handleResolveMatching(m, 'update')} style={{ ...styles.btnGradientCompact, background: '#059669' }}>{t.updateBtn}</button>
+                  </div>
+                </div>
+              ))}
+              <button onClick={() => handleResolveMatching(null, 'create')} style={{ ...styles.btnGradientCompact, background: '#475569', width: '100%', marginTop: '10px' }}>{t.createNew}</button>
             </div>
           </div>
         )}
 
-        {/* ENTITY DRILL-DOWN MODAL */}
-        {activeEntityModal && (
+        {/* DETAILS MODAL FOR ORDERS / DRIVERS / MERCHANTS / CUSTOMERS */}
+        {activeModal && (
           <div style={styles.modalOverlay}>
             <div style={styles.modalCard}>
               <div style={styles.rowBetween}>
-                <h2 style={{ margin: 0, color: '#C084FC' }}>
-                  {activeEntityModal.type === 'driver' && `🛵 ${activeEntityModal.data.name}`}
-                  {activeEntityModal.type === 'merchant' && `🏪 ${activeEntityModal.data.name}`}
-                  {activeEntityModal.type === 'customer' && `👤 ${activeEntityModal.data.name}`}
-                </h2>
-                <button onClick={() => setActiveEntityModal(null)} style={styles.btnDeleteCompact}>✕</button>
+                <h3 style={{ margin: 0, color: '#C084FC' }}>
+                  {activeModal.type === 'order' && `Order ${activeModal.data.orderNum}`}
+                  {activeModal.type === 'driver' && `🛵 Driver: ${activeModal.data.name}`}
+                  {activeModal.type === 'merchant' && `🏪 Merchant: ${activeModal.data.name}`}
+                  {activeModal.type === 'customer' && `👤 Customer: ${activeModal.data.name}`}
+                </h3>
+                <button onClick={() => setActiveModal(null)} style={{ background: '#EF4444', color: '#FFF', border: 'none', borderRadius: '8px', padding: '4px 10px', cursor: 'pointer' }}>✕</button>
               </div>
 
-              <div style={{ margin: '10px 0', fontSize: '0.9rem', color: '#CBD5E1' }}>
-                <p style={styles.p}>📞 {activeEntityModal.data.phone || t.unspecified}</p>
-                {activeEntityModal.data.address && <p style={styles.p}>📍 {activeEntityModal.data.address}</p>}
-                {activeEntityModal.data.notes && <p style={styles.p}>📝 {activeEntityModal.data.notes}</p>}
+              <div style={{ margin: '15px 0' }}>
+                {activeModal.type === 'order' && (
+                  <>
+                    <p style={styles.p}><strong>Customer:</strong> {activeModal.data.customer} ({activeModal.data.phone})</p>
+                    <p style={styles.p}><strong>Store:</strong> {activeModal.data.store}</p>
+                    <p style={styles.p}><strong>Driver:</strong> {activeModal.data.driver}</p>
+                    <p style={styles.p}><strong>Address:</strong> {activeModal.data.address}</p>
+                    <p style={styles.p}><strong>Value:</strong> {getOrderValue(activeModal.data)} {systemCurrency}</p>
+                    <p style={styles.p}><strong>Delivery Fee:</strong> {getDeliveryFee(activeModal.data)} {systemCurrency}</p>
+                  </>
+                )}
+
+                {activeModal.type !== 'order' && (
+                  <>
+                    <p style={styles.p}>📞 Phone: {activeModal.data.phone || 'N/A'}</p>
+                    {activeModal.data.address && <p style={styles.p}>📍 Address: {activeModal.data.address}</p>}
+                    <h4 style={{ color: '#FACC15', marginBottom: '8px' }}>Associated Orders</h4>
+                    {orders.filter(o => {
+                      if (activeModal.type === 'driver') return o.driver === activeModal.data.name;
+                      if (activeModal.type === 'merchant') return o.store?.toLowerCase() === activeModal.data.name?.toLowerCase();
+                      if (activeModal.type === 'customer') return o.customer?.toLowerCase() === activeModal.data.name?.toLowerCase() || o.phone === activeModal.data.phone;
+                      return false;
+                    }).map(o => (
+                      <div key={o.id} style={{ background: 'rgba(255,255,255,0.05)', padding: '8px 12px', borderRadius: '8px', marginBottom: '6px' }}>
+                        <strong>{o.orderNum}</strong> - {o.status} ({o.cod} {systemCurrency})
+                      </div>
+                    ))}
+                  </>
+                )}
               </div>
-
-              <h3 style={{ color: '#FACC15', marginBottom: '10px' }}>Associated Orders History</h3>
-              {(() => {
-                const assocOrders = orders.filter(o => {
-                  if (activeEntityModal.type === 'driver') return o.driver === activeEntityModal.data.name;
-                  if (activeEntityModal.type === 'merchant') return o.store?.toLowerCase() === activeEntityModal.data.name?.toLowerCase();
-                  if (activeEntityModal.type === 'customer') return o.customer?.toLowerCase() === activeEntityModal.data.name?.toLowerCase() || o.phone === activeEntityModal.data.phone;
-                  return false;
-                });
-
-                if (assocOrders.length === 0) return <p style={styles.empty}>{t.noOrdersFound}</p>;
-
-                return assocOrders.map(o => (
-                  <div key={o.id} style={{ ...styles.extractedSubCard, marginBottom: '8px' }}>
-                    <div style={styles.rowBetween}>
-                      <span style={styles.orderNumTag}>{o.orderNum}</span>
-                      <span style={getStatusStyle(o.status)}>{o.status}</span>
-                    </div>
-                    <div><strong>{t.cod}:</strong> {o.cod} {systemCurrency} | <strong>{t.deliveryFee}:</strong> {o.deliveryFee} {systemCurrency}</div>
-                  </div>
-                ));
-              })()}
             </div>
           </div>
         )}
