@@ -1,654 +1,1090 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-const translations = {
-  ar: {
-    appTitle: 'إكسبريس دليفري PRO',
-    appSubtitle: 'النظام الذكي لإدارة الطلبات واللوجستيات',
-    groqConnected: '🟢 AI متصل',
-    groqMissing: '🔴 المفتاح مفقود',
+/* =========================================================
+   EXPRESS DELIVERY PRO
+   Enterprise-style React delivery management dashboard
+   ========================================================= */
 
-    navNewOrder: 'طلب جديد',
-    navOrders: 'إدارة الطلبات',
-    navDrivers: 'الطيارين',
-    navDriverLedger: 'كشف حساب الطيارين',
-    navMerchants: 'التجار',
-    navCustomers: 'العملاء',
-    navHistory: 'السجل والتعديلات',
-    navSettings: 'الإعدادات',
+/* ----------------------------- Constants ----------------------------- */
 
-    kpiTotalCod: 'إجمالي المبالغ المحصلة',
-    kpiRevenue: 'إجمالي إيراد التوصيل',
-    kpiActiveOrders: 'طلبات نشطة',
-    kpiCompleted: 'تم التوصيل',
-
-    aiHeader: '✨ استخراج بيانات الطلب بواسطة AI',
-    placeholderOrder: 'ألصق نص الطلب هنا أو رسالة واتساب...',
-    btnPaste: '📋 لصق من الحافظة',
-    btnExtract: '⚡ استخراج البيانات بالذكاء الاصطناعي',
-    btnExtracting: 'جاري التحليل والتدقيق...',
-    reviewTitle: 'مراجعة البيانات المستخرجة:',
-
-    store: 'المتجر',
-    customer: 'العميل',
-    phone: 'رقم الهاتف',
-    cod: 'قيمة الطلب',
-    deliveryFee: 'رسوم التوصيل',
-    address: 'العنوان',
-    item: 'الصنف',
-    notes: 'ملاحظات الطلب',
-
-    paymentMethod: 'طريقة الدفع',
-    paymentCash: '💵 كاش عند الاستلام',
-    paymentOnline: '💳 مدفوع أونلاين',
-    paymentPrepaid: '✅ مدفوع مسبقًا',
-
-    customerCollection: 'إجمالي ما يدفعه العميل',
-    merchantAmount: 'مبلغ المتجر',
-    revenuePercent: 'نسبتي من التوصيل',
-    companyRevenue: 'إيرادي',
-    driverRevenue: 'نصيب الطيار',
-    driverCollection: 'ما سيحصله الطيار',
-
-    addressWarning: '📍 تنبيه عنوان غير مكتمل: يرجى مراجعة وتأكيد العنوان!',
-    selectDriver: 'اختيار طيار التوصيل:',
-    chooseDriver: '-- اختر طيار --',
-    chooseRevenue: 'نسبة إيرادي من رسوم التوصيل:',
-    btnConfirm: '✅ تأكيد وحفظ الطلبات',
-
-    searchPlaceholder: '🔍 بحث برقم الطلب، اسم العميل، المتجر، أو الهاتف...',
-    unspecified: 'غير محدد',
-
-    statusConfirmed: 'مؤكد',
-    statusProcessing: 'قيد تجهيز الطلب',
-    statusOutForDelivery: 'خرج للتوصيل',
-    statusInTransit: 'جاري التوصيل',
-    statusCompleted: 'مكتمل (تم التسليم)',
-    statusDelayed: 'متأخر',
-    statusCancelled: 'ملغي',
-
-    addDriver: 'إضافة طيار جديد',
-    driverName: 'اسم الطيار...',
-    driverPhone: 'رقم هاتف الطيار...',
-    btnAdd: 'إضافة',
-
-    driverCash: 'إجمالي المبالغ المحصلة:',
-    driverRevenueTotal: 'إجمالي نصيب الطيار:',
-    companyRevenueTotal: 'إجمالي إيراد الشركة:',
-    totalTrips: 'إجمالي الرحلات:',
-
-    saveMerchant: 'إضافة أو تعديل تاجر',
-    saveCustomer: 'إضافة عميل يدويًا',
-
-    saveBtn: 'حفظ',
-    deleteBtn: 'حذف',
-    editBtn: 'تعديل',
-
-    settingsTitle: 'إعدادات النظام المتقدمة',
-    defaultRevenuePercent: 'نسبة عمولة الشركة الافتراضية (%)',
-    systemCurrency: 'عملة النظام',
-    autoAssignDriver: 'التعيين التلقائي لأول طيار متاح',
-    backupRestore: 'النسخ الاحتياطي والاستعادة',
-    downloadBackup: '💾 تحميل نسخة احتياطية (JSON)',
-    restoreBackup: '📥 استعادة من نسخة احتياطية',
-
-    historyTitle: '📜 سجل عمليات وتعديلات الطلبات',
-    driverLedgerTitle: '📊 كشف حساب وتوريد الطيارين',
-    filterDriver: 'تصفية بالطيار:',
-    filterDate: 'التاريخ:',
-    allDrivers: 'كل الطيارين',
-
-    cashToHandIn: '💵 إجمالي التحصيل',
-    companyRevenueLedger: '💰 إيراد الشركة',
-    driverRevenueLedger: '🛵 نصيب الطيار',
-
-    financialBreakdown: '💰 التفاصيل المالية',
-
-    matchTitle: '🔍 مطابقة البيانات المسجلة',
-    matchPrompt: 'تم العثور على اسم مشابه في النظام. يرجى التحديد لهذا الطلب بالتحديد:',
-    createNew: '➕ إضافة كـ جديد',
-    autofillBtn: '📋 استخدام البيانات المسجلة',
-    updateBtn: '🔄 تحديث البيانات المسجلة بالجديدة',
-    viewDetails: 'عرض التفاصيل والطلبات',
-    entityNotes: 'الملاحظات الخاصة:',
-    noOrdersFound: 'لا توجد طلبات مسجلة.',
-    
-    whatsappModalTitle: '📱 أداة واتساب والنصوص',
-    btnOpenWhatsappModal: '💬 فتح معالج واتساب',
-    waTextCopied: 'تم نسخ نص الواتساب بنجاح!'
-  },
-
-  en: {
-    appTitle: 'Express Delivery PRO',
-    appSubtitle: 'AI Logistics & Multi-Order Management Platform',
-    groqConnected: '🟢 AI Active',
-    groqMissing: '🔴 Key Missing',
-
-    navNewOrder: 'New Order',
-    navOrders: 'Manage Orders',
-    navDrivers: 'Drivers',
-    navDriverLedger: 'Driver Ledger',
-    navMerchants: 'Stores',
-    navCustomers: 'Customers',
-    navHistory: 'Audit History',
-    navSettings: 'Settings',
-
-    kpiTotalCod: 'Total Collected',
-    kpiRevenue: 'Total Delivery Revenue',
-    kpiActiveOrders: 'Active Orders',
-    kpiCompleted: 'Completed Orders',
-
-    aiHeader: '✨ AI Order Extraction',
-    placeholderOrder: 'Paste delivery text or WhatsApp message here...',
-    btnPaste: '📋 Paste Clipboard',
-    btnExtract: '⚡ Extract Data with AI',
-    btnExtracting: 'Analyzing & Checking...',
-    reviewTitle: 'Extracted Orders Review:',
-
-    store: 'Store',
-    customer: 'Customer',
-    phone: 'Phone',
-    cod: 'Order Value',
-    deliveryFee: 'Delivery Fee',
-    address: 'Address',
-    item: 'Item Details',
-    notes: 'Order Notes',
-
-    paymentMethod: 'Payment Method',
-    paymentCash: '💵 Cash on Delivery',
-    paymentOnline: '💳 Paid Online',
-    paymentPrepaid: '✅ Prepaid',
-
-    customerCollection: 'Customer Total',
-    merchantAmount: 'Merchant Amount',
-    revenuePercent: 'My Delivery Share',
-    companyRevenue: 'My Revenue',
-    driverRevenue: 'Driver Share',
-    driverCollection: 'Driver Collection',
-
-    addressWarning: '📍 Incomplete Address Alert: Double check details!',
-    selectDriver: 'Assign Driver:',
-    chooseDriver: '-- Select Driver --',
-    chooseRevenue: 'My percentage of delivery fee:',
-    btnConfirm: '✅ Confirm & Save Orders',
-
-    searchPlaceholder: '🔍 Search Order #, Customer, Store, Phone...',
-    unspecified: 'N/A',
-
-    statusConfirmed: 'Confirmed',
-    statusProcessing: 'Processing',
-    statusOutForDelivery: 'Out for Delivery',
-    statusInTransit: 'In Transit',
-    statusCompleted: 'Completed',
-    statusDelayed: 'Delayed',
-    statusCancelled: 'Cancelled',
-
-    addDriver: 'Add Driver',
-    driverName: 'Driver Name...',
-    driverPhone: 'Driver Phone...',
-    btnAdd: 'Add Driver',
-
-    driverCash: 'Total Collected:',
-    driverRevenueTotal: 'Driver Revenue:',
-    companyRevenueTotal: 'Company Revenue:',
-    totalTrips: 'Total Trips:',
-
-    saveMerchant: 'Save Store Details',
-    saveCustomer: 'Add Customer',
-
-    saveBtn: 'Save',
-    deleteBtn: 'Delete',
-    editBtn: 'Edit',
-
-    settingsTitle: 'Enterprise System Settings',
-    defaultRevenuePercent: 'Default Company Commission Rate (%)',
-    systemCurrency: 'System Currency',
-    autoAssignDriver: 'Auto-assign to first available driver',
-    backupRestore: 'Data Backup & System Restore',
-    downloadBackup: '💾 Download JSON Backup',
-    restoreBackup: '📥 Restore System JSON Backup',
-
-    historyTitle: '📜 Audit Log & Order Edits History',
-    driverLedgerTitle: '📊 Driver Cash & Revenue Ledger',
-    filterDriver: 'Filter Driver:',
-    filterDate: 'Filter Date:',
-    allDrivers: 'All Drivers',
-
-    cashToHandIn: '💵 Total Collected',
-    companyRevenueLedger: '💰 Company Revenue',
-    driverRevenueLedger: '🛵 Driver Share',
-
-    financialBreakdown: '💰 Financial Breakdown',
-
-    matchTitle: '🔍 Duplicate Matcher',
-    matchPrompt: 'Similar match found for this order. Please select an option for this item:',
-    createNew: '➕ Keep as New',
-    autofillBtn: '📋 Autofill Saved Data',
-    updateBtn: '🔄 Update Saved Data',
-    viewDetails: 'View Profile & Orders History',
-    entityNotes: 'Entity Notes:',
-    noOrdersFound: 'No associated orders found.',
-
-    whatsappModalTitle: '📱 Plain Text / WhatsApp Parser Tool',
-    btnOpenWhatsappModal: '💬 Open WhatsApp Tool',
-    waTextCopied: 'Copied to clipboard!'
-  }
+const STORAGE = {
+  lang: 'express_lang',
+  apiKey: 'express_groq_key',
+  settings: 'express_settings_v7',
+  orders: 'express_orders_v7',
+  deletedOrders: 'express_deleted_orders_v7',
+  merchants: 'express_merchants_v7',
+  customers: 'express_customers_v7',
+  drivers: 'express_drivers_v7',
+  history: 'express_history_v7',
+  counter: 'express_counter_v7'
 };
 
-const REVENUE_OPTIONS = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 75, 80, 90, 100];
-const PAYMENT_CASH = 'cash';
-const PAYMENT_ONLINE = 'online';
-const PAYMENT_PREPAID = 'prepaid';
+const PAYMENT = {
+  CASH: 'cash',
+  ONLINE: 'online',
+  PREPAID: 'prepaid'
+};
+
+const STATUS = {
+  CONFIRMED: 'confirmed',
+  PROCESSING: 'processing',
+  OUT_FOR_DELIVERY: 'out_for_delivery',
+  IN_TRANSIT: 'in_transit',
+  COMPLETED: 'completed',
+  DELAYED: 'delayed',
+  CANCELLED: 'cancelled'
+};
+
+const REVENUE_OPTIONS = [
+  0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 75, 80, 90, 100
+];
+
+const DEFAULT_SETTINGS = {
+  currency: 'EGP',
+  defaultCommission: 20,
+  defaultDeliveryMinutes: 60,
+  autoDriverAssignment: false,
+  autoDelayStatus: true,
+  soundAlerts: true,
+  compactMode: false
+};
+
+/* ----------------------------- Helpers ----------------------------- */
+
+const safeJSON = (key, fallback) => {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch {
+    return fallback;
+  }
+};
 
 const normalizeNumber = value => {
   const n = parseFloat(String(value ?? '').replace(/,/g, ''));
   return Number.isFinite(n) ? n : 0;
 };
 
+const uid = () =>
+  `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
+const nowISO = () => new Date().toISOString();
+
+const formatDateTime = (date, lang = 'en') => {
+  if (!date) return '—';
+
+  try {
+    return new Date(date).toLocaleString(
+      lang === 'ar' ? 'ar-EG' : 'en-US',
+      {
+        dateStyle: 'medium',
+        timeStyle: 'short'
+      }
+    );
+  } catch {
+    return '—';
+  }
+};
+
+const formatTime = (date, lang = 'en') => {
+  if (!date) return '—';
+
+  return new Date(date).toLocaleTimeString(
+    lang === 'ar' ? 'ar-EG' : 'en-US',
+    {
+      hour: '2-digit',
+      minute: '2-digit'
+    }
+  );
+};
+
+const money = (value, currency) =>
+  `${normalizeNumber(value).toLocaleString()} ${currency}`;
+
+const isPaid = order =>
+  order?.paymentMethod === PAYMENT.ONLINE ||
+  order?.paymentMethod === PAYMENT.PREPAID;
+
+const getCollection = order => {
+  if (!order || order.status === STATUS.CANCELLED) return 0;
+
+  if (isPaid(order)) {
+    return normalizeNumber(order.deliveryFee);
+  }
+
+  return normalizeNumber(order.cod) + normalizeNumber(order.deliveryFee);
+};
+
+const getCompanyRevenue = order => {
+  if (!order || order.status === STATUS.CANCELLED) return 0;
+
+  return (
+    normalizeNumber(order.deliveryFee) *
+    (normalizeNumber(order.revenuePercent) / 100)
+  );
+};
+
+const getDriverRevenue = order => {
+  if (!order || order.status === STATUS.CANCELLED) return 0;
+
+  return (
+    normalizeNumber(order.deliveryFee) -
+    getCompanyRevenue(order)
+  );
+};
+
+const startOfDay = date => {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  return d;
+};
+
+const isSameDay = (a, b) =>
+  startOfDay(a).getTime() === startOfDay(b).getTime();
+
+const isWithinDays = (date, days) => {
+  const now = new Date();
+  const d = new Date(date);
+
+  return now - d <= days * 24 * 60 * 60 * 1000 && now >= d;
+};
+
+const normalizeStatus = status => {
+  const map = {
+    'مؤكد': STATUS.CONFIRMED,
+    'قيد تجهيز الطلب': STATUS.PROCESSING,
+    'خرج للتوصيل': STATUS.OUT_FOR_DELIVERY,
+    'جاري التوصيل': STATUS.IN_TRANSIT,
+    'مكتمل': STATUS.COMPLETED,
+    'متأخر': STATUS.DELAYED,
+    'ملغي': STATUS.CANCELLED
+  };
+
+  return map[status] || status || STATUS.CONFIRMED;
+};
+
+/* ----------------------------- Translations ----------------------------- */
+
+const translations = {
+  en: {
+    appTitle: 'Express Delivery PRO',
+    subtitle: 'Enterprise Delivery & Logistics Control Center',
+
+    dashboard: 'Dashboard',
+    newOrder: 'New Order',
+    orders: 'Orders',
+    drivers: 'Drivers',
+    merchants: 'Merchants',
+    customers: 'Customers',
+    ledger: 'Driver Ledger',
+    history: 'Audit History',
+    settings: 'Settings',
+    importExport: 'WhatsApp / Import Center',
+
+    active: 'Active',
+    completed: 'Completed',
+    delayed: 'Delayed',
+    collected: 'Collected',
+    companyRevenue: 'Company Revenue',
+    driverRevenue: 'Driver Revenue',
+    totalOrders: 'Total Orders',
+
+    importTitle: 'WhatsApp / Plain Text Center',
+    importSubtitle:
+      'Paste raw WhatsApp messages or generate a driver dispatch message.',
+    pasteText: 'Paste WhatsApp / Plain Text',
+    parse: 'Parse Orders with AI',
+    dispatch: 'Driver Dispatch',
+    generate: 'Generate WhatsApp Message',
+    copy: 'Copy',
+    copied: 'Copied!',
+    clear: 'Clear',
+
+    customer: 'Customer',
+    store: 'Merchant',
+    phone: 'Phone',
+    address: 'Address',
+    notes: 'Notes',
+    item: 'Items',
+    orderValue: 'Order Value',
+    deliveryFee: 'Delivery Fee',
+    payment: 'Payment',
+    driver: 'Driver',
+    commission: 'Company Share',
+    expectedDelivery: 'Expected Delivery',
+    createdAt: 'Created',
+    status: 'Status',
+
+    cash: 'Cash on Delivery',
+    online: 'Paid Online',
+    prepaid: 'Prepaid',
+
+    selectDriver: 'Select Driver',
+    revenueShare: 'Your share of delivery fee',
+
+    confirmOrder: 'Confirm & Save Order',
+    noOrders: 'No orders found.',
+
+    addDriver: 'Add Driver',
+    driverName: 'Driver name',
+    driverPhone: 'Driver phone',
+
+    profile: 'Profile',
+    activeOrders: 'Active Orders',
+    daily: 'Today',
+    weekly: 'This Week',
+    monthly: 'This Month',
+    collections: 'Collections',
+    viewProfile: 'View Profile',
+
+    addMerchant: 'Add Merchant',
+    addCustomer: 'Add Customer',
+    save: 'Save',
+    edit: 'Edit',
+
+    settingsTitle: 'Enterprise Settings',
+    defaultCommission: 'Default Commission %',
+    currency: 'System Currency',
+    defaultSLA: 'Default Delivery SLA',
+    autoAssign: 'Auto-assign Driver',
+    autoDelay: 'Automatically Mark Late Orders',
+    backup: 'Backup',
+    exportJSON: 'Export JSON Backup',
+    importJSON: 'Import JSON Backup',
+
+    search: 'Search orders...',
+    orderDetails: 'Order Details',
+    audit: 'Audit Timeline',
+
+    delayedBy: 'Delayed by',
+    dueIn: 'Due in',
+
+    close: 'Close',
+    cancel: 'Cancel',
+    update: 'Update',
+
+    addressIncomplete: 'Address needs verification',
+
+    noDriver: 'Unassigned',
+
+    createdSuccessfully: 'Order created successfully.',
+    backupImported: 'Backup imported successfully.',
+    invalidBackup: 'Invalid backup file.',
+
+    dashboardTitle: 'Operations Overview',
+    dispatchCenter: 'Dispatch Center',
+    urgentOrders: 'Needs Attention',
+    todayRevenue: "Today's Revenue",
+    todayCollections: "Today's Collections"
+  },
+
+  ar: {
+    appTitle: 'إكسبريس دليفري PRO',
+    subtitle: 'مركز التحكم المؤسسي للتوصيل واللوجستيات',
+
+    dashboard: 'لوحة التحكم',
+    newOrder: 'طلب جديد',
+    orders: 'الطلبات',
+    drivers: 'الطيارين',
+    merchants: 'التجار',
+    customers: 'العملاء',
+    ledger: 'كشف حساب الطيارين',
+    history: 'سجل التعديلات',
+    importExport: 'مركز واتساب والاستيراد',
+
+    active: 'نشطة',
+    completed: 'مكتملة',
+    delayed: 'متأخرة',
+    collected: 'التحصيل',
+    companyRevenue: 'إيراد الشركة',
+    driverRevenue: 'نصيب الطيار',
+    totalOrders: 'إجمالي الطلبات',
+
+    importTitle: 'مركز واتساب / استيراد النص',
+    importSubtitle:
+      'الصق رسائل واتساب الخام أو أنشئ رسالة جاهزة لإرسالها للطيار.',
+    pasteText: 'رسائل واتساب / نص خام',
+    parse: 'استخراج الطلبات بالذكاء الاصطناعي',
+    dispatch: 'إرسال للطيار',
+    generate: 'إنشاء رسالة واتساب',
+    copy: 'نسخ',
+    copied: 'تم النسخ!',
+    clear: 'مسح',
+
+    customer: 'العميل',
+    store: 'التاجر',
+    phone: 'الهاتف',
+    address: 'العنوان',
+    notes: 'الملاحظات',
+    item: 'الأصناف',
+    orderValue: 'قيمة الطلب',
+    deliveryFee: 'رسوم التوصيل',
+    payment: 'الدفع',
+    driver: 'الطيار',
+    commission: 'نسبة الشركة',
+    expectedDelivery: 'موعد التسليم المتوقع',
+    createdAt: 'وقت الإنشاء',
+    status: 'الحالة',
+
+    cash: 'كاش عند الاستلام',
+    online: 'مدفوع أونلاين',
+    prepaid: 'مدفوع مسبقًا',
+
+    selectDriver: 'اختيار الطيار',
+    revenueShare: 'نسبتك من رسوم التوصيل',
+
+    confirmOrder: 'تأكيد وحفظ الطلب',
+    noOrders: 'لا توجد طلبات.',
+
+    addDriver: 'إضافة طيار',
+    driverName: 'اسم الطيار',
+    driverPhone: 'رقم هاتف الطيار',
+
+    profile: 'الملف الشخصي',
+    activeOrders: 'الطلبات النشطة',
+    daily: 'اليوم',
+    weekly: 'هذا الأسبوع',
+    monthly: 'هذا الشهر',
+    collections: 'التحصيل',
+    viewProfile: 'عرض الملف',
+
+    addMerchant: 'إضافة تاجر',
+    addCustomer: 'إضافة عميل',
+    save: 'حفظ',
+    edit: 'تعديل',
+
+    settingsTitle: 'إعدادات المؤسسة',
+    defaultCommission: 'نسبة العمولة الافتراضية',
+    currency: 'عملة النظام',
+    defaultSLA: 'المدة الافتراضية للتوصيل',
+    autoAssign: 'تعيين الطيار تلقائيًا',
+    autoDelay: 'تحويل الطلبات المتأخرة تلقائيًا',
+    backup: 'النسخ الاحتياطي',
+    exportJSON: 'تصدير نسخة JSON',
+    importJSON: 'استيراد نسخة JSON',
+
+    search: 'البحث في الطلبات...',
+    orderDetails: 'تفاصيل الطلب',
+    audit: 'السجل الزمني',
+
+    delayedBy: 'متأخر منذ',
+    dueIn: 'متبقي',
+
+    close: 'إغلاق',
+    cancel: 'إلغاء',
+    update: 'تحديث',
+
+    addressIncomplete: 'العنوان يحتاج إلى مراجعة',
+
+    noDriver: 'غير معين',
+
+    createdSuccessfully: 'تم إنشاء الطلب بنجاح.',
+    backupImported: 'تم استيراد النسخة الاحتياطية بنجاح.',
+    invalidBackup: 'ملف النسخة الاحتياطية غير صالح.',
+
+    dashboardTitle: 'نظرة عامة على العمليات',
+    dispatchCenter: 'مركز التوزيع',
+    urgentOrders: 'تحتاج إلى تدخل',
+    todayRevenue: 'إيراد اليوم',
+    todayCollections: 'تحصيل اليوم'
+  }
+};
+
+/* ----------------------------- Styles ----------------------------- */
+
 const styles = {
-  appWrapper: {
-    backgroundColor: '#0A0614',
+  app: {
     minHeight: '100vh',
-    color: '#F1F5F9',
-    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-    display: 'flex',
-    justifyContent: 'center',
-    padding: '16px'
+    background:
+      'radial-gradient(circle at top left, #25114A 0%, #0A0614 38%, #05030A 100%)',
+    color: '#F8FAFC',
+    fontFamily:
+      '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif',
+    padding: 18,
+    boxSizing: 'border-box'
   },
-  container: {
-    maxWidth: '520px',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '20px'
+
+  shell: {
+    maxWidth: 1450,
+    margin: '0 auto'
   },
+
   header: {
     display: 'flex',
-    flexDirection: 'column',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    textAlign: 'center',
-    marginTop: '10px'
+    gap: 20,
+    marginBottom: 20,
+    flexWrap: 'wrap'
   },
-  logoBox: {
-    width: '72px',
-    height: '72px',
-    borderRadius: '24px',
-    background: 'linear-gradient(135deg, #A855F7 0%, #EC4899 100%)',
+
+  brand: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 14
+  },
+
+  logo: {
+    width: 58,
+    height: 58,
+    borderRadius: 18,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '0 8px 25px rgba(168, 85, 247, 0.4)',
-    marginBottom: '14px'
+    fontSize: 28,
+    background: 'linear-gradient(135deg,#7C3AED,#EC4899)',
+    boxShadow: '0 12px 35px rgba(124,58,237,.35)'
   },
-  logoIcon: { fontSize: '32px', color: '#FFF' },
-  appTitle: { fontSize: '1.6rem', margin: 0, fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' },
-  appSubtitle: { fontSize: '0.85rem', color: '#C084FC', margin: '6px 0 0 0', fontWeight: '500' },
-  kpiRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' },
-  kpiCard: {
-    padding: '16px',
-    borderRadius: '18px',
-    background: 'rgba(23, 15, 38, 0.6)',
-    border: '1px solid rgba(168, 85, 247, 0.2)',
-    backdropFilter: 'blur(10px)',
+
+  title: {
+    margin: 0,
+    fontSize: 25,
+    fontWeight: 900,
+    letterSpacing: '-.6px'
+  },
+
+  subtitle: {
+    margin: '4px 0 0',
+    color: '#94A3B8',
+    fontSize: 13
+  },
+
+  headerActions: {
     display: 'flex',
-    flexDirection: 'column',
-    gap: '6px'
+    gap: 10,
+    flexWrap: 'wrap'
   },
-  kpiLabel: { fontSize: '0.78rem', color: '#94A3B8', fontWeight: '500' },
-  kpiValue: { fontSize: '1.4rem', fontWeight: '800' },
-  navList: { display: 'flex', flexDirection: 'column', gap: '10px' },
-  primaryBtn: {
-    background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
-    color: '#FFF',
-    border: '1px solid rgba(192, 132, 252, 0.3)',
-    padding: '16px 20px',
-    borderRadius: '18px',
-    fontSize: '1rem',
-    fontWeight: '700',
+
+  button: {
+    border: 0,
+    borderRadius: 12,
+    padding: '11px 15px',
+    color: '#fff',
     cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px'
+    fontWeight: 800,
+    background: '#1E293B'
   },
-  navItem: {
-    background: 'rgba(23, 15, 38, 0.7)',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
-    color: '#E2E8F0',
-    padding: '14px 18px',
-    borderRadius: '18px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    fontSize: '0.95rem',
-    fontWeight: '600'
+
+  primary: {
+    background: 'linear-gradient(135deg,#7C3AED,#A855F7)'
   },
-  navItemActive: {
-    background: 'rgba(124, 58, 237, 0.25)',
-    border: '1px solid #A855F7',
-    color: '#FFF',
-    padding: '14px 18px',
-    borderRadius: '18px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    fontSize: '0.95rem',
-    fontWeight: '700'
+
+  success: {
+    background: 'linear-gradient(135deg,#059669,#10B981)'
   },
-  countBadge: {
-    background: 'rgba(255, 255, 255, 0.08)',
-    borderRadius: '12px',
-    padding: '2px 10px',
-    fontSize: '0.8rem',
-    color: '#CBD5E1'
+
+  danger: {
+    background: 'linear-gradient(135deg,#DC2626,#EF4444)'
   },
-  bottomSection: { display: 'flex', flexDirection: 'column', gap: '10px' },
-  langPill: {
-    background: 'rgba(15, 23, 42, 0.8)',
-    border: '1px solid rgba(51, 65, 85, 0.8)',
-    color: '#E2E8F0',
-    padding: '12px',
-    borderRadius: '14px',
-    fontSize: '0.9rem',
-    fontWeight: '600',
-    cursor: 'pointer',
-    textAlign: 'center'
+
+  warning: {
+    background: 'linear-gradient(135deg,#B45309,#F59E0B)'
   },
-  main: { display: 'flex', flexDirection: 'column', gap: '16px' },
-  card: {
-    background: 'rgba(23, 15, 38, 0.75)',
-    border: '1px solid rgba(168, 85, 247, 0.15)',
-    borderRadius: '20px',
-    padding: '20px',
-    backdropFilter: 'blur(12px)'
-  },
-  clickableCard: {
-    background: 'rgba(23, 15, 38, 0.85)',
-    border: '1px solid rgba(168, 85, 247, 0.3)',
-    borderRadius: '16px',
-    padding: '16px',
-    cursor: 'pointer',
-    transition: 'all 0.2s ease'
-  },
-  cardTitle: { margin: '0 0 15px 0', fontSize: '1.15rem', color: '#C084FC', fontWeight: '700' },
-  rowBetween: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' },
-  btnGradientCompact: {
-    background: 'linear-gradient(135deg, #0284C7, #2563EB)',
-    color: '#FFF',
-    border: 'none',
-    padding: '8px 14px',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    fontWeight: '600',
-    fontSize: '0.85rem'
-  },
-  btnPrimaryGradient: {
-    background: 'linear-gradient(135deg, #A855F7, #EC4899)',
-    color: '#FFF',
-    border: 'none',
-    padding: '14px 20px',
-    borderRadius: '14px',
-    cursor: 'pointer',
-    fontWeight: '700',
-    width: '100%',
-    marginTop: '12px',
-    fontSize: '0.95rem'
-  },
-  btnSuccessGradient: {
-    background: 'linear-gradient(135deg, #059669, #10B981)',
-    color: '#FFF',
-    border: 'none',
-    padding: '14px 20px',
-    borderRadius: '14px',
-    cursor: 'pointer',
-    fontWeight: '700',
-    width: '100%',
-    marginTop: '15px',
-    fontSize: '0.95rem'
-  },
-  textarea: {
-    width: '100%',
-    backgroundColor: 'rgba(11, 7, 24, 0.8)',
-    border: '1px solid rgba(168, 85, 247, 0.25)',
-    borderRadius: '14px',
-    color: '#FFF',
-    padding: '14px',
-    boxSizing: 'border-box',
-    fontFamily: 'inherit',
-    fontSize: '0.9rem',
-    outline: 'none'
-  },
-  extractedBox: { marginTop: '20px', borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '20px' },
-  extractedSubCard: {
-    background: 'rgba(11, 7, 24, 0.6)',
-    border: '1px solid rgba(255, 255, 255, 0.08)',
-    borderRadius: '16px',
-    padding: '16px',
-    marginBottom: '15px'
-  },
-  orderHero: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '12px 16px',
-    borderRadius: '12px',
-    marginBottom: '15px'
-  },
-  miniLabel: { fontSize: '0.72rem', color: '#94A3B8' },
-  heroCustomer: { fontSize: '1.05rem', fontWeight: '700', marginTop: '2px' },
-  heroMoney: { fontSize: '1.3rem', fontWeight: '800', color: '#38BDF8' },
-  grid2: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' },
-  financePanel: {
-    background: 'rgba(15, 23, 42, 0.6)',
-    border: '1px solid rgba(51, 65, 85, 0.6)',
-    borderRadius: '12px',
-    padding: '14px',
-    marginTop: '15px'
-  },
-  financeTitle: { fontSize: '0.9rem', fontWeight: '700', color: '#FACC15', marginBottom: '10px' },
-  financeGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px' },
-  financeBox: { display: 'flex', flexDirection: 'column', gap: '4px' },
-  financeInput: {
-    background: 'rgba(11, 7, 24, 0.8)',
-    border: '1px solid rgba(168, 85, 247, 0.3)',
-    color: '#FFF',
-    padding: '8px',
-    borderRadius: '8px',
-    outline: 'none'
-  },
-  calculationStrip: {
+
+  layout: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))',
-    gap: '10px',
-    background: 'rgba(11, 7, 24, 0.8)',
-    padding: '12px',
-    borderRadius: '10px',
-    marginTop: '10px'
+    gridTemplateColumns: '250px minmax(0,1fr)',
+    gap: 18
   },
-  confirmationPanel: {
-    background: 'rgba(11, 7, 24, 0.7)',
-    border: '1px solid #7C3AED',
-    borderRadius: '16px',
-    padding: '16px',
-    marginTop: '20px'
+
+  sidebar: {
+    background: 'rgba(15,10,28,.8)',
+    border: '1px solid rgba(168,85,247,.18)',
+    borderRadius: 22,
+    padding: 12,
+    height: 'fit-content',
+    position: 'sticky',
+    top: 18
   },
-  label: { display: 'block', fontSize: '0.82rem', color: '#CBD5E1', marginBottom: '6px' },
+
+  nav: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 7
+  },
+
+  navButton: {
+    width: '100%',
+    textAlign: 'left',
+    border: '1px solid transparent',
+    background: 'transparent',
+    color: '#CBD5E1',
+    padding: '12px 13px',
+    borderRadius: 12,
+    cursor: 'pointer',
+    fontWeight: 700
+  },
+
+  navActive: {
+    background: 'rgba(124,58,237,.23)',
+    border: '1px solid rgba(168,85,247,.45)',
+    color: '#fff'
+  },
+
+  content: {
+    minWidth: 0
+  },
+
+  grid4: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4,minmax(0,1fr))',
+    gap: 12,
+    marginBottom: 16
+  },
+
+  metric: {
+    background: 'rgba(15,10,28,.75)',
+    border: '1px solid rgba(168,85,247,.16)',
+    borderRadius: 18,
+    padding: 17
+  },
+
+  metricLabel: {
+    color: '#94A3B8',
+    fontSize: 12,
+    fontWeight: 700
+  },
+
+  metricValue: {
+    display: 'block',
+    fontSize: 25,
+    fontWeight: 900,
+    marginTop: 6
+  },
+
+  card: {
+    background: 'rgba(15,10,28,.78)',
+    border: '1px solid rgba(168,85,247,.17)',
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 16,
+    boxShadow: '0 15px 45px rgba(0,0,0,.15)'
+  },
+
+  cardHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 16,
+    flexWrap: 'wrap'
+  },
+
+  cardTitle: {
+    margin: 0,
+    fontSize: 18,
+    fontWeight: 900
+  },
+
+  muted: {
+    color: '#94A3B8',
+    fontSize: 13
+  },
+
   input: {
     width: '100%',
-    background: 'rgba(11, 7, 24, 0.8)',
-    border: '1px solid rgba(168, 85, 247, 0.3)',
-    color: '#FFF',
-    padding: '10px 14px',
-    borderRadius: '10px',
     boxSizing: 'border-box',
+    padding: '11px 13px',
+    borderRadius: 11,
+    border: '1px solid rgba(168,85,247,.25)',
+    background: '#0B0718',
+    color: '#fff',
     outline: 'none'
   },
-  revenueSelect: {
+
+  textarea: {
     width: '100%',
-    background: 'rgba(11, 7, 24, 0.8)',
-    border: '1px solid #10B981',
-    color: '#34D399',
-    padding: '10px 14px',
-    borderRadius: '10px',
-    fontWeight: '700',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    padding: 14,
+    minHeight: 180,
+    resize: 'vertical',
+    borderRadius: 14,
+    border: '1px solid rgba(168,85,247,.25)',
+    background: '#0B0718',
+    color: '#fff',
+    outline: 'none',
+    lineHeight: 1.55
   },
-  searchInput: {
+
+  formGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2,minmax(0,1fr))',
+    gap: 12
+  },
+
+  field: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 6
+  },
+
+  label: {
+    fontSize: 12,
+    color: '#CBD5E1',
+    fontWeight: 700
+  },
+
+  orderGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3,minmax(0,1fr))',
+    gap: 12
+  },
+
+  orderCard: {
+    background: 'rgba(10,6,20,.85)',
+    border: '1px solid rgba(255,255,255,.07)',
+    borderRadius: 17,
+    padding: 16,
+    marginBottom: 12
+  },
+
+  status: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    padding: '6px 9px',
+    borderRadius: 9,
+    fontSize: 11,
+    fontWeight: 900
+  },
+
+  search: {
     width: '100%',
-    background: 'rgba(23, 15, 38, 0.8)',
-    border: '1px solid rgba(168, 85, 247, 0.25)',
-    color: '#FFF',
-    padding: '14px',
-    borderRadius: '14px',
-    marginBottom: '15px',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    background: '#0B0718',
+    color: '#fff',
+    border: '1px solid rgba(168,85,247,.25)',
+    borderRadius: 13,
+    padding: 13,
+    marginBottom: 14,
+    outline: 'none'
   },
-  empty: { textAlign: 'center', color: '#64748B', padding: '30px 0' },
-  orderNumTag: { background: '#2563EB', color: '#FFF', padding: '3px 10px', borderRadius: '8px', fontWeight: '700', fontSize: '0.85rem' },
-  tagStore: { background: 'rgba(255,255,255,0.1)', color: '#E2E8F0', padding: '3px 10px', borderRadius: '8px', fontSize: '0.85rem' },
-  p: { margin: '6px 0', color: '#CBD5E1', fontSize: '0.9rem' },
-  addressWarningBox: {
-    background: 'rgba(239, 68, 68, 0.15)',
-    border: '1px solid #EF4444',
-    color: '#FCA5A5',
-    padding: '10px',
-    borderRadius: '10px',
-    margin: '8px 0',
-    fontSize: '0.82rem'
+
+  profileGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4,minmax(0,1fr))',
+    gap: 10,
+    margin: '15px 0'
   },
+
+  miniMetric: {
+    padding: 12,
+    borderRadius: 13,
+    background: 'rgba(255,255,255,.045)',
+    border: '1px solid rgba(255,255,255,.06)'
+  },
+
   modalOverlay: {
     position: 'fixed',
-    top: 0, left: 0, right: 0, bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.85)',
-    backdropFilter: 'blur(8px)',
+    inset: 0,
+    zIndex: 9999,
+    background: 'rgba(0,0,0,.78)',
+    backdropFilter: 'blur(10px)',
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1000,
-    padding: '16px'
+    justifyContent: 'center',
+    padding: 16
   },
-  modalCard: {
-    background: '#160E2E',
-    border: '1px solid #7C3AED',
-    borderRadius: '20px',
-    padding: '24px',
-    maxWidth: '520px',
-    width: '100%',
-    maxHeight: '90vh',
-    overflowY: 'auto'
+
+  modal: {
+    width: 'min(850px,100%)',
+    maxHeight: '92vh',
+    overflowY: 'auto',
+    background: '#120A24',
+    border: '1px solid rgba(168,85,247,.4)',
+    borderRadius: 22,
+    padding: 22,
+    boxShadow: '0 30px 90px rgba(0,0,0,.5)'
+  },
+
+  dispatchBox: {
+    whiteSpace: 'pre-wrap',
+    background: '#07040D',
+    border: '1px solid rgba(255,255,255,.08)',
+    borderRadius: 14,
+    padding: 16,
+    lineHeight: 1.65,
+    fontSize: 14
+  },
+
+  alert: {
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 12,
+    fontSize: 13,
+    fontWeight: 700
+  },
+
+  tableRow: {
+    display: 'grid',
+    gridTemplateColumns: '110px 1fr 130px 120px',
+    gap: 10,
+    alignItems: 'center',
+    padding: 12,
+    borderBottom: '1px solid rgba(255,255,255,.06)'
   }
 };
 
-const getStatusStyle = status => {
-  const base = { padding: '6px 12px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '700', border: 'none', color: '#FFF' };
+/* ----------------------------- Status UI ----------------------------- */
+
+const statusColor = status => {
   switch (status) {
-    case 'مكتمل': return { ...base, background: '#059669' };
-    case 'ملغي': return { ...base, background: '#DC2626' };
-    case 'متأخر': return { ...base, background: '#D97706' };
-    default: return { ...base, background: '#2563EB' };
+    case STATUS.COMPLETED:
+      return '#10B981';
+    case STATUS.DELAYED:
+      return '#F59E0B';
+    case STATUS.CANCELLED:
+      return '#EF4444';
+    case STATUS.IN_TRANSIT:
+    case STATUS.OUT_FOR_DELIVERY:
+      return '#3B82F6';
+    case STATUS.PROCESSING:
+      return '#8B5CF6';
+    default:
+      return '#64748B';
   }
 };
+
+const statusLabel = (status, t) => {
+  const map = {
+    [STATUS.CONFIRMED]: lang => lang === 'ar' ? 'مؤكد' : 'Confirmed',
+    [STATUS.PROCESSING]: lang => lang === 'ar' ? 'قيد التجهيز' : 'Processing',
+    [STATUS.OUT_FOR_DELIVERY]: lang =>
+      lang === 'ar' ? 'خرج للتوصيل' : 'Out for Delivery',
+    [STATUS.IN_TRANSIT]: lang =>
+      lang === 'ar' ? 'جاري التوصيل' : 'In Transit',
+    [STATUS.COMPLETED]: lang =>
+      lang === 'ar' ? 'مكتمل' : 'Completed',
+    [STATUS.DELAYED]: lang =>
+      lang === 'ar' ? 'متأخر' : 'Delayed',
+    [STATUS.CANCELLED]: lang =>
+      lang === 'ar' ? 'ملغي' : 'Cancelled'
+  };
+
+  return map[status] ? map[status](t === translations.ar ? 'ar' : 'en') : status;
+};
+
+/* =========================================================
+   APP
+   ========================================================= */
 
 export default function App() {
-  const [lang, setLang] = useState(() => localStorage.getItem('app_lang') || 'ar');
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem('groq_api_key') || '');
-  const [activeTab, setActiveTab] = useState('new_order');
+  const [lang, setLang] = useState(
+    () => localStorage.getItem(STORAGE.lang) || 'ar'
+  );
+
+  const t = translations[lang];
+
+  const [apiKey, setApiKey] = useState(
+    () => localStorage.getItem(STORAGE.apiKey) || ''
+  );
+
+  const [settings, setSettings] = useState(() => ({
+    ...DEFAULT_SETTINGS,
+    ...safeJSON(STORAGE.settings, {})
+  }));
+
+  const [orders, setOrders] = useState(() =>
+    safeJSON(STORAGE.orders, []).map(o => ({
+      ...o,
+      status: normalizeStatus(o.status)
+    }))
+  );
+
+  const [deletedOrders, setDeletedOrders] = useState(() =>
+    safeJSON(STORAGE.deletedOrders, [])
+  );
+
+  const [merchants, setMerchants] = useState(() =>
+    safeJSON(STORAGE.merchants, [])
+  );
+
+  const [customers, setCustomers] = useState(() =>
+    safeJSON(STORAGE.customers, [])
+  );
+
+  const [drivers, setDrivers] = useState(() =>
+    safeJSON(STORAGE.drivers, [
+      {
+        id: 'driver-1',
+        name: 'أحمد',
+        phone: '',
+        notes: ''
+      },
+      {
+        id: 'driver-2',
+        name: 'محمود',
+        phone: '',
+        notes: ''
+      },
+      {
+        id: 'driver-3',
+        name: 'مصطفى',
+        phone: '',
+        notes: ''
+      }
+    ])
+  );
+
+  const [history, setHistory] = useState(() =>
+    safeJSON(STORAGE.history, [])
+  );
+
+  const [counter, setCounter] = useState(() =>
+    parseInt(localStorage.getItem(STORAGE.counter) || '1001', 10)
+  );
+
+  const [activeTab, setActiveTab] = useState('dashboard');
+
   const [searchQuery, setSearchQuery] = useState('');
-
-  const [defaultRevenuePercent, setDefaultRevenuePercent] = useState(() => parseInt(localStorage.getItem('sys_default_revenue') || '20'));
-  const [systemCurrency, setSystemCurrency] = useState(() => localStorage.getItem('sys_currency') || 'EGP');
-  const [autoAssignDriverEnabled, setAutoAssignDriverEnabled] = useState(() => localStorage.getItem('sys_auto_assign') === 'true');
-
-  const [orderCounter, setOrderCounter] = useState(() => parseInt(localStorage.getItem('order_counter_num') || '1001'));
-  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v6') || '[]'));
-  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v6') || '[]'));
-  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v6') || '[]'));
-  const [driverObjects, setDriverObjects] = useState(() => {
-    const saved = localStorage.getItem('delivery_driver_objs_v6');
-    if (saved) return JSON.parse(saved);
-    return [
-      { id: 'd1', name: 'أحمد', phone: '01000000001', notes: '' },
-      { id: 'd2', name: 'محمود', phone: '01100000002', notes: '' }
-    ];
-  });
-  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v6') || '[]'));
 
   const [rawText, setRawText] = useState('');
   const [loading, setLoading] = useState(false);
   const [extractedOrders, setExtractedOrders] = useState([]);
-  const [pendingMatches, setPendingMatches] = useState([]);
 
   const [selectedDriver, setSelectedDriver] = useState('');
-  const [selectedRevenuePercent, setSelectedRevenuePercent] = useState(defaultRevenuePercent);
-  const [newDriver, setNewDriver] = useState({ name: '', phone: '', notes: '' });
+  const [selectedRevenuePercent, setSelectedRevenuePercent] =
+    useState(settings.defaultCommission);
 
-  const [ledgerDriver, setLedgerDriver] = useState('');
-  const [ledgerDate, setLedgerDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const [expectedMinutes, setExpectedMinutes] =
+    useState(settings.defaultDeliveryMinutes);
 
-  const [merchantForm, setMerchantForm] = useState({ id: null, name: '', phone: '', address: '', notes: '' });
-  const [customerForm, setCustomerForm] = useState({ id: null, name: '', phone: '', address: '', notes: '' });
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importMode, setImportMode] = useState('import');
 
-  const [activeModal, setActiveModal] = useState(null); // { type: 'order'|'driver'|'merchant'|'customer', data }
-  const [showWhatsappModal, setShowWhatsappModal] = useState(false);
-  const [whatsappFormattedText, setWhatsappFormattedText] = useState('');
+  const [dispatchDriver, setDispatchDriver] = useState('');
+  const [dispatchOrder, setDispatchOrder] = useState(null);
+  const [dispatchText, setDispatchText] = useState('');
 
-  const t = translations[lang];
+  const [selectedEntity, setSelectedEntity] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
-  useEffect(() => { localStorage.setItem('app_lang', lang); }, [lang]);
-  useEffect(() => { localStorage.setItem('groq_api_key', apiKey); }, [apiKey]);
-  useEffect(() => { localStorage.setItem('sys_default_revenue', defaultRevenuePercent.toString()); }, [defaultRevenuePercent]);
-  useEffect(() => { localStorage.setItem('sys_currency', systemCurrency); }, [systemCurrency]);
-  useEffect(() => { localStorage.setItem('sys_auto_assign', autoAssignDriverEnabled.toString()); }, [autoAssignDriverEnabled]);
-  useEffect(() => { localStorage.setItem('order_counter_num', orderCounter.toString()); }, [orderCounter]);
-  useEffect(() => { localStorage.setItem('delivery_orders_v6', JSON.stringify(orders)); }, [orders]);
-  useEffect(() => { localStorage.setItem('delivery_merchants_v6', JSON.stringify(merchants)); }, [merchants]);
-  useEffect(() => { localStorage.setItem('delivery_customers_v6', JSON.stringify(customers)); }, [customers]);
-  useEffect(() => { localStorage.setItem('delivery_driver_objs_v6', JSON.stringify(driverObjects)); }, [driverObjects]);
-  useEffect(() => { localStorage.setItem('delivery_history_v6', JSON.stringify(historyLogs)); }, [historyLogs]);
+  const [merchantForm, setMerchantForm] = useState({
+    id: null,
+    name: '',
+    phone: '',
+    address: '',
+    notes: ''
+  });
 
-  const isCancelled = order => order?.status === 'ملغي';
-  const getOrderValue = order => normalizeNumber(order?.cod);
-  const getDeliveryFee = order => normalizeNumber(order?.deliveryFee);
-  const getRevenuePercent = order => normalizeNumber(order?.revenuePercent);
+  const [customerForm, setCustomerForm] = useState({
+    id: null,
+    name: '',
+    phone: '',
+    address: '',
+    notes: ''
+  });
 
-  const getCompanyRevenue = order => (isCancelled(order) ? 0 : getDeliveryFee(order) * (getRevenuePercent(order) / 100));
-  const getDriverRevenue = order => (isCancelled(order) ? 0 : getDeliveryFee(order) * (1 - getRevenuePercent(order) / 100));
+  const [driverForm, setDriverForm] = useState({
+    id: null,
+    name: '',
+    phone: '',
+    notes: ''
+  });
 
-  const getCustomerCollection = order => {
-    if (isCancelled(order)) return 0;
-    if (order?.paymentMethod === PAYMENT_ONLINE || order?.paymentMethod === PAYMENT_PREPAID) return getDeliveryFee(order);
-    return getOrderValue(order) + getDeliveryFee(order);
+  const [backupInput, setBackupInput] = useState(null);
+
+  /* ----------------------------- Persistence ----------------------------- */
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.lang, lang);
+  }, [lang]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.apiKey, apiKey);
+  }, [apiKey]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.settings, JSON.stringify(settings));
+  }, [settings]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.orders, JSON.stringify(orders));
+  }, [orders]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.deletedOrders, JSON.stringify(deletedOrders));
+  }, [deletedOrders]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.merchants, JSON.stringify(merchants));
+  }, [merchants]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.customers, JSON.stringify(customers));
+  }, [customers]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.drivers, JSON.stringify(drivers));
+  }, [drivers]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.history, JSON.stringify(history));
+  }, [history]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE.counter, String(counter));
+  }, [counter]);
+
+  /* ----------------------------- Audit ----------------------------- */
+
+  const addAudit = (orderNum, action, details) => {
+    setHistory(prev => [
+      {
+        id: uid(),
+        orderNum,
+        action,
+        details,
+        createdAt: nowISO()
+      },
+      ...prev
+    ]);
   };
 
-  const getOrderEffectiveCash = order => (isCancelled(order) ? 0 : getCustomerCollection(order));
+  /* ----------------------------- Auto Delay Engine ----------------------------- */
 
-  const addAuditLog = (orderNum, action, details) => {
-    const log = {
-      id: Date.now() + Math.random(),
-      orderNum,
-      action,
-      details,
-      time: new Date().toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US')
+  useEffect(() => {
+    if (!settings.autoDelayStatus) return;
+
+    const checkDelayedOrders = () => {
+      const now = Date.now();
+
+      setOrders(prev => {
+        let changed = false;
+
+        const next = prev.map(order => {
+          const active =
+            ![
+              STATUS.COMPLETED,
+              STATUS.CANCELLED,
+              STATUS.DELAYED
+            ].includes(order.status);
+
+          if (
+            active &&
+            order.expectedDeliveryAt &&
+            new Date(order.expectedDeliveryAt).getTime() < now
+          ) {
+            changed = true;
+
+            return {
+              ...order,
+              status: STATUS.DELAYED,
+              delayedAt: order.delayedAt || nowISO()
+            };
+          }
+
+          return order;
+        });
+
+        return changed ? next : prev;
+      });
     };
-    setHistoryLogs(prev => [log, ...prev]);
+
+    checkDelayedOrders();
+
+    const interval = setInterval(checkDelayedOrders, 30 * 1000);
+
+    return () => clearInterval(interval);
+  }, [settings.autoDelayStatus]);
+
+  /* ----------------------------- Driver Assignment ----------------------------- */
+
+  const autoAssignDriver = () => {
+    if (!settings.autoDriverAssignment || drivers.length === 0) {
+      return '';
+    }
+
+    const counts = drivers.map(driver => ({
+      driver,
+      active: orders.filter(
+        o =>
+          o.driverId === driver.id &&
+          ![STATUS.COMPLETED, STATUS.CANCELLED].includes(o.status)
+      ).length
+    }));
+
+    counts.sort((a, b) => a.active - b.active);
+
+    return counts[0]?.driver.id || '';
   };
 
-  const extractOrderInfo = async () => {
+  /* ----------------------------- Address Validation ----------------------------- */
+
+  const incompleteAddress = address => {
+    if (!address || address.trim().length < 10) return true;
+
+    const words = [
+      'شارع',
+      'ش ',
+      'دور',
+      'شقة',
+      'عمارة',
+      'مبنى',
+      'street',
+      'st ',
+      'floor',
+      'apt',
+      'flat',
+      'building'
+    ];
+
+    const lower = address.toLowerCase();
+
+    return !words.some(word => lower.includes(word));
+  };
+
+  /* ----------------------------- AI Extraction ----------------------------- */
+
+  const extractOrders = async () => {
     if (!apiKey.trim()) {
-      alert(lang === 'ar' ? 'يرجى إدخال مفتاح Groq API في الإعدادات.' : 'Please enter your Groq API key.');
+      alert(
+        lang === 'ar'
+          ? 'أضف Groq API Key من الإعدادات أولاً.'
+          : 'Add your Groq API Key in Settings first.'
+      );
       setActiveTab('settings');
       return;
     }
-    if (!rawText.trim()) return;
+
+    if (!rawText.trim()) {
+      alert(
+        lang === 'ar'
+          ? 'الصق رسالة الطلب أولاً.'
+          : 'Paste the order message first.'
+      );
+      return;
+    }
 
     setLoading(true);
-    setExtractedOrders([]);
-    setPendingMatches([]);
 
     const systemPrompt = `
-Extract orders in JSON format:
+You are an enterprise Egyptian delivery-order extraction engine.
+
+Parse messy WhatsApp messages into structured delivery orders.
+
+IMPORTANT:
+- Multiple customers/orders must become separate orders.
+- Preserve merchant and branch names.
+- Extract customer name.
+- Extract phone.
+- Extract complete physical address.
+- Extract all items and quantities.
+- Extract order value excluding delivery fee.
+- Extract delivery fee.
+- Detect cash / online / prepaid.
+- Extract delivery instructions and notes.
+- Preserve ambiguity instead of inventing facts.
+- If information is unknown, use an empty string.
+- Detect likely typos or ambiguous statements.
+- Never invent prices.
+- Never invent addresses.
+- Never invent phone numbers.
+
+Return ONLY JSON:
+
 {
+  "ambiguous_flags": [],
   "orders": [
     {
       "store": "",
@@ -666,452 +1102,1564 @@ Extract orders in JSON format:
 `;
 
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey.trim()}` },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: rawText }],
-          response_format: { type: 'json_object' },
-          temperature: 0.1
-        })
-      });
+      const response = await fetch(
+        'https://api.groq.com/openai/v1/chat/completions',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey.trim()}`
+          },
+          body: JSON.stringify({
+            model: 'llama-3.3-70b-versatile',
+            temperature: 0.1,
+            response_format: {
+              type: 'json_object'
+            },
+            messages: [
+              {
+                role: 'system',
+                content: systemPrompt
+              },
+              {
+                role: 'user',
+                content: rawText
+              }
+            ]
+          })
+        }
+      );
 
       const data = await response.json();
-      const parsed = JSON.parse(data.choices[0].message.content);
-      const normalizedOrders = (parsed.orders || []).map(order => ({
-        ...order,
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error?.message || 'AI extraction failed'
+        );
+      }
+
+      const parsed = JSON.parse(
+        data.choices?.[0]?.message?.content || '{}'
+      );
+
+      const normalized = (parsed.orders || []).map(order => ({
+        store: order.store || '',
+        customer: order.customer || '',
+        phone: order.phone || '',
+        address: order.address || '',
         cod: normalizeNumber(order.cod),
         deliveryFee: normalizeNumber(order.deliveryFee),
-        paymentMethod: [PAYMENT_ONLINE, PAYMENT_PREPAID].includes(order.paymentMethod) ? order.paymentMethod : PAYMENT_CASH
+        paymentMethod:
+          order.paymentMethod === PAYMENT.ONLINE ||
+          order.paymentMethod === PAYMENT.PREPAID
+            ? order.paymentMethod
+            : PAYMENT.CASH,
+        item: order.item || '',
+        notes: order.notes || ''
       }));
 
-      setExtractedOrders(normalizedOrders);
-      if (autoAssignDriverEnabled && driverObjects.length > 0) setSelectedDriver(driverObjects[0].name);
+      setExtractedOrders(normalized);
 
-      // Build sequential duplicate prompt queue per individual order
-      const matchesQueue = [];
-      normalizedOrders.forEach((ord, orderIndex) => {
-        if (ord.customer) {
-          const matchedCust = customers.filter(c => c.name.toLowerCase().includes(ord.customer.toLowerCase()));
-          if (matchedCust.length > 0) matchesQueue.push({ orderIndex, type: 'customer', name: ord.customer, matches: matchedCust });
-        }
-        if (ord.store) {
-          const matchedMerch = merchants.filter(m => m.name.toLowerCase().includes(ord.store.toLowerCase()));
-          if (matchedMerch.length > 0) matchesQueue.push({ orderIndex, type: 'store', name: ord.store, matches: matchedMerch });
-        }
-      });
-      setPendingMatches(matchesQueue);
-    } catch (err) {
-      alert(`Error parsing order: ${err.message}`);
+      if (parsed.ambiguous_flags?.length) {
+        alert(
+          `${lang === 'ar' ? 'ملاحظات AI:' : 'AI warnings:'}\n\n${parsed.ambiguous_flags.join(
+            '\n'
+          )}`
+        );
+      }
+    } catch (error) {
+      alert(
+        lang === 'ar'
+          ? `حدث خطأ: ${error.message}`
+          : `Error: ${error.message}`
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  const handleResolveMatching = (selectedMatch, action) => {
-    if (pendingMatches.length === 0) return;
-    const currentPrompt = pendingMatches[0];
-    const { orderIndex, type } = currentPrompt;
+  /* ----------------------------- Confirm Orders ----------------------------- */
 
-    setExtractedOrders(prev => prev.map((ord, idx) => {
-      if (idx !== orderIndex) return ord;
-      if (action === 'autofill') {
-        return {
-          ...ord,
-          [type === 'customer' ? 'customer' : 'store']: selectedMatch.name,
-          phone: selectedMatch.phone || ord.phone,
-          address: selectedMatch.address || ord.address
-        };
-      } else if (action === 'update') {
-        if (type === 'customer') {
-          setCustomers(cList => cList.map(c => c.id === selectedMatch.id ? { ...c, phone: ord.phone || c.phone, address: ord.address || c.address } : c));
-        } else {
-          setMerchants(mList => mList.map(m => m.id === selectedMatch.id ? { ...m, phone: ord.phone || m.phone, address: ord.address || m.address } : m));
-        }
-        return { ...ord, [type === 'customer' ? 'customer' : 'store']: selectedMatch.name };
-      }
-      return ord;
-    }));
+  const confirmExtractedOrders = () => {
+    if (!extractedOrders.length) return;
 
-    setPendingMatches(prev => prev.slice(1));
-  };
+    let number = counter;
 
-  const updateExtractedOrder = (index, field, value) => {
-    setExtractedOrders(prev => prev.map((ord, i) => i === index ? { ...ord, [field]: ['cod', 'deliveryFee'].includes(field) ? normalizeNumber(value) : value } : ord));
-  };
+    const created = extractedOrders.map(order => {
+      const createdAt = nowISO();
 
-  const handleConfirmOrder = () => {
-    if (extractedOrders.length === 0) return;
-    if (!selectedDriver) {
-      alert(lang === 'ar' ? 'يرجى اختيار طيار أولاً.' : 'Please select a driver.');
-      return;
-    }
+      const expectedAt = new Date(
+        Date.now() + Number(expectedMinutes) * 60 * 1000
+      ).toISOString();
 
-    let currentNum = orderCounter;
-    const isoDateStr = new Date().toISOString().split('T')[0];
+      const driverId =
+        selectedDriver ||
+        autoAssignDriver();
 
-    const newCreatedOrders = extractedOrders.map(ord => {
-      const orderNumber = `#${currentNum++}`;
+      const driver = drivers.find(d => d.id === driverId);
+
       const newOrder = {
-        id: Date.now() + Math.random(),
-        orderNum: orderNumber,
-        store: ord.store || t.unspecified,
-        customer: ord.customer || t.unspecified,
-        phone: ord.phone || '',
-        address: ord.address || t.unspecified,
-        cod: normalizeNumber(ord.cod),
-        deliveryFee: normalizeNumber(ord.deliveryFee),
-        paymentMethod: ord.paymentMethod || PAYMENT_CASH,
-        revenuePercent: selectedRevenuePercent,
-        item: ord.item || '',
-        notes: ord.notes || '',
-        driver: selectedDriver,
-        status: 'مؤكد',
-        isoDate: isoDateStr,
-        date: new Date().toLocaleTimeString()
+        id: uid(),
+        orderNum: `#${number++}`,
+
+        store: order.store || 'N/A',
+        customer: order.customer || 'N/A',
+        phone: order.phone || '',
+        address: order.address || '',
+        notes: order.notes || '',
+        item: order.item || '',
+
+        cod: normalizeNumber(order.cod),
+        deliveryFee: normalizeNumber(order.deliveryFee),
+
+        paymentMethod:
+          order.paymentMethod || PAYMENT.CASH,
+
+        revenuePercent:
+          normalizeNumber(selectedRevenuePercent),
+
+        driverId: driverId || '',
+        driverName: driver?.name || '',
+
+        status: STATUS.CONFIRMED,
+
+        createdAt,
+        expectedDeliveryAt: expectedAt,
+
+        actualDeliveryAt: null,
+        delayedAt: null,
+
+        source: 'whatsapp_ai',
+
+        lastUpdatedAt: createdAt
       };
-      addAuditLog(orderNumber, 'Created', `Order created for ${newOrder.customer}`);
+
+      addAudit(
+        newOrder.orderNum,
+        'ORDER_CREATED',
+        `${newOrder.customer} • ${newOrder.store}`
+      );
+
       return newOrder;
     });
 
-    setOrderCounter(currentNum);
-    setOrders(prev => [...newCreatedOrders, ...prev]);
+    setCounter(number);
+    setOrders(prev => [...created, ...prev]);
 
-    // Auto add new merchants/customers
-    extractedOrders.forEach(ord => {
-      if (ord.store && ord.store !== t.unspecified) {
-        setMerchants(prev => prev.some(m => m.name.toLowerCase() === ord.store.toLowerCase()) ? prev : [{ id: Date.now() + Math.random(), name: ord.store, phone: ord.phone || '', address: ord.address || '', notes: '' }, ...prev]);
+    /* Automatically create/update merchant records */
+
+    created.forEach(order => {
+      if (order.store && order.store !== 'N/A') {
+        setMerchants(prev => {
+          const existing = prev.find(
+            m =>
+              m.name?.toLowerCase() ===
+              order.store?.toLowerCase()
+          );
+
+          if (existing) {
+            return prev.map(m =>
+              m.id === existing.id
+                ? {
+                    ...m,
+                    phone: order.phone || m.phone,
+                    address: order.address || m.address,
+                    totalOrders: (m.totalOrders || 0) + 1
+                  }
+                : m
+            );
+          }
+
+          return [
+            {
+              id: uid(),
+              name: order.store,
+              phone: '',
+              address: '',
+              notes: '',
+              totalOrders: 1
+            },
+            ...prev
+          ];
+        });
       }
-      if (ord.customer && ord.customer !== t.unspecified) {
-        setCustomers(prev => prev.some(c => c.name.toLowerCase() === ord.customer.toLowerCase()) ? prev : [{ id: Date.now() + Math.random(), name: ord.customer, phone: ord.phone || '', address: ord.address || '', notes: '' }, ...prev]);
+
+      if (order.customer && order.customer !== 'N/A') {
+        setCustomers(prev => {
+          const existing = prev.find(
+            c =>
+              (order.phone && c.phone === order.phone) ||
+              c.name?.toLowerCase() ===
+                order.customer?.toLowerCase()
+          );
+
+          if (existing) {
+            return prev.map(c =>
+              c.id === existing.id
+                ? {
+                    ...c,
+                    phone: order.phone || c.phone,
+                    address: order.address || c.address
+                  }
+                : c
+            );
+          }
+
+          return [
+            {
+              id: uid(),
+              name: order.customer,
+              phone: order.phone,
+              address: order.address,
+              notes: ''
+            },
+            ...prev
+          ];
+        });
       }
     });
 
-    setRawText('');
     setExtractedOrders([]);
+    setRawText('');
+    setSelectedDriver('');
+    setSelectedRevenuePercent(settings.defaultCommission);
+
     setActiveTab('orders');
+
+    alert(t.createdSuccessfully);
   };
 
-  const handleAddDriver = () => {
-    if (!newDriver.name.trim()) return;
-    setDriverObjects(prev => [...prev, { id: 'd_' + Date.now(), ...newDriver }]);
-    setNewDriver({ name: '', phone: '', notes: '' });
+  /* ----------------------------- Order Actions ----------------------------- */
+
+  const updateOrder = (id, changes, auditAction = 'ORDER_UPDATED') => {
+    const current = orders.find(o => o.id === id);
+
+    setOrders(prev =>
+      prev.map(order =>
+        order.id === id
+          ? {
+              ...order,
+              ...changes,
+              lastUpdatedAt: nowISO()
+            }
+          : order
+      )
+    );
+
+    if (current) {
+      addAudit(
+        current.orderNum,
+        auditAction,
+        JSON.stringify(changes)
+      );
+    }
   };
 
-  const handleSaveMerchant = () => {
+  const changeStatus = (order, status) => {
+    updateOrder(
+      order.id,
+      {
+        status,
+        actualDeliveryAt:
+          status === STATUS.COMPLETED
+            ? nowISO()
+            : order.actualDeliveryAt
+      },
+      'STATUS_CHANGED'
+    );
+  };
+
+  const reassignDriver = (order, driverId) => {
+    const driver = drivers.find(d => d.id === driverId);
+
+    updateOrder(
+      order.id,
+      {
+        driverId,
+        driverName: driver?.name || ''
+      },
+      'DRIVER_REASSIGNED'
+    );
+  };
+
+  const deleteOrder = order => {
+    if (
+      !window.confirm(
+        lang === 'ar'
+          ? `هل تريد حذف الطلب ${order.orderNum}؟`
+          : `Delete ${order.orderNum}?`
+      )
+    ) {
+      return;
+    }
+
+    setOrders(prev => prev.filter(o => o.id !== order.id));
+
+    setDeletedOrders(prev => [
+      {
+        ...order,
+        deletedAt: nowISO()
+      },
+      ...prev
+    ]);
+
+    addAudit(order.orderNum, 'ORDER_DELETED', order.customer);
+  };
+
+  /* ----------------------------- Driver Dispatch ----------------------------- */
+
+  const generateDispatchMessage = order => {
+    const driver = drivers.find(d => d.id === dispatchDriver);
+
+    const paymentText =
+      order.paymentMethod === PAYMENT.CASH
+        ? lang === 'ar'
+          ? '💵 كاش عند الاستلام'
+          : '💵 Cash on Delivery'
+        : lang === 'ar'
+        ? '✅ مدفوع مسبقًا / أونلاين'
+        : '✅ Paid Online / Prepaid';
+
+    const message =
+      lang === 'ar'
+        ? `🚚 *طلب توصيل ${order.orderNum}*
+
+🏪 المتجر: ${order.store}
+👤 العميل: ${order.customer}
+📞 الهاتف: ${order.phone || 'غير متوفر'}
+
+📍 *العنوان:*
+${order.address || 'غير محدد'}
+
+📦 *الطلب:*
+${order.item || 'راجع تفاصيل الطلب'}
+
+💰 قيمة الطلب: ${money(order.cod, settings.currency)}
+🛵 رسوم التوصيل: ${money(order.deliveryFee, settings.currency)}
+${paymentText}
+
+💵 *المطلوب تحصيله من العميل:*
+${money(getCollection(order), settings.currency)}
+
+⏰ التسليم المتوقع:
+${formatDateTime(order.expectedDeliveryAt, lang)}
+
+📝 ملاحظات:
+${order.notes || 'لا توجد'}
+
+👨‍✈️ الطيار:
+${driver?.name || order.driverName || 'غير معين'}
+
+يرجى تحديث حالة الطلب بعد الاستلام والتسليم.`
+        : `🚚 *Delivery Order ${order.orderNum}*
+
+🏪 Merchant: ${order.store}
+👤 Customer: ${order.customer}
+📞 Phone: ${order.phone || 'N/A'}
+
+📍 *Address:*
+${order.address || 'N/A'}
+
+📦 *Items:*
+${order.item || 'See order details'}
+
+💰 Order value: ${money(order.cod, settings.currency)}
+🛵 Delivery fee: ${money(order.deliveryFee, settings.currency)}
+${paymentText}
+
+💵 *Customer collection:*
+${money(getCollection(order), settings.currency)}
+
+⏰ Expected delivery:
+${formatDateTime(order.expectedDeliveryAt, lang)}
+
+📝 Notes:
+${order.notes || 'None'}
+
+👨‍✈️ Driver:
+${driver?.name || order.driverName || 'Unassigned'}
+
+Please update the order status after pickup and delivery.`;
+
+    setDispatchText(message);
+  };
+
+  const openDispatch = order => {
+    setDispatchOrder(order);
+    setDispatchDriver(order.driverId || '');
+    setDispatchText('');
+    setShowImportModal(true);
+    setImportMode('dispatch');
+  };
+
+  const copyDispatch = async () => {
+    try {
+      await navigator.clipboard.writeText(dispatchText);
+      alert(t.copied);
+    } catch {
+      alert('Copy failed');
+    }
+  };
+
+  /* ----------------------------- Driver Metrics ----------------------------- */
+
+  const driverMetrics = driverId => {
+    const driverOrders = orders.filter(
+      order => order.driverId === driverId
+    );
+
+    const completed = driverOrders.filter(
+      order => order.status === STATUS.COMPLETED
+    );
+
+    const daily = completed.filter(o =>
+      isSameDay(o.createdAt, new Date())
+    );
+
+    const weekly = completed.filter(o =>
+      isWithinDays(o.createdAt, 7)
+    );
+
+    const monthly = completed.filter(o =>
+      isWithinDays(o.createdAt, 30)
+    );
+
+    const metrics = list => ({
+      orders: list.length,
+
+      collected: list.reduce(
+        (sum, order) => sum + getCollection(order),
+        0
+      ),
+
+      companyRevenue: list.reduce(
+        (sum, order) => sum + getCompanyRevenue(order),
+        0
+      ),
+
+      driverRevenue: list.reduce(
+        (sum, order) => sum + getDriverRevenue(order),
+        0
+      )
+    });
+
+    return {
+      active: driverOrders.filter(
+        o =>
+          ![
+            STATUS.COMPLETED,
+            STATUS.CANCELLED
+          ].includes(o.status)
+      ).length,
+
+      daily: metrics(daily),
+      weekly: metrics(weekly),
+      monthly: metrics(monthly),
+
+      allOrders: driverOrders
+    };
+  };
+
+  /* ----------------------------- Dashboard Metrics ----------------------------- */
+
+  const activeOrders = orders.filter(
+    o =>
+      ![
+        STATUS.COMPLETED,
+        STATUS.CANCELLED
+      ].includes(o.status)
+  );
+
+  const delayedOrders = orders.filter(
+    o => o.status === STATUS.DELAYED
+  );
+
+  const completedOrders = orders.filter(
+    o => o.status === STATUS.COMPLETED
+  );
+
+  const todayCompleted = completedOrders.filter(o =>
+    isSameDay(o.createdAt, new Date())
+  );
+
+  const todayCollections = todayCompleted.reduce(
+    (sum, order) => sum + getCollection(order),
+    0
+  );
+
+  const todayRevenue = todayCompleted.reduce(
+    (sum, order) => sum + getCompanyRevenue(order),
+    0
+  );
+
+  /* ----------------------------- Filtering ----------------------------- */
+
+  const filteredOrders = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+
+    if (!q) return orders;
+
+    return orders.filter(order =>
+      [
+        order.orderNum,
+        order.customer,
+        order.store,
+        order.phone,
+        order.address,
+        order.driverName
+      ]
+        .filter(Boolean)
+        .some(value =>
+          String(value).toLowerCase().includes(q)
+        )
+    );
+  }, [orders, searchQuery]);
+
+  /* ----------------------------- Merchant / Customer Save ----------------------------- */
+
+  const saveMerchant = () => {
     if (!merchantForm.name.trim()) return;
-    setMerchants(prev => merchantForm.id ? prev.map(m => m.id === merchantForm.id ? merchantForm : m) : [{ ...merchantForm, id: Date.now() }, ...prev]);
-    setMerchantForm({ id: null, name: '', phone: '', address: '', notes: '' });
+
+    if (merchantForm.id) {
+      setMerchants(prev =>
+        prev.map(m =>
+          m.id === merchantForm.id
+            ? merchantForm
+            : m
+        )
+      );
+    } else {
+      setMerchants(prev => [
+        {
+          ...merchantForm,
+          id: uid(),
+          totalOrders: 0
+        },
+        ...prev
+      ]);
+    }
+
+    setMerchantForm({
+      id: null,
+      name: '',
+      phone: '',
+      address: '',
+      notes: ''
+    });
   };
 
-  const handleSaveCustomer = () => {
+  const saveCustomer = () => {
     if (!customerForm.name.trim()) return;
-    setCustomers(prev => customerForm.id ? prev.map(c => c.id === customerForm.id ? customerForm : c) : [{ ...customerForm, id: Date.now() }, ...prev]);
-    setCustomerForm({ id: null, name: '', phone: '', address: '', notes: '' });
+
+    if (customerForm.id) {
+      setCustomers(prev =>
+        prev.map(c =>
+          c.id === customerForm.id
+            ? customerForm
+            : c
+        )
+      );
+    } else {
+      setCustomers(prev => [
+        {
+          ...customerForm,
+          id: uid()
+        },
+        ...prev
+      ]);
+    }
+
+    setCustomerForm({
+      id: null,
+      name: '',
+      phone: '',
+      address: '',
+      notes: ''
+    });
   };
 
-  const filteredOrders = orders.filter(o => {
-    const q = searchQuery.toLowerCase();
-    return (o.orderNum || '').toLowerCase().includes(q) || (o.customer || '').toLowerCase().includes(q) || (o.store || '').toLowerCase().includes(q) || (o.phone || '').includes(searchQuery);
-  });
+  /* ----------------------------- Driver Save ----------------------------- */
 
-  const filteredLedgerOrders = orders.filter(o => (!ledgerDriver || o.driver === ledgerDriver) && o.isoDate === ledgerDate);
-  const dailyCollected = filteredLedgerOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getOrderEffectiveCash(o), 0);
+  const saveDriver = () => {
+    if (!driverForm.name.trim()) return;
 
-  return (
-    <div style={styles.appWrapper}>
-      <div style={{ ...styles.container, direction: lang === 'ar' ? 'rtl' : 'ltr' }}>
-        
-        {/* HEADER */}
-        <header style={styles.header}>
-          <div style={styles.logoBox}><span style={styles.logoIcon}>⚡</span></div>
-          <h1 style={styles.appTitle}>🚀 {t.appTitle}</h1>
-          <p style={styles.appSubtitle}>{t.appSubtitle}</p>
-        </header>
+    if (driverForm.id) {
+      setDrivers(prev =>
+        prev.map(d =>
+          d.id === driverForm.id
+            ? driverForm
+            : d
+        )
+      );
+    } else {
+      setDrivers(prev => [
+        {
+          ...driverForm,
+          id: uid()
+        },
+        ...prev
+      ]);
+    }
 
-        {/* KPIS */}
-        <div style={styles.kpiRow}>
-          <div style={styles.kpiCard}>
-            <span style={styles.kpiLabel}>⏱️ {t.kpiActiveOrders}</span>
-            <span style={{ ...styles.kpiValue, color: '#C084FC' }}>{orders.filter(o => !['مكتمل', 'ملغي'].includes(o.status)).length}</span>
-          </div>
-          <div style={styles.kpiCard}>
-            <span style={styles.kpiLabel}>📦 {t.kpiCompleted}</span>
-            <span style={{ ...styles.kpiValue, color: '#38BDF8' }}>{orders.filter(o => o.status === 'مكتمل').length}</span>
-          </div>
-        </div>
+    setDriverForm({
+      id: null,
+      name: '',
+      phone: '',
+      notes: ''
+    });
+  };
 
-        {/* NAVIGATION */}
-        <div style={styles.navList}>
-          <button style={styles.primaryBtn} onClick={() => setActiveTab('new_order')}>➕ {t.navNewOrder}</button>
-          <button style={activeTab === 'orders' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('orders')}>
-            <span>📦 {t.navOrders}</span><span style={styles.countBadge}>{orders.length}</span>
-          </button>
-          <button style={activeTab === 'driver_ledger' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('driver_ledger')}>
-            <span>📋 {t.navDriverLedger}</span>
-          </button>
-          <button style={activeTab === 'drivers' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('drivers')}>
-            <span>🛵 {t.navDrivers}</span><span style={styles.countBadge}>{driverObjects.length}</span>
-          </button>
-          <button style={activeTab === 'merchants' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('merchants')}>
-            <span>🏪 {t.navMerchants}</span><span style={styles.countBadge}>{merchants.length}</span>
-          </button>
-          <button style={activeTab === 'customers' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('customers')}>
-            <span>👥 {t.navCustomers}</span><span style={styles.countBadge}>{customers.length}</span>
-          </button>
-          <button style={activeTab === 'history' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('history')}>
-            <span>🕒 {t.navHistory}</span>
-          </button>
-          <button style={activeTab === 'settings' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('settings')}>
-            <span>⚙️ {t.navSettings}</span>
-          </button>
-        </div>
+  /* ----------------------------- Backup ----------------------------- */
 
-        <button style={styles.langPill} onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}>
-          🌐 {lang === 'ar' ? 'English' : 'العربية'}
-        </button>
+  const exportBackup = () => {
+    const backup = {
+      app: 'Express Delivery PRO',
+      version: 7,
+      exportedAt: nowISO(),
+      settings,
+      orders,
+      deletedOrders,
+      merchants,
+      customers,
+      drivers,
+      history,
+      counter
+    };
 
-        {/* MAIN BODY */}
-        <main style={styles.main}>
-          {/* NEW ORDER */}
-          {activeTab === 'new_order' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.aiHeader}</h2>
-              <textarea rows={6} value={rawText} onChange={e => setRawText(e.target.value)} placeholder={t.placeholderOrder} style={styles.textarea} />
-              <button onClick={extractOrderInfo} disabled={loading} style={styles.btnPrimaryGradient}>
-                {loading ? t.btnExtracting : t.btnExtract}
-              </button>
+    const blob = new Blob(
+      [JSON.stringify(backup, null, 2)],
+      {
+        type: 'application/json'
+      }
+    );
 
-              {extractedOrders.length > 0 && (
-                <div style={styles.extractedBox}>
-                  <h3 style={{ color: '#FACC15' }}>{t.reviewTitle}</h3>
-                  {extractedOrders.map((ord, idx) => (
-                    <div key={idx} style={styles.extractedSubCard}>
-                      <div style={styles.grid2}>
-                        <div><strong>{t.customer}:</strong> {ord.customer}</div>
-                        <div><strong>{t.store}:</strong> {ord.store}</div>
-                        <div><strong>{t.phone}:</strong> {ord.phone}</div>
-                        <div style={{ gridColumn: '1 / -1' }}><strong>{t.address}:</strong> {ord.address}</div>
-                      </div>
-                      <div style={styles.financeGrid}>
-                        <div><span>{t.cod}</span><input type="number" value={ord.cod} onChange={e => updateExtractedOrder(idx, 'cod', e.target.value)} style={styles.financeInput} /></div>
-                        <div><span>{t.deliveryFee}</span><input type="number" value={ord.deliveryFee} onChange={e => updateExtractedOrder(idx, 'deliveryFee', e.target.value)} style={styles.financeInput} /></div>
-                      </div>
-                    </div>
-                  ))}
+    const url = URL.createObjectURL(blob);
 
-                  <div style={styles.confirmationPanel}>
-                    <label style={styles.label}>{t.selectDriver}</label>
-                    <select value={selectedDriver} onChange={e => setSelectedDriver(e.target.value)} style={styles.input}>
-                      <option value="">{t.chooseDriver}</option>
-                      {driverObjects.map(d => <option key={d.id} value={d.name}>{d.name}</option>)}
-                    </select>
-                  </div>
+    const anchor = document.createElement('a');
 
-                  <button onClick={handleConfirmOrder} style={styles.btnSuccessGradient}>{t.btnConfirm}</button>
-                </div>
-              )}
-            </div>
-          )}
+    anchor.href = url;
+    anchor.download = `express-delivery-backup-${new Date()
+      .toISOString()
+      .slice(0, 10)}.json`;
 
-          {/* MANAGING ORDERS */}
-          {activeTab === 'orders' && (
-            <div>
-              <input type="text" placeholder={t.searchPlaceholder} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} style={styles.searchInput} />
-              {filteredOrders.map(order => (
-                <div key={order.id} style={{ ...styles.card, cursor: 'pointer' }} onClick={() => setActiveModal({ type: 'order', data: order })}>
-                  <div style={styles.rowBetween}>
-                    <span style={styles.orderNumTag}>{order.orderNum}</span>
-                    <select value={order.status} onClick={e => e.stopPropagation()} onChange={e => {
-                      setOrders(prev => prev.map(o => o.id === order.id ? { ...o, status: e.target.value } : o));
-                    }} style={getStatusStyle(order.status)}>
-                      <option value="مؤكد">{t.statusConfirmed}</option>
-                      <option value="مكتمل">{t.statusCompleted}</option>
-                      <option value="ملغي">{t.statusCancelled}</option>
-                    </select>
-                  </div>
-                  <p style={styles.p}><strong>👤 {order.customer}</strong> ({order.phone})</p>
-                  <p style={styles.p}>🏪 {order.store} | 🛵 {order.driver}</p>
-                </div>
-              ))}
-            </div>
-          )}
+    anchor.click();
 
-          {/* DRIVER LEDGER */}
-          {activeTab === 'driver_ledger' && (
-            <div style={styles.card}>
-              <h2 style={{ color: '#67E8F9', marginTop: 0 }}>{t.driverLedgerTitle}</h2>
-              <div style={styles.grid2}>
-                <select value={ledgerDriver} onChange={e => setLedgerDriver(e.target.value)} style={styles.input}>
-                  <option value="">-- {t.allDrivers} --</option>
-                  {driverObjects.map(d => <option key={d.id} value={d.name}>{d.name}</option>)}
-                </select>
-                <input type="date" value={ledgerDate} onChange={e => setLedgerDate(e.target.value)} style={styles.input} />
-              </div>
-              <div style={{ marginTop: '20px', fontSize: '1.2rem', color: '#34D399', fontWeight: '800' }}>
-                {t.cashToHandIn}: {dailyCollected.toLocaleString()} {systemCurrency}
-              </div>
-            </div>
-          )}
+    URL.revokeObjectURL(url);
+  };
 
-          {/* DRIVERS */}
-          {activeTab === 'drivers' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.addDriver}</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
-                <input type="text" placeholder={t.driverName} value={newDriver.name} onChange={e => setNewDriver({ ...newDriver, name: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.driverPhone} value={newDriver.phone} onChange={e => setNewDriver({ ...newDriver, phone: e.target.value })} style={styles.input} />
-                <button onClick={handleAddDriver} style={styles.btnGradientCompact}>{t.btnAdd}</button>
-              </div>
-              <div style={styles.grid2}>
-                {driverObjects.map(d => (
-                  <div key={d.id} style={styles.clickableCard} onClick={() => setActiveModal({ type: 'driver', data: d })}>
-                    <h3 style={{ margin: 0, color: '#38BDF8' }}>🛵 {d.name}</h3>
-                    <p style={styles.p}>📞 {d.phone || t.unspecified}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+  const importBackup = async file => {
+    if (!file) return;
 
-          {/* MERCHANTS */}
-          {activeTab === 'merchants' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.saveMerchant}</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
-                <input type="text" placeholder={t.store} value={merchantForm.name} onChange={e => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.phone} value={merchantForm.phone} onChange={e => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.address} value={merchantForm.address} onChange={e => setMerchantForm({ ...merchantForm, address: e.target.value })} style={styles.input} />
-                <button onClick={handleSaveMerchant} style={styles.btnGradientCompact}>{t.saveBtn}</button>
-              </div>
-              <div style={styles.grid2}>
-                {merchants.map(m => (
-                  <div key={m.id} style={styles.clickableCard} onClick={() => setActiveModal({ type: 'merchant', data: m })}>
-                    <h3 style={{ margin: 0, color: '#FACC15' }}>🏪 {m.name}</h3>
-                    <p style={styles.p}>📞 {m.phone || t.unspecified}</p>
-                    <p style={styles.p}>📍 {m.address || t.unspecified}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+    try {
+      const text = await file.text();
+      const backup = JSON.parse(text);
 
-          {/* CUSTOMERS */}
-          {activeTab === 'customers' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.saveCustomer}</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
-                <input type="text" placeholder={t.customer} value={customerForm.name} onChange={e => setCustomerForm({ ...customerForm, name: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.phone} value={customerForm.phone} onChange={e => setCustomerForm({ ...customerForm, phone: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.address} value={customerForm.address} onChange={e => setCustomerForm({ ...customerForm, address: e.target.value })} style={styles.input} />
-                <button onClick={handleSaveCustomer} style={styles.btnGradientCompact}>{t.saveBtn}</button>
-              </div>
-              <div style={styles.grid2}>
-                {customers.map(c => (
-                  <div key={c.id} style={styles.clickableCard} onClick={() => setActiveModal({ type: 'customer', data: c })}>
-                    <h3 style={{ margin: 0, color: '#38BDF8' }}>👤 {c.name}</h3>
-                    <p style={styles.p}>📞 {c.phone || t.unspecified}</p>
-                    <p style={styles.p}>📍 {c.address || t.unspecified}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+      if (
+        !backup ||
+        !Array.isArray(backup.orders) ||
+        !Array.isArray(backup.drivers)
+      ) {
+        throw new Error('Invalid backup');
+      }
 
-          {/* HISTORY */}
-          {activeTab === 'history' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.historyTitle}</h2>
-              {historyLogs.map(log => (
-                <div key={log.id} style={{ padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                  <span style={styles.orderNumTag}>{log.orderNum}</span> - {log.details}
-                </div>
-              ))}
-            </div>
-          )}
+      setSettings({
+        ...DEFAULT_SETTINGS,
+        ...(backup.settings || {})
+      });
 
-          {/* SETTINGS */}
-          {activeTab === 'settings' && (
-            <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.settingsTitle}</h2>
-              <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Groq API Key..." style={styles.input} />
-            </div>
-          )}
-        </main>
+      setOrders(
+        backup.orders.map(o => ({
+          ...o,
+          status: normalizeStatus(o.status)
+        }))
+      );
 
-        {/* DUPLICATE MATCHER MODAL QUEUE */}
-        {pendingMatches.length > 0 && (
-          <div style={styles.modalOverlay}>
-            <div style={styles.modalCard}>
-              <h3 style={{ color: '#FACC15', marginTop: 0 }}>{t.matchTitle}</h3>
-              <p style={styles.p}>{t.matchPrompt}</p>
-              <p style={{ ...styles.p, color: '#38BDF8', fontWeight: '700' }}>
-                Item: {pendingMatches[0].name} ({pendingMatches[0].type})
-              </p>
-              {pendingMatches[0].matches.map(m => (
-                <div key={m.id} style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '12px', marginBottom: '10px' }}>
-                  <strong>{m.name}</strong> - 📞 {m.phone || 'N/A'} - 📍 {m.address || 'N/A'}
-                  <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                    <button onClick={() => handleResolveMatching(m, 'autofill')} style={styles.btnGradientCompact}>{t.autofillBtn}</button>
-                    <button onClick={() => handleResolveMatching(m, 'update')} style={{ ...styles.btnGradientCompact, background: '#059669' }}>{t.updateBtn}</button>
-                  </div>
-                </div>
-              ))}
-              <button onClick={() => handleResolveMatching(null, 'create')} style={{ ...styles.btnGradientCompact, background: '#475569', width: '100%', marginTop: '10px' }}>{t.createNew}</button>
-            </div>
-          </div>
-        )}
+      setDeletedOrders(backup.deletedOrders || []);
+      setMerchants(backup.merchants || []);
+      setCustomers(backup.customers || []);
+      setDrivers(backup.drivers || []);
+      setHistory(backup.history || []);
+      setCounter(backup.counter || 1001);
 
-        {/* DETAILS MODAL FOR ORDERS / DRIVERS / MERCHANTS / CUSTOMERS */}
-        {activeModal && (
-          <div style={styles.modalOverlay}>
-            <div style={styles.modalCard}>
-              <div style={styles.rowBetween}>
-                <h3 style={{ margin: 0, color: '#C084FC' }}>
-                  {activeModal.type === 'order' && `Order ${activeModal.data.orderNum}`}
-                  {activeModal.type === 'driver' && `🛵 Driver: ${activeModal.data.name}`}
-                  {activeModal.type === 'merchant' && `🏪 Merchant: ${activeModal.data.name}`}
-                  {activeModal.type === 'customer' && `👤 Customer: ${activeModal.data.name}`}
-                </h3>
-                <button onClick={() => setActiveModal(null)} style={{ background: '#EF4444', color: '#FFF', border: 'none', borderRadius: '8px', padding: '4px 10px', cursor: 'pointer' }}>✕</button>
-              </div>
+      alert(t.backupImported);
+    } catch {
+      alert(t.invalidBackup);
+    }
+  };
 
-              <div style={{ margin: '15px 0' }}>
-                {activeModal.type === 'order' && (
-                  <>
-                    <p style={styles.p}><strong>Customer:</strong> {activeModal.data.customer} ({activeModal.data.phone})</p>
-                    <p style={styles.p}><strong>Store:</strong> {activeModal.data.store}</p>
-                    <p style={styles.p}><strong>Driver:</strong> {activeModal.data.driver}</p>
-                    <p style={styles.p}><strong>Address:</strong> {activeModal.data.address}</p>
-                    <p style={styles.p}><strong>Value:</strong> {getOrderValue(activeModal.data)} {systemCurrency}</p>
-                    <p style={styles.p}><strong>Delivery Fee:</strong> {getDeliveryFee(activeModal.data)} {systemCurrency}</p>
-                  </>
-                )}
+  /* ----------------------------- Render Helpers ----------------------------- */
 
-                {activeModal.type !== 'order' && (
-                  <>
-                    <p style={styles.p}>📞 Phone: {activeModal.data.phone || 'N/A'}</p>
-                    {activeModal.data.address && <p style={styles.p}>📍 Address: {activeModal.data.address}</p>}
-                    <h4 style={{ color: '#FACC15', marginBottom: '8px' }}>Associated Orders</h4>
-                    {orders.filter(o => {
-                      if (activeModal.type === 'driver') return o.driver === activeModal.data.name;
-                      if (activeModal.type === 'merchant') return o.store?.toLowerCase() === activeModal.data.name?.toLowerCase();
-                      if (activeModal.type === 'customer') return o.customer?.toLowerCase() === activeModal.data.name?.toLowerCase() || o.phone === activeModal.data.phone;
-                      return false;
-                    }).map(o => (
-                      <div key={o.id} style={{ background: 'rgba(255,255,255,0.05)', padding: '8px 12px', borderRadius: '8px', marginBottom: '6px' }}>
-                        <strong>{o.orderNum}</strong> - {o.status} ({o.cod} {systemCurrency})
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+  const navItems = [
+    ['dashboard', '📊', t.dashboard],
+    ['new_order', '➕', t.newOrder],
+    ['orders', '📦', t.orders],
+    ['drivers', '🛵', t.drivers],
+    ['merchants', '🏪', t.merchants],
+    ['customers', '👥', t.customers],
+    ['ledger', '💰', t.ledger],
+    ['import', '💬', t.importExport],
+    ['history', '🕒', t.history],
+    ['settings', '⚙️', t.settings]
+  ];
 
-      </div>
+  const Field = ({
+    label,
+    value,
+    onChange,
+    placeholder,
+    type = 'text'
+  }) => (
+    <div style={styles.field}>
+      <label style={styles.label}>{label}</label>
+      <input
+        type={type}
+        value={value}
+        placeholder={placeholder}
+        onChange={e => onChange(e.target.value)}
+        style={styles.input}
+      />
     </div>
   );
-}
+
+  const TextField = ({
+    label,
+    value,
+    onChange,
+    placeholder
+  }) => (
+    <div style={styles.field}>
+      <label style={styles.label}>{label}</label>
+      <textarea
+        value={value}
+        placeholder={placeholder}
+        onChange={e => onChange(e.target.value)}
+        style={{
+          ...styles.input,
+          minHeight: 90,
+          resize: 'vertical'
+        }}
+      />
+    </div>
+  );
+
+  const StatusBadge = ({ status }) => (
+    <span
+      style={{
+        ...styles.status,
+        background: `${statusColor(status)}22`,
+        color: statusColor(status),
+        border: `1px solid ${statusColor(status)}55`
+      }}
+    >
+      {statusLabel(status, t)}
+    </span>
+  );
+
+  /* ----------------------------- Dashboard ----------------------------- */
+
+  const Dashboard = () => (
+    <>
+      <div style={styles.grid4}>
+        <div style={styles.metric}>
+          <span style={styles.metricLabel}>🟣 {t.active}</span>
+          <span style={styles.metricValue}>
+            {activeOrders.length}
+          </span>
+        </div>
+
+        <div style={styles.metric}>
+          <span style={styles.metricLabel}>🟢 {t.completed}</span>
+          <span style={styles.metricValue}>
+            {completedOrders.length}
+          </span>
+        </div>
+
+        <div style={styles.metric}>
+          <span style={styles.metricLabel}>⚠️ {t.delayed}</span>
+          <span
+            style={{
+              ...styles.metricValue,
+              color:
+                delayedOrders.length
+                  ? '#F59E0B'
+                  : '#10B981'
+            }}
+          >
+            {delayedOrders.length}
+          </span>
+        </div>
+
+        <div style={styles.metric}>
+          <span style={styles.metricLabel}>
+            💰 {t.todayRevenue}
+          </span>
+          <span style={styles.metricValue}>
+            {money(todayRevenue, settings.currency)}
+          </span>
+        </div>
+      </div>
+
+      <div style={styles.card}>
+        <div style={styles.cardHeader}>
+          <div>
+            <h2 style={styles.cardTitle}>
+              {t.dashboardTitle}
+            </h2>
+
+            <span style={styles.muted}>
+              {t.dispatchCenter}
+            </span>
+          </div>
+
+          <button
+            style={{
+              ...styles.button,
+              ...styles.primary
+            }}
+            onClick={() => setActiveTab('new_order')}
+          >
+            ➕ {t.newOrder}
+          </button>
+        </div>
+
+        <div style={styles.orderGrid}>
+          <div style={styles.miniMetric}>
+            <div style={styles.muted}>
+              {t.totalOrders}
+            </div>
+            <strong>{orders.length}</strong>
+          </div>
+
+          <div style={styles.miniMetric}>
+            <div style={styles.muted}>
+              {t.todayCollections}
+            </div>
+            <strong>
+              {money(
+                todayCollections,
+                settings.currency
+              )}
+            </strong>
+          </div>
+
+          <div style={styles.miniMetric}>
+            <div style={styles.muted}>
+              {t.companyRevenue}
+            </div>
+            <strong>
+              {money(
+                todayRevenue,
+                settings.currency
+              )}
+            </strong>
+          </div>
+
+          <div style={styles.miniMetric}>
+            <div style={styles.muted}>
+              {t.urgentOrders}
+            </div>
+            <strong
+              style={{
+                color:
+                  delayedOrders.length
+                    ? '#F59E0B'
+                    : '#10B981'
+              }}
+            >
+              {delayedOrders.length}
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      {delayedOrders.length > 0 && (
+        <div style={styles.card}>
+          <div style={styles.cardHeader}>
+            <h2 style={styles.cardTitle}>
+              ⚠️ {t.urgentOrders}
+            </h2>
+          </div>
+
+          {delayedOrders.slice(0, 5).map(order => (
+            <div
+              key={order.id}
+              style={styles.orderCard}
+              onClick={() => setSelectedOrder(order)}
+            >
+              <div style={styles.cardHeader}>
+                <div>
+                  <strong>{order.orderNum}</strong>
+                  <div style={styles.muted}>
+                    {order.customer} • {order.store}
+                  </div>
+                </div>
+
+                <StatusBadge status={order.status} />
+              </div>
+
+              <div style={styles.muted}>
+                {order.address}
+              </div>
+
+              <div style={{ marginTop: 8 }}>
+                {t.delayedBy}:{' '}
+                <strong>
+                  {Math.max(
+                    0,
+                    Math.round(
+                      (Date.now() -
+                        new Date(
+                          order.expectedDeliveryAt
+                        ).getTime()) /
+                        60000
+                    )
+                  )}{' '}
+                  min
+                </strong>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </>
+  );
+
+  /* ----------------------------- New Order ----------------------------- */
+
+  const NewOrder = () => (
+    <>
+      <div style={styles.card}>
+        <div style={styles.cardHeader}>
+          <div>
+            <h2 style={styles.cardTitle}>
+              💬 {t.importTitle}
+            </h2>
+            <div style={styles.muted}>
+              {t.importSubtitle}
+            </div>
+          </div>
+
+          <button
+            style={{
+              ...styles.button,
+              ...styles.primary
+            }}
+            onClick={() => {
+              setImportMode('import');
+              setShowImportModal(true);
+            }}
+          >
+            💬 {t.importExport}
+          </button>
+        </div>
+
+        <textarea
+          value={rawText}
+          onChange={e => setRawText(e.target.value)}
+          placeholder={
+            lang === 'ar'
+              ? 'الصق رسالة واتساب هنا...'
+              : 'Paste WhatsApp order messages here...'
+          }
+          style={styles.textarea}
+        />
+
+        <button
+          disabled={loading}
+          style={{
+            ...styles.button,
+            ...styles.primary,
+            width: '100%',
+            marginTop: 12,
+            opacity: loading ? 0.6 : 1
+          }}
+          onClick={extractOrders}
+        >
+          {loading
+            ? '⏳'
+            : '⚡'}{' '}
+          {loading
+            ? lang === 'ar'
+              ? 'جاري التحليل...'
+              : 'Analyzing...'
+            : t.parse}
+        </button>
+      </div>
+
+      {extractedOrders.length > 0 && (
+        <div style={styles.card}>
+          <div style={styles.cardHeader}>
+            <h2 style={styles.cardTitle}>
+              🔎 {lang === 'ar'
+                ? 'مراجعة الطلبات'
+                : 'Review Orders'}
+            </h2>
+
+            <span style={styles.muted}>
+              {extractedOrders.length}{' '}
+              {t.totalOrders}
+            </span>
+          </div>
+
+          {extractedOrders.map((order, index) => {
+            const company =
+              order.deliveryFee *
+              (selectedRevenuePercent / 100);
+
+            const driver =
+              order.deliveryFee - company;
+
+            const collection =
+              order.paymentMethod === PAYMENT.ONLINE ||
+              order.paymentMethod === PAYMENT.PREPAID
+                ? order.deliveryFee
+                : order.cod + order.deliveryFee;
+
+            return (
+              <div
+                key={index}
+                style={styles.orderCard}
+              >
+                <div style={styles.cardHeader}>
+                  <div>
+                    <strong>
+                      👤 {order.customer || 'N/A'}
+                    </strong>
+
+                    <div style={styles.muted}>
+                      🏪 {order.store || 'N/A'}
+                    </div>
+                  </div>
+
+                  <strong>
+                    {money(
+                      collection,
+                      settings.currency
+                    )}
+                  </strong>
+                </div>
+
+                {incompleteAddress(order.address) && (
+                  <div
+                    style={{
+                      ...styles.alert,
+                      background:
+                        'rgba(245,158,11,.12)',
+                      border:
+                        '1px solid rgba(245,158,11,.4)',
+                      color: '#FBBF24'
+                    }}
+                  >
+                    ⚠️ {t.addressIncomplete}
+                  </div>
+                )}
+
+                <div style={styles.formGrid}>
+                  <Field
+                    label={t.store}
+                    value={order.store}
+                    onChange={value =>
+                      setExtractedOrders(prev =>
+                        prev.map((o, i) =>
+                          i === index
+                            ? { ...o, store: value }
+                            : o
+                        )
+                      )
+                    }
+                  />
+
+                  <Field
+                    label={t.customer}
+                    value={order.customer}
+                    onChange={value =>
+                      setExtractedOrders(prev =>
+                        prev.map((o, i) =>
+                          i === index
+                            ? {
+                                ...o,
+                                customer: value
+                              }
+                            : o
+                        )
+                      )
+                    }
+                  />
+
+                  <Field
+                    label={t.phone}
+                    value={order.phone}
+                    onChange={value =>
+                      setExtractedOrders(prev =>
+                        prev.map((o, i) =>
+                          i === index
+                            ? {
+                                ...o,
+                                phone: value
+                              }
+                            : o
+                        )
+                      )
+                    }
+                  />
+
+                  <Field
+                    label={t.orderValue}
+                    type="number"
+                    value={order.cod}
+                    onChange={value =>
+                      setExtractedOrders(prev =>
+                        prev.map((o, i) =>
+                          i === index
+                            ? {
+                                ...o,
+                                cod: normalizeNumber(
+                                  value
+                                )
+                              }
+                            : o
+                        )
+                      )
+                    }
+                  />
+
+                  <Field
+                    label={t.deliveryFee}
+                    type="number"
+                    value={order.deliveryFee}
+                    onChange={value =>
+                      setExtractedOrders(prev =>
+                        prev.map((o, i) =>
+                          i === index
+                            ? {
+                                ...o,
+                                deliveryFee:
+                                  normalizeNumber(
+                                    value
+                                  )
+                              }
+                            : o
+                        )
+                      )
+                    }
+                  />
+
+                  <div style={styles.field}>
+                    <label style={styles.label}>
+                      {t.payment}
+                    </label>
+
+                    <select
+                      value={order.paymentMethod}
+                      onChange={e =>
+                        setExtractedOrders(prev =>
+                          prev.map((o, i) =>
+                            i === index
+                              ? {
+                                  ...o,
+                                  paymentMethod:
+                                    e.target.value
+                                }
+                              : o
+                          )
+                        )
+                      }
+                      style={styles.input}
+                    >
+                      <option value={PAYMENT.CASH}>
+                        {t.cash}
+                      </option>
+
+                      <option value={PAYMENT.ONLINE}>
+                        {t.online}
+                      </option>
+
+                      <option value={PAYMENT.PREPAID}>
+                        {t.prepaid}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: 12 }}>
+                  <TextField
+                    label={t.address}
+                    value={order.address}
+                    onChange={value =>
+                      setExtractedOrders(prev =>
+                        prev.map((o, i) =>
+                          i === index
+                            ? {
+                                ...o,
+                                address: value
+                              }
+                            : o
+                        )
+                      )
+                    }
+                  />
+                </div>
+
+                <div style={{ marginTop: 12 }}>
+                  <TextField
+                    label={t.item}
+                    value={order.item}
+                    onChange={value =>
+                      setExtractedOrders(prev =>
+                        prev.map((o, i) =>
+                          i === index
+                            ? {
+                                ...o,
+                                item: value
+                              }
+                            : o
+                        )
+                      )
+                    }
+                  />
+                </div>
+
+                <div style={{ marginTop: 12 }}>
+                  <TextField
+                    label={t.notes}
+                    value={order.notes}
+                    onChange={value =>
+                      setExtractedOrders(prev =>
+                        prev.map((o, i) =>
+                          i === index
+                            ? {
+                                ...o,
+                                notes: value
+                              }
+                            : o
+                        )
+                      )
+                    }
+                  />
+                </div>
+
+                <div
+                  style={{
+                    ...styles.profileGrid,
+                    marginBottom: 0
+                  }}
+                >
+                  <div style={styles.miniMetric}>
+                    <span style={styles.muted}>
+                      {t.collected}
+                    </span>
+                    <strong>
+                      {money(
+                        collection,
+                        settings.currency
+                      )}
+                    </strong>
+                  </div>
+
+                  <div style={styles.miniMetric}>
+                    <span style={styles.muted}>
+                      {t.companyRevenue}
+                    </span>
+                    <strong>
+                      {money(
+                        company,
+                        settings.currency
+                      )}
+                    </strong>
+                  </div>
+
+                  <div style={styles.miniMetric}>
+                    <span style={styles.muted}>
+                      {t.driverRevenue}
+                    </span>
+                    <strong>
+                      {money(
+                        driver,
+                        settings.currency
+                      )}
+                    </strong>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+
+          <div style={styles.formGrid}>
+            <div style={styles.field}>
+              <label style={styles.label}>
+                {t.selectDriver}
+              </label>
+
+              <select
+                value={selectedDriver}
+                onChange={e =>
+                  setSelectedDriver(e.target.value)
+                }
+                style={styles.input}
+              >
+                <option value="">
+                  {settings.autoDriverAssignment
+                    ? `🤖 ${lang === 'ar'
+                        ? 'تعيين تلقائي'
+                        : 'Auto Assign'}`
+                    : t.noDriver}
+                </option>
+
+                {drivers.map(driver => (
+                  <option
+                    key={driver.id}
+                    value={driver.id}
+                  >
+                    {driver.name}
+                    {driver.phone
+                      ? ` — ${driver.phone}`
+                      : ''}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div style={styles.field}>
+              <label style={styles.label}>
+                {t.revenueShare}
+              </label>
+
+              <select
+                value={selectedRevenuePercent}
+                onChange={e =>
+                  setSelectedRevenuePercent(
+                    Number(e.target.value)
+                  )
+                }
+                style={styles.input}
+              >
+                {REVENUE_OPTIONS.map(value => (
+                  <option
+                    key={value}
+                    value={value}
+                  >
+                    {value}%
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <Field
+              label={`${t.expectedDelivery} (${lang === 'ar'
+                ? 'دقيقة'
+                : 'minutes'})`}
+              type="number"
+              value={expectedMinutes}
+              onChange={value =>
+                setExpectedMinutes(
+                  normalizeNumber(value)
+                )
+              }
+            />
+          </div>
+
+          <button
+            style={{
+              ...styles.button,
+              ...styles.success,
+              width: '100%',
+              marginTop: 15
+            }}
+            onClick={confirmExtractedOrders}
+          >
+            ✅ {t.confirmOrder}
+          </button>
+        </div>
+      )}
+    </>
+  );
+
+  /* ----------------------------- Orders ----------------------------- */
+
+  const Orders = () => (
+    <div style={styles.card}>
+      <div style={styles.cardHeader}>
+        <div>
+          <h2 style={styles.cardTitle}>
+            📦 {t.orders}
+          </h2>
+
+          <span style={styles.muted}>
+            {filteredOrders.length} / {orders.length}
+          </span>
+        </div>
+      </div>
+
+      <input
+        style={styles.search}
+        placeholder={t.search}
+        value={searchQuery}
+        onChange={e =>
+          setSearchQuery(e.target.value)
+        }
+      />
+
+      {filteredOrders.length === 0 && (
+        <div
+          style={{
+            padding: 50,
+            textAlign: 'center',
+            color: '#64748B'
+          }}
+        >
+          {t.noOrders}
+        </div>
+      )}
+
+      {filteredOrders.map(order => (
+        <div
+          key={order.id}
+          style={styles.orderCard}
+        >
+          <div style={styles.cardHeader}>
+            <div>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: 8,
+                  alignItems: 'center',
+                  flexWrap: 'wrap'
+                }}
+              >
+                <strong>{order.orderNum}</strong>
+
+                <StatusBadge
+                  status={order.status}
+                />
+              </div>
+
+              <div
+                style={{
+                  marginTop: 5,
+                  fontWeight: 800
+                }}
+              >
+                {order.customer}
+              </div>
+
+              <div style={styles.muted}>
+                🏪 {order.store}
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: 'flex',
+                gap: 7,
+                flexWrap: 'wrap'
+              }}
+            >
+              <button
+                style={{
+                  ...styles.button,
+                  ...styles.primary
+                }}
+                onClick={() =>
+                  setSelectedOrder(order)
+                }
+              >
+                👁️
+              </button>
+
+              <button
+                style={{
+                  ...styles.button,
+                  ...styles.success
+                }}
+                onClick={() =>
+                  openDispatch(order)
+                }
+              >
+                💬
+              </button>
+
+              <button
+                style={{
+                  ...styles.button,
+                  ...styles.danger
+                }}
+                onClick={() =>
+                  deleteOrder(order)
+                }
+              >
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div style={styles.orderGrid}>
+            <div style={styles.miniMetric}>
+              <span style={styles.muted}>
+                {t.phone}
+              </span>
+              <strong>
+                {order.phone || '—'}
+              </strong>
+            </div>
+
+            <div style={styles.miniMetric}>
+              <span style={styles.muted}>
+                {t.driver}
+              </span>
+              <strong>
+                {order.driverName ||
+                  t.noDriver}
+              </strong>
+            </div>
+
+            <div style={styles.miniMetric}>
+              <span style={styles.muted}>
+                {t.collected}
+              </span>
+              <strong>
+                {money(
+                  getCollection(order),
+                  settings.currency
+                )}
+              </strong>
+            </div>
+          </div>
+
+          <div
+            style={{
+              marginTop: 12,
+              color: '#CBD5E1',
+              fontSize: 13
+            }}
+          >
+            📍 {order.address}
+          </div>
+
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns:
+                'repeat(4,minmax(0,1fr))',
+              gap: 8,
+              marginTop: 12
+            }}
+          >
+            <div>
+              <span style={styles.muted}>
+                {t.orderValue}
+              </span>
+              <br />
+              <strong>
+                {money(
+                  order.cod,
+                  settings.currency
+                )}
+              </strong>
+            </div>
+
+            <div>
+              <span style={styles.muted}>
+                {t.deliveryFee}
+              </span>
+              <br />
+              <
