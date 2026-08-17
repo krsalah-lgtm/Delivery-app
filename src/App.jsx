@@ -708,7 +708,7 @@ Output strict JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer"
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey.trim()}` },
-        body: JSON.stringify({ model: 'llama-3.3-70b-versatile', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: rawText }], response_format: { type: 'json_object' }, temperature: 0.1 })
+        body: JSON.stringify({ model: 'llama-3.1-70b-versatile', messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: rawText }], response_format: { type: 'json_object' }, temperature: 0.1 })
       });
 
       const data = await response.json();
