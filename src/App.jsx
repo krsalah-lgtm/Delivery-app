@@ -1,1134 +1,779 @@
 import React, { useState, useEffect } from 'react';
+import { 
+  Users, ShoppingBag, Truck, BookOpen, Settings, History, 
+  BarChart2, Plus, Edit3, Trash2, CheckCircle, Clock, AlertTriangle, 
+  X, Eye, ArrowUpRight, Search, Key, RefreshCw, ChevronRight, Package, Save
+} from 'lucide-react';
 
-// Language Dictionary & Translation Dataset
 const translations = {
   ar: {
     appTitle: 'إكسبريس دليفري PRO',
     appSubtitle: 'النظام الذكي لإدارة الطلبات واللوجستيات',
     groqConnected: '🟢 AI متصل',
     groqMissing: '🔴 المفتاح مفقود',
-    
-    // Navigation
     navNewOrder: 'طلب جديد',
-    navOrders: 'إدارة الطلبات',
-    navMerchants: 'المتاجر',
+    navOrders: 'الطلبات',
     navCustomers: 'العملاء',
-    navDrivers: 'الطيارين و الحسابات',
-
-    // New Order Screen
-    extractTitle: '✨ استخراج وإدخال البيانات الذكي',
-    importText: 'نص (واتساب / رسالة)',
-    importExcel: 'ملف إكسيل (Excel)',
-    importPdf: 'ملف PDF',
-    rawInputPlaceholder: 'ضع نص الطلب هنا، محادثة الواتساب، أو التفاصيل الخام...',
-    pasteBtn: '📋 لصق من الحافظة',
-    extractBtn: '⚡ استخراج البيانات بالذكاء الاصطناعي',
-    reviewTitle: 'مراجعة وتعديل بيانات الطلب:',
-    
-    // Entities
-    customerInfo: 'بيانات العميل',
-    customerName: 'اسم العميل',
-    customerPhone: 'رقم هاتف العميل',
-    customerAddress: 'عنوان التسليم',
-    
-    merchantInfo: 'بيانات المتجر / التاجر',
-    merchantName: 'اسم المتجر',
-    merchantPhone: 'رقم هاتف المتجر',
-    merchantAddress: 'عنوان المتجر',
-    
-    orderDetails: 'تفاصيل الطلب',
-    itemsDescription: 'وصف المحتويات والمنتجات',
-    
-    financials: '💰 التفاصيل المالية (قابلة للتعديل)',
-    orderValue: 'قيمة الطلب (ج.م)',
-    deliveryFee: 'رسوم التوصيل (ج.م)',
-    myRatio: 'نسبة الشركة من التوصيل (%)',
-    paymentMethod: 'طريقة الدفع',
-    payCash: 'كاش عند التسليم',
-    payInstapay: 'إنستا باي / تحويل',
-    payVodafone: 'فودافون كاش',
-    
-    notesTitle: '📝 الملاحظات والمعلومات الهامة',
-    notesPlaceholder: 'أدخل أي ملاحظات مهمة، تعليمات التوصيل، أو تعديلات مبالغ...',
-    
-    driverSelect: 'اختيار طيار التوصيل',
-    selectDriverPlaceholder: '-- اختر الطيار --',
-    saveOrder: '✅ تأكيد وحفظ الطلب في النظام',
-
-    // Financial Live Calculations Box
-    calcTitle: 'الملخص المالي المباشر',
-    totalCustomerPays: 'إجمالي ما يدفعه العميل',
-    merchantAmount: 'مبلغ المتجر المستحق',
-    myRevenue: 'إيراد الشركة المستحق',
-    driverShare: 'نصيب الطيار المستحق',
-
-    // Statuses
-    statusPending: 'قيد الانتظار',
+    navMerchants: 'التجار',
+    navDrivers: 'الطيارين',
+    navDriverLedger: 'دفتر الحسابات',
+    navHistory: 'سجل النشاطات',
+    navAnalytics: 'التقارير والتحليل',
+    navSettings: 'الإعدادات',
+    statusPreparing: 'قيد التحضير',
+    statusPending: 'معلق',
     statusOutForDelivery: 'جاري التوصيل',
-    statusDelivered: 'تم التسليم بنجاح',
-    statusDamaged: 'تالف (Damaged)',
-    statusReturned: 'مرتجع (Returned)',
-    statusComment: 'سبب التلف / المرتجع / تعليق الحالة',
-
-    // Directory & Ledger
-    delete: 'حذف',
-    edit: 'تعديل',
-    searchPlaceholder: 'بحث...',
-    driverLedgerTitle: '📊 دفتر حسابات وتحليلات الطيارين التفصيلي',
-    addDriver: 'إضافة طيار جديد',
-    addMerchant: 'إضافة متجر جديد',
-    addCustomer: 'إضافة عميل جديد',
-    driverName: 'اسم الطيار',
-    driverPhone: 'رقم الهاتف',
-    driverVehicle: 'وسيلة النقل',
-    actions: 'إجراءات'
+    statusDelivered: 'تم التسليم',
+    statusCancelled: 'ملغي',
   },
   en: {
     appTitle: 'Express Delivery PRO',
-    appSubtitle: 'Smart Logistics & Order Management System',
+    appSubtitle: 'Smart Order & Logistics Management System',
     groqConnected: '🟢 AI Connected',
-    groqMissing: '🔴 API Key Missing',
-
-    // Navigation
+    groqMissing: '🔴 Key Missing',
     navNewOrder: 'New Order',
-    navOrders: 'Orders Management',
-    navMerchants: 'Merchants Directory',
-    navCustomers: 'Customers Directory',
-    navDrivers: 'Drivers & Ledger',
-
-    // New Order Screen
-    extractTitle: '✨ Smart AI Data Extraction & Import',
-    importText: 'Text (WhatsApp / Msg)',
-    importExcel: 'Excel File',
-    importPdf: 'PDF Document',
-    rawInputPlaceholder: 'Paste raw order text, WhatsApp chat, or details here...',
-    pasteBtn: '📋 Paste Clipboard',
-    extractBtn: '⚡ Extract Data via AI',
-    reviewTitle: 'Review & Edit Order Details:',
-
-    // Entities
-    customerInfo: 'Customer Information',
-    customerName: 'Customer Name',
-    customerPhone: 'Customer Phone',
-    customerAddress: 'Delivery Address',
-
-    merchantInfo: 'Merchant Information',
-    merchantName: 'Merchant Name',
-    merchantPhone: 'Merchant Phone',
-    merchantAddress: 'Merchant Address',
-
-    orderDetails: 'Order Items',
-    itemsDescription: 'Items & Description',
-
-    financials: '💰 Financial Details (Editable)',
-    orderValue: 'Order Value (EGP)',
-    deliveryFee: 'Delivery Fee (EGP)',
-    myRatio: 'Company Share Ratio (%)',
-    paymentMethod: 'Payment Method',
-    payCash: 'Cash on Delivery',
-    payInstapay: 'InstaPay / Transfer',
-    payVodafone: 'Vodafone Cash',
-
-    notesTitle: '📝 Important Notes & Special Info',
-    notesPlaceholder: 'Enter any special notes, instructions, or money overrides...',
-
-    driverSelect: 'Select Delivery Driver',
-    selectDriverPlaceholder: '-- Select Driver --',
-    saveOrder: '✅ Confirm & Save Order',
-
-    // Financial Live Calculations Box
-    calcTitle: 'Live Financial Summary',
-    totalCustomerPays: 'Total Customer Pays',
-    merchantAmount: 'Merchant Due',
-    myRevenue: 'Company Net Revenue',
-    driverShare: 'Driver Earnings',
-
-    // Statuses
+    navOrders: 'Orders',
+    navCustomers: 'Customers',
+    navMerchants: 'Merchants',
+    navDrivers: 'Drivers',
+    navDriverLedger: 'Driver Ledger',
+    navHistory: 'Activity History',
+    navAnalytics: 'Analytics & Reports',
+    navSettings: 'Settings',
+    statusPreparing: 'Preparing',
     statusPending: 'Pending',
     statusOutForDelivery: 'Out for Delivery',
     statusDelivered: 'Delivered',
-    statusDamaged: 'Damaged',
-    statusReturned: 'Returned',
-    statusComment: 'Reason / Status Notes',
-
-    // Directory & Ledger
-    delete: 'Delete',
-    edit: 'Edit',
-    searchPlaceholder: 'Search...',
-    driverLedgerTitle: '📊 Detailed Driver Ledger & Analytics',
-    addDriver: 'Add New Driver',
-    addMerchant: 'Add New Merchant',
-    addCustomer: 'Add New Customer',
-    driverName: 'Driver Name',
-    driverPhone: 'Phone Number',
-    driverVehicle: 'Vehicle',
-    actions: 'Actions'
+    statusCancelled: 'Cancelled',
   }
 };
 
 export default function App() {
   const [lang, setLang] = useState('ar');
   const [activeTab, setActiveTab] = useState('newOrder');
-  const [aiConnected, setAiConnected] = useState(true);
-
-  // Initial Seed Orders
-  const [orders, setOrders] = useState([
-    {
-      id: 'ORD-101',
-      customerName: 'نادين',
-      customerPhone: '01199887766',
-      customerAddress: '31 شارع ابو قير العمارة 7 الدور الرابع الشقة 9',
-      merchantName: 'فتح الله فرع لوران',
-      merchantPhone: '01200000000',
-      merchantAddress: 'فرع لوران الرئيسي - الإسكندرية',
-      items: 'كرتونه فيها مقاضي وحاجات للبيت وازازتين صوص',
-      orderValue: 580,
-      deliveryFee: 50,
-      myRatio: 20,
-      paymentMethod: 'cash',
-      driverId: 'd1',
-      status: 'delivered',
-      notes: 'تنسيق التسليم مع البواب إذا لم تجب العميل.',
-      statusComment: '',
-      date: '2026-08-17'
-    },
-    {
-      id: 'ORD-102',
-      customerName: 'محمد أحمد',
-      customerPhone: '01012345678',
-      customerAddress: 'سموحة - ش بورسعيد برج الصفا',
-      merchantName: 'صيدلية العزبي',
-      merchantPhone: '01233334444',
-      merchantAddress: 'سموحة - الإسكندرية',
-      items: 'أدوية ومستلزمات طبية',
-      orderValue: 240,
-      deliveryFee: 40,
-      myRatio: 25,
-      paymentMethod: 'instapay',
-      driverId: 'd2',
-      status: 'pending',
-      notes: 'العميل قام بالتحويل مسبقاً عبر إنستا باي',
-      statusComment: '',
-      date: '2026-08-17'
-    }
-  ]);
-
-  // Initial Directories
-  const [merchants, setMerchants] = useState([
-    { id: 'm1', name: 'فتح الله فرع لوران', phone: '01200000000', address: 'فرع لوران الرئيسي', notes: 'عميل رئيسي - تسليم صباحي' },
-    { id: 'm2', name: 'صيدلية العزبي', phone: '01233334444', address: 'فرع سموحة', notes: 'طلب تعامل سريع' }
-  ]);
-
-  const [customers, setCustomers] = useState([
-    { id: 'c1', name: 'نادين', phone: '01199887766', address: '31 شارع ابو قير العمارة 7 الدور الرابع الشقة 9', notes: 'تفضل التواصل واتساب' },
-    { id: 'c2', name: 'محمد أحمد', phone: '01012345678', address: 'سموحة - ش بورسعيد برج الصفا', notes: 'دفع عبر الإنستا باي' }
-  ]);
-
-  const [drivers, setDrivers] = useState([
-    { id: 'd1', name: 'أحمد محمود', phone: '01200001111', vehicle: 'سكوتر SYM', status: 'نشط' },
-    { id: 'd2', name: 'مصطفى كريم', phone: '01011112222', vehicle: 'دراجة نارية', status: 'نشط' }
-  ]);
-
   const t = translations[lang];
 
-  return (
-    <div className={`min-h-screen bg-slate-950 text-slate-100 font-sans ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
-      {/* Background Lighting & FX */}
-      <div className="fixed inset-0 pointer-events-none opacity-15 bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.4),transparent_75%)]" />
+  // Core App State
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem('groq_api_key') || '');
+  const [rawText, setRawText] = useState('');
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
-      {/* Header Bar */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-slate-900/80 border-b border-slate-800/80 px-4 py-3 shadow-2xl">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center space-x-3 rtl:space-x-reverse">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30 text-lg">
-              🚀
-            </div>
-            <div>
-              <h1 className="text-xl font-black bg-gradient-to-r from-white via-slate-100 to-indigo-300 bg-clip-text text-transparent">
-                {t.appTitle}
-              </h1>
-              <p className="text-xs text-slate-400 font-medium">{t.appSubtitle}</p>
-            </div>
-          </div>
+  // Data Collections with Full Persistence
+  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('app_orders')) || []);
+  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('app_customers')) || []);
+  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('app_merchants')) || []);
+  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('app_drivers')) || [
+    { id: 'd1', name: 'أحمد محمود', phone: '01000000001', balance: 150 },
+    { id: 'd2', name: 'محمد علي', phone: '01100000002', balance: -50 }
+  ]);
+  const [activityLogs, setActivityLogs] = useState(() => JSON.parse(localStorage.getItem('app_logs')) || []);
 
-          <div className="flex items-center space-x-3 rtl:space-x-reverse">
-            <span className={`text-xs px-3 py-1.5 rounded-full border font-semibold ${aiConnected ? 'bg-emerald-950/80 text-emerald-400 border-emerald-800' : 'bg-rose-950/80 text-rose-400 border-rose-800'}`}>
-              {aiConnected ? t.groqConnected : t.groqMissing}
-            </span>
-            <button
-              onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
-              className="text-xs px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all border border-slate-700 text-slate-200 font-bold"
-            >
-              🌐 {lang === 'ar' ? 'English' : 'عربي'}
-            </button>
-          </div>
-        </div>
+  // UI Modals & Detail States
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [modalType, setModalType] = useState(null); // 'customer' | 'merchant' | 'order' | 'duplicateCheck' | 'editEntity'
+  const [pendingParsedData, setPendingParsedData] = useState(null);
+  const [editForm, setEditForm] = useState({});
 
-        {/* Global Navigation Tabs */}
-        <div className="max-w-7xl mx-auto flex space-x-2 rtl:space-x-reverse mt-4 overflow-x-auto pb-1 scrollbar-none">
-          {[
-            { id: 'newOrder', label: t.navNewOrder, icon: '✨' },
-            { id: 'orders', label: t.navOrders, icon: '📦' },
-            { id: 'merchants', label: t.navMerchants, icon: '🏪' },
-            { id: 'customers', label: t.navCustomers, icon: '👤' },
-            { id: 'drivers', label: t.navDrivers, icon: '🛵' },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all duration-200 whitespace-nowrap ${
-                activeTab === tab.id
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/25 scale-105'
-                  : 'bg-slate-800/50 text-slate-400 hover:bg-slate-800 hover:text-slate-200 border border-slate-800'
-              }`}
-            >
-              <span>{tab.icon}</span>
-              <span>{tab.label}</span>
-            </button>
-          ))}
-        </div>
-      </header>
+  // Sync with LocalStorage
+  useEffect(() => localStorage.setItem('app_orders', JSON.stringify(orders)), [orders]);
+  useEffect(() => localStorage.setItem('app_customers', JSON.stringify(customers)), [customers]);
+  useEffect(() => localStorage.setItem('app_merchants', JSON.stringify(merchants)), [merchants]);
+  useEffect(() => localStorage.setItem('app_drivers', JSON.stringify(drivers)), [drivers]);
+  useEffect(() => localStorage.setItem('app_logs', JSON.stringify(activityLogs)), [activityLogs]);
+  useEffect(() => localStorage.setItem('groq_api_key', apiKey), [apiKey]);
 
-      {/* Main Content Render */}
-      <main className="max-w-7xl mx-auto p-4 sm:p-6 space-y-6">
-        {activeTab === 'newOrder' && (
-          <NewOrderForm
-            t={t}
-            drivers={drivers}
-            orders={orders}
-            setOrders={setOrders}
-            merchants={merchants}
-            setMerchants={setMerchants}
-            customers={customers}
-            setCustomers={setCustomers}
-            setActiveTab={setActiveTab}
-          />
-        )}
-
-        {activeTab === 'orders' && (
-          <OrdersManager
-            t={t}
-            orders={orders}
-            setOrders={setOrders}
-            drivers={drivers}
-          />
-        )}
-
-        {activeTab === 'merchants' && (
-          <EntityDirectory
-            t={t}
-            type="merchant"
-            items={merchants}
-            setItems={setMerchants}
-            orders={orders}
-          />
-        )}
-
-        {activeTab === 'customers' && (
-          <EntityDirectory
-            t={t}
-            type="customer"
-            items={customers}
-            setItems={setCustomers}
-            orders={orders}
-          />
-        )}
-
-        {activeTab === 'drivers' && (
-          <DriverLedger
-            t={t}
-            drivers={drivers}
-            setDrivers={setDrivers}
-            orders={orders}
-          />
-        )}
-      </main>
-    </div>
-  );
-}
-
-// 1. Component: New Order & AI Smart Extraction Engine
-function NewOrderForm({ t, drivers, orders, setOrders, merchants, setMerchants, customers, setCustomers, setActiveTab }) {
-  const [importType, setImportType] = useState('text');
-  const [rawInput, setRawInput] = useState(
-    `اوردر من فتح الله فرع لوران، خد كرتونه باسم ياسر ووديها لمراته نادين في جليم، العنوان 19 شارع ابو قير العماره 4 الدور الثالث الشقه 6، رقمها 01088776655، الكرتونه فيها مقاضي وحاجات للبيت وقيمتها 580 جنية والدليفري 50 جنية. هندفع كاش. بس معلش متخدش العنوان ده، انا كنت باعتلك عنوان قديم، العنوان الصح 31 شارع ابو قير العماره 7 الدور الرابع الشقه 9. وكمان الرقم اللي بعتهولك بتاع نادين مش شغال، الرقم الجديد 01199887766. المهم كلمها قبل ما تطلع، ولو مش موجودة متقلقش، الاوردر عند البواب رجعه لفتح الله.`
-  );
-
-  const [formData, setFormData] = useState({
-    customerName: 'نادين',
-    customerPhone: '01199887766',
-    customerAddress: '31 شارع ابو قير العماره 7 الدور الرابع الشقه 9',
-    merchantName: 'فتح الله فرع لوران',
-    merchantPhone: '01200000000',
-    merchantAddress: 'فرع لوران الرئيسي',
-    items: 'كرتونه فيها مقاضي وحاجات للبيت وازازتين صوص',
-    orderValue: 580,
-    deliveryFee: 50,
-    myRatio: 20,
-    paymentMethod: 'cash',
-    driverId: drivers[0]?.id || '',
-    notes: 'المهم كلمها قبل ما تطلع، ولو مش موجودة الأوردر عند البواب أو يرجع للتاجر.'
-  });
-
-  // AI Extraction Simulator - Accurate Parsing & Logic Fixes
-  const handleAiExtract = () => {
-    setFormData({
-      customerName: 'نادين',
-      customerPhone: '01199887766',
-      customerAddress: '31 شارع ابو قير العماره 7 الدور الرابع الشقه 9',
-      merchantName: 'فتح الله فرع لوران',
-      merchantPhone: '01200000000',
-      merchantAddress: 'فرع لوران الرئيسي',
-      items: 'كرتونه مقاضي ومستلزمات منزلية',
-      orderValue: 580,
-      deliveryFee: 50,
-      myRatio: 20,
-      paymentMethod: 'cash',
-      driverId: drivers[0]?.id || '',
-      notes: 'تم تحديث العنوان ورقم الهاتف التابع للعميل بناءً على النص الصحيح الأخير.'
-    });
+  const logActivity = (action, details) => {
+    const newLog = { id: Date.now(), timestamp: new Date().toLocaleString(), action, details };
+    setActivityLogs(prev => [newLog, ...prev]);
   };
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      alert(`تم رفع الملف (${file.name}) بنجاح وجاري استخراج البيانات...`);
-      handleAiExtract();
+  // AI Order Parsing Logic
+  const handleParseOrder = async () => {
+    if (!apiKey) return alert('الرجاء إدخال مفتاح API في الإعدادات');
+    if (!rawText.trim()) return alert('الرجاء إدخال نص الطلب');
+
+    setIsProcessing(true);
+    try {
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: `Extract order JSON: { "customer": {"name": "", "phone": "", "address": ""}, "merchant": {"name": "", "phone": ""}, "items": "", "total": 0, "deliveryFee": 0 }`
+            },
+            { role: "user", content: rawText }
+          ],
+          response_format: { type: "json_object" }
+        })
+      });
+
+      const data = await response.json();
+      const parsed = JSON.parse(data.choices[0].message.content);
+      
+      checkDuplicatesAndSave(parsed);
+    } catch (err) {
+      alert('حدث خطأ أثناء معالجة الطلب: ' + err.message);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
-  // Financial Calculations
-  const val = Number(formData.orderValue) || 0;
-  const fee = Number(formData.deliveryFee) || 0;
-  const ratio = Number(formData.myRatio) || 0;
-  
-  const companyRevenue = (fee * ratio) / 100;
-  const driverShare = fee - companyRevenue;
-  const totalCustomerPays = val + fee;
+  // Duplicate Check logic for Customers and Merchants
+  const checkDuplicatesAndSave = (parsed) => {
+    const existingCust = customers.find(c => c.phone && c.phone === parsed.customer?.phone);
+    const existingMerch = merchants.find(m => m.phone && m.phone === parsed.merchant?.phone);
 
-  const handleSaveOrder = (e) => {
-    e.preventDefault();
-    const newOrd = {
-      id: `ORD-${Math.floor(100 + Math.random() * 900)}`,
-      ...formData,
-      status: 'pending',
-      statusComment: '',
-      date: new Date().toISOString().split('T')[0]
+    if (existingCust || existingMerch) {
+      setPendingParsedData({ parsed, existingCust, existingMerch });
+      setModalType('duplicateCheck');
+    } else {
+      finalizeOrderCreation(parsed, false, false);
+    }
+  };
+
+  const finalizeOrderCreation = (parsed, updateCustomer = false, updateMerchant = false) => {
+    let custId = pendingParsedData?.existingCust?.id;
+    let merchId = pendingParsedData?.existingMerch?.id;
+
+    // Save/Update Customer
+    if (!custId) {
+      custId = 'c_' + Date.now();
+      const newCust = { id: custId, ...parsed.customer, createdAt: new Date().toLocaleDateString() };
+      setCustomers(prev => [...prev, newCust]);
+      logActivity('عميل جديد', `إضافة العميل ${parsed.customer?.name}`);
+    } else if (updateCustomer) {
+      setCustomers(prev => prev.map(c => c.id === custId ? { ...c, ...parsed.customer } : c));
+      logActivity('تحديث عميل', `تحديث بيانات العميل ${parsed.customer?.name}`);
+    }
+
+    // Save/Update Merchant
+    if (!merchId) {
+      merchId = 'm_' + Date.now();
+      const newMerch = { id: merchId, ...parsed.merchant, createdAt: new Date().toLocaleDateString() };
+      setMerchants(prev => [...prev, newMerch]);
+      logActivity('تاجر جديد', `إضافة التاجر ${parsed.merchant?.name}`);
+    } else if (updateMerchant) {
+      setMerchants(prev => prev.map(m => m.id === merchId ? { ...m, ...parsed.merchant } : m));
+      logActivity('تحديث تاجر', `تحديث بيانات التاجر ${parsed.merchant?.name}`);
+    }
+
+    // Create Order with status 'قيد التحضير' (Preparing)
+    const newOrder = {
+      id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+      customerId: custId,
+      customerName: parsed.customer?.name || 'غير معروف',
+      customerPhone: parsed.customer?.phone || '',
+      address: parsed.customer?.address || '',
+      merchantId: merchId,
+      merchantName: parsed.merchant?.name || 'غير معروف',
+      items: parsed.items || 'طلب متنوع',
+      total: Number(parsed.total) || 0,
+      deliveryFee: Number(parsed.deliveryFee) || 0,
+      status: 'قيد التحضير',
+      driverId: null,
+      createdAt: new Date().toLocaleString()
     };
 
-    setOrders([newOrd, ...orders]);
-
-    // Directory Sync
-    if (!customers.some((c) => c.phone === formData.customerPhone)) {
-      setCustomers([
-        ...customers,
-        {
-          id: `c_${Date.now()}`,
-          name: formData.customerName,
-          phone: formData.customerPhone,
-          address: formData.customerAddress,
-          notes: ''
-        }
-      ]);
-    }
-
-    if (!merchants.some((m) => m.name === formData.merchantName)) {
-      setMerchants([
-        ...merchants,
-        {
-          id: `m_${Date.now()}`,
-          name: formData.merchantName,
-          phone: formData.merchantPhone,
-          address: formData.merchantAddress,
-          notes: ''
-        }
-      ]);
-    }
-
+    setOrders(prev => [newOrder, ...prev]);
+    logActivity('إنشاء طلب', `تم إضافة الطلب ${newOrder.id}`);
+    setRawText('');
+    setModalType(null);
+    setPendingParsedData(null);
     setActiveTab('orders');
   };
 
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-      {/* Import & AI Panel */}
-      <div className="lg:col-span-5 space-y-4">
-        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-2xl backdrop-blur-md">
-          <h2 className="text-md font-bold text-indigo-400 mb-4 flex items-center gap-2">
-            {t.extractTitle}
-          </h2>
-
-          <div className="grid grid-cols-3 gap-2 mb-4 bg-slate-950 p-1.5 rounded-2xl border border-slate-800/80">
-            <button
-              type="button"
-              onClick={() => setImportType('text')}
-              className={`py-2 text-xs font-bold rounded-xl transition-all ${
-                importType === 'text' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              💬 {t.importText}
-            </button>
-            <button
-              type="button"
-              onClick={() => setImportType('excel')}
-              className={`py-2 text-xs font-bold rounded-xl transition-all ${
-                importType === 'excel' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              📊 {t.importExcel}
-            </button>
-            <button
-              type="button"
-              onClick={() => setImportType('pdf')}
-              className={`py-2 text-xs font-bold rounded-xl transition-all ${
-                importType === 'pdf' ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              📄 {t.importPdf}
-            </button>
-          </div>
-
-          {importType === 'text' && (
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs text-slate-400">
-                <span>{t.rawInputPlaceholder}</span>
-                <button
-                  type="button"
-                  onClick={async () => {
-                    const text = await navigator.clipboard.readText();
-                    if (text) setRawInput(text);
-                  }}
-                  className="text-indigo-400 font-bold hover:underline flex items-center gap-1"
-                >
-                  {t.pasteBtn}
-                </button>
-              </div>
-              <textarea
-                rows="9"
-                value={rawInput}
-                onChange={(e) => setRawInput(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-3 text-xs leading-relaxed text-slate-200 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
-              />
-            </div>
-          )}
-
-          {(importType === 'excel' || importType === 'pdf') && (
-            <div className="border-2 border-dashed border-slate-800 hover:border-indigo-500/50 rounded-2xl p-8 text-center transition bg-slate-950/40 my-4">
-              <div className="text-4xl mb-2">{importType === 'excel' ? '📈' : '📕'}</div>
-              <p className="text-xs font-bold text-slate-300 mb-1">
-                رفع ملف {importType === 'excel' ? 'Excel / CSV' : 'PDF'}
-              </p>
-              <input
-                type="file"
-                accept={importType === 'excel' ? '.xlsx, .xls, .csv' : '.pdf'}
-                onChange={handleFileUpload}
-                className="hidden"
-                id="file-upload-input"
-              />
-              <label
-                htmlFor="file-upload-input"
-                className="mt-3 cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-4 py-2 rounded-xl border border-slate-700 inline-block font-bold transition"
-              >
-                اختر الملف
-              </label>
-            </div>
-          )}
-
-          <button
-            type="button"
-            onClick={handleAiExtract}
-            className="w-full mt-3 bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black py-3.5 px-4 rounded-2xl shadow-xl shadow-indigo-600/20 active:scale-95 transition-all text-xs flex items-center justify-center gap-2"
-          >
-            <span>⚡</span>
-            <span>{t.extractBtn}</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Structured Editable Fields */}
-      <div className="lg:col-span-7">
-        <form onSubmit={handleSaveOrder} className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-2xl space-y-5 backdrop-blur-md">
-          <h3 className="text-md font-bold text-slate-200 border-b border-slate-800 pb-3 flex items-center gap-2">
-            <span>📝</span> {t.reviewTitle}
-          </h3>
-
-          {/* Customer & Merchant Information Boxes */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Customer Box */}
-            <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800/80 space-y-3">
-              <span className="text-xs font-bold text-pink-400 block border-b border-slate-800/80 pb-2">
-                👤 {t.customerInfo}
-              </span>
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.customerName}</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.customerName}
-                  onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.customerPhone}</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.customerPhone}
-                  onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.customerAddress}</label>
-                <textarea
-                  rows="2"
-                  value={formData.customerAddress}
-                  onChange={(e) => setFormData({ ...formData, customerAddress: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-indigo-500"
-                />
-              </div>
-            </div>
-
-            {/* Merchant Box */}
-            <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800/80 space-y-3">
-              <span className="text-xs font-bold text-emerald-400 block border-b border-slate-800/80 pb-2">
-                🏪 {t.merchantInfo}
-              </span>
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.merchantName}</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.merchantName}
-                  onChange={(e) => setFormData({ ...formData, merchantName: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.merchantPhone}</label>
-                <input
-                  type="text"
-                  value={formData.merchantPhone}
-                  onChange={(e) => setFormData({ ...formData, merchantPhone: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-indigo-500"
-                />
-              </div>
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.merchantAddress}</label>
-                <textarea
-                  rows="2"
-                  value={formData.merchantAddress}
-                  onChange={(e) => setFormData({ ...formData, merchantAddress: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-indigo-500"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Items Description */}
-          <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-            <label className="text-xs font-bold text-slate-300 block">{t.itemsDescription}</label>
-            <input
-              type="text"
-              value={formData.items}
-              onChange={(e) => setFormData({ ...formData, items: e.target.value })}
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs text-white outline-none focus:border-indigo-500"
-            />
-          </div>
-
-          {/* Financial Settings & Dynamic Calculations */}
-          <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-4">
-            <span className="text-xs font-bold text-amber-400 block border-b border-slate-800 pb-2">
-              {t.financials}
-            </span>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.orderValue}</label>
-                <input
-                  type="number"
-                  value={formData.orderValue}
-                  onChange={(e) => setFormData({ ...formData, orderValue: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs font-bold text-white outline-none focus:border-amber-500"
-                />
-              </div>
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.deliveryFee}</label>
-                <input
-                  type="number"
-                  value={formData.deliveryFee}
-                  onChange={(e) => setFormData({ ...formData, deliveryFee: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs font-bold text-white outline-none focus:border-amber-500"
-                />
-              </div>
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.myRatio}</label>
-                <input
-                  type="number"
-                  value={formData.myRatio}
-                  onChange={(e) => setFormData({ ...formData, myRatio: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs font-bold text-white outline-none focus:border-amber-500"
-                />
-              </div>
-              <div>
-                <label className="text-[11px] text-slate-400 block mb-1">{t.paymentMethod}</label>
-                <select
-                  value={formData.paymentMethod}
-                  onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-xs font-bold text-white outline-none focus:border-amber-500"
-                >
-                  <option value="cash">{t.payCash}</option>
-                  <option value="instapay">{t.payInstapay}</option>
-                  <option value="vodafone">{t.payVodafone}</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Calculations Panel */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
-              <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
-                <span className="text-[10px] text-slate-400 block mb-1">{t.totalCustomerPays}</span>
-                <span className="text-sm font-black text-emerald-400">{totalCustomerPays} ج.م</span>
-              </div>
-              <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
-                <span className="text-[10px] text-slate-400 block mb-1">{t.merchantAmount}</span>
-                <span className="text-sm font-black text-slate-200">{val} ج.م</span>
-              </div>
-              <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
-                <span className="text-[10px] text-slate-400 block mb-1">{t.myRevenue}</span>
-                <span className="text-sm font-black text-indigo-400">{companyRevenue.toFixed(2)} ج.م</span>
-              </div>
-              <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800">
-                <span className="text-[10px] text-slate-400 block mb-1">{t.driverShare}</span>
-                <span className="text-sm font-black text-cyan-400">{driverShare.toFixed(2)} ج.م</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Notes Input */}
-          <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-            <label className="text-xs font-bold text-purple-400 block">{t.notesTitle}</label>
-            <textarea
-              rows="3"
-              value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              placeholder={t.notesPlaceholder}
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:border-purple-500 outline-none"
-            />
-          </div>
-
-          {/* Driver Selector */}
-          <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800">
-            <label className="text-xs font-bold text-slate-300 block mb-2">{t.driverSelect}</label>
-            <select
-              value={formData.driverId}
-              onChange={(e) => setFormData({ ...formData, driverId: e.target.value })}
-              className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 outline-none focus:border-indigo-500"
-            >
-              <option value="">{t.selectDriverPlaceholder}</option>
-              {drivers.map((d) => (
-                <option key={d.id} value={d.id}>
-                  🛵 {d.name} ({d.vehicle})
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-4 rounded-2xl shadow-xl shadow-emerald-600/20 active:scale-95 transition-all text-xs"
-          >
-            {t.saveOrder}
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-// 2. Component: Orders Management & Status Tracking
-function OrdersManager({ t, orders, setOrders, drivers }) {
-  const [filter, setFilter] = useState('all');
-
-  const filteredOrders = orders.filter((o) => {
-    if (filter === 'all') return true;
-    return o.status === filter;
-  });
-
-  const updateOrderStatus = (orderId, newStatus) => {
-    setOrders(
-      orders.map((ord) => {
-        if (ord.id === orderId) {
-          return { ...ord, status: newStatus };
-        }
-        return ord;
-      })
-    );
+  const handleStatusChange = (orderId, newStatus) => {
+    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+    logActivity('تحديث حالة', `تغيير حالة الطلب ${orderId} إلى ${newStatus}`);
   };
 
-  const updateOrderComment = (orderId, comment) => {
-    setOrders(
-      orders.map((ord) => {
-        if (ord.id === orderId) {
-          return { ...ord, statusComment: comment };
-        }
-        return ord;
-      })
-    );
+  // Database Full Editing Helpers
+  const handleSaveEdit = (type) => {
+    if (type === 'customer') {
+      setCustomers(prev => prev.map(c => c.id === editForm.id ? editForm : c));
+      logActivity('تعديل قاعدة بيانات', `تعديل بيانات العميل ${editForm.name}`);
+    } else if (type === 'merchant') {
+      setMerchants(prev => prev.map(m => m.id === editForm.id ? editForm : m));
+      logActivity('تعديل قاعدة بيانات', `تعديل بيانات التاجر ${editForm.name}`);
+    } else if (type === 'driver') {
+      setDrivers(prev => prev.map(d => d.id === editForm.id ? editForm : d));
+      logActivity('تعديل قاعدة بيانات', `تعديل بيانات الطيار ${editForm.name}`);
+    }
+    setModalType(null);
+    setEditForm({});
   };
 
-  return (
-    <div className="space-y-4">
-      {/* Filter Tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-2 border-b border-slate-800/80">
-        {[
-          { id: 'all', label: 'الكل' },
-          { id: 'pending', label: t.statusPending },
-          { id: 'delivered', label: t.statusDelivered },
-          { id: 'damaged', label: t.statusDamaged },
-          { id: 'returned', label: t.statusReturned },
-        ].map((f) => (
-          <button
-            key={f.id}
-            onClick={() => setFilter(f.id)}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-              filter === f.id ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-900 text-slate-400 hover:text-white border border-slate-800'
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Grid of Orders */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filteredOrders.map((ord) => {
-          const driver = drivers.find((d) => d.id === ord.driverId);
-          return (
-            <div key={ord.id} className="bg-slate-900 border border-slate-800/90 rounded-3xl p-5 space-y-4 shadow-xl hover:border-slate-700 transition-all">
-              <div className="flex justify-between items-start border-b border-slate-800 pb-3">
-                <div>
-                  <span className="text-[11px] font-mono font-bold text-indigo-400 bg-indigo-950/60 px-2 py-0.5 rounded border border-indigo-800">{ord.id}</span>
-                  <h4 className="font-bold text-sm text-slate-100 mt-1">{ord.customerName}</h4>
-                  <p className="text-xs text-slate-400">{ord.customerPhone} | {ord.customerAddress}</p>
-                </div>
-                <select
-                  value={ord.status}
-                  onChange={(e) => updateOrderStatus(ord.id, e.target.value)}
-                  className={`text-xs px-3 py-1.5 rounded-xl font-bold outline-none cursor-pointer border ${
-                    ord.status === 'delivered'
-                      ? 'bg-emerald-950 text-emerald-400 border-emerald-800'
-                      : ord.status === 'damaged'
-                      ? 'bg-rose-950 text-rose-400 border-rose-800'
-                      : ord.status === 'returned'
-                      ? 'bg-amber-950 text-amber-400 border-amber-800'
-                      : 'bg-slate-800 text-slate-200 border-slate-700'
-                  }`}
-                >
-                  <option value="pending">{t.statusPending}</option>
-                  <option value="delivered">{t.statusDelivered}</option>
-                  <option value="damaged">{t.statusDamaged}</option>
-                  <option value="returned">{t.statusReturned}</option>
-                </select>
-              </div>
-
-              <div className="text-xs space-y-1.5 text-slate-300">
-                <p><strong className="text-slate-500">المتجر:</strong> {ord.merchantName}</p>
-                <p><strong className="text-slate-500">المحتويات:</strong> {ord.items}</p>
-                <p><strong className="text-slate-500">الطيار:</strong> {driver ? `${driver.name} (${driver.vehicle})` : 'غير محدد'}</p>
-                <p><strong className="text-slate-500">الملاحظات:</strong> {ord.notes || 'لا يوجد'}</p>
-              </div>
-
-              {/* Special Status Notes */}
-              {(ord.status === 'damaged' || ord.status === 'returned') && (
-                <div className="bg-slate-950 p-3 rounded-2xl border border-rose-900/50 space-y-1">
-                  <label className="text-[10px] font-bold text-rose-400 block">{t.statusComment}</label>
-                  <input
-                    type="text"
-                    value={ord.statusComment || ''}
-                    onChange={(e) => updateOrderComment(ord.id, e.target.value)}
-                    placeholder="سبب التلف أو المرتجع..."
-                    className="w-full bg-slate-900 border border-slate-800 rounded-xl p-2 text-xs text-slate-200 outline-none focus:border-rose-500"
-                  />
-                </div>
-              )}
-
-              {/* Bottom Financial Details */}
-              <div className="flex justify-between items-center text-xs bg-slate-950 p-3 rounded-2xl border border-slate-800/80">
-                <div>
-                  <span className="text-slate-400 block text-[10px]">إجمالي التكلفة</span>
-                  <strong className="text-emerald-400 text-xs">{Number(ord.orderValue) + Number(ord.deliveryFee)} ج.م</strong>
-                </div>
-                <button
-                  onClick={() => setOrders(orders.filter((o) => o.id !== ord.id))}
-                  className="text-rose-400 hover:text-rose-300 text-xs font-bold bg-rose-950/40 px-2.5 py-1 rounded-lg border border-rose-900/50"
-                >
-                  {t.delete}
-                </button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-// 3. Component: Directory Management (Merchants & Customers Directory with Delete & Add)
-function EntityDirectory({ t, type, items, setItems, orders }) {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [notes, setNotes] = useState('');
-
-  const isMerchant = type === 'merchant';
-
-  const handleAdd = (e) => {
-    e.preventDefault();
-    if (!name) return;
-    const newItem = { id: `ent_${Date.now()}`, name, phone, address, notes };
-    setItems([...items, newItem]);
-    setName('');
-    setPhone('');
-    setAddress('');
-    setNotes('');
-  };
-
-  const handleDelete = (id) => {
-    if (confirm('هل أنت متاكد من حذف هذا السجل نهائياً؟')) {
-      setItems(items.filter((item) => item.id !== id));
+  const handleDeleteEntity = (type, id, name) => {
+    if (!window.confirm(`هل أنت متأكد من حذف ${name} نهائياً؟`)) return;
+    if (type === 'customer') {
+      setCustomers(prev => prev.filter(c => c.id !== id));
+      logActivity('حذف سجل', `حذف العميل ${name}`);
+    } else if (type === 'merchant') {
+      setMerchants(prev => prev.filter(m => m.id !== id));
+      logActivity('حذف سجل', `حذف التاجر ${name}`);
+    } else if (type === 'driver') {
+      setDrivers(prev => prev.filter(d => d.id !== id));
+      logActivity('حذف سجل', `حذف الطيار ${name}`);
+    } else if (type === 'order') {
+      setOrders(prev => prev.filter(o => o.id !== id));
+      logActivity('حذف سجل', `حذف الطلب ${id}`);
     }
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-      <div className="md:col-span-4 bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
-        <h3 className="font-bold text-sm text-slate-200 border-b border-slate-800 pb-2">
-          {isMerchant ? t.addMerchant : t.addCustomer}
-        </h3>
-        <form onSubmit={handleAdd} className="space-y-3">
-          <input
-            type="text"
-            required
-            placeholder={isMerchant ? 'اسم المتجر' : 'اسم العميل'}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-xs text-white outline-none focus:border-indigo-500"
-          />
-          <input
-            type="text"
-            placeholder="رقم الهاتف"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-xs text-white outline-none focus:border-indigo-500"
-          />
-          <textarea
-            placeholder="العنوان التفصيلي"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-xs text-white outline-none focus:border-indigo-500"
-          />
-          <textarea
-            placeholder="ملاحظات هامة"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-xs text-white outline-none focus:border-indigo-500"
-          />
-          <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl text-xs font-black text-white transition shadow-lg shadow-indigo-600/20">
-            حفظ البيانات
-          </button>
-        </form>
-      </div>
+    <div className={`min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans ${lang === 'ar' ? 'rtl' : 'ltr'}`} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+      
+      {/* HEADER */}
+      <header className="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-40 shadow-lg">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-3 rtl:space-x-reverse">
+            <div className="p-2.5 bg-indigo-600 rounded-xl shadow-md"><Package className="h-6 w-6 text-white" /></div>
+            <div>
+              <h1 className="text-xl font-bold tracking-tight">{t.appTitle}</h1>
+              <p className="text-xs text-slate-400">{t.appSubtitle}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center space-x-3 rtl:space-x-reverse">
+            <span className={`text-xs px-3 py-1.5 rounded-full border font-medium ${apiKey ? 'bg-emerald-950/50 text-emerald-400 border-emerald-800' : 'bg-rose-950/50 text-rose-400 border-rose-800'}`}>
+              {apiKey ? t.groqConnected : t.groqMissing}
+            </span>
+            <button 
+              onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
+              className="text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 font-medium transition-colors"
+            >
+              {lang === 'ar' ? 'English' : 'عربي'}
+            </button>
+          </div>
+        </div>
+      </header>
 
-      <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {items.map((item) => {
-          const itemCount = orders.filter((o) =>
-            isMerchant ? o.merchantName === item.name : o.customerName === item.name
-          ).length;
+      {/* NAVIGATION TABS */}
+      <nav className="bg-slate-900/80 border-b border-slate-800 overflow-x-auto sticky top-[73px] z-30 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto flex space-x-1 rtl:space-x-reverse p-2">
+          {[
+            { id: 'newOrder', label: t.navNewOrder, icon: Plus },
+            { id: 'orders', label: t.navOrders, icon: ShoppingBag },
+            { id: 'customers', label: t.navCustomers, icon: Users },
+            { id: 'merchants', label: t.navMerchants, icon: BookOpen },
+            { id: 'drivers', label: t.navDrivers, icon: Truck },
+            { id: 'driverLedger', label: t.navDriverLedger, icon: BookOpen },
+            { id: 'history', label: t.navHistory, icon: History },
+            { id: 'analytics', label: t.navAnalytics, icon: BarChart2 },
+            { id: 'settings', label: t.navSettings, icon: Settings },
+          ].map(tab => {
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center space-x-2 rtl:space-x-reverse px-4 py-2.5 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
+                  activeTab === tab.id ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' : 'text-slate-400 hover:bg-slate-800 hover:text-slate-200'
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
 
-          return (
-            <div key={item.id} className="bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-2 shadow-xl relative group">
-              <div className="flex justify-between items-start">
-                <h4 className="font-bold text-sm text-indigo-300">{item.name}</h4>
-                <button
-                  onClick={() => handleDelete(item.id)}
-                  className="text-[11px] bg-rose-950/80 text-rose-400 hover:bg-rose-900 px-2.5 py-1 rounded-xl border border-rose-800 transition font-bold"
-                >
-                  {t.delete}
-                </button>
+      {/* MAIN CONTENT AREA */}
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+
+        {/* TAB 1: NEW ORDER */}
+        {activeTab === 'newOrder' && (
+          <div className="max-w-3xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+            <h2 className="text-lg font-bold mb-4 flex items-center gap-2 text-indigo-400">
+              <Plus /> إدخال طلب جديد عبر الذكاء الاصطناعي
+            </h2>
+            <textarea
+              value={rawText}
+              onChange={(e) => setRawText(e.target.value)}
+              placeholder="ألصق نص الطلب أو تفاصيل المحادثة هنا (العميل، العنوان، التاجر، الأصناف، المبلغ)..."
+              className="w-full h-44 bg-slate-950 border border-slate-800 rounded-xl p-4 text-slate-200 focus:outline-none focus:border-indigo-500 mb-4 font-sans leading-relaxed"
+            />
+            <button
+              onClick={handleParseOrder}
+              disabled={isProcessing}
+              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3.5 rounded-xl flex justify-center items-center gap-2 transition-all shadow-lg shadow-indigo-600/20 disabled:opacity-50"
+            >
+              {isProcessing ? <RefreshCw className="animate-spin h-5 w-5" /> : 'معالجة النص بالذكاء الاصطناعي وحفظ البيانات'}
+            </button>
+          </div>
+        )}
+
+        {/* TAB 2: ORDERS MANAGEMENT */}
+        {activeTab === 'orders' && (
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold">إدارة الطلبات النشطة ({orders.length})</h2>
+              <input 
+                type="text" 
+                placeholder="بحث في الطلبات..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-indigo-500 w-64"
+              />
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {orders.filter(o => o.id.includes(searchQuery) || o.customerName.includes(searchQuery) || o.merchantName.includes(searchQuery)).map(order => (
+                <div key={order.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between space-y-4 shadow-md hover:border-slate-700 transition-all">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <span className="text-xs text-indigo-400 font-mono font-bold">{order.id}</span>
+                      <h3 className="font-bold text-lg mt-0.5">{order.customerName}</h3>
+                      <p className="text-xs text-slate-400">{order.address}</p>
+                    </div>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      className="bg-slate-950 text-xs border border-slate-800 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-indigo-500 font-medium text-slate-200"
+                    >
+                      <option value="قيد التحضير">{t.statusPreparing}</option>
+                      <option value="معلق">{t.statusPending}</option>
+                      <option value="جاري التوصيل">{t.statusOutForDelivery}</option>
+                      <option value="تم التسليم">{t.statusDelivered}</option>
+                      <option value="ملغي">{t.statusCancelled}</option>
+                    </select>
+                  </div>
+                  <div className="border-t border-slate-800/80 pt-3 text-sm text-slate-300 space-y-1">
+                    <p><span className="text-slate-500">الأصناف:</span> {order.items}</p>
+                    <p><span className="text-slate-500">التاجر:</span> {order.merchantName}</p>
+                    <div className="flex justify-between items-center pt-2">
+                      <span className="text-emerald-400 font-bold font-mono">{order.total} ج.م</span>
+                      <span className="text-xs text-slate-500">{order.createdAt}</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-2 pt-1">
+                    <button
+                      onClick={() => { setSelectedItem(order); setModalType('order'); }}
+                      className="flex-1 text-xs bg-slate-800 hover:bg-slate-700 py-2.5 rounded-xl text-slate-300 transition-colors flex items-center justify-center gap-1 font-medium"
+                    >
+                      <Eye className="h-3.5 w-3.5" /> التفاصيل الكاملة
+                    </button>
+                    <button
+                      onClick={() => handleDeleteEntity('order', order.id, order.id)}
+                      className="p-2.5 bg-rose-950/40 hover:bg-rose-900/50 text-rose-400 rounded-xl border border-rose-900/50 transition-colors"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 3: CUSTOMERS */}
+        {activeTab === 'customers' && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">سجل العملاء وقاعدة البيانات ({customers.length})</h2>
+            <div className="grid gap-4 md:grid-cols-3">
+              {customers.map(cust => {
+                const custOrders = orders.filter(o => o.customerId === cust.id || o.customerPhone === cust.phone);
+                return (
+                  <div key={cust.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3 shadow-md">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-bold text-md">{cust.name}</h3>
+                        <p className="text-xs text-slate-400 font-mono mt-0.5">{cust.phone}</p>
+                      </div>
+                      <div className="flex gap-1">
+                        <button 
+                          onClick={() => { setEditForm(cust); setModalType('editCustomer'); }}
+                          className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg"
+                        >
+                          <Edit3 className="h-3.5 w-3.5" />
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteEntity('customer', cust.id, cust.name)}
+                          className="p-1.5 bg-rose-950/40 hover:bg-rose-900/50 text-rose-400 rounded-lg"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-400 truncate">{cust.address || 'لا يوجد عنوان مسجل'}</p>
+                    <div className="pt-3 flex justify-between items-center text-xs text-indigo-400 border-t border-slate-800 font-medium">
+                      <span>إجمالي الطلبات: {custOrders.length}</span>
+                      <button 
+                        onClick={() => { setSelectedItem({ ...cust, orders: custOrders }); setModalType('customer'); }}
+                        className="underline hover:text-indigo-300"
+                      >
+                        عرض السجل الكامل
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: MERCHANTS */}
+        {activeTab === 'merchants' && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">سجل التجار وقاعدة البيانات ({merchants.length})</h2>
+            <div className="grid gap-4 md:grid-cols-3">
+              {merchants.map(merch => {
+                const merchOrders = orders.filter(o => o.merchantId === merch.id || o.merchantName === merch.name);
+                return (
+                  <div key={merch.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3 shadow-md">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-bold text-md">{merch.name}</h3>
+                        <p className="text-xs text-slate-400 font-mono mt-0.5">{merch.phone || 'بدون هاتف'}</p>
+                      </div>
+                      <div className="flex gap-1">
+                        <button 
+                          onClick={() => { setEditForm(merch); setModalType('editMerchant'); }}
+                          className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg"
+                        >
+                          <Edit3 className="h-3.5 w-3.5" />
+                        </button>
+                        <button 
+                          onClick={() => handleDeleteEntity('merchant', merch.id, merch.name)}
+                          className="p-1.5 bg-rose-950/40 hover:bg-rose-900/50 text-rose-400 rounded-lg"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    <div className="pt-3 flex justify-between items-center text-xs text-indigo-400 border-t border-slate-800 font-medium">
+                      <span>الطلبات المعالجة: {merchOrders.length}</span>
+                      <button 
+                        onClick={() => { setSelectedItem({ ...merch, orders: merchOrders }); setModalType('merchant'); }}
+                        className="underline hover:text-indigo-300"
+                      >
+                        عرض التفاصيل الكاملة
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 5: DRIVERS */}
+        {activeTab === 'drivers' && (
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold">إدارة الطيارين ({drivers.length})</h2>
+              <button 
+                onClick={() => {
+                  const name = prompt('اسم الطيار الجديد:');
+                  const phone = prompt('رقم الهاتف:');
+                  if (name) {
+                    const newDriver = { id: 'd_' + Date.now(), name, phone: phone || '', balance: 0 };
+                    setDrivers(prev => [...prev, newDriver]);
+                    logActivity('إضافة طيار', `تم إضافة الطيار ${name}`);
+                  }
+                }}
+                className="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium px-4 py-2 rounded-xl transition-colors shadow-md"
+              >
+                + إضافة طيار جديد
+              </button>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {drivers.map(driver => (
+                <div key={driver.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex justify-between items-center shadow-md">
+                  <div>
+                    <h3 className="font-bold text-lg">{driver.name}</h3>
+                    <p className="text-xs text-slate-400 font-mono mt-0.5">{driver.phone}</p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <span className="text-xs text-slate-400">الرصيد الجاري</span>
+                      <p className={`font-mono font-bold text-lg ${driver.balance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        {driver.balance} ج.م
+                      </p>
+                    </div>
+                    <button 
+                      onClick={() => handleDeleteEntity('driver', driver.id, driver.name)}
+                      className="p-2 bg-rose-950/40 text-rose-400 rounded-xl hover:bg-rose-900/50"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 6: DRIVER LEDGER */}
+        {activeTab === 'driverLedger' && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-bold">دفتر حسابات الطيارين والتحليلات المالية</h2>
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+              <table className="w-full text-sm text-right">
+                <thead className="text-xs text-slate-500 border-b border-slate-800 pb-3">
+                  <tr>
+                    <th className="py-3">اسم الطيار</th>
+                    <th className="py-3">رقم الهاتف</th>
+                    <th className="py-3">الرصيد المالي الحالي</th>
+                    <th className="py-3">خيارات وتسوية الحساب</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-800/80">
+                  {drivers.map(d => (
+                    <tr key={d.id}>
+                      <td className="py-4 font-bold">{d.name}</td>
+                      <td className="py-4 font-mono text-slate-400">{d.phone}</td>
+                      <td className={`py-4 font-mono font-bold ${d.balance >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>{d.balance} ج.م</td>
+                      <td className="py-4 flex gap-2">
+                        <button 
+                          onClick={() => {
+                            const amount = Number(prompt('أدخل المبلغ لتعديل الرصيد (موجب للإضافة أو سالب للخصم):', '0'));
+                            if (!isNaN(amount) && amount !== 0) {
+                              setDrivers(prev => prev.map(drv => drv.id === d.id ? { ...drv, balance: drv.balance + amount } : drv));
+                              logActivity('تسوية حساب طيار', `تعديل رصيد الطيار ${d.name} بمقدار ${amount}`);
+                            }
+                          }}
+                          className="text-xs bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg font-medium shadow-sm transition-colors"
+                        >
+                          تسوية / تعديل الرصيد
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 7: ACTIVITY HISTORY */}
+        {activeTab === 'history' && (
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-xl font-bold">سجل النشاطات والأحداث الكامل</h2>
+              <button 
+                onClick={() => { setActivityLogs([]); localStorage.removeItem('app_logs'); }}
+                className="text-xs text-rose-400 bg-rose-950/40 border border-rose-900/50 px-3 py-1.5 rounded-xl hover:bg-rose-900/50"
+              >
+                مسح السجل
+              </button>
+            </div>
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+              {activityLogs.length === 0 ? (
+                <p className="text-slate-500 text-sm">لا توجد سجلات نشاط مسجلة حتى الآن.</p>
+              ) : (
+                <ul className="divide-y divide-slate-800/80">
+                  {activityLogs.map(log => (
+                    <li key={log.id} className="py-3 flex justify-between items-center text-sm">
+                      <div>
+                        <span className="font-bold text-indigo-400 ml-2">{log.action}:</span>
+                        <span className="text-slate-300">{log.details}</span>
+                      </div>
+                      <span className="text-xs text-slate-500 font-mono">{log.timestamp}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 8: ANALYTICS & REPORTS */}
+        {activeTab === 'analytics' && (
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold">التقارير التحليلية واللوجستية</h2>
+            <div className="grid gap-4 md:grid-cols-4">
+              <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-md">
+                <p className="text-xs text-slate-400">إجمالي الطلبات المسجلة</p>
+                <p className="text-3xl font-bold mt-1.5 font-mono">{orders.length}</p>
               </div>
-              <p className="text-xs text-slate-300">📞 {item.phone || 'بدون هاتف'}</p>
-              <p className="text-xs text-slate-400">📍 {item.address || 'بدون عنوان'}</p>
-              {item.notes && <p className="text-xs text-purple-300 bg-slate-950 p-2.5 rounded-xl">📝 {item.notes}</p>}
-              <div className="text-[11px] text-slate-500 pt-3 border-t border-slate-800/80 flex justify-between">
-                <span>إجمالي الطلبات المرتبطة: <strong className="text-slate-300">{itemCount}</strong></span>
+              <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-md">
+                <p className="text-xs text-slate-400">إجمالي المبيعات الكلية</p>
+                <p className="text-3xl font-bold text-emerald-400 mt-1.5 font-mono">
+                  {orders.reduce((acc, o) => acc + (Number(o.total) || 0), 0)} ج.م
+                </p>
+              </div>
+              <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-md">
+                <p className="text-xs text-slate-400">إجمالي رسوم التوصيل</p>
+                <p className="text-3xl font-bold text-indigo-400 mt-1.5 font-mono">
+                  {orders.reduce((acc, o) => acc + (Number(o.deliveryFee) || 0), 0)} ج.م
+                </p>
+              </div>
+              <div className="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-md">
+                <p className="text-xs text-slate-400">العملاء والتجار المسجلين</p>
+                <p className="text-3xl font-bold text-amber-400 mt-1.5 font-mono">{customers.length + merchants.length}</p>
               </div>
             </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+          </div>
+        )}
 
-// 4. Component: Drivers & Detailed Ledger Analytics
-function DriverLedger({ t, drivers, setDrivers, orders }) {
-  const [selectedDriver, setSelectedDriver] = useState(drivers[0]?.id || '');
-  
-  // Driver Addition States
-  const [newName, setNewName] = useState('');
-  const [newPhone, setNewPhone] = useState('');
-  const [newVehicle, setNewVehicle] = useState('');
-
-  const handleAddDriver = (e) => {
-    e.preventDefault();
-    if (!newName) return;
-    const newD = { id: `d_${Date.now()}`, name: newName, phone: newPhone, vehicle: newVehicle || 'سكوتر', status: 'نشط' };
-    setDrivers([...drivers, newD]);
-    setSelectedDriver(newD.id);
-    setNewName('');
-    setNewPhone('');
-    setNewVehicle('');
-  };
-
-  const driverOrders = orders.filter((o) => o.driverId === selectedDriver);
-
-  const totalDelivered = driverOrders.filter((o) => o.status === 'delivered').length;
-  const totalDamaged = driverOrders.filter((o) => o.status === 'damaged').length;
-  const totalReturned = driverOrders.filter((o) => o.status === 'returned').length;
-
-  const totalDriverEarnings = driverOrders
-    .filter((o) => o.status === 'delivered')
-    .reduce((acc, o) => {
-      const fee = Number(o.deliveryFee) || 0;
-      const ratio = Number(o.myRatio) || 20;
-      const driverPercent = 100 - ratio;
-      return acc + (fee * driverPercent) / 100;
-    }, 0);
-
-  const totalCollectedCash = driverOrders
-    .filter((o) => o.status === 'delivered')
-    .reduce((acc, o) => acc + Number(o.orderValue) + Number(o.deliveryFee), 0);
-
-  return (
-    <div className="space-y-6">
-      {/* Header & Controls */}
-      <div className="bg-slate-900 border border-slate-800 p-5 rounded-3xl flex flex-wrap justify-between items-center gap-4 shadow-xl">
-        <div>
-          <h3 className="font-bold text-md text-slate-100">{t.driverLedgerTitle}</h3>
-          <p className="text-xs text-slate-400">سجل عمليات ومستحقات الطيارين التفصيلي</p>
-        </div>
-        <select
-          value={selectedDriver}
-          onChange={(e) => setSelectedDriver(e.target.value)}
-          className="bg-slate-950 border border-slate-800 text-xs text-white p-3 rounded-2xl outline-none focus:border-indigo-500 font-bold"
-        >
-          {drivers.map((d) => (
-            <option key={d.id} value={d.id}>
-              🛵 {d.name} ({d.vehicle})
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Analytics Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-slate-900 border border-slate-800 p-5 rounded-3xl shadow-xl">
-          <span className="text-xs text-slate-400 block mb-1">الطلبات الناجحة</span>
-          <span className="text-2xl font-black text-emerald-400">{totalDelivered}</span>
-        </div>
-        <div className="bg-slate-900 border border-slate-800 p-5 rounded-3xl shadow-xl">
-          <span className="text-xs text-slate-400 block mb-1">صافي أرباح الطيار</span>
-          <span className="text-2xl font-black text-cyan-400">{totalDriverEarnings.toFixed(2)} ج.م</span>
-        </div>
-        <div className="bg-slate-900 border border-slate-800 p-5 rounded-3xl shadow-xl">
-          <span className="text-xs text-slate-400 block mb-1">كاش بحوزة الطيار</span>
-          <span className="text-2xl font-black text-amber-400">{totalCollectedCash.toFixed(2)} ج.م</span>
-        </div>
-        <div className="bg-slate-900 border border-slate-800 p-5 rounded-3xl shadow-xl">
-          <span className="text-xs text-slate-400 block mb-1">تالف / مرتجع</span>
-          <span className="text-2xl font-black text-rose-400">{totalDamaged + totalReturned}</span>
-        </div>
-      </div>
-
-      {/* Registration & Ledger Detail Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* New Driver Form */}
-        <div className="lg:col-span-4 bg-slate-900 border border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
-          <h4 className="font-bold text-xs text-slate-200 border-b border-slate-800 pb-2">{t.addDriver}</h4>
-          <form onSubmit={handleAddDriver} className="space-y-3">
-            <input
-              type="text"
-              required
-              placeholder={t.driverName}
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-xs text-white outline-none focus:border-indigo-500"
-            />
-            <input
-              type="text"
-              placeholder={t.driverPhone}
-              value={newPhone}
-              onChange={(e) => setNewPhone(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-xs text-white outline-none focus:border-indigo-500"
-            />
-            <input
-              type="text"
-              placeholder={t.driverVehicle}
-              value={newVehicle}
-              onChange={(e) => setNewVehicle(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 p-2.5 rounded-xl text-xs text-white outline-none focus:border-indigo-500"
-            />
-            <button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-500 py-3 rounded-xl text-xs font-black text-white transition shadow-lg shadow-indigo-600/20">
-              حفظ الطيار
+        {/* TAB 9: SETTINGS */}
+        {activeTab === 'settings' && (
+          <div className="max-w-2xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-5 shadow-xl">
+            <h2 className="text-lg font-bold flex items-center gap-2 text-indigo-400">
+              <Settings /> إعدادات النظام وتكامل الذكاء الاصطناعي
+            </h2>
+            <div>
+              <label className="block text-sm text-slate-400 mb-1.5 font-medium">Groq API Key</label>
+              <input
+                type="password"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                placeholder="gsk_..."
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-200 focus:outline-none focus:border-indigo-500 font-mono"
+              />
+            </div>
+            <button
+              onClick={() => alert('تم حفظ الإعدادات بنجاح')}
+              className="bg-indigo-600 hover:bg-indigo-500 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition-colors shadow-lg shadow-indigo-600/20"
+            >
+              حفظ الإعدادات
             </button>
-          </form>
-        </div>
-
-        {/* Ledger Table */}
-        <div className="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
-          <div className="p-4 border-b border-slate-800 font-bold text-xs text-slate-200">
-            سجل الرحلات التفصيلي للطيار المحدد
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-right text-xs">
-              <thead className="bg-slate-950 text-slate-400 border-b border-slate-800">
-                <tr>
-                  <th className="p-3">رقم الطلب</th>
-                  <th className="p-3">العميل</th>
-                  <th className="p-3">الحالة</th>
-                  <th className="p-3">رسوم التوصيل</th>
-                  <th className="p-3">ربح الطيار</th>
-                  <th className="p-3">ملاحظات والتفاصيل</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-800/60">
-                {driverOrders.map((ord) => {
-                  const fee = Number(ord.deliveryFee) || 0;
-                  const ratio = Number(ord.myRatio) || 20;
-                  const driverEarn = (fee * (100 - ratio)) / 100;
+        )}
 
-                  return (
-                    <tr key={ord.id} className="hover:bg-slate-800/40 transition">
-                      <td className="p-3 font-mono text-indigo-400 font-bold">{ord.id}</td>
-                      <td className="p-3 font-medium">{ord.customerName}</td>
-                      <td className="p-3">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          ord.status === 'delivered' ? 'bg-emerald-950 text-emerald-400' : 'bg-rose-950 text-rose-400'
-                        }`}>
-                          {ord.status}
-                        </span>
-                      </td>
-                      <td className="p-3 font-bold">{fee} ج.م</td>
-                      <td className="p-3 text-cyan-400 font-black">{driverEarn.toFixed(2)} ج.م</td>
-                      <td className="p-3 text-slate-400">{ord.statusComment || ord.notes || '-'}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+      </main>
+
+      {/* DUPLICATE CHECK MODAL */}
+      {modalType === 'duplicateCheck' && pendingParsedData && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+            <h3 className="font-bold text-lg text-amber-400 flex items-center gap-2">
+              <AlertTriangle /> تم العثور على سجلات مطابقة مسجلاً مسبقاً
+            </h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
+              بيانات العميل أو التاجر موجودة بالفعل في النظام. هل ترغب في استبدال وتحديث السجلات القديمة بالبيانات الواردة حديثاً، أم الاحتفاظ بالقديمة وإضافة الطلب فقط؟
+            </p>
+            <div className="space-y-2.5 pt-2">
+              <button
+                onClick={() => finalizeOrderCreation(pendingParsedData.parsed, true, true)}
+                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-sm py-3 rounded-xl font-medium shadow-md"
+              >
+                تحديث البيانات القديمة بالجديدة
+              </button>
+              <button
+                onClick={() => finalizeOrderCreation(pendingParsedData.parsed, false, false)}
+                className="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm py-3 rounded-xl font-medium"
+              >
+                الاحتفاظ بالبيانات القديمة وتمرير الطلب
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {/* EDIT MODAL FOR CUSTOMERS/MERCHANTS */}
+      {(modalType === 'editCustomer' || modalType === 'editMerchant') && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+            <h3 className="font-bold text-lg text-indigo-400">تعديل بيانات {modalType === 'editCustomer' ? 'العميل' : 'التاجر'}</h3>
+            <div className="space-y-3">
+              <div>
+                <label className="text-xs text-slate-400 block mb-1">الاسم</label>
+                <input 
+                  type="text" 
+                  value={editForm.name || ''} 
+                  onChange={(e) => setEditForm({...editForm, name: e.target.value})}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-slate-400 block mb-1">رقم الهاتف</label>
+                <input 
+                  type="text" 
+                  value={editForm.phone || ''} 
+                  onChange={(e) => setEditForm({...editForm, phone: e.target.value})}
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm"
+                />
+              </div>
+              {modalType === 'editCustomer' && (
+                <div>
+                  <label className="text-xs text-slate-400 block mb-1">العنوان</label>
+                  <input 
+                    type="text" 
+                    value={editForm.address || ''} 
+                    onChange={(e) => setEditForm({...editForm, address: e.target.value})}
+                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-sm"
+                  />
+                </div>
+              )}
+            </div>
+            <div className="flex gap-2 pt-2">
+              <button 
+                onClick={() => handleSaveEdit(modalType === 'editCustomer' ? 'customer' : 'merchant')}
+                className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-xl text-sm font-medium"
+              >
+                حفظ التعديلات
+              </button>
+              <button 
+                onClick={() => setModalType(null)}
+                className="bg-slate-800 text-slate-300 px-4 py-2.5 rounded-xl text-sm"
+              >
+                إلغاء
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FULL DRILL-DOWN RECORD MODAL */}
+      {modalType && modalType !== 'duplicateCheck' && modalType !== 'editCustomer' && modalType !== 'editMerchant' && selectedItem && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 max-w-xl w-full space-y-4 relative max-h-[85vh] overflow-y-auto shadow-2xl">
+            <button 
+              onClick={() => { setModalType(null); setSelectedItem(null); }}
+              className="absolute top-4 left-4 text-slate-400 hover:text-white p-2 rounded-lg bg-slate-800/50"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {modalType === 'order' && (
+              <div className="space-y-3">
+                <h3 className="font-bold text-lg text-indigo-400">تفاصيل الطلب الكاملة: {selectedItem.id}</h3>
+                <div className="space-y-2 text-sm bg-slate-950 p-4 rounded-xl border border-slate-800">
+                  <p><span className="text-slate-500">اسم العميل:</span> <span className="font-bold text-slate-200">{selectedItem.customerName}</span> ({selectedItem.customerPhone})</p>
+                  <p><span className="text-slate-500">العنوان بالتفصيل:</span> {selectedItem.address}</p>
+                  <p><span className="text-slate-500">اسم التاجر:</span> <span className="font-bold text-slate-200">{selectedItem.merchantName}</span></p>
+                  <p><span className="text-slate-500">الأصناف المطلوبة:</span> {selectedItem.items}</p>
+                  <p><span className="text-slate-500">المبلغ الإجمالي:</span> <span className="font-mono text-emerald-400 font-bold">{selectedItem.total} ج.م</span></p>
+                  <p><span className="text-slate-500">رسوم التوصيل:</span> <span className="font-mono text-indigo-400">{selectedItem.deliveryFee} ج.م</span></p>
+                  <p><span className="text-slate-500">الحالة الحالية:</span> {selectedItem.status}</p>
+                  <p><span className="text-slate-500">تاريخ الإنشاء:</span> {selectedItem.createdAt}</p>
+                </div>
+              </div>
+            )}
+
+            {(modalType === 'customer' || modalType === 'merchant') && (
+              <div className="space-y-3">
+                <h3 className="font-bold text-lg text-indigo-400">
+                  {modalType === 'customer' ? 'السجل الكامل للعميل' : 'السجل الكامل للتاجر'}: {selectedItem.name}
+                </h3>
+                <p className="text-xs text-slate-400 font-mono">رقم الهاتف: {selectedItem.phone}</p>
+                {modalType === 'customer' && <p className="text-xs text-slate-400">العنوان: {selectedItem.address}</p>}
+                <h4 className="font-bold text-sm pt-2 border-t border-slate-800">الطلبات المرتبطة بهذه السجلات ({selectedItem.orders?.length || 0}):</h4>
+                <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                  {selectedItem.orders?.map(o => (
+                    <div key={o.id} className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs flex justify-between items-center">
+                      <div>
+                        <span className="font-mono text-indigo-400 font-bold">{o.id}</span> - {o.items}
+                      </div>
+                      <span className="font-bold font-mono text-emerald-400">{o.total} ج.م</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
