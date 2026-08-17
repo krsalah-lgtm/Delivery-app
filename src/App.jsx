@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const translations = {
   ar: {
-    appTitle: ' Anti Talabat ',
+    appTitle: 'Anti Talabat',
     appSubtitle: 'النظام الذكي لإدارة الطلبات واللوجستيات',
     groqConnected: '🟢 AI متصل',
     groqMissing: '🔴 المفتاح مفقود',
@@ -22,7 +22,7 @@ const translations = {
     kpiCompleted: 'تم التوصيل',
 
     aiHeader: '✨ استخراج بيانات الطلب بواسطة AI',
-    placeholderOrder: 'ألصق نص الطلب هنا...',
+    placeholderOrder: 'ألصق نص الطلب هنا أو رسالة واتساب...',
     btnPaste: '📋 لصق من الحافظة',
     btnExtract: '⚡ استخراج البيانات بالذكاء الاصطناعي',
     btnExtracting: 'جاري التحليل والتدقيق...',
@@ -69,6 +69,7 @@ const translations = {
 
     addDriver: 'إضافة طيار جديد',
     driverName: 'اسم الطيار...',
+    driverPhone: 'رقم هاتف الطيار...',
     btnAdd: 'إضافة',
 
     driverCash: 'إجمالي المبالغ المحصلة:',
@@ -85,9 +86,13 @@ const translations = {
     editBtn: 'تعديل',
     editNoteBtn: 'تعديل الملاحظات',
 
-    settingsTitle: 'إعدادات النظام',
-    editAmount: 'تعديل المبلغ',
-    saveAmount: 'تم الحفظ',
+    settingsTitle: 'إعدادات النظام المتقدمة',
+    defaultRevenuePercent: 'نسبة عمولة الشركة الافتراضية (%)',
+    systemCurrency: 'عملة النظام',
+    autoAssignDriver: 'التعيين التلقائي لأول طيار متاح',
+    backupRestore: 'النسخ الاحتياطي والاستعادة',
+    downloadBackup: '💾 تحميل نسخة احتياطية (JSON)',
+    restoreBackup: '📥 استعادة من نسخة احتياطية',
 
     confirmDbUpdateTitle: '⚠️ تأكيد تحديث بيانات قاعدة البيانات',
     confirmDbUpdateMsg: 'تم العثور على تفاصيل جديدة. هل تريد تحديث السجلات المخزنة أم ملء البيانات السابقة؟',
@@ -114,23 +119,6 @@ const translations = {
     noOrdersForDate: 'لا توجد طلبات مسجلة لهذه الفلاتر.',
 
     financialBreakdown: '💰 التفاصيل المالية',
-    cashCollection: 'المبلغ المحصل من العميل',
-    merchantDue: 'مستحق المتجر',
-    deliveryPool: 'رسوم التوصيل',
-    myShare: 'نصيبي',
-    driverShare: 'نصيب الطيار',
-
-    onlineNoCollection: 'تم الدفع أونلاين — الطيار لا يحصّل قيمة الطلب من العميل.',
-    cashCollectionExplanation: 'كاش — الطيار يحصّل قيمة الطلب + رسوم التوصيل.',
-    cancelledFinancial: 'هذا الطلب ملغي — جميع المبالغ الفعلية للتسليم والإيراد = 0.',
-    revenueExplanation: 'النسبة تطبق على رسوم التوصيل فقط، وليس على قيمة الطلب.',
-    orderValueNotRevenue: 'قيمة الطلب ليست إيرادًا لك؛ هي مستحقات المتجر.',
-
-    companyHandIn: 'المطلوب توريده للشركة',
-    merchantHandIn: 'المطلوب توريده للمتجر',
-
-    editDeliveryFee: 'تعديل رسوم التوصيل',
-    deliveryFeeSaved: 'تم حفظ رسوم التوصيل',
 
     cancel: 'إلغاء',
     confirm: 'تأكيد',
@@ -147,13 +135,16 @@ const translations = {
     deletedBadge: '🗑️ طلب محذوف',
     orderDetailsModal: 'تفاصيل الطلب والسجل التاريخي',
 
-    // Export/Import translations
-    exportTitle: '📤 التصدير والاستيراد',
+    exportTitle: '📤 التصدير والاستيراد وواتساب',
     btnExportExcel: '📊 تصدير Excel',
     btnExportPdf: '📄 تصدير PDF',
     btnExportTxt: '📝 تصدير النص/التاريخ',
     btnImportFile: '📥 استيراد من ملف (Excel / PDF / Text)',
-    importSuccessMsg: 'تم استيراد البيانات بنجاح!'
+    importSuccessMsg: 'تم استيراد البيانات بنجاح!',
+    whatsappModalTitle: '📱 أداة واتساب والنصوص',
+    btnOpenWhatsappModal: '💬 فتح معالج واتساب',
+    btnGenerateWaText: '📤 إنشاء نص إرسال للطيار',
+    waTextCopied: 'تم نسخ نص الواتساب بنجاح!'
   },
 
   en: {
@@ -177,7 +168,7 @@ const translations = {
     kpiCompleted: 'Completed Orders',
 
     aiHeader: '✨ AI Order Extraction',
-    placeholderOrder: 'Paste delivery text here...',
+    placeholderOrder: 'Paste delivery text or WhatsApp message here...',
     btnPaste: '📋 Paste Clipboard',
     btnExtract: '⚡ Extract Data with AI',
     btnExtracting: 'Analyzing & Checking...',
@@ -224,6 +215,7 @@ const translations = {
 
     addDriver: 'Add Driver',
     driverName: 'Driver Name...',
+    driverPhone: 'Driver Phone...',
     btnAdd: 'Add Driver',
 
     driverCash: 'Total Collected:',
@@ -240,9 +232,13 @@ const translations = {
     editBtn: 'Edit',
     editNoteBtn: 'Edit Note',
 
-    settingsTitle: 'System Settings',
-    editAmount: 'Edit Amount',
-    saveAmount: 'Save',
+    settingsTitle: 'Enterprise System Settings',
+    defaultRevenuePercent: 'Default Company Commission Rate (%)',
+    systemCurrency: 'System Currency',
+    autoAssignDriver: 'Auto-assign to first available driver',
+    backupRestore: 'Data Backup & System Restore',
+    downloadBackup: '💾 Download JSON Backup',
+    restoreBackup: '📥 Restore System JSON Backup',
 
     confirmDbUpdateTitle: '⚠️ Confirm Database Update',
     confirmDbUpdateMsg: 'New details found. Do you want to update existing records or autofill saved ones?',
@@ -269,23 +265,6 @@ const translations = {
     noOrdersForDate: 'No orders match selected filters.',
 
     financialBreakdown: '💰 Financial Breakdown',
-    cashCollection: 'Customer Collection',
-    merchantDue: 'Merchant Due',
-    deliveryPool: 'Delivery Fee',
-    myShare: 'My Share',
-    driverShare: 'Driver Share',
-
-    onlineNoCollection: 'Paid online — driver does not collect the order value from the customer.',
-    cashCollectionExplanation: 'Cash — driver collects the order value + delivery fee.',
-    cancelledFinancial: 'This order is cancelled — all effective collection and revenue = 0.',
-    revenueExplanation: 'The percentage applies only to the delivery fee, not the order value.',
-    orderValueNotRevenue: 'Order value is not your revenue; it belongs to the merchant.',
-
-    companyHandIn: 'Company Revenue Due',
-    merchantHandIn: 'Merchant Amount Due',
-
-    editDeliveryFee: 'Edit Delivery Fee',
-    deliveryFeeSaved: 'Delivery fee saved',
 
     cancel: 'Cancel',
     confirm: 'Confirm',
@@ -302,18 +281,20 @@ const translations = {
     deletedBadge: '🗑️ Deleted Order',
     orderDetailsModal: 'Order Profile & Audit Log',
 
-    // Export/Import translations
-    exportTitle: '📤 Export & Import Data',
+    exportTitle: '📤 Export, Import & WhatsApp',
     btnExportExcel: '📊 Export Excel',
     btnExportPdf: '📄 Export PDF',
     btnExportTxt: '📝 Export TXT',
     btnImportFile: '📥 Import File (Excel / PDF / Text)',
-    importSuccessMsg: 'Data imported successfully!'
+    importSuccessMsg: 'Data imported successfully!',
+    whatsappModalTitle: '📱 Plain Text / WhatsApp Parser Tool',
+    btnOpenWhatsappModal: '💬 Open WhatsApp Parser',
+    btnGenerateWaText: '📤 Generate Dispatch Message',
+    waTextCopied: 'Dispatch message copied to clipboard!'
   }
 };
 
 const REVENUE_OPTIONS = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 60, 70, 75, 80, 90, 100];
-
 const PAYMENT_CASH = 'cash';
 const PAYMENT_ONLINE = 'online';
 const PAYMENT_PREPAID = 'prepaid';
@@ -359,10 +340,7 @@ const styles = {
     boxShadow: '0 8px 25px rgba(168, 85, 247, 0.4)',
     marginBottom: '14px'
   },
-  logoIcon: {
-    fontSize: '32px',
-    color: '#FFF'
-  },
+  logoIcon: { fontSize: '32px', color: '#FFF' },
   appTitle: {
     fontSize: '1.6rem',
     margin: 0,
@@ -372,18 +350,8 @@ const styles = {
     alignItems: 'center',
     gap: '8px'
   },
-  appSubtitle: {
-    fontSize: '0.85rem',
-    color: '#C084FC',
-    margin: '6px 0 0 0',
-    fontWeight: '500'
-  },
-  kpiRow: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: '12px',
-    marginBottom: '10px'
-  },
+  appSubtitle: { fontSize: '0.85rem', color: '#C084FC', margin: '6px 0 0 0', fontWeight: '500' },
+  kpiRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '10px' },
   kpiCard: {
     padding: '16px',
     borderRadius: '18px',
@@ -396,11 +364,7 @@ const styles = {
   },
   kpiLabel: { fontSize: '0.78rem', color: '#94A3B8', fontWeight: '500' },
   kpiValue: { fontSize: '1.4rem', fontWeight: '800' },
-  navList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px'
-  },
+  navList: { display: 'flex', flexDirection: 'column', gap: '10px' },
   primaryBtn: {
     background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
     color: '#FFF',
@@ -445,15 +409,8 @@ const styles = {
     fontWeight: '700',
     boxShadow: '0 0 15px rgba(168, 85, 247, 0.2)'
   },
-  navLeftLabel: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px'
-  },
-  navIcon: {
-    fontSize: '1.2rem',
-    opacity: 0.85
-  },
+  navLeftLabel: { display: 'flex', alignItems: 'center', gap: '12px' },
+  navIcon: { fontSize: '1.2rem', opacity: 0.85 },
   countBadge: {
     background: 'rgba(255, 255, 255, 0.08)',
     border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -463,12 +420,7 @@ const styles = {
     fontWeight: '700',
     color: '#CBD5E1'
   },
-  bottomSection: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '10px',
-    marginTop: '15px'
-  },
+  bottomSection: { display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' },
   langPill: {
     background: 'rgba(15, 23, 42, 0.8)',
     border: '1px solid rgba(51, 65, 85, 0.8)',
@@ -672,7 +624,7 @@ const styles = {
   },
   monthlySummary: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
     gap: '12px',
     background: 'rgba(23, 15, 38, 0.7)',
     padding: '15px',
@@ -699,7 +651,7 @@ const styles = {
     border: '1px solid #7C3AED',
     borderRadius: '20px',
     padding: '24px',
-    maxWidth: '500px',
+    maxWidth: '520px',
     width: '100%',
     maxHeight: '90vh',
     overflowY: 'auto'
@@ -747,15 +699,27 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('new_order');
   const [searchQuery, setSearchQuery] = useState('');
 
+  /* Enterprise Settings State */
+  const [defaultRevenuePercent, setDefaultRevenuePercent] = useState(() => parseInt(localStorage.getItem('sys_default_revenue') || '20'));
+  const [systemCurrency, setSystemCurrency] = useState(() => localStorage.getItem('sys_currency') || 'EGP');
+  const [autoAssignDriverEnabled, setAutoAssignDriverEnabled] = useState(() => localStorage.getItem('sys_auto_assign') === 'true');
+
   const [orderCounter, setOrderCounter] = useState(() => parseInt(localStorage.getItem('order_counter_num') || '1001'));
   const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v5') || '[]'));
   const [deletedOrders, setDeletedOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_deleted_orders_v5') || '[]'));
   
   const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v5') || '[]'));
   const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v5') || '[]'));
-  const [drivers, setDrivers] = useState(() => JSON.parse(localStorage.getItem('delivery_drivers_v5') || '["أحمد", "محمود", "مصطفى"]'));
+  const [driverObjects, setDriverObjects] = useState(() => {
+    const saved = localStorage.getItem('delivery_driver_objs_v5');
+    if (saved) return JSON.parse(saved);
+    return [
+      { id: 'd1', name: 'أحمد', phone: '01000000001', notes: '' },
+      { id: 'd2', name: 'محمود', phone: '01100000002', notes: '' },
+      { id: 'd3', name: 'مصطفى', phone: '01200000003', notes: '' }
+    ];
+  });
   
-  const [driverNotes, setDriverNotes] = useState(() => JSON.parse(localStorage.getItem('delivery_driver_notes_v5') || '{}'));
   const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v5') || '[]'));
 
   const [rawText, setRawText] = useState('');
@@ -763,8 +727,8 @@ export default function App() {
   const [extractedOrders, setExtractedOrders] = useState([]);
 
   const [selectedDriver, setSelectedDriver] = useState('');
-  const [selectedRevenuePercent, setSelectedRevenuePercent] = useState(20);
-  const [newDriverName, setNewDriverName] = useState('');
+  const [selectedRevenuePercent, setSelectedRevenuePercent] = useState(defaultRevenuePercent);
+  const [newDriver, setNewDriver] = useState({ name: '', phone: '', notes: '' });
 
   const [ledgerDriver, setLedgerDriver] = useState('');
   const [ledgerDate, setLedgerDate] = useState(() => new Date().toISOString().split('T')[0]);
@@ -772,18 +736,18 @@ export default function App() {
   const [typoFlags, setTypoFlags] = useState([]);
   const [showTypoModal, setShowTypoModal] = useState(false);
 
+  /* Form & Modals state */
   const [merchantForm, setMerchantForm] = useState({ id: null, name: '', phone: '', address: '', notes: '' });
-  const [newCustomer, setNewCustomer] = useState({ name: '', phone: '', address: '', notes: '' });
-  const [editingCustomer, setEditingCustomer] = useState(null);
+  const [customerForm, setCustomerForm] = useState({ id: null, name: '', phone: '', address: '', notes: '' });
 
-  // Modals state for entity drill-down & matching
   const [activeEntityModal, setActiveEntityModal] = useState(null);
   const [selectedOrderForDetails, setSelectedOrderForDetails] = useState(null);
   const [matchingPromptModal, setMatchingPromptModal] = useState(null);
+  const [showWhatsappModal, setShowWhatsappModal] = useState(false);
+  const [whatsappFormattedText, setWhatsappFormattedText] = useState('');
 
   const t = translations[lang];
 
-  // Dynamically load XLSX & PDF script dependencies if not present
   useEffect(() => {
     if (!window.XLSX) {
       const scriptXlsx = document.createElement('script');
@@ -802,30 +766,25 @@ export default function App() {
 
   useEffect(() => { localStorage.setItem('app_lang', lang); }, [lang]);
   useEffect(() => { localStorage.setItem('groq_api_key', apiKey); }, [apiKey]);
+  useEffect(() => { localStorage.setItem('sys_default_revenue', defaultRevenuePercent.toString()); }, [defaultRevenuePercent]);
+  useEffect(() => { localStorage.setItem('sys_currency', systemCurrency); }, [systemCurrency]);
+  useEffect(() => { localStorage.setItem('sys_auto_assign', autoAssignDriverEnabled.toString()); }, [autoAssignDriverEnabled]);
+
   useEffect(() => { localStorage.setItem('order_counter_num', orderCounter.toString()); }, [orderCounter]);
   useEffect(() => { localStorage.setItem('delivery_orders_v5', JSON.stringify(orders)); }, [orders]);
   useEffect(() => { localStorage.setItem('delivery_deleted_orders_v5', JSON.stringify(deletedOrders)); }, [deletedOrders]);
   useEffect(() => { localStorage.setItem('delivery_merchants_v5', JSON.stringify(merchants)); }, [merchants]);
   useEffect(() => { localStorage.setItem('delivery_customers_v5', JSON.stringify(customers)); }, [customers]);
-  useEffect(() => { localStorage.setItem('delivery_drivers_v5', JSON.stringify(drivers)); }, [drivers]);
-  useEffect(() => { localStorage.setItem('delivery_driver_notes_v5', JSON.stringify(driverNotes)); }, [driverNotes]);
+  useEffect(() => { localStorage.setItem('delivery_driver_objs_v5', JSON.stringify(driverObjects)); }, [driverObjects]);
   useEffect(() => { localStorage.setItem('delivery_history_v5', JSON.stringify(historyLogs)); }, [historyLogs]);
 
-  /* Financial logic */
   const isCancelled = order => order?.status === 'ملغي';
   const getOrderValue = order => normalizeNumber(order?.cod);
   const getDeliveryFee = order => normalizeNumber(order?.deliveryFee);
   const getRevenuePercent = order => normalizeNumber(order?.revenuePercent);
 
-  const getCompanyRevenue = order => {
-    if (isCancelled(order)) return 0;
-    return getDeliveryFee(order) * (getRevenuePercent(order) / 100);
-  };
-
-  const getDriverRevenue = order => {
-    if (isCancelled(order)) return 0;
-    return getDeliveryFee(order) * (1 - getRevenuePercent(order) / 100);
-  };
+  const getCompanyRevenue = order => (isCancelled(order) ? 0 : getDeliveryFee(order) * (getRevenuePercent(order) / 100));
+  const getDriverRevenue = order => (isCancelled(order) ? 0 : getDeliveryFee(order) * (1 - getRevenuePercent(order) / 100));
 
   const getCustomerCollection = order => {
     if (isCancelled(order)) return 0;
@@ -864,7 +823,7 @@ export default function App() {
     return !keywords.some(k => lower.includes(k));
   };
 
-  /* AI Order Extraction */
+  /* AI Extraction */
   const extractOrderInfo = async () => {
     if (!apiKey.trim()) {
       alert(lang === 'ar' ? 'يرجى إدخال مفتاح Groq API في الإعدادات.' : 'Please add your Groq API key in Settings.');
@@ -882,23 +841,14 @@ export default function App() {
 
     const systemPrompt = `
 You are an expert Egyptian Arabic delivery-order parser.
-Your job is to extract one or multiple delivery orders from messy text.
+Your job is to extract one or multiple delivery orders from messy text or WhatsApp strings.
 
 STRICT RULES:
-1. FINAL AGREED ORDER VALUE: Always use final agreed order value.
-2. CANCELLATIONS: Omit cancelled items.
-3. STORE: Preserve merchant and branch names.
-4. CUSTOMER: Extract customer name.
-5. PHONE: Extract Egyptian phone numbers.
-6. ADDRESS: Preserve complete address.
-7. DELIVERY FEE: Extract explicitly stated delivery fee or 0.
-8. PAYMENT METHOD: Detect cash, online, prepaid. Default to cash.
-9. COD / ORDER VALUE: ONLY merchandise value excluding delivery fee.
-10. NOTES: Include timing or delivery instructions.
-11. MULTIPLE ORDERS: Extract each as separate JSON entry.
-12. JSON ONLY: Output strict JSON.
+1. Extract Store, Customer, Phone, Complete Address, COD (item value), Delivery Fee, Payment Method (cash/online/prepaid), Item, and Notes.
+2. Multiple orders should be separate entries in JSON.
+3. Output ONLY strict JSON.
 
-OUTPUT FORMAT:
+FORMAT:
 {
   "ambiguous_flags": [],
   "orders": [
@@ -920,16 +870,10 @@ OUTPUT FORMAT:
     try {
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey.trim()}`
-        },
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey.trim()}` },
         body: JSON.stringify({
           model: 'llama-3.3-70b-versatile',
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: rawText }
-          ],
+          messages: [{ role: 'system', content: systemPrompt }, { role: 'user', content: rawText }],
           response_format: { type: 'json_object' },
           temperature: 0.1
         })
@@ -939,8 +883,7 @@ OUTPUT FORMAT:
       if (!response.ok) throw new Error(data.error?.message || 'Extraction Failed');
 
       const parsed = JSON.parse(data.choices[0].message.content);
-
-      if (parsed.ambiguous_flags && parsed.ambiguous_flags.length > 0) {
+      if (parsed.ambiguous_flags?.length > 0) {
         setTypoFlags(parsed.ambiguous_flags);
         setShowTypoModal(true);
       }
@@ -949,17 +892,16 @@ OUTPUT FORMAT:
         ...order,
         cod: normalizeNumber(order.cod),
         deliveryFee: normalizeNumber(order.deliveryFee),
-        paymentMethod:
-          order.paymentMethod === PAYMENT_ONLINE || order.paymentMethod === PAYMENT_PREPAID
-            ? order.paymentMethod
-            : PAYMENT_CASH
+        paymentMethod: [PAYMENT_ONLINE, PAYMENT_PREPAID].includes(order.paymentMethod) ? order.paymentMethod : PAYMENT_CASH
       }));
 
       setExtractedOrders(normalizedOrders);
+      if (autoAssignDriverEnabled && driverObjects.length > 0) {
+        setSelectedDriver(driverObjects[0].name);
+      }
       checkDuplicateMatches(normalizedOrders);
-
     } catch (err) {
-      alert(lang === 'ar' ? `حدث خطأ أثناء تحليل الطلب: ${err.message}` : `Error parsing order: ${err.message}`);
+      alert(`Error parsing order: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -999,13 +941,9 @@ OUTPUT FORMAT:
           };
         } else if (action === 'update') {
           if (type === 'customer') {
-            setCustomers(cList =>
-              cList.map(c => c.id === selectedMatch.id ? { ...c, phone: extracted.phone || c.phone, address: extracted.address || c.address } : c)
-            );
+            setCustomers(cList => cList.map(c => c.id === selectedMatch.id ? { ...c, phone: extracted.phone || c.phone, address: extracted.address || c.address } : c));
           } else {
-            setMerchants(mList =>
-              mList.map(m => m.id === selectedMatch.id ? { ...m, phone: extracted.phone || m.phone, address: extracted.address || m.address } : m)
-            );
+            setMerchants(mList => mList.map(m => m.id === selectedMatch.id ? { ...m, phone: extracted.phone || m.phone, address: extracted.address || m.address } : m));
           }
           return { ...ord, [type === 'customer' ? 'customer' : 'store']: selectedMatch.name };
         }
@@ -1019,10 +957,7 @@ OUTPUT FORMAT:
     setExtractedOrders(prev =>
       prev.map((order, i) =>
         i === index
-          ? {
-              ...order,
-              [field]: field === 'cod' || field === 'deliveryFee' ? normalizeNumber(value) : value
-            }
+          ? { ...order, [field]: ['cod', 'deliveryFee'].includes(field) ? normalizeNumber(value) : value }
           : order
       )
     );
@@ -1065,29 +1000,7 @@ OUTPUT FORMAT:
         date: now.toLocaleTimeString(lang === 'ar' ? 'ar-EG' : 'en-US', { hour: '2-digit', minute: '2-digit' })
       };
 
-      const companyRevenue = normalizedDeliveryFee * (selectedRevenuePercent / 100);
-      const driverRevenue = normalizedDeliveryFee - companyRevenue;
-      const customerCollection =
-        paymentMethod === PAYMENT_ONLINE || paymentMethod === PAYMENT_PREPAID
-          ? normalizedDeliveryFee
-          : normalizedCod + normalizedDeliveryFee;
-
-      addAuditLog(
-        orderNumber,
-        'Created',
-        lang === 'ar'
-          ? `تم إنشاء الطلب للعميل ${newOrder.customer}. قيمة الطلب ${normalizedCod} ج.م، التوصيل ${normalizedDeliveryFee} ج.م، الدفع ${
-              paymentMethod === PAYMENT_CASH ? 'كاش' : 'مدفوع أونلاين'
-            }، نسبة الشركة ${selectedRevenuePercent}% = ${companyRevenue.toFixed(2)} ج.م، نصيب الطيار = ${driverRevenue.toFixed(
-              2
-            )} ج.م، إجمالي تحصيل الطيار = ${customerCollection.toFixed(2)} ج.m.`
-          : `Order created for ${newOrder.customer}. Order value: ${normalizedCod} EGP, delivery fee: ${normalizedDeliveryFee} EGP, payment: ${
-              paymentMethod === PAYMENT_CASH ? 'Cash' : 'Paid Online'
-            }, company share ${selectedRevenuePercent}% = ${companyRevenue.toFixed(2)} EGP, driver share = ${driverRevenue.toFixed(
-              2
-            )} EGP, driver collection = ${customerCollection.toFixed(2)} EGP.`
-      );
-
+      addAuditLog(orderNumber, 'Created', `Created order for ${newOrder.customer} via ${newOrder.driver}. COD: ${normalizedCod}, Fee: ${normalizedDeliveryFee}`);
       return newOrder;
     });
 
@@ -1099,19 +1012,18 @@ OUTPUT FORMAT:
         setMerchants(prev => {
           const match = prev.find(m => m.name?.toLowerCase() === ord.store?.toLowerCase());
           if (!match) {
-            return [{ id: Date.now() + Math.random(), name: ord.store, phone: ord.phone || '', address: ord.address || '', notes: '', totalOrders: 1 }, ...prev];
+            return [{ id: Date.now() + Math.random(), name: ord.store, phone: ord.phone || '', address: ord.address || '', notes: '' }, ...prev];
           }
-          return prev.map(m => m.name?.toLowerCase() === ord.store?.toLowerCase() ? { ...m, totalOrders: (m.totalOrders || 0) + 1 } : m);
+          return prev;
         });
       }
-
       if (ord.customer && ord.customer !== t.unspecified) {
         setCustomers(prev => {
           const match = prev.find(c => c.phone === ord.phone || c.name === ord.customer);
           if (!match) {
-            return [{ id: Date.now() + Math.random(), name: ord.customer, phone: ord.phone, address: ord.address, notes: '' }, ...prev];
+            return [{ id: Date.now() + Math.random(), name: ord.customer, phone: ord.phone || '', address: ord.address || '', notes: '' }, ...prev];
           }
-          return prev.map(c => c.name === ord.customer || c.phone === ord.phone ? { ...c, address: ord.address || c.address } : c);
+          return prev;
         });
       }
     });
@@ -1119,224 +1031,79 @@ OUTPUT FORMAT:
     setRawText('');
     setExtractedOrders([]);
     setSelectedDriver('');
-    setSelectedRevenuePercent(20);
     setActiveTab('orders');
   };
 
-  /* Actions */
-  const handleDeleteOrder = order => {
-    if (window.confirm(`${t.confirmDeleteMsg} (${order.orderNum})`)) {
-      setOrders(prev => prev.filter(o => o.id !== order.id));
-      setDeletedOrders(prev => [{ ...order, deletedAt: new Date().toLocaleString() }, ...prev]);
-      addAuditLog(order.orderNum, 'Deleted', `Order for ${order.customer} deleted.`);
-    }
-  };
-
-  const handleStatusChange = (order, newStatus) => {
-    setOrders(prev => prev.map(o => (o.id === order.id ? { ...o, status: newStatus } : o)));
-    addAuditLog(order.orderNum, 'Status Change', `Status changed to "${newStatus}"`);
-  };
-
+  /* Driver, Merchant, Customer Form Handlers */
   const handleAddDriver = () => {
-    if (!newDriverName.trim()) return;
-    if (drivers.includes(newDriverName.trim())) {
+    if (!newDriver.name.trim()) return;
+    if (driverObjects.some(d => d.name.toLowerCase() === newDriver.name.trim().toLowerCase())) {
       alert(lang === 'ar' ? 'الطيار موجود بالفعل.' : 'Driver already exists.');
       return;
     }
-    setDrivers(prev => [...prev, newDriverName.trim()]);
-    setNewDriverName('');
-  };
-
-  const handleSaveCustomerExplicit = () => {
-    if (!newCustomer.name.trim() || !newCustomer.phone.trim()) {
-      return alert(lang === 'ar' ? 'الاسم ورقم الهاتف مطلوبان.' : 'Name and phone required.');
-    }
-    if (editingCustomer) {
-      setCustomers(prev => prev.map(c => (c.id === editingCustomer.id ? { ...c, ...newCustomer } : c)));
-      setEditingCustomer(null);
-    } else {
-      setCustomers(prev => [{ id: Date.now(), ...newCustomer }, ...prev]);
-    }
-    setNewCustomer({ name: '', phone: '', address: '', notes: '' });
+    setDriverObjects(prev => [...prev, { id: 'd_' + Date.now(), ...newDriver }]);
+    setNewDriver({ name: '', phone: '', notes: '' });
   };
 
   const handleSaveMerchant = () => {
     if (!merchantForm.name.trim()) return;
     if (merchantForm.id) {
-      setMerchants(prev => prev.map(m => (m.id === merchantForm.id ? { ...merchantForm } : m)));
+      setMerchants(prev => prev.map(m => m.id === merchantForm.id ? { ...merchantForm } : m));
     } else {
-      setMerchants(prev => [{ ...merchantForm, id: Date.now(), totalOrders: 0 }, ...prev]);
+      setMerchants(prev => [{ ...merchantForm, id: Date.now() }, ...prev]);
     }
     setMerchantForm({ id: null, name: '', phone: '', address: '', notes: '' });
   };
 
-  const updateEntityNote = (type, identifier, noteText) => {
-    if (type === 'driver') {
-      setDriverNotes(prev => ({ ...prev, [identifier]: noteText }));
-    } else if (type === 'customer') {
-      setCustomers(prev => prev.map(c => c.id === identifier ? { ...c, notes: noteText } : c));
-    } else if (type === 'merchant') {
-      setMerchants(prev => prev.map(m => m.id === identifier ? { ...m, notes: noteText } : m));
+  const handleSaveCustomer = () => {
+    if (!customerForm.name.trim()) return;
+    if (customerForm.id) {
+      setCustomers(prev => prev.map(c => c.id === customerForm.id ? { ...customerForm } : c));
+    } else {
+      setCustomers(prev => [{ ...customerForm, id: Date.now() }, ...prev]);
     }
-    if (activeEntityModal && activeEntityModal.data) {
-      setActiveEntityModal(prev => ({
-        ...prev,
-        data: typeof prev.data === 'object' ? { ...prev.data, notes: noteText } : prev.data
-      }));
-    }
+    setCustomerForm({ id: null, name: '', phone: '', address: '', notes: '' });
   };
 
-  /* ================= EXPORT & IMPORT UTILITIES ================= */
-
-  // 1. Export Excel (.xlsx)
-  const handleExportExcel = () => {
-    if (!window.XLSX) return alert('Excel exporter loading... Please try again.');
-    const dataToExport = orders.map(o => ({
-      Order_Num: o.orderNum,
-      Store: o.store,
-      Customer: o.customer,
-      Phone: o.phone,
-      Address: o.address,
-      COD: o.cod,
-      Delivery_Fee: o.deliveryFee,
-      Status: o.status,
-      Driver: o.driver,
-      Company_Revenue: getCompanyRevenue(o),
-      Date: o.isoDate || ''
-    }));
-
-    const worksheet = window.XLSX.utils.json_to_sheet(dataToExport);
-    const workbook = window.XLSX.utils.book_new();
-    window.XLSX.utils.book_append_sheet(workbook, worksheet, "Orders");
-    window.XLSX.writeFile(workbook, `Express_Delivery_Orders_${new Date().toISOString().split('T')[0]}.xlsx`);
+  /* WhatsApp Dispatch Generator */
+  const handleGenerateWhatsappText = (order) => {
+    const text = `🛵 *طلب جديد للتوصيل ${order.orderNum}*\n\n🏪 *المتجر:* ${order.store}\n👤 *العميل:* ${order.customer}\n📞 *الهاتف:* ${order.phone}\n📍 *العنوان:* ${order.address}\n📦 *الصنف:* ${order.item || 'N/A'}\n💵 *المبلغ المطلوب من العميل:* ${getCustomerCollection(order)} ${systemCurrency}\n📝 *ملاحظات:* ${order.notes || 'لا يوجد'}`;
+    setWhatsappFormattedText(text);
+    setShowWhatsappModal(true);
   };
 
-  // 2. Export PDF (.pdf)
-  const handleExportPDF = () => {
-    if (!window.jspdf) return alert('PDF exporter loading... Please try again.');
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    doc.setFontSize(16);
-    doc.text("Express Delivery PRO - Orders Summary", 14, 15);
-
-    const tableColumn = ["Order #", "Store", "Customer", "Phone", "COD", "Delivery Fee", "Driver", "Status"];
-    const tableRows = orders.map(o => [
-      o.orderNum,
-      o.store,
-      o.customer,
-      o.phone,
-      `${o.cod} EGP`,
-      `${o.deliveryFee} EGP`,
-      o.driver,
-      o.status
-    ]);
-
-    if (doc.autoTable) {
-      doc.autoTable({
-        startY: 25,
-        head: [tableColumn],
-        body: tableRows,
-      });
-    }
-
-    doc.save(`Orders_Summary_${new Date().toISOString().split('T')[0]}.pdf`);
-  };
-
-  // 3. Export Plain Text / JSON Backup
-  const handleExportTXT = () => {
-    const textBlob = new Blob([JSON.stringify({ orders, merchants, customers, drivers, historyLogs }, null, 2)], {
-      type: 'text/plain;charset=utf-8'
-    });
-    const url = URL.createObjectURL(textBlob);
+  /* Import / Export & Backup System */
+  const handleDownloadBackup = () => {
+    const data = { orders, merchants, customers, driverObjects, historyLogs, defaultRevenuePercent, systemCurrency };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `Express_Delivery_Backup_${new Date().toISOString().split('T')[0]}.txt`;
+    link.download = `Express_Delivery_System_Backup_${new Date().toISOString().split('T')[0]}.json`;
     link.click();
   };
 
-  // 4. File Import Handler (Excel, PDF, or Plain Text)
-  const handleImportFile = event => {
-    const file = event.target.files[0];
+  const handleRestoreBackup = (e) => {
+    const file = e.target.files[0];
     if (!file) return;
-
-    const fileName = file.name.toLowerCase();
-
-    // Import from EXCEL / CSV
-    if (fileName.endsWith('.xlsx') || fileName.endsWith('.xls') || fileName.endsWith('.csv')) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        try {
-          const data = new Uint8Array(e.target.result);
-          const workbook = window.XLSX.read(data, { type: 'array' });
-          const firstSheet = workbook.SheetNames[0];
-          const jsonData = window.XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet]);
-
-          const importedOrders = jsonData.map((row, idx) => ({
-            id: Date.now() + idx + Math.random(),
-            orderNum: row.Order_Num || `#${orderCounter + idx}`,
-            store: row.Store || t.unspecified,
-            customer: row.Customer || t.unspecified,
-            phone: String(row.Phone || ''),
-            address: row.Address || t.unspecified,
-            cod: normalizeNumber(row.COD),
-            deliveryFee: normalizeNumber(row.Delivery_Fee),
-            paymentMethod: PAYMENT_CASH,
-            revenuePercent: 20,
-            item: '',
-            notes: '',
-            driver: row.Driver || 'Unassigned',
-            status: row.Status || 'مؤكد',
-            isoDate: row.Date || new Date().toISOString().split('T')[0]
-          }));
-
-          setOrders(prev => [...importedOrders, ...prev]);
-          alert(t.importSuccessMsg);
-        } catch (err) {
-          alert('Failed to parse Excel file: ' + err.message);
-        }
-      };
-      reader.readAsArrayBuffer(file);
-    } 
-    // Import from PDF (Extract text into raw text box for AI Extraction)
-    else if (fileName.endsWith('.pdf')) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const text = new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(e.target.result));
-        const cleanText = text.replace(/[^\x20-\x7E\u0600-\u06FF\n]/g, ' ');
-        setRawText(cleanText);
-        setActiveTab('new_order');
-        alert('PDF text extracted to input box. Click "Extract Data with AI".');
-      };
-      reader.readAsArrayBuffer(file);
-    } 
-    // Import from Plain Text / JSON Backup
-    else {
-      const reader = new FileReader();
-      reader.onload = e => {
-        const fileContent = e.target.result;
-        try {
-          const parsedBackup = JSON.parse(fileContent);
-          if (parsedBackup.orders && Array.isArray(parsedBackup.orders)) {
-            setOrders(parsedBackup.orders);
-            if (parsedBackup.merchants) setMerchants(parsedBackup.merchants);
-            if (parsedBackup.customers) setCustomers(parsedBackup.customers);
-            if (parsedBackup.drivers) setDrivers(parsedBackup.drivers);
-            alert(t.importSuccessMsg);
-          } else {
-            setRawText(fileContent);
-            setActiveTab('new_order');
-          }
-        } catch {
-          setRawText(fileContent);
-          setActiveTab('new_order');
-        }
-      };
-      reader.readAsText(file, 'UTF-8');
-    }
+    const reader = new FileReader();
+    reader.onload = event => {
+      try {
+        const backup = JSON.parse(event.target.result);
+        if (backup.orders) setOrders(backup.orders);
+        if (backup.merchants) setMerchants(backup.merchants);
+        if (backup.customers) setCustomers(backup.customers);
+        if (backup.driverObjects) setDriverObjects(backup.driverObjects);
+        if (backup.historyLogs) setHistoryLogs(backup.historyLogs);
+        alert(t.importSuccessMsg);
+      } catch (err) {
+        alert('Invalid JSON backup file: ' + err.message);
+      }
+    };
+    reader.readAsText(file);
   };
 
-  /* Calculated metrics */
+  /* Aggregations */
   const activeOrdersCount = orders.filter(o => !['مكتمل', 'ملغي'].includes(o.status)).length;
   const completedOrdersCount = orders.filter(o => o.status === 'مكتمل').length;
 
@@ -1350,7 +1117,6 @@ OUTPUT FORMAT:
     );
   });
 
-  /* Ledger calculations */
   const filteredLedgerOrders = orders.filter(o => (!ledgerDriver || o.driver === ledgerDriver) && o.isoDate === ledgerDate);
   const dailyCollected = filteredLedgerOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getOrderEffectiveCash(o), 0);
   const dailyCompanyRevenue = filteredLedgerOrders.filter(o => o.status === 'مكتمل').reduce((sum, o) => sum + getCompanyRevenue(o), 0);
@@ -1393,7 +1159,7 @@ OUTPUT FORMAT:
           </button>
           <button style={activeTab === 'drivers' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('drivers')}>
             <div style={styles.navLeftLabel}><span style={styles.navIcon}>🛵</span><span>{t.navDrivers}</span></div>
-            <span style={styles.countBadge}>{drivers.length}</span>
+            <span style={styles.countBadge}>{driverObjects.length}</span>
           </button>
           <button style={activeTab === 'merchants' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('merchants')}>
             <div style={styles.navLeftLabel}><span style={styles.navIcon}>🏪</span><span>{t.navMerchants}</span></div>
@@ -1428,12 +1194,15 @@ OUTPUT FORMAT:
 
         {/* MAIN VIEWS */}
         <main style={styles.main}>
-          {/* NEW ORDER */}
+          {/* NEW ORDER / WHATSAPP PARSER */}
           {activeTab === 'new_order' && (
             <div style={styles.card}>
               <div style={styles.rowBetween}>
                 <h2 style={styles.cardTitle}>{t.aiHeader}</h2>
-                <button onClick={handlePasteClipboard} style={styles.btnGradientCompact}>{t.btnPaste}</button>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <button onClick={handlePasteClipboard} style={styles.btnGradientCompact}>{t.btnPaste}</button>
+                  <button onClick={() => setShowWhatsappModal(true)} style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg, #059669, #10B981)' }}>{t.btnOpenWhatsappModal}</button>
+                </div>
               </div>
               <textarea
                 rows={7}
@@ -1446,47 +1215,6 @@ OUTPUT FORMAT:
                 {loading ? t.btnExtracting : t.btnExtract}
               </button>
 
-              {/* TYPO MODAL */}
-              {showTypoModal && (
-                <div style={styles.modalOverlay}>
-                  <div style={styles.modalCard}>
-                    <h3 style={{ margin: '0 0 10px', color: '#FACC15' }}>{t.typoAlertTitle}</h3>
-                    <ul style={{ paddingLeft: '20px', color: '#FCA5A5' }}>
-                      {typoFlags.map((flag, idx) => (<li key={idx}><strong>{flag}</strong></li>))}
-                    </ul>
-                    <button onClick={() => setShowTypoModal(false)} style={styles.btnSuccessGradient}>{t.confirm}</button>
-                  </div>
-                </div>
-              )}
-
-              {/* DUPLICATE MATCH PROMPT MODAL */}
-              {matchingPromptModal && (
-                <div style={styles.modalOverlay}>
-                  <div style={styles.modalCard}>
-                    <h3 style={{ margin: '0 0 10px', color: '#38BDF8' }}>{t.matchTitle}</h3>
-                    <p style={{ fontSize: '0.9rem', color: '#CBD5E1' }}>{t.matchPrompt}</p>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', margin: '15px 0' }}>
-                      {matchingPromptModal.matches.map((match, idx) => (
-                        <div key={idx} style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '10px' }}>
-                          <strong style={{ color: '#FACC15' }}>{match.name}</strong> ({match.phone || 'No phone'})
-                          <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                            <button onClick={() => handleResolveMatching(match, 'autofill')} style={styles.btnGradientCompact}>
-                              {t.autofillBtn}
-                            </button>
-                            <button onClick={() => handleResolveMatching(match, 'update')} style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg,#059669,#10B981)' }}>
-                              {t.updateBtn}
-                            </button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                    <button onClick={() => setMatchingPromptModal(null)} style={{ ...styles.btnSuccessGradient, background: '#475569' }}>
-                      {t.createNew}
-                    </button>
-                  </div>
-                </div>
-              )}
-
               {/* EXTRACTED ORDERS REVIEW */}
               {extractedOrders.length > 0 && (
                 <div style={styles.extractedBox}>
@@ -1496,7 +1224,7 @@ OUTPUT FORMAT:
                     const fee = normalizeNumber(ord.deliveryFee);
                     const company = fee * (selectedRevenuePercent / 100);
                     const driver = fee - company;
-                    const collection = ord.paymentMethod === PAYMENT_ONLINE || ord.paymentMethod === PAYMENT_PREPAID ? fee : orderValue + fee;
+                    const collection = [PAYMENT_ONLINE, PAYMENT_PREPAID].includes(ord.paymentMethod) ? fee : orderValue + fee;
 
                     return (
                       <div key={idx} style={styles.extractedSubCard}>
@@ -1505,7 +1233,7 @@ OUTPUT FORMAT:
                             <div style={styles.miniLabel}>{t.customer}</div>
                             <div style={styles.heroCustomer}>👤 {ord.customer || t.unspecified}</div>
                           </div>
-                          <div style={styles.heroMoney}>{collection.toLocaleString()} {t.currency}</div>
+                          <div style={styles.heroMoney}>{collection.toLocaleString()} {systemCurrency}</div>
                         </div>
                         {isIncompleteAddress(ord.address) && <div style={styles.addressWarningBox}>{t.addressWarning}</div>}
                         <div style={styles.grid2}>
@@ -1536,10 +1264,9 @@ OUTPUT FORMAT:
                             </div>
                           </div>
                           <div style={styles.calculationStrip}>
-                            <div><span>{t.customerCollection}</span><strong>{collection.toLocaleString()} {t.currency}</strong></div>
-                            <div><span>{t.merchantAmount}</span><strong>{orderValue.toLocaleString()} {t.currency}</strong></div>
-                            <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{company.toFixed(2)} {t.currency}</strong></div>
-                            <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{driver.toFixed(2)} {t.currency}</strong></div>
+                            <div><span>{t.customerCollection}</span><strong>{collection.toLocaleString()} {systemCurrency}</strong></div>
+                            <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{company.toFixed(2)} {systemCurrency}</strong></div>
+                            <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{driver.toFixed(2)} {systemCurrency}</strong></div>
                           </div>
                         </div>
                       </div>
@@ -1552,7 +1279,7 @@ OUTPUT FORMAT:
                         <label style={styles.label}>{t.selectDriver}</label>
                         <select value={selectedDriver} onChange={e => setSelectedDriver(e.target.value)} style={styles.input}>
                           <option value="">{t.chooseDriver}</option>
-                          {drivers.map((d, i) => (<option key={i} value={d}>{d}</option>))}
+                          {driverObjects.map(d => (<option key={d.id} value={d.name}>{d.name}</option>))}
                         </select>
                       </div>
                       <div>
@@ -1570,25 +1297,9 @@ OUTPUT FORMAT:
             </div>
           )}
 
-          {/* MANAGING ORDERS & EXPORT BAR */}
+          {/* MANAGING ORDERS */}
           {activeTab === 'orders' && (
             <div>
-              {/* EXPORT & IMPORT TOOLBAR */}
-              <div style={styles.exportBox}>
-                <h3 style={{ margin: '0 0 10px 0', fontSize: '0.95rem', color: '#FACC15' }}>{t.exportTitle}</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '8px' }}>
-                  <button onClick={handleExportExcel} style={styles.btnGradientCompact}>{t.btnExportExcel}</button>
-                  <button onClick={handleExportPDF} style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg, #DC2626, #EF4444)' }}>{t.btnExportPdf}</button>
-                  <button onClick={handleExportTXT} style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg, #475569, #64748B)' }}>{t.btnExportTxt}</button>
-                </div>
-                <div style={{ marginTop: '8px' }}>
-                  <label style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg, #059669, #10B981)', display: 'inline-block', width: '100%', textAlign: 'center', boxSizing: 'border-box' }}>
-                    {t.btnImportFile}
-                    <input type="file" accept=".xlsx, .xls, .csv, .pdf, .txt, .json" onChange={handleImportFile} style={{ display: 'none' }} />
-                  </label>
-                </div>
-              </div>
-
               <input
                 type="text"
                 placeholder={t.searchPlaceholder}
@@ -1606,8 +1317,11 @@ OUTPUT FORMAT:
                         <span style={styles.orderNumTag}>{order.orderNum}</span>
                         <span style={styles.tagStore}>{order.store}</span>
                       </div>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        <select value={order.status} onChange={e => handleStatusChange(order, e.target.value)} style={getStatusStyle(order.status)}>
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <button onClick={() => handleGenerateWhatsappText(order)} style={{ ...styles.btnGradientCompact, background: '#059669' }}>📲</button>
+                        <select value={order.status} onChange={e => {
+                          setOrders(prev => prev.map(o => o.id === order.id ? { ...o, status: e.target.value } : o));
+                        }} style={getStatusStyle(order.status)}>
                           <option value="مؤكد">{t.statusConfirmed}</option>
                           <option value="قيد تجهيز الطلب">{t.statusProcessing}</option>
                           <option value="خرج للتوصيل">{t.statusOutForDelivery}</option>
@@ -1616,16 +1330,15 @@ OUTPUT FORMAT:
                           <option value="متأخر">{t.statusDelayed}</option>
                           <option value="ملغي">{t.statusCancelled}</option>
                         </select>
-                        <button onClick={() => handleDeleteOrder(order)} style={styles.btnDeleteCompact}>🗑️</button>
                       </div>
                     </div>
                     <p style={styles.p}><strong>{t.customer}:</strong> {order.customer} ({order.phone})</p>
                     <p style={styles.p}><strong>{t.address}:</strong> {order.address}</p>
                     <div style={styles.calculationStrip}>
-                      <div><span>{t.cod}</span><strong>{getOrderValue(order)} {t.currency}</strong></div>
-                      <div><span>{t.deliveryFee}</span><strong>{getDeliveryFee(order)} {t.currency}</strong></div>
-                      <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{getCompanyRevenue(order).toFixed(2)} {t.currency}</strong></div>
-                      <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{getDriverRevenue(order).toFixed(2)} {t.currency}</strong></div>
+                      <div><span>{t.cod}</span><strong>{getOrderValue(order)} {systemCurrency}</strong></div>
+                      <div><span>{t.deliveryFee}</span><strong>{getDeliveryFee(order)} {systemCurrency}</strong></div>
+                      <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{getCompanyRevenue(order).toFixed(2)} {systemCurrency}</strong></div>
+                      <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{getDriverRevenue(order).toFixed(2)} {systemCurrency}</strong></div>
                     </div>
                   </div>
                 ))
@@ -1642,7 +1355,7 @@ OUTPUT FORMAT:
                   <label style={styles.label}>{t.filterDriver}</label>
                   <select value={ledgerDriver} onChange={e => setLedgerDriver(e.target.value)} style={styles.input}>
                     <option value="">-- {t.allDrivers} --</option>
-                    {drivers.map((d, i) => (<option key={i} value={d}>{d}</option>))}
+                    {driverObjects.map(d => (<option key={d.id} value={d.name}>{d.name}</option>))}
                   </select>
                 </div>
                 <div>
@@ -1651,28 +1364,35 @@ OUTPUT FORMAT:
                 </div>
               </div>
               <div style={styles.monthlySummary}>
-                <div><span>{t.cashToHandIn}</span><br /><strong>{dailyCollected.toLocaleString()} {t.currency}</strong></div>
-                <div><span>{t.companyRevenueLedger}</span><br /><strong style={{ color: '#34D399' }}>{dailyCompanyRevenue.toFixed(2)} {t.currency}</strong></div>
-                <div><span>{t.driverRevenueLedger}</span><br /><strong style={{ color: '#60A5FA' }}>{dailyDriverRevenue.toFixed(2)} {t.currency}</strong></div>
+                <div><span>{t.cashToHandIn}</span><br /><strong>{dailyCollected.toLocaleString()} {systemCurrency}</strong></div>
+                <div><span>{t.companyRevenueLedger}</span><br /><strong style={{ color: '#34D399' }}>{dailyCompanyRevenue.toFixed(2)} {systemCurrency}</strong></div>
+                <div><span>{t.driverRevenueLedger}</span><br /><strong style={{ color: '#60A5FA' }}>{dailyDriverRevenue.toFixed(2)} {systemCurrency}</strong></div>
               </div>
             </div>
           )}
 
-          {/* DRIVERS TAB WITH DRILL-DOWN */}
+          {/* DRIVERS TAB WITH DETAILED METRICS & DRILL-DOWN */}
           {activeTab === 'drivers' && (
             <div style={styles.card}>
               <h2 style={styles.cardTitle}>{t.addDriver}</h2>
-              <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-                <input type="text" placeholder={t.driverName} value={newDriverName} onChange={e => setNewDriverName(e.target.value)} style={styles.input} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
+                <input type="text" placeholder={t.driverName} value={newDriver.name} onChange={e => setNewDriver({ ...newDriver, name: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.driverPhone} value={newDriver.phone} onChange={e => setNewDriver({ ...newDriver, phone: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.entityNotes} value={newDriver.notes} onChange={e => setNewDriver({ ...newDriver, notes: e.target.value })} style={styles.input} />
                 <button onClick={handleAddDriver} style={styles.btnGradientCompact}>{t.btnAdd}</button>
               </div>
               <div style={styles.grid2}>
-                {drivers.map((d, i) => {
-                  const driverOrders = orders.filter(o => o.driver === d);
+                {driverObjects.map(d => {
+                  const driverOrders = orders.filter(o => o.driver === d.name);
+                  const completedDriverOrders = driverOrders.filter(o => o.status === 'مكتمل');
+                  const totalDriverRev = completedDriverOrders.reduce((acc, o) => acc + getDriverRevenue(o), 0);
+
                   return (
-                    <div key={i} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'driver', data: d })}>
-                      <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>🛵 {d}</h3>
-                      <p style={styles.p}>{t.totalTrips} <strong>{driverOrders.length}</strong></p>
+                    <div key={d.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'driver', data: d })}>
+                      <h3 style={{ margin: '0 0 4px', color: '#38BDF8' }}>🛵 {d.name}</h3>
+                      <p style={styles.p}>📞 {d.phone || t.unspecified}</p>
+                      <p style={styles.p}>{t.totalTrips}: <strong>{driverOrders.length}</strong></p>
+                      <p style={styles.p}>{t.driverRevenueTotal}: <strong style={{ color: '#60A5FA' }}>{totalDriverRev.toFixed(2)} {systemCurrency}</strong></p>
                       <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
                     </div>
                   );
@@ -1681,96 +1401,131 @@ OUTPUT FORMAT:
             </div>
           )}
 
-          {/* MERCHANTS TAB WITH DRILL-DOWN */}
+          {/* MERCHANTS TAB WITH ADDRESS & NOTES */}
           {activeTab === 'merchants' && (
             <div style={styles.card}>
               <h2 style={styles.cardTitle}>{t.saveMerchant}</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
                 <input type="text" placeholder={t.store} value={merchantForm.name} onChange={e => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.input} />
                 <input type="text" placeholder={t.phone} value={merchantForm.phone} onChange={e => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.address} value={merchantForm.address} onChange={e => setMerchantForm({ ...merchantForm, address: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.entityNotes} value={merchantForm.notes} onChange={e => setMerchantForm({ ...merchantForm, notes: e.target.value })} style={styles.input} />
                 <button onClick={handleSaveMerchant} style={styles.btnGradientCompact}>{t.saveBtn}</button>
               </div>
               <div style={styles.grid2}>
-                {merchants.map(m => {
-                  const merchantOrders = orders.filter(o => o.store?.toLowerCase() === m.name?.toLowerCase());
-                  return (
-                    <div key={m.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'merchant', data: m })}>
-                      <h3 style={{ margin: '0 0 8px', color: '#FACC15' }}>🏪 {m.name}</h3>
-                      <p style={styles.p}>📞 {m.phone || t.unspecified}</p>
-                      <p style={styles.p}>📦 Orders: {merchantOrders.length}</p>
-                      <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
-                    </div>
-                  );
-                })}
+                {merchants.map(m => (
+                  <div key={m.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'merchant', data: m })}>
+                    <h3 style={{ margin: '0 0 6px', color: '#FACC15' }}>🏪 {m.name}</h3>
+                    <p style={styles.p}>📞 {m.phone || t.unspecified}</p>
+                    <p style={styles.p}>📍 {m.address || t.unspecified}</p>
+                    {m.notes && <p style={{ ...styles.p, color: '#94A3B8' }}>📝 {m.notes}</p>}
+                    <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
 
-          {/* CUSTOMERS TAB WITH DRILL-DOWN */}
+          {/* CUSTOMERS TAB WITH ADDRESS & NOTES */}
           {activeTab === 'customers' && (
             <div style={styles.card}>
               <h2 style={styles.cardTitle}>{t.saveCustomer}</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-                <input type="text" placeholder={t.customer} value={newCustomer.name} onChange={e => setNewCustomer({ ...newCustomer, name: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.phone} value={newCustomer.phone} onChange={e => setNewCustomer({ ...newCustomer, phone: e.target.value })} style={styles.input} />
-                <button onClick={handleSaveCustomerExplicit} style={styles.btnGradientCompact}>{t.saveBtn}</button>
+                <input type="text" placeholder={t.customer} value={customerForm.name} onChange={e => setCustomerForm({ ...customerForm, name: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.phone} value={customerForm.phone} onChange={e => setCustomerForm({ ...customerForm, phone: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.address} value={customerForm.address} onChange={e => setCustomerForm({ ...customerForm, address: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.entityNotes} value={customerForm.notes} onChange={e => setCustomerForm({ ...customerForm, notes: e.target.value })} style={styles.input} />
+                <button onClick={handleSaveCustomer} style={styles.btnGradientCompact}>{t.saveBtn}</button>
               </div>
               <div style={styles.grid2}>
-                {customers.map(c => {
-                  const customerOrders = orders.filter(o => o.customer?.toLowerCase() === c.name?.toLowerCase() || o.phone === c.phone);
-                  return (
-                    <div key={c.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'customer', data: c })}>
-                      <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>👤 {c.name}</h3>
-                      <p style={styles.p}>📞 {c.phone}</p>
-                      <p style={styles.p}>📦 Orders: {customerOrders.length}</p>
-                      <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
-                    </div>
-                  );
-                })}
+                {customers.map(c => (
+                  <div key={c.id} style={styles.clickableCard} onClick={() => setActiveEntityModal({ type: 'customer', data: c })}>
+                    <h3 style={{ margin: '0 0 6px', color: '#38BDF8' }}>👤 {c.name}</h3>
+                    <p style={styles.p}>📞 {c.phone || t.unspecified}</p>
+                    <p style={styles.p}>📍 {c.address || t.unspecified}</p>
+                    {c.notes && <p style={{ ...styles.p, color: '#94A3B8' }}>📝 {c.notes}</p>}
+                    <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
 
-          {/* AUDIT LOG & DELETED ORDERS */}
+          {/* AUDIT LOG */}
           {activeTab === 'history' && (
             <div style={styles.card}>
               <h2 style={styles.cardTitle}>{t.historyTitle}</h2>
-              {historyLogs.map(log => {
-                const isDeleted = log.action === 'Deleted';
-                return (
-                  <div
-                    key={log.id}
-                    onClick={() => {
-                      const foundOrder = [...orders, ...deletedOrders].find(o => o.orderNum === log.orderNum);
-                      if (foundOrder) setSelectedOrderForDetails(foundOrder);
-                    }}
-                    style={{
-                      padding: '12px',
-                      borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                      cursor: 'pointer',
-                      background: isDeleted ? 'rgba(239, 68, 68, 0.1)' : 'transparent',
-                      borderRadius: '8px',
-                      marginBottom: '6px'
-                    }}
-                  >
-                    <span style={styles.orderNumTag}>{log.orderNum}</span>{' '}
-                    <strong style={{ color: isDeleted ? '#FCA5A5' : '#38BDF8' }}>[{log.action}]</strong> — {log.details}
-                    {isDeleted && <span style={{ marginLeft: '8px', color: '#EF4444', fontWeight: 'bold' }}>({t.deletedBadge})</span>}
-                    <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '4px' }}>🕒 {log.time}</div>
-                  </div>
-                );
-              })}
+              {historyLogs.map(log => (
+                <div key={log.id} style={{ padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                  <span style={styles.orderNumTag}>{log.orderNum}</span> <strong style={{ color: '#38BDF8' }}>[{log.action}]</strong> {log.details}
+                  <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '4px' }}>🕒 {log.time}</div>
+                </div>
+              ))}
             </div>
           )}
 
-          {/* SETTINGS */}
+          {/* ENTERPRISE SETTINGS */}
           {activeTab === 'settings' && (
             <div style={styles.card}>
               <h2 style={styles.cardTitle}>{t.settingsTitle}</h2>
-              <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Groq API Key..." style={styles.input} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <div>
+                  <label style={styles.label}>Groq API Key</label>
+                  <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Groq API Key..." style={styles.input} />
+                </div>
+                <div>
+                  <label style={styles.label}>{t.defaultRevenuePercent}</label>
+                  <select value={defaultRevenuePercent} onChange={e => setDefaultRevenuePercent(Number(e.target.value))} style={styles.revenueSelect}>
+                    {REVENUE_OPTIONS.map(p => (<option key={p} value={p}>{p}%</option>))}
+                  </select>
+                </div>
+                <div>
+                  <label style={styles.label}>{t.systemCurrency}</label>
+                  <select value={systemCurrency} onChange={e => setSystemCurrency(e.target.value)} style={styles.input}>
+                    <option value="EGP">EGP (ج.م)</option>
+                    <option value="USD">USD ($)</option>
+                    <option value="SAR">SAR (ر.س)</option>
+                    <option value="AED">AED (د.إ)</option>
+                  </select>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <input type="checkbox" id="autoAssign" checked={autoAssignDriverEnabled} onChange={e => setAutoAssignDriverEnabled(e.target.checked)} />
+                  <label htmlFor="autoAssign" style={styles.label}>{t.autoAssignDriver}</label>
+                </div>
+                
+                <hr style={{ borderColor: 'rgba(255,255,255,0.1)', margin: '10px 0' }} />
+                <h3 style={{ color: '#FACC15', margin: 0 }}>{t.backupRestore}</h3>
+                <button onClick={handleDownloadBackup} style={styles.btnGradientCompact}>{t.downloadBackup}</button>
+                <label style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg,#059669,#10B981)', display: 'inline-block', textAlign: 'center', cursor: 'pointer' }}>
+                  {t.restoreBackup}
+                  <input type="file" accept=".json" onChange={handleRestoreBackup} style={{ display: 'none' }} />
+                </label>
+              </div>
             </div>
           )}
         </main>
+
+        {/* WHATSAPP / PLAIN TEXT MODAL */}
+        {showWhatsappModal && (
+          <div style={styles.modalOverlay}>
+            <div style={styles.modalCard}>
+              <div style={styles.rowBetween}>
+                <h3 style={{ margin: 0, color: '#34D399' }}>{t.whatsappModalTitle}</h3>
+                <button onClick={() => setShowWhatsappModal(false)} style={styles.btnDeleteCompact}>✕</button>
+              </div>
+              <textarea rows={8} value={whatsappFormattedText} readOnly style={styles.textarea} />
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(whatsappFormattedText);
+                  alert(t.waTextCopied);
+                }}
+                style={styles.btnSuccessGradient}
+              >
+                📋 {t.waTextCopied}
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* ENTITY DRILL-DOWN MODAL */}
         {activeEntityModal && (
@@ -1778,40 +1533,23 @@ OUTPUT FORMAT:
             <div style={styles.modalCard}>
               <div style={styles.rowBetween}>
                 <h2 style={{ margin: 0, color: '#C084FC' }}>
-                  {activeEntityModal.type === 'driver' && `🛵 ${activeEntityModal.data}`}
+                  {activeEntityModal.type === 'driver' && `🛵 ${activeEntityModal.data.name}`}
                   {activeEntityModal.type === 'merchant' && `🏪 ${activeEntityModal.data.name}`}
                   {activeEntityModal.type === 'customer' && `👤 ${activeEntityModal.data.name}`}
                 </h2>
                 <button onClick={() => setActiveEntityModal(null)} style={styles.btnDeleteCompact}>✕</button>
               </div>
 
-              {/* NOTES SECTION */}
-              <div style={{ margin: '15px 0' }}>
-                <label style={styles.label}>{t.entityNotes}</label>
-                <textarea
-                  rows={3}
-                  placeholder={t.addNotePlaceholder}
-                  value={
-                    activeEntityModal.type === 'driver'
-                      ? driverNotes[activeEntityModal.data] || ''
-                      : activeEntityModal.data.notes || ''
-                  }
-                  onChange={e =>
-                    updateEntityNote(
-                      activeEntityModal.type,
-                      activeEntityModal.type === 'driver' ? activeEntityModal.data : activeEntityModal.data.id,
-                      e.target.value
-                    )
-                  }
-                  style={styles.textarea}
-                />
+              <div style={{ margin: '10px 0', fontSize: '0.9rem', color: '#CBD5E1' }}>
+                <p style={styles.p}>📞 {activeEntityModal.data.phone || t.unspecified}</p>
+                {activeEntityModal.data.address && <p style={styles.p}>📍 {activeEntityModal.data.address}</p>}
+                {activeEntityModal.data.notes && <p style={styles.p}>📝 {activeEntityModal.data.notes}</p>}
               </div>
 
-              {/* ASSOCIATED ORDERS */}
-              <h3 style={{ color: '#FACC15', marginBottom: '10px' }}>Orders History</h3>
+              <h3 style={{ color: '#FACC15', marginBottom: '10px' }}>Associated Orders History</h3>
               {(() => {
                 const assocOrders = orders.filter(o => {
-                  if (activeEntityModal.type === 'driver') return o.driver === activeEntityModal.data;
+                  if (activeEntityModal.type === 'driver') return o.driver === activeEntityModal.data.name;
                   if (activeEntityModal.type === 'merchant') return o.store?.toLowerCase() === activeEntityModal.data.name?.toLowerCase();
                   if (activeEntityModal.type === 'customer') return o.customer?.toLowerCase() === activeEntityModal.data.name?.toLowerCase() || o.phone === activeEntityModal.data.phone;
                   return false;
@@ -1820,49 +1558,15 @@ OUTPUT FORMAT:
                 if (assocOrders.length === 0) return <p style={styles.empty}>{t.noOrdersFound}</p>;
 
                 return assocOrders.map(o => (
-                  <div
-                    key={o.id}
-                    onClick={() => setSelectedOrderForDetails(o)}
-                    style={{ ...styles.extractedSubCard, cursor: 'pointer', marginBottom: '8px' }}
-                  >
+                  <div key={o.id} style={{ ...styles.extractedSubCard, marginBottom: '8px' }}>
                     <div style={styles.rowBetween}>
                       <span style={styles.orderNumTag}>{o.orderNum}</span>
                       <span style={getStatusStyle(o.status)}>{o.status}</span>
                     </div>
-                    <div><strong>{t.cod}:</strong> {o.cod} {t.currency} | <strong>{t.deliveryFee}:</strong> {o.deliveryFee} {t.currency}</div>
+                    <div><strong>{t.cod}:</strong> {o.cod} {systemCurrency} | <strong>{t.deliveryFee}:</strong> {o.deliveryFee} {systemCurrency}</div>
                   </div>
                 ));
               })()}
-            </div>
-          </div>
-        )}
-
-        {/* ORDER DETAILS & AUDIT MODAL */}
-        {selectedOrderForDetails && (
-          <div style={styles.modalOverlay}>
-            <div style={styles.modalCard}>
-              <div style={styles.rowBetween}>
-                <h3 style={{ margin: 0, color: '#38BDF8' }}>{t.orderDetailsModal} ({selectedOrderForDetails.orderNum})</h3>
-                <button onClick={() => setSelectedOrderForDetails(null)} style={styles.btnDeleteCompact}>✕</button>
-              </div>
-
-              <div style={{ margin: '15px 0' }}>
-                <p style={styles.p}><strong>{t.customer}:</strong> {selectedOrderForDetails.customer} ({selectedOrderForDetails.phone})</p>
-                <p style={styles.p}><strong>{t.store}:</strong> {selectedOrderForDetails.store}</p>
-                <p style={styles.p}><strong>{t.address}:</strong> {selectedOrderForDetails.address}</p>
-                <p style={styles.p}><strong>{t.cod}:</strong> {selectedOrderForDetails.cod} {t.currency}</p>
-                <p style={styles.p}><strong>{t.deliveryFee}:</strong> {selectedOrderForDetails.deliveryFee} {t.currency}</p>
-              </div>
-
-              <h4 style={{ color: '#FACC15', marginBottom: '8px' }}>Audit Trail</h4>
-              {historyLogs
-                .filter(log => log.orderNum === selectedOrderForDetails.orderNum)
-                .map(log => (
-                  <div key={log.id} style={{ fontSize: '0.82rem', padding: '6px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <strong>[{log.action}]</strong> {log.details}
-                    <div style={{ color: '#64748B', fontSize: '0.72rem' }}>{log.time}</div>
-                  </div>
-                ))}
             </div>
           </div>
         )}
