@@ -2,22 +2,20 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 /* =========================================================
    EXPRESS DELIVERY PRO
-   Enterprise-style React delivery management dashboard
+   Complete standalone React dashboard
    ========================================================= */
-
-/* ----------------------------- Constants ----------------------------- */
 
 const STORAGE = {
   lang: 'express_lang',
   apiKey: 'express_groq_key',
-  settings: 'express_settings_v7',
-  orders: 'express_orders_v7',
-  deletedOrders: 'express_deleted_orders_v7',
-  merchants: 'express_merchants_v7',
-  customers: 'express_customers_v7',
-  drivers: 'express_drivers_v7',
-  history: 'express_history_v7',
-  counter: 'express_counter_v7'
+  settings: 'express_settings_v8',
+  orders: 'express_orders_v8',
+  deletedOrders: 'express_deleted_orders_v8',
+  merchants: 'express_merchants_v8',
+  customers: 'express_customers_v8',
+  drivers: 'express_drivers_v8',
+  history: 'express_history_v8',
+  counter: 'express_counter_v8'
 };
 
 const PAYMENT = {
@@ -50,7 +48,9 @@ const DEFAULT_SETTINGS = {
   compactMode: false
 };
 
-/* ----------------------------- Helpers ----------------------------- */
+/* =========================================================
+   HELPERS
+   ========================================================= */
 
 const safeJSON = (key, fallback) => {
   try {
@@ -67,7 +67,7 @@ const normalizeNumber = value => {
 };
 
 const uid = () =>
-  `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 
 const nowISO = () => new Date().toISOString();
 
@@ -87,24 +87,22 @@ const formatDateTime = (date, lang = 'en') => {
   }
 };
 
-const formatTime = (date, lang = 'en') => {
-  if (!date) return '—';
-
-  return new Date(date).toLocaleTimeString(
-    lang === 'ar' ? 'ar-EG' : 'en-US',
-    {
-      hour: '2-digit',
-      minute: '2-digit'
-    }
-  );
-};
-
-const money = (value, currency) =>
-  `${normalizeNumber(value).toLocaleString()} ${currency}`;
+const money = (value, currency = 'EGP') =>
+  `${normalizeNumber(value).toLocaleString(undefined, {
+    maximumFractionDigits: 2
+  })} ${currency}`;
 
 const isPaid = order =>
   order?.paymentMethod === PAYMENT.ONLINE ||
   order?.paymentMethod === PAYMENT.PREPAID;
+
+const paymentLabel = (order, lang) => {
+  if (isPaid(order)) {
+    return lang === 'ar' ? 'مدفوع بالفعل' : 'PAID';
+  }
+
+  return lang === 'ar' ? 'غير مدفوع' : 'UNPAID';
+};
 
 const getCollection = order => {
   if (!order || order.status === STATUS.CANCELLED) return 0;
@@ -113,14 +111,38 @@ const getCollection = order => {
     return normalizeNumber(order.deliveryFee);
   }
 
-  return normalizeNumber(order.cod) + normalizeNumber(order.deliveryFee);
+  return (
+    normalizeNumber(order.cod) +
+    normalizeNumber(order.deliveryFee)
+  );
 };
+
+/*
+  IMPORTANT:
+  Every order stores its own revenue information.
+
+  revenueType:
+    "percent" = company gets X% of delivery fee
+    "amount"  = company gets X EGP
+
+  The driver's amount is ALWAYS:
+    delivery fee - company revenue
+*/
 
 const getCompanyRevenue = order => {
   if (!order || order.status === STATUS.CANCELLED) return 0;
 
+  const fee = normalizeNumber(order.deliveryFee);
+
+  if (order.revenueType === 'amount') {
+    return Math.min(
+      Math.max(0, normalizeNumber(order.revenueValue)),
+      fee
+    );
+  }
+
   return (
-    normalizeNumber(order.deliveryFee) *
+    fee *
     (normalizeNumber(order.revenuePercent) / 100)
   );
 };
@@ -128,9 +150,22 @@ const getCompanyRevenue = order => {
 const getDriverRevenue = order => {
   if (!order || order.status === STATUS.CANCELLED) return 0;
 
+  const fee = normalizeNumber(order.deliveryFee);
+
+  return Math.max(
+    0,
+    fee - getCompanyRevenue(order)
+  );
+};
+
+const getCompanyPercent = order => {
+  const fee = normalizeNumber(order?.deliveryFee);
+
+  if (!fee) return 0;
+
   return (
-    normalizeNumber(order.deliveryFee) -
-    getCompanyRevenue(order)
+    (getCompanyRevenue(order) / fee) *
+    100
   );
 };
 
@@ -147,24 +182,103 @@ const isWithinDays = (date, days) => {
   const now = new Date();
   const d = new Date(date);
 
-  return now - d <= days * 24 * 60 * 60 * 1000 && now >= d;
+  return (
+    now >= d &&
+    now - d <= days * 24 * 60 * 60 * 1000
+  );
 };
 
 const normalizeStatus = status => {
   const map = {
-    'مؤكد': STATUS.CONFIRMED,
+    مؤكد: STATUS.CONFIRMED,
     'قيد تجهيز الطلب': STATUS.PROCESSING,
+    'قيد التجهيز': STATUS.PROCESSING,
     'خرج للتوصيل': STATUS.OUT_FOR_DELIVERY,
     'جاري التوصيل': STATUS.IN_TRANSIT,
-    'مكتمل': STATUS.COMPLETED,
-    'متأخر': STATUS.DELAYED,
-    'ملغي': STATUS.CANCELLED
+    مكتمل: STATUS.COMPLETED,
+    متأخر: STATUS.DELAYED,
+    ملغي: STATUS.CANCELLED
   };
 
-  return map[status] || status || STATUS.CONFIRMED;
+  return (
+    map[status] ||
+    status ||
+    STATUS.CONFIRMED
+  );
 };
 
-/* ----------------------------- Translations ----------------------------- */
+const normalizeOrder = order => {
+  const fee = normalizeNumber(order?.deliveryFee);
+
+  let revenueType =
+    order?.revenueType === 'amount'
+      ? 'amount'
+      : 'percent';
+
+  let revenuePercent = normalizeNumber(
+    order?.revenuePercent
+  );
+
+  let revenueValue = normalizeNumber(
+    order?.revenueValue
+  );
+
+  /*
+    Compatibility with older versions of the app.
+  */
+  if (
+    order &&
+    order.revenueType === undefined &&
+    order.revenuePercent !== undefined
+  ) {
+    revenueType = 'percent';
+    revenuePercent = normalizeNumber(
+      order.revenuePercent
+    );
+  }
+
+  if (revenueType === 'amount') {
+    revenueValue = Math.min(
+      Math.max(0, revenueValue),
+      fee
+    );
+
+    revenuePercent = fee
+      ? (revenueValue / fee) * 100
+      : 0;
+  } else {
+    revenuePercent = Math.min(
+      100,
+      Math.max(0, revenuePercent)
+    );
+
+    revenueValue =
+      fee * (revenuePercent / 100);
+  }
+
+  return {
+    ...order,
+
+    status: normalizeStatus(order?.status),
+
+    cod: normalizeNumber(order?.cod),
+    deliveryFee: fee,
+
+    revenueType,
+    revenuePercent,
+    revenueValue,
+
+    driverId: order?.driverId || '',
+    driverName: order?.driverName || '',
+
+    paymentMethod:
+      order?.paymentMethod || PAYMENT.CASH
+  };
+};
+
+/* =========================================================
+   TRANSLATIONS
+   ========================================================= */
 
 const translations = {
   en: {
@@ -220,10 +334,19 @@ const translations = {
     online: 'Paid Online',
     prepaid: 'Prepaid',
 
-    selectDriver: 'Select Driver',
-    revenueShare: 'Your share of delivery fee',
+    paid: 'PAID',
+    unpaid: 'UNPAID',
+    paidStatus: 'Payment Status',
 
-    confirmOrder: 'Confirm & Save Order',
+    selectDriver: 'Select Driver',
+    revenueShare: 'Company Revenue',
+    revenueType: 'Revenue Type',
+    percentage: 'Percentage',
+    fixedAmount: 'Fixed Amount',
+    driverShare: 'Driver Share',
+    companyShare: 'Company Share',
+
+    confirmOrder: 'Confirm & Save Orders',
     noOrders: 'No orders found.',
 
     addDriver: 'Add Driver',
@@ -244,7 +367,7 @@ const translations = {
     edit: 'Edit',
 
     settingsTitle: 'Enterprise Settings',
-    defaultCommission: 'Default Commission %',
+    defaultCommission: 'Default Company Revenue %',
     currency: 'System Currency',
     defaultSLA: 'Default Delivery SLA',
     autoAssign: 'Auto-assign Driver',
@@ -276,7 +399,34 @@ const translations = {
     dispatchCenter: 'Dispatch Center',
     urgentOrders: 'Needs Attention',
     todayRevenue: "Today's Revenue",
-    todayCollections: "Today's Collections"
+    todayCollections: "Today's Collections",
+
+    paymentCollected: 'Customer Collection',
+    financialBreakdown: 'Financial Breakdown',
+    companyGets: 'Company gets',
+    driverGets: 'Driver gets',
+
+    delete: 'Delete',
+    completedStatus: 'Completed',
+    markCompleted: 'Mark Completed',
+
+    noDrivers: 'No drivers available.',
+    noMerchants: 'No merchants available.',
+    noCustomers: 'No customers available.',
+
+    apiKey: 'Groq API Key',
+    language: 'Language',
+    english: 'English',
+    arabic: 'العربية',
+
+    revenueWarning:
+      'The driver receives the remainder of the delivery fee.',
+
+    orderNumber: 'Order Number',
+    created: 'Created',
+
+    clearAll: 'Clear',
+    restore: 'Restore'
   },
 
   ar: {
@@ -291,6 +441,7 @@ const translations = {
     customers: 'العملاء',
     ledger: 'كشف حساب الطيارين',
     history: 'سجل التعديلات',
+    settings: 'الإعدادات',
     importExport: 'مركز واتساب والاستيراد',
 
     active: 'نشطة',
@@ -331,10 +482,19 @@ const translations = {
     online: 'مدفوع أونلاين',
     prepaid: 'مدفوع مسبقًا',
 
-    selectDriver: 'اختيار الطيار',
-    revenueShare: 'نسبتك من رسوم التوصيل',
+    paid: 'مدفوع',
+    unpaid: 'غير مدفوع',
+    paidStatus: 'حالة الدفع',
 
-    confirmOrder: 'تأكيد وحفظ الطلب',
+    selectDriver: 'اختيار الطيار',
+    revenueShare: 'إيراد الشركة',
+    revenueType: 'نوع الإيراد',
+    percentage: 'نسبة مئوية',
+    fixedAmount: 'مبلغ ثابت',
+    driverShare: 'نصيب الطيار',
+    companyShare: 'نصيب الشركة',
+
+    confirmOrder: 'تأكيد وحفظ الطلبات',
     noOrders: 'لا توجد طلبات.',
 
     addDriver: 'إضافة طيار',
@@ -355,7 +515,7 @@ const translations = {
     edit: 'تعديل',
 
     settingsTitle: 'إعدادات المؤسسة',
-    defaultCommission: 'نسبة العمولة الافتراضية',
+    defaultCommission: 'نسبة إيراد الشركة الافتراضية',
     currency: 'عملة النظام',
     defaultSLA: 'المدة الافتراضية للتوصيل',
     autoAssign: 'تعيين الطيار تلقائيًا',
@@ -387,11 +547,40 @@ const translations = {
     dispatchCenter: 'مركز التوزيع',
     urgentOrders: 'تحتاج إلى تدخل',
     todayRevenue: 'إيراد اليوم',
-    todayCollections: 'تحصيل اليوم'
+    todayCollections: 'تحصيل اليوم',
+
+    paymentCollected: 'تحصيل العميل',
+    financialBreakdown: 'التقسيم المالي',
+    companyGets: 'نصيب الشركة',
+    driverGets: 'نصيب الطيار',
+
+    delete: 'حذف',
+    completedStatus: 'مكتمل',
+    markCompleted: 'تحديد كمكتمل',
+
+    noDrivers: 'لا يوجد طيارون.',
+    noMerchants: 'لا يوجد تجار.',
+    noCustomers: 'لا يوجد عملاء.',
+
+    apiKey: 'مفتاح Groq API',
+    language: 'اللغة',
+    english: 'English',
+    arabic: 'العربية',
+
+    revenueWarning:
+      'الطيار يحصل دائمًا على باقي رسوم التوصيل بعد خصم نصيب الشركة.',
+
+    orderNumber: 'رقم الطلب',
+    created: 'تم الإنشاء',
+
+    clearAll: 'مسح',
+    restore: 'استعادة'
   }
 };
 
-/* ----------------------------- Styles ----------------------------- */
+/* =========================================================
+   STYLES
+   ========================================================= */
 
 const styles = {
   app: {
@@ -433,8 +622,10 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: 28,
-    background: 'linear-gradient(135deg,#7C3AED,#EC4899)',
-    boxShadow: '0 12px 35px rgba(124,58,237,.35)'
+    background:
+      'linear-gradient(135deg,#7C3AED,#EC4899)',
+    boxShadow:
+      '0 12px 35px rgba(124,58,237,.35)'
   },
 
   title: {
@@ -467,19 +658,23 @@ const styles = {
   },
 
   primary: {
-    background: 'linear-gradient(135deg,#7C3AED,#A855F7)'
+    background:
+      'linear-gradient(135deg,#7C3AED,#A855F7)'
   },
 
   success: {
-    background: 'linear-gradient(135deg,#059669,#10B981)'
+    background:
+      'linear-gradient(135deg,#059669,#10B981)'
   },
 
   danger: {
-    background: 'linear-gradient(135deg,#DC2626,#EF4444)'
+    background:
+      'linear-gradient(135deg,#DC2626,#EF4444)'
   },
 
   warning: {
-    background: 'linear-gradient(135deg,#B45309,#F59E0B)'
+    background:
+      'linear-gradient(135deg,#B45309,#F59E0B)'
   },
 
   layout: {
@@ -490,7 +685,8 @@ const styles = {
 
   sidebar: {
     background: 'rgba(15,10,28,.8)',
-    border: '1px solid rgba(168,85,247,.18)',
+    border:
+      '1px solid rgba(168,85,247,.18)',
     borderRadius: 22,
     padding: 12,
     height: 'fit-content',
@@ -518,7 +714,8 @@ const styles = {
 
   navActive: {
     background: 'rgba(124,58,237,.23)',
-    border: '1px solid rgba(168,85,247,.45)',
+    border:
+      '1px solid rgba(168,85,247,.45)',
     color: '#fff'
   },
 
@@ -528,14 +725,16 @@ const styles = {
 
   grid4: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4,minmax(0,1fr))',
+    gridTemplateColumns:
+      'repeat(4,minmax(0,1fr))',
     gap: 12,
     marginBottom: 16
   },
 
   metric: {
     background: 'rgba(15,10,28,.75)',
-    border: '1px solid rgba(168,85,247,.16)',
+    border:
+      '1px solid rgba(168,85,247,.16)',
     borderRadius: 18,
     padding: 17
   },
@@ -555,11 +754,13 @@ const styles = {
 
   card: {
     background: 'rgba(15,10,28,.78)',
-    border: '1px solid rgba(168,85,247,.17)',
+    border:
+      '1px solid rgba(168,85,247,.17)',
     borderRadius: 20,
     padding: 20,
     marginBottom: 16,
-    boxShadow: '0 15px 45px rgba(0,0,0,.15)'
+    boxShadow:
+      '0 15px 45px rgba(0,0,0,.15)'
   },
 
   cardHeader: {
@@ -587,7 +788,8 @@ const styles = {
     boxSizing: 'border-box',
     padding: '11px 13px',
     borderRadius: 11,
-    border: '1px solid rgba(168,85,247,.25)',
+    border:
+      '1px solid rgba(168,85,247,.25)',
     background: '#0B0718',
     color: '#fff',
     outline: 'none'
@@ -600,7 +802,8 @@ const styles = {
     minHeight: 180,
     resize: 'vertical',
     borderRadius: 14,
-    border: '1px solid rgba(168,85,247,.25)',
+    border:
+      '1px solid rgba(168,85,247,.25)',
     background: '#0B0718',
     color: '#fff',
     outline: 'none',
@@ -609,7 +812,8 @@ const styles = {
 
   formGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(2,minmax(0,1fr))',
+    gridTemplateColumns:
+      'repeat(2,minmax(0,1fr))',
     gap: 12
   },
 
@@ -627,13 +831,15 @@ const styles = {
 
   orderGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(3,minmax(0,1fr))',
+    gridTemplateColumns:
+      'repeat(3,minmax(0,1fr))',
     gap: 12
   },
 
   orderCard: {
     background: 'rgba(10,6,20,.85)',
-    border: '1px solid rgba(255,255,255,.07)',
+    border:
+      '1px solid rgba(255,255,255,.07)',
     borderRadius: 17,
     padding: 16,
     marginBottom: 12
@@ -653,7 +859,8 @@ const styles = {
     boxSizing: 'border-box',
     background: '#0B0718',
     color: '#fff',
-    border: '1px solid rgba(168,85,247,.25)',
+    border:
+      '1px solid rgba(168,85,247,.25)',
     borderRadius: 13,
     padding: 13,
     marginBottom: 14,
@@ -662,7 +869,8 @@ const styles = {
 
   profileGrid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(4,minmax(0,1fr))',
+    gridTemplateColumns:
+      'repeat(4,minmax(0,1fr))',
     gap: 10,
     margin: '15px 0'
   },
@@ -670,8 +878,10 @@ const styles = {
   miniMetric: {
     padding: 12,
     borderRadius: 13,
-    background: 'rgba(255,255,255,.045)',
-    border: '1px solid rgba(255,255,255,.06)'
+    background:
+      'rgba(255,255,255,.045)',
+    border:
+      '1px solid rgba(255,255,255,.06)'
   },
 
   modalOverlay: {
@@ -687,20 +897,23 @@ const styles = {
   },
 
   modal: {
-    width: 'min(850px,100%)',
+    width: 'min(900px,100%)',
     maxHeight: '92vh',
     overflowY: 'auto',
     background: '#120A24',
-    border: '1px solid rgba(168,85,247,.4)',
+    border:
+      '1px solid rgba(168,85,247,.4)',
     borderRadius: 22,
     padding: 22,
-    boxShadow: '0 30px 90px rgba(0,0,0,.5)'
+    boxShadow:
+      '0 30px 90px rgba(0,0,0,.5)'
   },
 
   dispatchBox: {
     whiteSpace: 'pre-wrap',
     background: '#07040D',
-    border: '1px solid rgba(255,255,255,.08)',
+    border:
+      '1px solid rgba(255,255,255,.08)',
     borderRadius: 14,
     padding: 16,
     lineHeight: 1.65,
@@ -715,53 +928,125 @@ const styles = {
     fontWeight: 700
   },
 
+  paymentPaid: {
+    display: 'inline-flex',
+    padding: '7px 11px',
+    borderRadius: 9,
+    background: 'rgba(16,185,129,.12)',
+    color: '#34D399',
+    border:
+      '1px solid rgba(16,185,129,.35)',
+    fontWeight: 900,
+    fontSize: 12
+  },
+
+  paymentUnpaid: {
+    display: 'inline-flex',
+    padding: '7px 11px',
+    borderRadius: 9,
+    background: 'rgba(245,158,11,.12)',
+    color: '#FBBF24',
+    border:
+      '1px solid rgba(245,158,11,.35)',
+    fontWeight: 900,
+    fontSize: 12
+  },
+
+  financialBox: {
+    marginTop: 14,
+    padding: 15,
+    borderRadius: 15,
+    background:
+      'linear-gradient(135deg,rgba(124,58,237,.12),rgba(236,72,153,.06))',
+    border:
+      '1px solid rgba(168,85,247,.2)'
+  },
+
+  splitGrid: {
+    display: 'grid',
+    gridTemplateColumns:
+      'repeat(3,minmax(0,1fr))',
+    gap: 10,
+    marginTop: 10
+  },
+
   tableRow: {
     display: 'grid',
-    gridTemplateColumns: '110px 1fr 130px 120px',
+    gridTemplateColumns:
+      '110px 1fr 130px 120px',
     gap: 10,
     alignItems: 'center',
     padding: 12,
-    borderBottom: '1px solid rgba(255,255,255,.06)'
+    borderBottom:
+      '1px solid rgba(255,255,255,.06)'
   }
 };
 
-/* ----------------------------- Status UI ----------------------------- */
+/* =========================================================
+   STATUS
+   ========================================================= */
 
 const statusColor = status => {
   switch (status) {
     case STATUS.COMPLETED:
       return '#10B981';
+
     case STATUS.DELAYED:
       return '#F59E0B';
+
     case STATUS.CANCELLED:
       return '#EF4444';
+
     case STATUS.IN_TRANSIT:
     case STATUS.OUT_FOR_DELIVERY:
       return '#3B82F6';
+
     case STATUS.PROCESSING:
       return '#8B5CF6';
+
+    case STATUS.CONFIRMED:
+      return '#A78BFA';
+
     default:
       return '#64748B';
   }
 };
 
-const statusLabel = (status, t) => {
+const statusLabel = (status, lang) => {
   const map = {
-    [STATUS.CONFIRMED]: lang => lang === 'ar' ? 'مؤكد' : 'Confirmed',
-    [STATUS.PROCESSING]: lang => lang === 'ar' ? 'قيد التجهيز' : 'Processing',
-    [STATUS.OUT_FOR_DELIVERY]: lang =>
-      lang === 'ar' ? 'خرج للتوصيل' : 'Out for Delivery',
-    [STATUS.IN_TRANSIT]: lang =>
-      lang === 'ar' ? 'جاري التوصيل' : 'In Transit',
-    [STATUS.COMPLETED]: lang =>
-      lang === 'ar' ? 'مكتمل' : 'Completed',
-    [STATUS.DELAYED]: lang =>
-      lang === 'ar' ? 'متأخر' : 'Delayed',
-    [STATUS.CANCELLED]: lang =>
-      lang === 'ar' ? 'ملغي' : 'Cancelled'
+    [STATUS.CONFIRMED]:
+      lang === 'ar' ? 'مؤكد' : 'Confirmed',
+
+    [STATUS.PROCESSING]:
+      lang === 'ar' ? 'قيد التجهيز' : 'Processing',
+
+    [STATUS.OUT_FOR_DELIVERY]:
+      lang === 'ar'
+        ? 'خرج للتوصيل'
+        : 'Out for Delivery',
+
+    [STATUS.IN_TRANSIT]:
+      lang === 'ar'
+        ? 'جاري التوصيل'
+        : 'In Transit',
+
+    [STATUS.COMPLETED]:
+      lang === 'ar'
+        ? 'مكتمل'
+        : 'Completed',
+
+    [STATUS.DELAYED]:
+      lang === 'ar'
+        ? 'متأخر'
+        : 'Delayed',
+
+    [STATUS.CANCELLED]:
+      lang === 'ar'
+        ? 'ملغي'
+        : 'Cancelled'
   };
 
-  return map[status] ? map[status](t === translations.ar ? 'ar' : 'en') : status;
+  return map[status] || status;
 };
 
 /* =========================================================
@@ -770,165 +1055,275 @@ const statusLabel = (status, t) => {
 
 export default function App() {
   const [lang, setLang] = useState(
-    () => localStorage.getItem(STORAGE.lang) || 'ar'
+    () =>
+      localStorage.getItem(STORAGE.lang) ||
+      'ar'
   );
 
   const t = translations[lang];
 
   const [apiKey, setApiKey] = useState(
-    () => localStorage.getItem(STORAGE.apiKey) || ''
+    () =>
+      localStorage.getItem(
+        STORAGE.apiKey
+      ) || ''
   );
 
-  const [settings, setSettings] = useState(() => ({
-    ...DEFAULT_SETTINGS,
-    ...safeJSON(STORAGE.settings, {})
-  }));
-
-  const [orders, setOrders] = useState(() =>
-    safeJSON(STORAGE.orders, []).map(o => ({
-      ...o,
-      status: normalizeStatus(o.status)
-    }))
+  const [settings, setSettings] = useState(
+    () => ({
+      ...DEFAULT_SETTINGS,
+      ...safeJSON(
+        STORAGE.settings,
+        {}
+      )
+    })
   );
 
-  const [deletedOrders, setDeletedOrders] = useState(() =>
-    safeJSON(STORAGE.deletedOrders, [])
+  const [orders, setOrders] = useState(
+    () =>
+      safeJSON(STORAGE.orders, [])
+        .map(normalizeOrder)
   );
 
-  const [merchants, setMerchants] = useState(() =>
-    safeJSON(STORAGE.merchants, [])
+  const [deletedOrders, setDeletedOrders] =
+    useState(() =>
+      safeJSON(
+        STORAGE.deletedOrders,
+        []
+      )
+    );
+
+  const [merchants, setMerchants] =
+    useState(() =>
+      safeJSON(
+        STORAGE.merchants,
+        []
+      )
+    );
+
+  const [customers, setCustomers] =
+    useState(() =>
+      safeJSON(
+        STORAGE.customers,
+        []
+      )
+    );
+
+  const [drivers, setDrivers] =
+    useState(() =>
+      safeJSON(
+        STORAGE.drivers,
+        [
+          {
+            id: 'driver-1',
+            name: 'أحمد',
+            phone: '',
+            notes: ''
+          },
+          {
+            id: 'driver-2',
+            name: 'محمود',
+            phone: '',
+            notes: ''
+          },
+          {
+            id: 'driver-3',
+            name: 'مصطفى',
+            phone: '',
+            notes: ''
+          }
+        ]
+      )
+    );
+
+  const [history, setHistory] =
+    useState(() =>
+      safeJSON(
+        STORAGE.history,
+        []
+      )
+    );
+
+  const [counter, setCounter] =
+    useState(() =>
+      parseInt(
+        localStorage.getItem(
+          STORAGE.counter
+        ) || '1001',
+        10
+      )
+    );
+
+  const [activeTab, setActiveTab] =
+    useState('dashboard');
+
+  const [searchQuery, setSearchQuery] =
+    useState('');
+
+  const [rawText, setRawText] =
+    useState('');
+
+  const [loading, setLoading] =
+    useState(false);
+
+  const [extractedOrders, setExtractedOrders] =
+    useState([]);
+
+  /*
+    IMPORTANT:
+    These are only defaults for newly extracted orders.
+    Each extracted order gets its OWN values.
+  */
+  const [defaultRevenueType, setDefaultRevenueType] =
+    useState('percent');
+
+  const [
+    defaultRevenueValue,
+    setDefaultRevenueValue
+  ] = useState(
+    settings.defaultCommission
   );
 
-  const [customers, setCustomers] = useState(() =>
-    safeJSON(STORAGE.customers, [])
+  const [
+    expectedMinutes,
+    setExpectedMinutes
+  ] = useState(
+    settings.defaultDeliveryMinutes
   );
 
-  const [drivers, setDrivers] = useState(() =>
-    safeJSON(STORAGE.drivers, [
-      {
-        id: 'driver-1',
-        name: 'أحمد',
-        phone: '',
-        notes: ''
-      },
-      {
-        id: 'driver-2',
-        name: 'محمود',
-        phone: '',
-        notes: ''
-      },
-      {
-        id: 'driver-3',
-        name: 'مصطفى',
-        phone: '',
-        notes: ''
-      }
-    ])
-  );
+  const [showImportModal, setShowImportModal] =
+    useState(false);
 
-  const [history, setHistory] = useState(() =>
-    safeJSON(STORAGE.history, [])
-  );
+  const [importMode, setImportMode] =
+    useState('import');
 
-  const [counter, setCounter] = useState(() =>
-    parseInt(localStorage.getItem(STORAGE.counter) || '1001', 10)
-  );
+  const [dispatchDriver, setDispatchDriver] =
+    useState('');
 
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [dispatchOrder, setDispatchOrder] =
+    useState(null);
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [dispatchText, setDispatchText] =
+    useState('');
 
-  const [rawText, setRawText] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [extractedOrders, setExtractedOrders] = useState([]);
+  const [selectedOrder, setSelectedOrder] =
+    useState(null);
 
-  const [selectedDriver, setSelectedDriver] = useState('');
-  const [selectedRevenuePercent, setSelectedRevenuePercent] =
-    useState(settings.defaultCommission);
+  const [selectedEntity, setSelectedEntity] =
+    useState(null);
 
-  const [expectedMinutes, setExpectedMinutes] =
-    useState(settings.defaultDeliveryMinutes);
+  const [merchantForm, setMerchantForm] =
+    useState({
+      id: null,
+      name: '',
+      phone: '',
+      address: '',
+      notes: ''
+    });
 
-  const [showImportModal, setShowImportModal] = useState(false);
-  const [importMode, setImportMode] = useState('import');
+  const [customerForm, setCustomerForm] =
+    useState({
+      id: null,
+      name: '',
+      phone: '',
+      address: '',
+      notes: ''
+    });
 
-  const [dispatchDriver, setDispatchDriver] = useState('');
-  const [dispatchOrder, setDispatchOrder] = useState(null);
-  const [dispatchText, setDispatchText] = useState('');
+  const [driverForm, setDriverForm] =
+    useState({
+      id: null,
+      name: '',
+      phone: '',
+      notes: ''
+    });
 
-  const [selectedEntity, setSelectedEntity] = useState(null);
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [backupInput, setBackupInput] =
+    useState(null);
 
-  const [merchantForm, setMerchantForm] = useState({
-    id: null,
-    name: '',
-    phone: '',
-    address: '',
-    notes: ''
-  });
-
-  const [customerForm, setCustomerForm] = useState({
-    id: null,
-    name: '',
-    phone: '',
-    address: '',
-    notes: ''
-  });
-
-  const [driverForm, setDriverForm] = useState({
-    id: null,
-    name: '',
-    phone: '',
-    notes: ''
-  });
-
-  const [backupInput, setBackupInput] = useState(null);
-
-  /* ----------------------------- Persistence ----------------------------- */
+  /* =========================================================
+     PERSISTENCE
+     ========================================================= */
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.lang, lang);
+    localStorage.setItem(
+      STORAGE.lang,
+      lang
+    );
   }, [lang]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.apiKey, apiKey);
+    localStorage.setItem(
+      STORAGE.apiKey,
+      apiKey
+    );
   }, [apiKey]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.settings, JSON.stringify(settings));
+    localStorage.setItem(
+      STORAGE.settings,
+      JSON.stringify(settings)
+    );
   }, [settings]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.orders, JSON.stringify(orders));
+    localStorage.setItem(
+      STORAGE.orders,
+      JSON.stringify(orders)
+    );
   }, [orders]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.deletedOrders, JSON.stringify(deletedOrders));
+    localStorage.setItem(
+      STORAGE.deletedOrders,
+      JSON.stringify(deletedOrders)
+    );
   }, [deletedOrders]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.merchants, JSON.stringify(merchants));
+    localStorage.setItem(
+      STORAGE.merchants,
+      JSON.stringify(merchants)
+    );
   }, [merchants]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.customers, JSON.stringify(customers));
+    localStorage.setItem(
+      STORAGE.customers,
+      JSON.stringify(customers)
+    );
   }, [customers]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.drivers, JSON.stringify(drivers));
+    localStorage.setItem(
+      STORAGE.drivers,
+      JSON.stringify(drivers)
+    );
   }, [drivers]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.history, JSON.stringify(history));
+    localStorage.setItem(
+      STORAGE.history,
+      JSON.stringify(history)
+    );
   }, [history]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE.counter, String(counter));
+    localStorage.setItem(
+      STORAGE.counter,
+      String(counter)
+    );
   }, [counter]);
 
-  /* ----------------------------- Audit ----------------------------- */
+  /* =========================================================
+     AUDIT
+     ========================================================= */
 
-  const addAudit = (orderNum, action, details) => {
+  const addAudit = (
+    orderNum,
+    action,
+    details
+  ) => {
     setHistory(prev => [
       {
         id: uid(),
@@ -941,10 +1336,13 @@ export default function App() {
     ]);
   };
 
-  /* ----------------------------- Auto Delay Engine ----------------------------- */
+  /* =========================================================
+     AUTO DELAY
+     ========================================================= */
 
   useEffect(() => {
-    if (!settings.autoDelayStatus) return;
+    if (!settings.autoDelayStatus)
+      return;
 
     const checkDelayedOrders = () => {
       const now = Date.now();
@@ -963,14 +1361,24 @@ export default function App() {
           if (
             active &&
             order.expectedDeliveryAt &&
-            new Date(order.expectedDeliveryAt).getTime() < now
+            new Date(
+              order.expectedDeliveryAt
+            ).getTime() < now
           ) {
             changed = true;
+
+            addAudit(
+              order.orderNum,
+              'AUTO_DELAY',
+              'Order automatically marked as delayed'
+            );
 
             return {
               ...order,
               status: STATUS.DELAYED,
-              delayedAt: order.delayedAt || nowISO()
+              delayedAt:
+                order.delayedAt ||
+                nowISO()
             };
           }
 
@@ -983,58 +1391,92 @@ export default function App() {
 
     checkDelayedOrders();
 
-    const interval = setInterval(checkDelayedOrders, 30 * 1000);
+    const interval =
+      setInterval(
+        checkDelayedOrders,
+        30000
+      );
 
-    return () => clearInterval(interval);
+    return () =>
+      clearInterval(interval);
   }, [settings.autoDelayStatus]);
 
-  /* ----------------------------- Driver Assignment ----------------------------- */
+  /* =========================================================
+     DRIVER ASSIGNMENT
+     ========================================================= */
 
   const autoAssignDriver = () => {
-    if (!settings.autoDriverAssignment || drivers.length === 0) {
+    if (
+      !settings.autoDriverAssignment ||
+      drivers.length === 0
+    ) {
       return '';
     }
 
-    const counts = drivers.map(driver => ({
-      driver,
-      active: orders.filter(
-        o =>
-          o.driverId === driver.id &&
-          ![STATUS.COMPLETED, STATUS.CANCELLED].includes(o.status)
-      ).length
-    }));
+    const counts = drivers.map(
+      driver => ({
+        driver,
+        active: orders.filter(
+          o =>
+            o.driverId === driver.id &&
+            ![
+              STATUS.COMPLETED,
+              STATUS.CANCELLED
+            ].includes(o.status)
+        ).length
+      })
+    );
 
-    counts.sort((a, b) => a.active - b.active);
+    counts.sort(
+      (a, b) =>
+        a.active - b.active
+    );
 
-    return counts[0]?.driver.id || '';
+    return (
+      counts[0]?.driver.id || ''
+    );
   };
 
-  /* ----------------------------- Address Validation ----------------------------- */
+  /* =========================================================
+     ADDRESS VALIDATION
+     ========================================================= */
 
-  const incompleteAddress = address => {
-    if (!address || address.trim().length < 10) return true;
+  const incompleteAddress =
+    address => {
+      if (
+        !address ||
+        address.trim().length < 10
+      ) {
+        return true;
+      }
 
-    const words = [
-      'شارع',
-      'ش ',
-      'دور',
-      'شقة',
-      'عمارة',
-      'مبنى',
-      'street',
-      'st ',
-      'floor',
-      'apt',
-      'flat',
-      'building'
-    ];
+      const words = [
+        'شارع',
+        'ش ',
+        'دور',
+        'شقة',
+        'عمارة',
+        'مبنى',
+        'street',
+        'st ',
+        'floor',
+        'apt',
+        'flat',
+        'building'
+      ];
 
-    const lower = address.toLowerCase();
+      const lower =
+        address.toLowerCase();
 
-    return !words.some(word => lower.includes(word));
-  };
+      return !words.some(
+        word =>
+          lower.includes(word)
+      );
+    };
 
-  /* ----------------------------- AI Extraction ----------------------------- */
+  /* =========================================================
+     AI EXTRACTION
+     ========================================================= */
 
   const extractOrders = async () => {
     if (!apiKey.trim()) {
@@ -1043,7 +1485,9 @@ export default function App() {
           ? 'أضف Groq API Key من الإعدادات أولاً.'
           : 'Add your Groq API Key in Settings first.'
       );
+
       setActiveTab('settings');
+
       return;
     }
 
@@ -1053,6 +1497,7 @@ export default function App() {
           ? 'الصق رسالة الطلب أولاً.'
           : 'Paste the order message first.'
       );
+
       return;
     }
 
@@ -1102,67 +1547,139 @@ Return ONLY JSON:
 `;
 
     try {
-      const response = await fetch(
-        'https://api.groq.com/openai/v1/chat/completions',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${apiKey.trim()}`
-          },
-          body: JSON.stringify({
-            model: 'llama-3.3-70b-versatile',
-            temperature: 0.1,
-            response_format: {
-              type: 'json_object'
+      const response =
+        await fetch(
+          'https://api.groq.com/openai/v1/chat/completions',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type':
+                'application/json',
+              Authorization:
+                `Bearer ${apiKey.trim()}`
             },
-            messages: [
-              {
-                role: 'system',
-                content: systemPrompt
-              },
-              {
-                role: 'user',
-                content: rawText
-              }
-            ]
-          })
-        }
-      );
+            body: JSON.stringify({
+              model:
+                'llama-3.3-70b-versatile',
 
-      const data = await response.json();
+              temperature: 0.1,
+
+              response_format: {
+                type: 'json_object'
+              },
+
+              messages: [
+                {
+                  role: 'system',
+                  content:
+                    systemPrompt
+                },
+                {
+                  role: 'user',
+                  content: rawText
+                }
+              ]
+            })
+          }
+        );
+
+      const data =
+        await response.json();
 
       if (!response.ok) {
         throw new Error(
-          data?.error?.message || 'AI extraction failed'
+          data?.error?.message ||
+            'AI extraction failed'
         );
       }
 
-      const parsed = JSON.parse(
-        data.choices?.[0]?.message?.content || '{}'
+      const parsed =
+        JSON.parse(
+          data.choices?.[0]?.message
+            ?.content || '{}'
+        );
+
+      const normalized =
+        (parsed.orders || []).map(
+          order => ({
+            store:
+              order.store || '',
+
+            customer:
+              order.customer || '',
+
+            phone:
+              order.phone || '',
+
+            address:
+              order.address || '',
+
+            cod:
+              normalizeNumber(
+                order.cod
+              ),
+
+            deliveryFee:
+              normalizeNumber(
+                order.deliveryFee
+              ),
+
+            paymentMethod:
+              order.paymentMethod ===
+                PAYMENT.ONLINE ||
+              order.paymentMethod ===
+                PAYMENT.PREPAID
+                ? order.paymentMethod
+                : PAYMENT.CASH,
+
+            item:
+              order.item || '',
+
+            notes:
+              order.notes || '',
+
+            /*
+              Each order starts with the defaults.
+              The user can then change driver and
+              revenue split individually.
+            */
+            driverId:
+              autoAssignDriver(),
+
+            revenueType:
+              defaultRevenueType,
+
+            revenuePercent:
+              defaultRevenueType ===
+              'percent'
+                ? normalizeNumber(
+                    defaultRevenueValue
+                  )
+                : 0,
+
+            revenueValue:
+              defaultRevenueType ===
+              'amount'
+                ? normalizeNumber(
+                    defaultRevenueValue
+                  )
+                : 0
+          })
+        );
+
+      setExtractedOrders(
+        normalized
       );
 
-      const normalized = (parsed.orders || []).map(order => ({
-        store: order.store || '',
-        customer: order.customer || '',
-        phone: order.phone || '',
-        address: order.address || '',
-        cod: normalizeNumber(order.cod),
-        deliveryFee: normalizeNumber(order.deliveryFee),
-        paymentMethod:
-          order.paymentMethod === PAYMENT.ONLINE ||
-          order.paymentMethod === PAYMENT.PREPAID
-            ? order.paymentMethod
-            : PAYMENT.CASH,
-        item: order.item || '',
-        notes: order.notes || ''
-      }));
-
-      setExtractedOrders(normalized);
-
-      if (parsed.ambiguous_flags?.length) {
+      if (
+        parsed.ambiguous_flags?.length
+      ) {
         alert(
-          `${lang === 'ar' ? 'ملاحظات AI:' : 'AI warnings:'}\n\n${parsed.ambiguous_flags.join(
+          `${
+            lang === 'ar'
+              ? 'ملاحظات AI:'
+              : 'AI warnings:'
+          }\n\n${parsed.ambiguous_flags.join(
             '\n'
           )}`
         );
@@ -1178,170 +1695,562 @@ Return ONLY JSON:
     }
   };
 
-  /* ----------------------------- Confirm Orders ----------------------------- */
+  /* =========================================================
+     EXTRACTED ORDER UPDATE
+     ========================================================= */
 
-  const confirmExtractedOrders = () => {
-    if (!extractedOrders.length) return;
-
-    let number = counter;
-
-    const created = extractedOrders.map(order => {
-      const createdAt = nowISO();
-
-      const expectedAt = new Date(
-        Date.now() + Number(expectedMinutes) * 60 * 1000
-      ).toISOString();
-
-      const driverId =
-        selectedDriver ||
-        autoAssignDriver();
-
-      const driver = drivers.find(d => d.id === driverId);
-
-      const newOrder = {
-        id: uid(),
-        orderNum: `#${number++}`,
-
-        store: order.store || 'N/A',
-        customer: order.customer || 'N/A',
-        phone: order.phone || '',
-        address: order.address || '',
-        notes: order.notes || '',
-        item: order.item || '',
-
-        cod: normalizeNumber(order.cod),
-        deliveryFee: normalizeNumber(order.deliveryFee),
-
-        paymentMethod:
-          order.paymentMethod || PAYMENT.CASH,
-
-        revenuePercent:
-          normalizeNumber(selectedRevenuePercent),
-
-        driverId: driverId || '',
-        driverName: driver?.name || '',
-
-        status: STATUS.CONFIRMED,
-
-        createdAt,
-        expectedDeliveryAt: expectedAt,
-
-        actualDeliveryAt: null,
-        delayedAt: null,
-
-        source: 'whatsapp_ai',
-
-        lastUpdatedAt: createdAt
-      };
-
-      addAudit(
-        newOrder.orderNum,
-        'ORDER_CREATED',
-        `${newOrder.customer} • ${newOrder.store}`
+  const updateExtractedOrder =
+    (index, changes) => {
+      setExtractedOrders(prev =>
+        prev.map((order, i) =>
+          i === index
+            ? {
+                ...order,
+                ...changes
+              }
+            : order
+        )
       );
+    };
 
-      return newOrder;
-    });
-
-    setCounter(number);
-    setOrders(prev => [...created, ...prev]);
-
-    /* Automatically create/update merchant records */
-
-    created.forEach(order => {
-      if (order.store && order.store !== 'N/A') {
-        setMerchants(prev => {
-          const existing = prev.find(
-            m =>
-              m.name?.toLowerCase() ===
-              order.store?.toLowerCase()
-          );
-
-          if (existing) {
-            return prev.map(m =>
-              m.id === existing.id
-                ? {
-                    ...m,
-                    phone: order.phone || m.phone,
-                    address: order.address || m.address,
-                    totalOrders: (m.totalOrders || 0) + 1
-                  }
-                : m
-            );
-          }
-
-          return [
-            {
-              id: uid(),
-              name: order.store,
-              phone: '',
-              address: '',
-              notes: '',
-              totalOrders: 1
-            },
-            ...prev
-          ];
-        });
+  const setExtractedDriver = (
+    index,
+    driverId
+  ) => {
+    updateExtractedOrder(
+      index,
+      {
+        driverId
       }
-
-      if (order.customer && order.customer !== 'N/A') {
-        setCustomers(prev => {
-          const existing = prev.find(
-            c =>
-              (order.phone && c.phone === order.phone) ||
-              c.name?.toLowerCase() ===
-                order.customer?.toLowerCase()
-          );
-
-          if (existing) {
-            return prev.map(c =>
-              c.id === existing.id
-                ? {
-                    ...c,
-                    phone: order.phone || c.phone,
-                    address: order.address || c.address
-                  }
-                : c
-            );
-          }
-
-          return [
-            {
-              id: uid(),
-              name: order.customer,
-              phone: order.phone,
-              address: order.address,
-              notes: ''
-            },
-            ...prev
-          ];
-        });
-      }
-    });
-
-    setExtractedOrders([]);
-    setRawText('');
-    setSelectedDriver('');
-    setSelectedRevenuePercent(settings.defaultCommission);
-
-    setActiveTab('orders');
-
-    alert(t.createdSuccessfully);
+    );
   };
 
-  /* ----------------------------- Order Actions ----------------------------- */
+  const setExtractedRevenueType = (
+    index,
+    type
+  ) => {
+    const order =
+      extractedOrders[index];
 
-  const updateOrder = (id, changes, auditAction = 'ORDER_UPDATED') => {
-    const current = orders.find(o => o.id === id);
+    const fee =
+      normalizeNumber(
+        order?.deliveryFee
+      );
+
+    if (type === 'percent') {
+      const currentPercent =
+        order?.revenueType ===
+        'amount'
+          ? fee
+            ? (
+                normalizeNumber(
+                  order.revenueValue
+                ) /
+                fee
+              ) *
+                100
+            : 0
+          : normalizeNumber(
+              order.revenuePercent
+            );
+
+      updateExtractedOrder(
+        index,
+        {
+          revenueType:
+            'percent',
+          revenuePercent:
+            Math.min(
+              100,
+              Math.max(
+                0,
+                currentPercent
+              )
+            ),
+          revenueValue:
+            fee *
+            (currentPercent / 100)
+        }
+      );
+    } else {
+      const currentAmount =
+        order?.revenueType ===
+        'amount'
+          ? normalizeNumber(
+              order.revenueValue
+            )
+          : fee *
+            (normalizeNumber(
+              order.revenuePercent
+            ) / 100);
+
+      updateExtractedOrder(
+        index,
+        {
+          revenueType:
+            'amount',
+          revenueValue:
+            Math.min(
+              fee,
+              Math.max(
+                0,
+                currentAmount
+              )
+            ),
+          revenuePercent:
+            fee
+              ? (
+                  Math.min(
+                    fee,
+                    Math.max(
+                      0,
+                      currentAmount
+                    )
+                  ) /
+                  fee
+                ) *
+                100
+              : 0
+        }
+      );
+    }
+  };
+
+  const setExtractedRevenue =
+    (index, value) => {
+      const order =
+        extractedOrders[index];
+
+      const fee =
+        normalizeNumber(
+          order?.deliveryFee
+        );
+
+      if (
+        order?.revenueType ===
+        'amount'
+      ) {
+        const amount =
+          Math.min(
+            fee,
+            Math.max(
+              0,
+              normalizeNumber(
+                value
+              )
+            )
+          );
+
+        updateExtractedOrder(
+          index,
+          {
+            revenueValue:
+              amount,
+
+            revenuePercent:
+              fee
+                ? (amount / fee) *
+                  100
+                : 0
+          }
+        );
+      } else {
+        const percent =
+          Math.min(
+            100,
+            Math.max(
+              0,
+              normalizeNumber(
+                value
+              )
+            )
+          );
+
+        updateExtractedOrder(
+          index,
+          {
+            revenuePercent:
+              percent,
+
+            revenueValue:
+              fee *
+              (percent / 100)
+          }
+        );
+      }
+    };
+
+  /* =========================================================
+     CONFIRM ORDERS
+     ========================================================= */
+
+  const confirmExtractedOrders =
+    () => {
+      if (
+        !extractedOrders.length
+      ) {
+        return;
+      }
+
+      let number = counter;
+
+      const created =
+        extractedOrders.map(
+          order => {
+            const createdAt =
+              nowISO();
+
+            const expectedAt =
+              new Date(
+                Date.now() +
+                  Number(
+                    expectedMinutes
+                  ) *
+                    60 *
+                    1000
+              ).toISOString();
+
+            const driverId =
+              order.driverId ||
+              '';
+
+            const driver =
+              drivers.find(
+                d =>
+                  d.id ===
+                  driverId
+              );
+
+            const fee =
+              normalizeNumber(
+                order.deliveryFee
+              );
+
+            let revenueType =
+              order.revenueType ===
+              'amount'
+                ? 'amount'
+                : 'percent';
+
+            let revenuePercent =
+              normalizeNumber(
+                order.revenuePercent
+              );
+
+            let revenueValue =
+              normalizeNumber(
+                order.revenueValue
+              );
+
+            if (
+              revenueType ===
+              'amount'
+            ) {
+              revenueValue =
+                Math.min(
+                  fee,
+                  Math.max(
+                    0,
+                    revenueValue
+                  )
+                );
+
+              revenuePercent =
+                fee
+                  ? (
+                      revenueValue /
+                      fee
+                    ) *
+                    100
+                  : 0;
+            } else {
+              revenuePercent =
+                Math.min(
+                  100,
+                  Math.max(
+                    0,
+                    revenuePercent
+                  )
+                );
+
+              revenueValue =
+                fee *
+                (revenuePercent /
+                  100);
+            }
+
+            const newOrder =
+              normalizeOrder({
+                id: uid(),
+
+                orderNum:
+                  `#${number++}`,
+
+                store:
+                  order.store ||
+                  'N/A',
+
+                customer:
+                  order.customer ||
+                  'N/A',
+
+                phone:
+                  order.phone ||
+                  '',
+
+                address:
+                  order.address ||
+                  '',
+
+                notes:
+                  order.notes ||
+                  '',
+
+                item:
+                  order.item ||
+                  '',
+
+                cod:
+                  normalizeNumber(
+                    order.cod
+                  ),
+
+                deliveryFee:
+                  fee,
+
+                paymentMethod:
+                  order.paymentMethod ||
+                  PAYMENT.CASH,
+
+                /*
+                  SAVED PER ORDER
+                */
+                revenueType,
+
+                revenuePercent,
+
+                revenueValue,
+
+                driverId:
+                  driverId || '',
+
+                driverName:
+                  driver?.name || '',
+
+                status:
+                  STATUS.CONFIRMED,
+
+                createdAt,
+
+                expectedDeliveryAt:
+                  expectedAt,
+
+                actualDeliveryAt:
+                  null,
+
+                delayedAt:
+                  null,
+
+                source:
+                  'whatsapp_ai',
+
+                lastUpdatedAt:
+                  createdAt
+              });
+
+            addAudit(
+              newOrder.orderNum,
+              'ORDER_CREATED',
+              `${newOrder.customer} • ${newOrder.store}`
+            );
+
+            addAudit(
+              newOrder.orderNum,
+              'PAYMENT_STATUS',
+              isPaid(newOrder)
+                ? 'PAID'
+                : 'UNPAID'
+            );
+
+            addAudit(
+              newOrder.orderNum,
+              'DRIVER_REVENUE_SPLIT',
+              `Company: ${money(
+                getCompanyRevenue(
+                  newOrder
+                ),
+                settings.currency
+              )} (${getCompanyPercent(
+                newOrder
+              ).toFixed(2)}%) • Driver: ${money(
+                getDriverRevenue(
+                  newOrder
+                ),
+                settings.currency
+              )}`
+            );
+
+            return newOrder;
+          }
+        );
+
+      setCounter(number);
+
+      setOrders(prev => [
+        ...created,
+        ...prev
+      ]);
+
+      /*
+        Automatically create/update merchants.
+      */
+      created.forEach(order => {
+        if (
+          order.store &&
+          order.store !== 'N/A'
+        ) {
+          setMerchants(prev => {
+            const existing =
+              prev.find(
+                m =>
+                  m.name
+                    ?.toLowerCase() ===
+                  order.store
+                    ?.toLowerCase()
+              );
+
+            if (existing) {
+              return prev.map(
+                m =>
+                  m.id ===
+                  existing.id
+                    ? {
+                        ...m,
+
+                        phone:
+                          order.phone ||
+                          m.phone,
+
+                        address:
+                          order.address ||
+                          m.address,
+
+                        totalOrders:
+                          (m.totalOrders ||
+                            0) + 1
+                      }
+                    : m
+              );
+            }
+
+            return [
+              {
+                id: uid(),
+                name:
+                  order.store,
+                phone: '',
+                address: '',
+                notes: '',
+                totalOrders: 1
+              },
+              ...prev
+            ];
+          });
+        }
+
+        if (
+          order.customer &&
+          order.customer !== 'N/A'
+        ) {
+          setCustomers(prev => {
+            const existing =
+              prev.find(
+                c =>
+                  (order.phone &&
+                    c.phone ===
+                      order.phone) ||
+                  c.name
+                    ?.toLowerCase() ===
+                    order.customer
+                      ?.toLowerCase()
+              );
+
+            if (existing) {
+              return prev.map(
+                c =>
+                  c.id ===
+                  existing.id
+                    ? {
+                        ...c,
+                        phone:
+                          order.phone ||
+                          c.phone,
+                        address:
+                          order.address ||
+                          c.address
+                      }
+                    : c
+              );
+            }
+
+            return [
+              {
+                id: uid(),
+                name:
+                  order.customer,
+                phone:
+                  order.phone,
+                address:
+                  order.address,
+                notes: ''
+              },
+              ...prev
+            ];
+          });
+        }
+      });
+
+      setExtractedOrders([]);
+
+      setRawText('');
+
+      setDefaultRevenueValue(
+        settings.defaultCommission
+      );
+
+      setActiveTab(
+        'orders'
+      );
+
+      alert(
+        t.createdSuccessfully
+      );
+    };
+
+  /* =========================================================
+     ORDER ACTIONS
+     ========================================================= */
+
+  const updateOrder = (
+    id,
+    changes,
+    auditAction =
+      'ORDER_UPDATED'
+  ) => {
+    const current =
+      orders.find(
+        o => o.id === id
+      );
 
     setOrders(prev =>
       prev.map(order =>
         order.id === id
-          ? {
+          ? normalizeOrder({
               ...order,
               ...changes,
-              lastUpdatedAt: nowISO()
-            }
+              lastUpdatedAt:
+                nowISO()
+            })
           : order
       )
     );
@@ -1353,15 +2262,32 @@ Return ONLY JSON:
         JSON.stringify(changes)
       );
     }
+
+    /*
+      Keep selected order modal synchronized.
+    */
+    setSelectedOrder(prev =>
+      prev?.id === id
+        ? normalizeOrder({
+            ...prev,
+            ...changes
+          })
+        : prev
+    );
   };
 
-  const changeStatus = (order, status) => {
+  const changeStatus = (
+    order,
+    status
+  ) => {
     updateOrder(
       order.id,
       {
         status,
+
         actualDeliveryAt:
-          status === STATUS.COMPLETED
+          status ===
+          STATUS.COMPLETED
             ? nowISO()
             : order.actualDeliveryAt
       },
@@ -1369,17 +2295,89 @@ Return ONLY JSON:
     );
   };
 
-  const reassignDriver = (order, driverId) => {
-    const driver = drivers.find(d => d.id === driverId);
+  const reassignDriver = (
+    order,
+    driverId
+  ) => {
+    const driver =
+      drivers.find(
+        d => d.id === driverId
+      );
 
     updateOrder(
       order.id,
       {
         driverId,
-        driverName: driver?.name || ''
+        driverName:
+          driver?.name || ''
       },
       'DRIVER_REASSIGNED'
     );
+  };
+
+  const updateOrderRevenue = (
+    order,
+    type,
+    value
+  ) => {
+    const fee =
+      normalizeNumber(
+        order.deliveryFee
+      );
+
+    if (type === 'percent') {
+      const percent =
+        Math.min(
+          100,
+          Math.max(
+            0,
+            normalizeNumber(value)
+          )
+        );
+
+      updateOrder(
+        order.id,
+        {
+          revenueType:
+            'percent',
+
+          revenuePercent:
+            percent,
+
+          revenueValue:
+            fee *
+            (percent / 100)
+        },
+        'REVENUE_SPLIT_CHANGED'
+      );
+    } else {
+      const amount =
+        Math.min(
+          fee,
+          Math.max(
+            0,
+            normalizeNumber(value)
+          )
+        );
+
+      updateOrder(
+        order.id,
+        {
+          revenueType:
+            'amount',
+
+          revenueValue:
+            amount,
+
+          revenuePercent:
+            fee
+              ? (amount / fee) *
+                100
+              : 0
+        },
+        'REVENUE_SPLIT_CHANGED'
+      );
+    }
   };
 
   const deleteOrder = order => {
@@ -1393,36 +2391,73 @@ Return ONLY JSON:
       return;
     }
 
-    setOrders(prev => prev.filter(o => o.id !== order.id));
+    setOrders(prev =>
+      prev.filter(
+        o => o.id !== order.id
+      )
+    );
 
     setDeletedOrders(prev => [
       {
         ...order,
-        deletedAt: nowISO()
+        deletedAt:
+          nowISO()
       },
       ...prev
     ]);
 
-    addAudit(order.orderNum, 'ORDER_DELETED', order.customer);
+    addAudit(
+      order.orderNum,
+      'ORDER_DELETED',
+      order.customer
+    );
+
+    setSelectedOrder(null);
   };
 
-  /* ----------------------------- Driver Dispatch ----------------------------- */
+  /* =========================================================
+     DISPATCH
+     ========================================================= */
 
-  const generateDispatchMessage = order => {
-    const driver = drivers.find(d => d.id === dispatchDriver);
+  const generateDispatchMessage =
+    order => {
+      const driver =
+        drivers.find(
+          d =>
+            d.id ===
+            dispatchDriver
+        );
 
-    const paymentText =
-      order.paymentMethod === PAYMENT.CASH
-        ? lang === 'ar'
-          ? '💵 كاش عند الاستلام'
-          : '💵 Cash on Delivery'
-        : lang === 'ar'
-        ? '✅ مدفوع مسبقًا / أونلاين'
-        : '✅ Paid Online / Prepaid';
+      const paid =
+        isPaid(order);
 
-    const message =
-      lang === 'ar'
-        ? `🚚 *طلب توصيل ${order.orderNum}*
+      const company =
+        getCompanyRevenue(
+          order
+        );
+
+      const driverRevenue =
+        getDriverRevenue(
+          order
+        );
+
+      const percent =
+        getCompanyPercent(
+          order
+        );
+
+      const paymentText =
+        paid
+          ? lang === 'ar'
+            ? '✅ مدفوع بالفعل'
+            : '✅ PAID'
+          : lang === 'ar'
+          ? '💵 غير مدفوع — يجب التحصيل من العميل'
+          : '💵 UNPAID — collect from customer';
+
+      const message =
+        lang === 'ar'
+          ? `🚚 *طلب توصيل ${order.orderNum}*
 
 🏪 المتجر: ${order.store}
 👤 العميل: ${order.customer}
@@ -1434,24 +2469,59 @@ ${order.address || 'غير محدد'}
 📦 *الطلب:*
 ${order.item || 'راجع تفاصيل الطلب'}
 
-💰 قيمة الطلب: ${money(order.cod, settings.currency)}
-🛵 رسوم التوصيل: ${money(order.deliveryFee, settings.currency)}
+💰 قيمة الطلب: ${money(
+              order.cod,
+              settings.currency
+            )}
+
+🛵 رسوم التوصيل: ${money(
+              order.deliveryFee,
+              settings.currency
+            )}
+
+💳 *حالة الدفع:*
 ${paymentText}
 
 💵 *المطلوب تحصيله من العميل:*
-${money(getCollection(order), settings.currency)}
+${money(
+              getCollection(order),
+              settings.currency
+            )}
+
+━━━━━━━━━━━━━━
+💰 *التقسيم المالي:*
+
+🏢 نصيب الشركة:
+${money(
+              company,
+              settings.currency
+            )} (${percent.toFixed(2)}%)
+
+🛵 نصيب الطيار:
+${money(
+              driverRevenue,
+              settings.currency
+            )} (${Math.max(
+              0,
+              100 - percent
+            ).toFixed(2)}%)
 
 ⏰ التسليم المتوقع:
-${formatDateTime(order.expectedDeliveryAt, lang)}
+${formatDateTime(
+              order.expectedDeliveryAt,
+              lang
+            )}
 
 📝 ملاحظات:
 ${order.notes || 'لا توجد'}
 
 👨‍✈️ الطيار:
-${driver?.name || order.driverName || 'غير معين'}
+${driver?.name ||
+              order.driverName ||
+              'غير معين'}
 
 يرجى تحديث حالة الطلب بعد الاستلام والتسليم.`
-        : `🚚 *Delivery Order ${order.orderNum}*
+          : `🚚 *Delivery Order ${order.orderNum}*
 
 🏪 Merchant: ${order.store}
 👤 Customer: ${order.customer}
@@ -1463,219 +2533,927 @@ ${order.address || 'N/A'}
 📦 *Items:*
 ${order.item || 'See order details'}
 
-💰 Order value: ${money(order.cod, settings.currency)}
-🛵 Delivery fee: ${money(order.deliveryFee, settings.currency)}
+💰 Order value: ${money(
+              order.cod,
+              settings.currency
+            )}
+
+🛵 Delivery fee: ${money(
+              order.deliveryFee,
+              settings.currency
+            )}
+
+💳 *Payment Status:*
 ${paymentText}
 
-💵 *Customer collection:*
-${money(getCollection(order), settings.currency)}
+💵 *Customer Collection:*
+${money(
+              getCollection(order),
+              settings.currency
+            )}
+
+━━━━━━━━━━━━━━
+💰 *Financial Split:*
+
+🏢 Company:
+${money(
+              company,
+              settings.currency
+            )} (${percent.toFixed(2)}%)
+
+🛵 Driver:
+${money(
+              driverRevenue,
+              settings.currency
+            )} (${Math.max(
+              0,
+              100 - percent
+            ).toFixed(2)}%)
 
 ⏰ Expected delivery:
-${formatDateTime(order.expectedDeliveryAt, lang)}
+${formatDateTime(
+              order.expectedDeliveryAt,
+              lang
+            )}
 
 📝 Notes:
 ${order.notes || 'None'}
 
 👨‍✈️ Driver:
-${driver?.name || order.driverName || 'Unassigned'}
+${driver?.name ||
+              order.driverName ||
+              'Unassigned'}
 
 Please update the order status after pickup and delivery.`;
 
-    setDispatchText(message);
-  };
+      setDispatchText(
+        message
+      );
+    };
 
   const openDispatch = order => {
-    setDispatchOrder(order);
-    setDispatchDriver(order.driverId || '');
+    setDispatchOrder(
+      order
+    );
+
+    setDispatchDriver(
+      order.driverId || ''
+    );
+
     setDispatchText('');
-    setShowImportModal(true);
-    setImportMode('dispatch');
+
+    setShowImportModal(
+      true
+    );
+
+    setImportMode(
+      'dispatch'
+    );
   };
 
-  const copyDispatch = async () => {
-    try {
-      await navigator.clipboard.writeText(dispatchText);
-      alert(t.copied);
-    } catch {
-      alert('Copy failed');
-    }
-  };
+  const copyDispatch =
+    async () => {
+      try {
+        await navigator.clipboard.writeText(
+          dispatchText
+        );
 
-  /* ----------------------------- Driver Metrics ----------------------------- */
-
-  const driverMetrics = driverId => {
-    const driverOrders = orders.filter(
-      order => order.driverId === driverId
-    );
-
-    const completed = driverOrders.filter(
-      order => order.status === STATUS.COMPLETED
-    );
-
-    const daily = completed.filter(o =>
-      isSameDay(o.createdAt, new Date())
-    );
-
-    const weekly = completed.filter(o =>
-      isWithinDays(o.createdAt, 7)
-    );
-
-    const monthly = completed.filter(o =>
-      isWithinDays(o.createdAt, 30)
-    );
-
-    const metrics = list => ({
-      orders: list.length,
-
-      collected: list.reduce(
-        (sum, order) => sum + getCollection(order),
-        0
-      ),
-
-      companyRevenue: list.reduce(
-        (sum, order) => sum + getCompanyRevenue(order),
-        0
-      ),
-
-      driverRevenue: list.reduce(
-        (sum, order) => sum + getDriverRevenue(order),
-        0
-      )
-    });
-
-    return {
-      active: driverOrders.filter(
-        o =>
-          ![
-            STATUS.COMPLETED,
-            STATUS.CANCELLED
-          ].includes(o.status)
-      ).length,
-
-      daily: metrics(daily),
-      weekly: metrics(weekly),
-      monthly: metrics(monthly),
-
-      allOrders: driverOrders
+        alert(t.copied);
+      } catch {
+        alert('Copy failed');
+      }
     };
-  };
 
-  /* ----------------------------- Dashboard Metrics ----------------------------- */
+  /* =========================================================
+     DRIVER METRICS
+     ========================================================= */
 
-  const activeOrders = orders.filter(
-    o =>
-      ![
-        STATUS.COMPLETED,
-        STATUS.CANCELLED
-      ].includes(o.status)
-  );
+  const driverMetrics =
+    driverId => {
+      const driverOrders =
+        orders.filter(
+          order =>
+            order.driverId ===
+            driverId
+        );
 
-  const delayedOrders = orders.filter(
-    o => o.status === STATUS.DELAYED
-  );
+      const completed =
+        driverOrders.filter(
+          order =>
+            order.status ===
+            STATUS.COMPLETED
+        );
 
-  const completedOrders = orders.filter(
-    o => o.status === STATUS.COMPLETED
-  );
+      const daily =
+        completed.filter(o =>
+          isSameDay(
+            o.createdAt,
+            new Date()
+          )
+        );
 
-  const todayCompleted = completedOrders.filter(o =>
-    isSameDay(o.createdAt, new Date())
-  );
+      const weekly =
+        completed.filter(o =>
+          isWithinDays(
+            o.createdAt,
+            7
+          )
+        );
 
-  const todayCollections = todayCompleted.reduce(
-    (sum, order) => sum + getCollection(order),
-    0
-  );
+      const monthly =
+        completed.filter(o =>
+          isWithinDays(
+            o.createdAt,
+            30
+          )
+        );
 
-  const todayRevenue = todayCompleted.reduce(
-    (sum, order) => sum + getCompanyRevenue(order),
-    0
-  );
+      const metrics =
+        list => ({
+          orders:
+            list.length,
 
-  /* ----------------------------- Filtering ----------------------------- */
+          collected:
+            list.reduce(
+              (sum, order) =>
+                sum +
+                getCollection(
+                  order
+                ),
+              0
+            ),
 
-  const filteredOrders = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
+          companyRevenue:
+            list.reduce(
+              (sum, order) =>
+                sum +
+                getCompanyRevenue(
+                  order
+                ),
+              0
+            ),
 
-    if (!q) return orders;
+          driverRevenue:
+            list.reduce(
+              (sum, order) =>
+                sum +
+                getDriverRevenue(
+                  order
+                ),
+              0
+            )
+        });
 
-    return orders.filter(order =>
-      [
-        order.orderNum,
-        order.customer,
-        order.store,
-        order.phone,
-        order.address,
-        order.driverName
-      ]
-        .filter(Boolean)
-        .some(value =>
-          String(value).toLowerCase().includes(q)
+      return {
+        active:
+          driverOrders.filter(
+            o =>
+              ![
+                STATUS.COMPLETED,
+                STATUS.CANCELLED
+              ].includes(
+                o.status
+              )
+          ).length,
+
+        daily:
+          metrics(daily),
+
+        weekly:
+          metrics(weekly),
+
+        monthly:
+          metrics(monthly),
+
+        allOrders:
+          driverOrders
+      };
+    };
+
+  /* =========================================================
+     DASHBOARD METRICS
+     ========================================================= */
+
+  const activeOrders =
+    orders.filter(
+      o =>
+        ![
+          STATUS.COMPLETED,
+          STATUS.CANCELLED
+        ].includes(o.status)
+    );
+
+  const delayedOrders =
+    orders.filter(
+      o =>
+        o.status ===
+        STATUS.DELAYED
+    );
+
+  const completedOrders =
+    orders.filter(
+      o =>
+        o.status ===
+        STATUS.COMPLETED
+    );
+
+  const todayCompleted =
+    completedOrders.filter(
+      o =>
+        isSameDay(
+          o.createdAt,
+          new Date()
         )
     );
-  }, [orders, searchQuery]);
 
-  /* ----------------------------- Merchant / Customer Save ----------------------------- */
+  const todayCollections =
+    todayCompleted.reduce(
+      (sum, order) =>
+        sum +
+        getCollection(order),
+      0
+    );
 
-  const saveMerchant = () => {
-    if (!merchantForm.name.trim()) return;
+  const todayRevenue =
+    todayCompleted.reduce(
+      (sum, order) =>
+        sum +
+        getCompanyRevenue(
+          order
+        ),
+      0
+    );
 
-    if (merchantForm.id) {
-      setMerchants(prev =>
-        prev.map(m =>
-          m.id === merchantForm.id
-            ? merchantForm
-            : m
-        )
+  /* =========================================================
+     FILTER
+     ========================================================= */
+
+  const filteredOrders =
+    useMemo(() => {
+      const q =
+        searchQuery
+          .trim()
+          .toLowerCase();
+
+      if (!q) return orders;
+
+      return orders.filter(
+        order =>
+          [
+            order.orderNum,
+            order.customer,
+            order.store,
+            order.phone,
+            order.address,
+            order.driverName,
+            order.status
+          ]
+            .filter(Boolean)
+            .some(value =>
+              String(value)
+                .toLowerCase()
+                .includes(q)
+            )
       );
-    } else {
-      setMerchants(prev => [
-        {
-          ...merchantForm,
-          id: uid(),
-          totalOrders: 0
-        },
-        ...prev
-      ]);
-    }
+    }, [
+      orders,
+      searchQuery
+    ]);
 
-    setMerchantForm({
-      id: null,
-      name: '',
-      phone: '',
-      address: '',
-      notes: ''
-    });
-  };
+  /* =========================================================
+     MERCHANT SAVE
+     ========================================================= */
 
-  const saveCustomer = () => {
-    if (!customerForm.name.trim()) return;
+  const saveMerchant =
+    () => {
+      if (
+        !merchantForm.name.trim()
+      ) {
+        return;
+      }
 
-    if (customerForm.id) {
-      setCustomers(prev =>
-        prev.map(c =>
-          c.id === customerForm.id
-            ? customerForm
-            : c
-        )
+      if (merchantForm.id) {
+        setMerchants(prev =>
+          prev.map(m =>
+            m.id ===
+            merchantForm.id
+              ? {
+                  ...m,
+                  ...merchantForm
+                }
+              : m
+          )
+        );
+      } else {
+        setMerchants(prev => [
+          {
+            ...merchantForm,
+            id: uid(),
+            totalOrders: 0
+          },
+          ...prev
+        ]);
+      }
+
+      setMerchantForm({
+        id: null,
+        name: '',
+        phone: '',
+        address: '',
+        notes: ''
+      });
+    };
+
+  /* =========================================================
+     CUSTOMER SAVE
+     ========================================================= */
+
+  const saveCustomer =
+    () => {
+      if (
+        !customerForm.name.trim()
+      ) {
+        return;
+      }
+
+      if (customerForm.id) {
+        setCustomers(prev =>
+          prev.map(c =>
+            c.id ===
+            customerForm.id
+              ? {
+                  ...c,
+                  ...customerForm
+                }
+              : c
+          )
+        );
+      } else {
+        setCustomers(prev => [
+          {
+            ...customerForm,
+            id: uid()
+          },
+          ...prev
+        ]);
+      }
+
+      setCustomerForm({
+        id: null,
+        name: '',
+        phone: '',
+        address: '',
+        notes: ''
+      });
+    };
+
+  /* =========================================================
+     DRIVER SAVE
+     ========================================================= */
+
+  const saveDriver =
+    () => {
+      if (
+        !driverForm.name.trim()
+      ) {
+        return;
+      }
+
+      if (driverForm.id) {
+        setDrivers(prev =>
+          prev.map(d =>
+            d.id ===
+            driverForm.id
+              ? {
+                  ...d,
+                  ...driverForm
+                }
+              : d
+          )
+        );
+      } else {
+        setDrivers(prev => [
+          {
+            ...driverForm,
+            id: uid()
+          },
+          ...prev
+        ]);
+      }
+
+      setDriverForm({
+        id: null,
+        name: '',
+        phone: '',
+        notes: ''
+      });
+    };
+
+  /* =========================================================
+     BACKUP
+     ========================================================= */
+
+  const exportBackup =
+    () => {
+      const backup = {
+        app:
+          'Express Delivery PRO',
+
+        version: 8,
+
+        exportedAt:
+          nowISO(),
+
+        settings,
+        orders,
+        deletedOrders,
+        merchants,
+        customers,
+        drivers,
+        history,
+        counter
+      };
+
+      const blob =
+        new Blob(
+          [
+            JSON.stringify(
+              backup,
+              null,
+              2
+            )
+          ],
+          {
+            type:
+              'application/json'
+          }
+        );
+
+      const url =
+        URL.createObjectURL(
+          blob
+        );
+
+      const anchor =
+        document.createElement(
+          'a'
+        );
+
+      anchor.href = url;
+
+      anchor.download =
+        `express-delivery-backup-${new Date()
+          .toISOString()
+          .slice(
+            0,
+            10
+          )}.json`;
+
+      anchor.click();
+
+      URL.revokeObjectURL(
+        url
       );
-    } else {
-      setCustomers(prev => [
-        {
-          ...customerForm,
-          id: uid()
-        },
-        ...prev
-      ]);
-    }
+    };
 
-    setCustomerForm({
-      id: null,
-      name: '',
-      phone: '',
-      address: '',
-      notes: ''
-    });
-  };
+  const importBackup =
+    async file => {
+      if (!file) return;
 
-  /* ----------------------------- Driver Sa
+      try {
+        const text =
+          await file.text();
+
+        const backup =
+          JSON.parse(text);
+
+        if (
+          !backup ||
+          !Array.isArray(
+            backup.orders
+          ) ||
+          !Array.isArray(
+            backup.drivers
+          )
+        ) {
+          throw new Error(
+            'Invalid backup'
+          );
+        }
+
+        setSettings({
+          ...DEFAULT_SETTINGS,
+          ...(backup.settings ||
+            {})
+        });
+
+        setOrders(
+          backup.orders.map(
+            normalizeOrder
+          )
+        );
+
+        setDeletedOrders(
+          backup.deletedOrders ||
+            []
+        );
+
+        setMerchants(
+          backup.merchants ||
+            []
+        );
+
+        setCustomers(
+          backup.customers ||
+            []
+        );
+
+        setDrivers(
+          backup.drivers ||
+            []
+        );
+
+        setHistory(
+          backup.history ||
+            []
+        );
+
+        setCounter(
+          backup.counter ||
+            1001
+        );
+
+        alert(
+          t.backupImported
+        );
+      } catch {
+        alert(
+          t.invalidBackup
+        );
+      }
+    };
+
+  /* =========================================================
+     NAVIGATION
+     ========================================================= */
+
+  const navItems = [
+    [
+      'dashboard',
+      '📊',
+      t.dashboard
+    ],
+    [
+      'new_order',
+      '➕',
+      t.newOrder
+    ],
+    [
+      'orders',
+      '📦',
+      t.orders
+    ],
+    [
+      'drivers',
+      '🛵',
+      t.drivers
+    ],
+    [
+      'merchants',
+      '🏪',
+      t.merchants
+    ],
+    [
+      'customers',
+      '👥',
+      t.customers
+    ],
+    [
+      'ledger',
+      '💰',
+      t.ledger
+    ],
+    [
+      'import',
+      '💬',
+      t.importExport
+    ],
+    [
+      'history',
+      '🕒',
+      t.history
+    ],
+    [
+      'settings',
+      '⚙️',
+      t.settings
+    ]
+  ];
+
+  /* =========================================================
+     UI COMPONENTS
+     ========================================================= */
+
+  const Field = ({
+    label,
+    value,
+    onChange,
+    placeholder,
+    type = 'text'
+  }) => (
+    <div style={styles.field}>
+      <label
+        style={styles.label}
+      >
+        {label}
+      </label>
+
+      <input
+        type={type}
+        value={value ?? ''}
+        placeholder={
+          placeholder
+        }
+        onChange={e =>
+          onChange(
+            e.target.value
+          )
+        }
+        style={styles.input}
+      />
+    </div>
+  );
+
+  const TextField = ({
+    label,
+    value,
+    onChange,
+    placeholder
+  }) => (
+    <div style={styles.field}>
+      <label
+        style={styles.label}
+      >
+        {label}
+      </label>
+
+      <textarea
+        value={value ?? ''}
+        placeholder={
+          placeholder
+        }
+        onChange={e =>
+          onChange(
+            e.target.value
+          )
+        }
+        style={{
+          ...styles.input,
+          minHeight: 90,
+          resize: 'vertical'
+        }}
+      />
+    </div>
+  );
+
+  const StatusBadge = ({
+    status
+  }) => (
+    <span
+      style={{
+        ...styles.status,
+        background:
+          `${statusColor(
+            status
+          )}22`,
+        color:
+          statusColor(
+            status
+          ),
+        border:
+          `1px solid ${statusColor(
+            status
+          )}55`
+      }}
+    >
+      {statusLabel(
+        status,
+        lang
+      )}
+    </span>
+  );
+
+  const PaymentBadge = ({
+    order
+  }) => (
+    <span
+      style={
+        isPaid(order)
+          ? styles.paymentPaid
+          : styles.paymentUnpaid
+      }
+    >
+      {isPaid(order)
+        ? '✓ '
+        : '⚠ '}
+      {paymentLabel(
+        order,
+        lang
+      )}
+    </span>
+  );
+
+  /* =========================================================
+     FINANCIAL BREAKDOWN COMPONENT
+     ========================================================= */
+
+  const FinancialBreakdown =
+    ({
+      order,
+      editable = false,
+      index = null,
+      extracted = false
+    }) => {
+      const fee =
+        normalizeNumber(
+          order?.deliveryFee
+        );
+
+      const company =
+        extracted
+          ? order.revenueType ===
+            'amount'
+            ? Math.min(
+                fee,
+                normalizeNumber(
+                  order.revenueValue
+                )
+              )
+            : fee *
+              (normalizeNumber(
+                order.revenuePercent
+              ) / 100)
+          : getCompanyRevenue(
+              order
+            );
+
+      const driver =
+        Math.max(
+          0,
+          fee - company
+        );
+
+      const percent =
+        fee
+          ? (company / fee) *
+            100
+          : 0;
+
+      const changeType =
+        type => {
+          if (!extracted) {
+            updateOrderRevenue(
+              order,
+              type,
+              company
+            );
+
+            return;
+          }
+
+          setExtractedRevenueType(
+            index,
+            type
+          );
+        };
+
+      const changeValue =
+        value => {
+          if (!extracted) {
+            updateOrderRevenue(
+              order,
+              order.revenueType ||
+                'percent',
+              value
+            );
+
+            return;
+          }
+
+          setExtractedRevenue(
+            index,
+            value
+          );
+        };
+
+      return (
+        <div
+          style={
+            styles.financialBox
+          }
+        >
+          <div
+            style={{
+              fontWeight: 900,
+              fontSize: 14
+            }}
+          >
+            💰 {t.financialBreakdown}
+          </div>
+
+          {editable && (
+            <div
+              style={{
+                ...styles.formGrid,
+                marginTop: 12
+              }}
+            >
+              <div
+                style={styles.field}
+              >
+                <label
+                  style={
+                    styles.label
+                  }
+                >
+                  {t.revenueType}
+                </label>
+
+                <select
+                  value={
+                    order.revenueType ||
+                    'percent'
+                  }
+                  onChange={e =>
+                    changeType(
+                      e.target
+                        .value
+                    )
+                  }
+                  style={
+                    styles.input
+                  }
+                >
+                  <option value="percent">
+                    {t.percentage}
+                  </option>
+
+                  <option value="amount">
+                    {t.fixedAmount}
+                  </option>
+                </select>
+              </div>
+
+              <div
+                style={styles.field}
+              >
+                <label
+                  style={
+                    styles.label
+                  }
+                >
+                  {order.revenueType ===
+                  'amount'
+                    ? `${t.companyShare} (${settings.currency})`
+                    : `${t.companyShare} (%)`}
+                </label>
+
+                <input
+                  type="number"
+                  min="0"
+                  max={
+                    order.revenueType ===
+                    'amount'
+                      ? fee
+                      : 100
+                  }
+                  step="0.01"
+                  value={
+                    order.revenueType ===
+                    'amount'
+                      ? normalizeNumber(
+                          order.revenueValue
+                        )
+                      : normalizeNumber(
+                          order.revenuePercent
+                        )
+                  }
+                  onChange={e =>
+                    changeValue(
+                      e.target.value
+                    )
+                  }
+                  style={
+                    styles.input
+                  }
+                />
+              </div>
+            </div>
+          )}
+
+          <div
+            style={
+              styles.splitGrid
+            }
+          >
+            <
