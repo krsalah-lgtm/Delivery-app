@@ -13,6 +13,7 @@ const translations = {
     navDriverLedger: 'كشف حساب الطيارين',
     navMerchants: 'التجار',
     navCustomers: 'العملاء',
+    navNotes: 'الملاحظات المهمة',
     navHistory: 'السجل والتعديلات',
     navSettings: 'الإعدادات',
 
@@ -22,7 +23,7 @@ const translations = {
     kpiCompleted: 'تم التوصيل',
 
     aiHeader: '✨ استخراج بيانات الطلب بواسطة AI',
-    placeholderOrder: 'ألصق نص الطلب هنا...',
+    placeholderOrder: 'ألصق نص الطلب هنا أو ارفع ملف...',
     btnPaste: '📋 لصق من الحافظة',
     btnExtract: '⚡ استخراج البيانات',
     btnExtracting: 'جاري التحليل والتدقيق...',
@@ -51,6 +52,7 @@ const translations = {
     driverCollection: 'ما سيحصله الطيار',
 
     addressWarning: '📍 تنبيه عنوان غير مكتمل: يرجى مراجعة وتأكيد العنوان!',
+    missingInfoAlert: '⚠️ تنبيه: بيانات العميل أو المتجر ناقصة أو غير واضحة. يرجى استكمالها بدقة قبل التأكيد!',
     selectDriver: 'اختيار طيار التوصيل:',
     chooseDriver: '-- اختر طيار --',
     chooseRevenue: 'نسبة إيرادي من رسوم التوصيل:',
@@ -106,7 +108,7 @@ const translations = {
     historyTitle: '📜 سجل عمليات وتعديلات الطلبات',
     noHistory: 'لا توجد سجلات تعديل حتى الآن.',
 
-    driverLedgerTitle: '📊 كشف حساب وتوريد الطيارين',
+    driverLedgerTitle: '📊 كشف حساب وتوريد الطيارين المتقدم',
     filterDriver: 'تصفية بالطيار:',
     filterDate: 'التاريخ:',
     allDrivers: 'كل الطيارين',
@@ -121,7 +123,7 @@ const translations = {
     ordersHandled: 'تفاصيل الطلبات المسندة:',
     noOrdersForDate: 'لا توجد طلبات مسجلة لهذه الفلاتر.',
 
-    financialBreakdown: '💰 التفاصيل المالية',
+    financialBreakdown: '💰 التفاصيل المالية (قابلة للتعديل بالكامل)',
     cashCollection: 'المبلغ المحصل من العميل',
     merchantDue: 'مستحق المتجر',
     deliveryPool: 'رسوم التوصيل',
@@ -150,7 +152,7 @@ const translations = {
     updateBtn: '🔄 تحديث السجل الحالي بالبيانات الجديدة',
     viewDetails: 'عرض التفاصيل والطلبات',
     entityNotes: 'الملاحظات الخاصة:',
-    addNotePlaceholder: 'أدخل ملاحظة هامة، مبالغ متعلقة، أو تذكير...',
+    addNotePlaceholder: 'أدخل ملاحظة هامة، مبالغ متعلقة، أو تذكير مالى...',
     noOrdersFound: 'لا توجد طلبات مسجلة لهذا الاسم.',
     deletedBadge: '🗑️ محذوف',
     orderDetailsModal: 'تفاصيل الطلب والسجل التاريخي',
@@ -162,7 +164,13 @@ const translations = {
     importExcel: 'رفع ملف Excel / CSV',
     importPdf: 'رفع ملف PDF',
     dispatchDriver: '📲 إرسال للطيار عبر واتساب',
-    reasonPrompt: 'يرجى إدخال سبب حالة التالف/المرتجع:',
+    reasonPrompt: 'يرجى إدخال سبب حالة التالف/المرتجع والملاحظات:',
+    
+    notesSectionTitle: '📝 دفتر الملاحظات والملخصات المالية الهامة',
+    addNoteBtn: '➕ إضافة ملاحظة جديدة',
+    noteTitlePlaceholder: 'عنوان الملاحظة (مثال: مستحقات محل كازيون)...',
+    noteAmountPlaceholder: 'المبلغ المالي (إن وجد)...',
+    noteContentPlaceholder: 'تفاصيل الملاحظة أو التذكير الهام...',
     
     metricsDaily: 'يومي',
     metricsWeekly: 'أسبوعي',
@@ -181,6 +189,7 @@ const translations = {
     navDriverLedger: 'Driver Ledger',
     navMerchants: 'Stores',
     navCustomers: 'Customers',
+    navNotes: 'Notes & Amounts',
     navHistory: 'Audit History',
     navSettings: 'Settings',
 
@@ -190,7 +199,7 @@ const translations = {
     kpiCompleted: 'Completed Orders',
 
     aiHeader: '✨ AI Order Extraction',
-    placeholderOrder: 'Paste delivery text here...',
+    placeholderOrder: 'Paste delivery text or upload file...',
     btnPaste: '📋 Paste Clipboard',
     btnExtract: '⚡ Extract Data',
     btnExtracting: 'Analyzing & Checking...',
@@ -219,6 +228,7 @@ const translations = {
     driverCollection: 'Driver Collection',
 
     addressWarning: '📍 Incomplete Address Alert: Double check details!',
+    missingInfoAlert: '⚠️ Warning: Missing customer or merchant details. Please review before confirmation!',
     selectDriver: 'Assign Driver:',
     chooseDriver: '-- Select Driver --',
     chooseRevenue: 'My percentage of delivery fee:',
@@ -274,7 +284,7 @@ const translations = {
     historyTitle: '📜 Audit Log & Order Edits History',
     noHistory: 'No edit history recorded yet.',
 
-    driverLedgerTitle: '📊 Driver Cash & Revenue Ledger',
+    driverLedgerTitle: '📊 Advanced Driver Cash & Revenue Ledger',
     filterDriver: 'Filter Driver:',
     filterDate: 'Filter Date:',
     allDrivers: 'All Drivers',
@@ -289,7 +299,7 @@ const translations = {
     ordersHandled: 'Assigned Orders & Financial Details:',
     noOrdersForDate: 'No orders match selected filters.',
 
-    financialBreakdown: '💰 Financial Breakdown',
+    financialBreakdown: '💰 Fully Editable Financial Breakdown',
     cashCollection: 'Customer Collection',
     merchantDue: 'Merchant Due',
     deliveryPool: 'Delivery Fee',
@@ -330,7 +340,13 @@ const translations = {
     importExcel: 'Upload Excel / CSV',
     importPdf: 'Upload PDF',
     dispatchDriver: '📲 Send to Driver via WhatsApp',
-    reasonPrompt: 'Please enter the reason for Damaged/Returned:',
+    reasonPrompt: 'Please enter the reason for Damaged/Returned & notes:',
+    
+    notesSectionTitle: '📝 Notes & Financial Amounts Ledger',
+    addNoteBtn: '➕ Add New Note',
+    noteTitlePlaceholder: 'Note Title (e.g. Kazyon dues)...',
+    noteAmountPlaceholder: 'Amount (if applicable)...',
+    noteContentPlaceholder: 'Details or important financial reminder...',
     
     metricsDaily: 'Daily',
     metricsWeekly: 'Weekly',
@@ -350,16 +366,16 @@ const normalizeNumber = value => {
   return Number.isFinite(n) ? n : 0;
 };
 
-// Injected Styles for Hover & Micro-Animations
+// Slick Consumer App Design (Walmart / Noon inspired UX with smooth animations)
 const globalCSS = `
-  .animate-fade-in { animation: fadeIn 0.3s ease forwards; }
-  .hover-scale { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-  .hover-scale:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(168, 85, 247, 0.4); }
-  .hover-glow:hover { box-shadow: 0 0 15px rgba(168, 85, 247, 0.6); }
+  .animate-fade-in { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .hover-scale { transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+  .hover-scale:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(168, 85, 247, 0.35); }
+  .hover-glow:hover { box-shadow: 0 0 20px rgba(168, 85, 247, 0.6); }
   .smooth-transition { transition: all 0.3s ease; }
   
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
@@ -371,16 +387,16 @@ const globalCSS = `
 
 const styles = {
   appWrapper: {
-    backgroundColor: '#0A0614',
+    backgroundColor: '#090514',
     minHeight: '100vh',
-    color: '#F1F5F9',
+    color: '#F8FAFC',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
     display: 'flex',
     justifyContent: 'center',
     padding: '16px'
   },
   container: {
-    maxWidth: '560px',
+    maxWidth: '580px',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -391,56 +407,56 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     textAlign: 'center',
-    marginTop: '10px',
-    marginBottom: '10px'
+    marginTop: '12px',
+    marginBottom: '8px'
   },
   logoBox: {
-    width: '72px',
-    height: '72px',
-    borderRadius: '24px',
-    background: 'linear-gradient(135deg, #A855F7 0%, #EC4899 100%)',
+    width: '76px',
+    height: '76px',
+    borderRadius: '26px',
+    background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '0 8px 25px rgba(168, 85, 247, 0.4)',
+    boxShadow: '0 10px 25px rgba(139, 92, 246, 0.45)',
     marginBottom: '14px'
   },
-  logoIcon: { fontSize: '32px', color: '#FFF' },
-  appTitle: { fontSize: '1.6rem', margin: 0, fontWeight: '800', letterSpacing: '-0.5px', display: 'flex', alignItems: 'center', gap: '8px' },
-  appSubtitle: { fontSize: '0.85rem', color: '#C084FC', margin: '6px 0 0 0', fontWeight: '500' },
+  logoIcon: { fontSize: '34px', color: '#FFF' },
+  appTitle: { fontSize: '1.7rem', margin: 0, fontWeight: '800', letterSpacing: '-0.5px', display: 'flex', alignItems: 'center', gap: '8px' },
+  appSubtitle: { fontSize: '0.88rem', color: '#D8B4FE', margin: '6px 0 0 0', fontWeight: '500' },
   kpiRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '10px' },
   kpiCard: {
-    padding: '16px',
-    borderRadius: '18px',
-    background: 'rgba(23, 15, 38, 0.6)',
-    border: '1px solid rgba(168, 85, 247, 0.2)',
-    backdropFilter: 'blur(10px)',
+    padding: '18px',
+    borderRadius: '20px',
+    background: 'rgba(26, 17, 43, 0.7)',
+    border: '1px solid rgba(168, 85, 247, 0.25)',
+    backdropFilter: 'blur(12px)',
     display: 'flex',
     flexDirection: 'column',
-    gap: '6px'
+    gap: '6px',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
   },
-  kpiLabel: { fontSize: '0.78rem', color: '#94A3B8', fontWeight: '500' },
-  kpiValue: { fontSize: '1.4rem', fontWeight: '800' },
+  kpiLabel: { fontSize: '0.8rem', color: '#94A3B8', fontWeight: '500' },
+  kpiValue: { fontSize: '1.5rem', fontWeight: '800' },
   navList: { display: 'flex', flexDirection: 'column', gap: '10px' },
   primaryBtn: {
-    background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
     color: '#FFF',
-    border: '1px solid rgba(192, 132, 252, 0.3)',
+    border: '1px solid rgba(216, 180, 254, 0.3)',
     padding: '16px 20px',
     borderRadius: '18px',
-    fontSize: '1rem',
+    fontSize: '1.05rem',
     fontWeight: '700',
     cursor: 'pointer',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '8px',
-    boxShadow: '0 4px 20px rgba(124, 58, 237, 0.3)',
-    transition: 'transform 0.2s ease, opacity 0.2s ease'
+    gap: '10px',
+    boxShadow: '0 6px 22px rgba(139, 92, 246, 0.35)'
   },
   navItem: {
-    background: 'rgba(23, 15, 38, 0.7)',
-    border: '1px solid rgba(255, 255, 255, 0.06)',
+    background: 'rgba(26, 17, 43, 0.75)',
+    border: '1px solid rgba(255, 255, 255, 0.07)',
     color: '#E2E8F0',
     padding: '14px 18px',
     borderRadius: '18px',
@@ -449,12 +465,11 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     fontSize: '0.95rem',
-    fontWeight: '600',
-    transition: 'all 0.2s ease'
+    fontWeight: '600'
   },
   navItemActive: {
-    background: 'rgba(124, 58, 237, 0.25)',
-    border: '1px solid #A855F7',
+    background: 'rgba(139, 92, 246, 0.28)',
+    border: '1px solid #C084FC',
     color: '#FFF',
     padding: '14px 18px',
     borderRadius: '18px',
@@ -462,57 +477,58 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    fontSize: '0.95rem',
+    fontSize: '0.98rem',
     fontWeight: '700',
-    boxShadow: '0 0 15px rgba(168, 85, 247, 0.2)'
+    boxShadow: '0 0 18px rgba(192, 132, 252, 0.25)'
   },
   navLeftLabel: { display: 'flex', alignItems: 'center', gap: '12px' },
-  navIcon: { fontSize: '1.2rem', opacity: 0.85 },
-  countBadge: { background: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '12px', padding: '2px 10px', fontSize: '0.8rem', fontWeight: '700', color: '#CBD5E1' },
+  navIcon: { fontSize: '1.25rem', opacity: 0.9 },
+  countBadge: { background: 'rgba(255, 255, 255, 0.1)', border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '12px', padding: '3px 10px', fontSize: '0.82rem', fontWeight: '700', color: '#F1F5F9' },
   bottomSection: { display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' },
-  langPill: { background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(51, 65, 85, 0.8)', color: '#E2E8F0', padding: '12px', borderRadius: '14px', fontSize: '0.9rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' },
-  aiStatusPill: { padding: '12px', borderRadius: '14px', fontSize: '0.88rem', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' },
+  langPill: { background: 'rgba(15, 23, 42, 0.85)', border: '1px solid rgba(51, 65, 85, 0.8)', color: '#F1F5F9', padding: '12px', borderRadius: '14px', fontSize: '0.92rem', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' },
+  aiStatusPill: { padding: '12px', borderRadius: '14px', fontSize: '0.9rem', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' },
   main: { display: 'flex', flexDirection: 'column', gap: '16px' },
-  card: { background: 'rgba(23, 15, 38, 0.75)', border: '1px solid rgba(168, 85, 247, 0.15)', borderRadius: '20px', padding: '20px', backdropFilter: 'blur(12px)', marginBottom: '10px' },
-  clickableCard: { background: 'rgba(23, 15, 38, 0.75)', border: '1px solid rgba(168, 85, 247, 0.25)', borderRadius: '16px', padding: '16px', cursor: 'pointer', transition: 'all 0.2s ease' },
-  cardTitle: { margin: '0 0 15px 0', fontSize: '1.15rem', color: '#C084FC', fontWeight: '700' },
+  card: { background: 'rgba(26, 17, 43, 0.8)', border: '1px solid rgba(168, 85, 247, 0.18)', borderRadius: '22px', padding: '22px', backdropFilter: 'blur(14px)', marginBottom: '10px', boxShadow: '0 8px 32px rgba(0,0,0,0.3)' },
+  clickableCard: { background: 'rgba(26, 17, 43, 0.8)', border: '1px solid rgba(168, 85, 247, 0.25)', borderRadius: '18px', padding: '16px', cursor: 'pointer' },
+  cardTitle: { margin: '0 0 16px 0', fontSize: '1.2rem', color: '#D8B4FE', fontWeight: '700' },
   rowBetween: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' },
-  btnGradientCompact: { background: 'linear-gradient(135deg, #0284C7, #2563EB)', color: '#FFF', border: 'none', padding: '8px 14px', borderRadius: '10px', cursor: 'pointer', fontWeight: '600', fontSize: '0.85rem' },
-  btnPrimaryGradient: { background: 'linear-gradient(135deg, #A855F7, #EC4899)', color: '#FFF', border: 'none', padding: '14px 20px', borderRadius: '14px', cursor: 'pointer', fontWeight: '700', width: '100%', marginTop: '12px', fontSize: '0.95rem', boxShadow: '0 4px 15px rgba(236, 72, 153, 0.3)' },
-  btnSuccessGradient: { background: 'linear-gradient(135deg, #059669, #10B981)', color: '#FFF', border: 'none', padding: '14px 20px', borderRadius: '14px', cursor: 'pointer', fontWeight: '700', width: '100%', marginTop: '15px', fontSize: '0.95rem' },
-  textarea: { width: '100%', backgroundColor: 'rgba(11, 7, 24, 0.8)', border: '1px solid rgba(168, 85, 247, 0.25)', borderRadius: '14px', color: '#FFF', padding: '14px', boxSizing: 'border-box', fontFamily: 'inherit', fontSize: '0.9rem', outline: 'none', resize: 'vertical' },
+  btnGradientCompact: { background: 'linear-gradient(135deg, #0284C7, #2563EB)', color: '#FFF', border: 'none', padding: '9px 15px', borderRadius: '12px', cursor: 'pointer', fontWeight: '600', fontSize: '0.88rem' },
+  btnPrimaryGradient: { background: 'linear-gradient(135deg, #8B5CF6, #EC4899)', color: '#FFF', border: 'none', padding: '15px 20px', borderRadius: '16px', cursor: 'pointer', fontWeight: '700', width: '100%', marginTop: '12px', fontSize: '1rem', boxShadow: '0 6px 20px rgba(236, 72, 153, 0.35)' },
+  btnSuccessGradient: { background: 'linear-gradient(135deg, #059669, #10B981)', color: '#FFF', border: 'none', padding: '15px 20px', borderRadius: '16px', cursor: 'pointer', fontWeight: '700', width: '100%', marginTop: '15px', fontSize: '1rem', boxShadow: '0 6px 20px rgba(16, 185, 129, 0.35)' },
+  textarea: { width: '100%', backgroundColor: 'rgba(13, 8, 28, 0.85)', border: '1px solid rgba(168, 85, 247, 0.3)', borderRadius: '14px', color: '#FFF', padding: '14px', boxSizing: 'border-box', fontFamily: 'inherit', fontSize: '0.92rem', outline: 'none', resize: 'vertical' },
   extractedBox: { marginTop: '20px', borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '20px' },
-  extractedSubCard: { background: 'rgba(11, 7, 24, 0.6)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '16px', padding: '16px', marginBottom: '15px' },
-  orderHero: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderRadius: '12px', marginBottom: '15px' },
-  miniLabel: { fontSize: '0.72rem', color: '#94A3B8', textTransform: 'uppercase' },
-  heroCustomer: { fontSize: '1.05rem', fontWeight: '700', marginTop: '2px' },
-  heroMoney: { fontSize: '1.3rem', fontWeight: '800', color: '#38BDF8' },
-  grid2: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px' },
-  financePanel: { background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(51, 65, 85, 0.6)', borderRadius: '12px', padding: '14px', marginTop: '15px' },
-  financeTitle: { fontSize: '0.9rem', fontWeight: '700', color: '#FACC15', marginBottom: '10px' },
-  financeGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px' },
-  financeBox: { display: 'flex', flexDirection: 'column', gap: '4px' },
-  financeInput: { background: 'rgba(11, 7, 24, 0.8)', border: '1px solid rgba(168, 85, 247, 0.3)', color: '#FFF', padding: '8px', borderRadius: '8px', outline: 'none' },
-  calculationStrip: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '10px', background: 'rgba(11, 7, 24, 0.8)', padding: '12px', borderRadius: '10px', marginTop: '10px', border: '1px solid rgba(255, 255, 255, 0.05)' },
-  confirmationPanel: { background: 'rgba(11, 7, 24, 0.7)', border: '1px solid #7C3AED', borderRadius: '16px', padding: '16px', marginTop: '20px' },
-  label: { display: 'block', fontSize: '0.82rem', color: '#CBD5E1', marginBottom: '6px', fontWeight: '500' },
-  input: { width: '100%', background: 'rgba(11, 7, 24, 0.8)', border: '1px solid rgba(168, 85, 247, 0.3)', color: '#FFF', padding: '10px 14px', borderRadius: '10px', boxSizing: 'border-box', outline: 'none' },
-  revenueSelect: { width: '100%', background: 'rgba(11, 7, 24, 0.8)', border: '1px solid #10B981', color: '#34D399', padding: '10px 14px', borderRadius: '10px', fontWeight: '700', boxSizing: 'border-box', outline: 'none' },
-  searchInput: { width: '100%', background: 'rgba(23, 15, 38, 0.8)', border: '1px solid rgba(168, 85, 247, 0.25)', color: '#FFF', padding: '14px', borderRadius: '14px', marginBottom: '15px', boxSizing: 'border-box', outline: 'none' },
-  empty: { textAlign: 'center', color: '#64748B', padding: '40px 0' },
-  orderNumTag: { background: '#2563EB', color: '#FFF', padding: '3px 10px', borderRadius: '8px', fontWeight: '700', fontSize: '0.85rem' },
-  tagStore: { background: 'rgba(255,255,255,0.1)', color: '#E2E8F0', padding: '3px 10px', borderRadius: '8px', fontSize: '0.85rem' },
-  btnDeleteCompact: { background: '#EF4444', color: '#FFF', border: 'none', padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600' },
-  p: { margin: '6px 0', color: '#CBD5E1', fontSize: '0.9rem' },
-  addressWarningBox: { background: 'rgba(239, 68, 68, 0.15)', border: '1px solid #EF4444', color: '#FCA5A5', padding: '10px', borderRadius: '10px', margin: '8px 0', fontSize: '0.82rem' },
-  monthlySummary: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', background: 'rgba(23, 15, 38, 0.7)', padding: '15px', borderRadius: '14px', marginTop: '15px', border: '1px solid rgba(255, 255, 255, 0.08)' },
+  extractedSubCard: { background: 'rgba(13, 8, 28, 0.7)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '18px', padding: '18px', marginBottom: '16px' },
+  orderHero: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 18px', borderRadius: '14px', marginBottom: '16px' },
+  miniLabel: { fontSize: '0.75rem', color: '#94A3B8', textTransform: 'uppercase', fontWeight: '600' },
+  heroCustomer: { fontSize: '1.1rem', fontWeight: '700', marginTop: '3px' },
+  heroMoney: { fontSize: '1.35rem', fontWeight: '800', color: '#38BDF8' },
+  grid2: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '14px' },
+  financePanel: { background: 'rgba(15, 23, 42, 0.75)', border: '1px solid rgba(51, 65, 85, 0.7)', borderRadius: '14px', padding: '16px', marginTop: '16px' },
+  financeTitle: { fontSize: '0.95rem', fontWeight: '700', color: '#FACC15', marginBottom: '12px' },
+  financeGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '12px' },
+  financeBox: { display: 'flex', flexDirection: 'column', gap: '6px' },
+  financeInput: { background: 'rgba(13, 8, 28, 0.9)', border: '1px solid rgba(168, 85, 247, 0.35)', color: '#FFF', padding: '10px', borderRadius: '10px', outline: 'none', fontWeight: '600' },
+  calculationStrip: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '10px', background: 'rgba(13, 8, 28, 0.85)', padding: '14px', borderRadius: '12px', marginTop: '12px', border: '1px solid rgba(255, 255, 255, 0.06)' },
+  confirmationPanel: { background: 'rgba(13, 8, 28, 0.8)', border: '1px solid #8B5CF6', borderRadius: '18px', padding: '18px', marginTop: '20px' },
+  label: { display: 'block', fontSize: '0.85rem', color: '#E2E8F0', marginBottom: '6px', fontWeight: '600' },
+  input: { width: '100%', background: 'rgba(13, 8, 28, 0.85)', border: '1px solid rgba(168, 85, 247, 0.35)', color: '#FFF', padding: '12px 16px', borderRadius: '12px', boxSizing: 'border-box', outline: 'none', fontWeight: '500' },
+  revenueSelect: { width: '100%', background: 'rgba(13, 8, 28, 0.85)', border: '1px solid #10B981', color: '#34D399', padding: '12px 16px', borderRadius: '12px', fontWeight: '700', boxSizing: 'border-box', outline: 'none' },
+  searchInput: { width: '100%', background: 'rgba(26, 17, 43, 0.85)', border: '1px solid rgba(168, 85, 247, 0.3)', color: '#FFF', padding: '15px 18px', borderRadius: '16px', marginBottom: '16px', boxSizing: 'border-box', outline: 'none', fontSize: '0.98rem' },
+  empty: { textAlign: 'center', color: '#64748B', padding: '40px 0', fontSize: '0.95rem' },
+  orderNumTag: { background: '#2563EB', color: '#FFF', padding: '4px 12px', borderRadius: '10px', fontWeight: '700', fontSize: '0.88rem' },
+  tagStore: { background: 'rgba(255,255,255,0.1)', color: '#F1F5F9', padding: '4px 12px', borderRadius: '10px', fontSize: '0.88rem', fontWeight: '500' },
+  btnDeleteCompact: { background: '#EF4444', color: '#FFF', border: 'none', padding: '8px 14px', borderRadius: '10px', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600' },
+  p: { margin: '6px 0', color: '#CBD5E1', fontSize: '0.92rem', lineHeight: '1.4' },
+  addressWarningBox: { background: 'rgba(239, 68, 68, 0.18)', border: '1px solid #EF4444', color: '#FCA5A5', padding: '12px', borderRadius: '12px', margin: '10px 0', fontSize: '0.85rem', fontWeight: '600' },
+  missingInfoBox: { background: 'rgba(245, 158, 11, 0.18)', border: '1px solid #F59E0B', color: '#FCD34D', padding: '12px', borderRadius: '12px', margin: '10px 0', fontSize: '0.85rem', fontWeight: '600' },
+  monthlySummary: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '14px', background: 'rgba(26, 17, 43, 0.75)', padding: '18px', borderRadius: '16px', marginTop: '16px', border: '1px solid rgba(255, 255, 255, 0.08)' },
   modalOverlay: { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.85)', backdropFilter: 'blur(8px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000, padding: '16px' },
-  modalCard: { background: '#160E2E', border: '1px solid #7C3AED', borderRadius: '20px', padding: '24px', maxWidth: '520px', width: '100%', maxHeight: '90vh', overflowY: 'auto' },
-  formGroup: { marginBottom: '12px' }
+  modalCard: { background: '#170F2E', border: '1px solid #8B5CF6', borderRadius: '24px', padding: '24px', maxWidth: '540px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 50px rgba(0,0,0,0.6)' },
+  formGroup: { marginBottom: '14px' }
 };
 
 const getStatusStyle = status => {
-  const base = { padding: '6px 12px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '700', border: 'none', color: '#FFF', cursor: 'pointer' };
+  const base = { padding: '7px 14px', borderRadius: '10px', fontSize: '0.82rem', fontWeight: '700', border: 'none', color: '#FFF', cursor: 'pointer' };
   switch (status) {
     case 'مكتمل': case 'Completed': return { ...base, background: '#059669' };
     case 'ملغي': case 'Cancelled': return { ...base, background: '#DC2626' };
@@ -532,7 +548,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Enterprise Settings
-  const [settings, setSettings] = useState(() => JSON.parse(localStorage.getItem('delivery_settings_v2')) || {
+  const [settings, setSettings] = useState(() => JSON.parse(localStorage.getItem('delivery_settings_v3')) || {
     appName: 'Express Delivery PRO',
     defaultCommission: 20,
     currency: 'EGP',
@@ -540,12 +556,18 @@ export default function App() {
   });
 
   const [orderCounter, setOrderCounter] = useState(() => parseInt(localStorage.getItem('order_counter_num') || '1001'));
-  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v5') || '[]'));
-  const [deletedOrders, setDeletedOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_deleted_orders_v5') || '[]'));
+  const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_orders_v6') || '[]'));
+  const [deletedOrders, setDeletedOrders] = useState(() => JSON.parse(localStorage.getItem('delivery_deleted_orders_v6') || '[]'));
   
-  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v5') || '[]'));
-  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v5') || '[]'));
+  const [merchants, setMerchants] = useState(() => JSON.parse(localStorage.getItem('delivery_merchants_v6') || '[]'));
+  const [customers, setCustomers] = useState(() => JSON.parse(localStorage.getItem('delivery_customers_v6') || '[]'));
   
+  // Notes / Important Amounts section
+  const [notesList, setNotesList] = useState(() => JSON.parse(localStorage.getItem('delivery_notes_v1') || '[]'));
+  const [newNoteTitle, setNewNoteTitle] = useState('');
+  const [newNoteAmount, setNewNoteAmount] = useState('');
+  const [newNoteContent, setNewNoteContent] = useState('');
+
   // Migrate drivers from string[] to object[] if needed
   const [drivers, setDrivers] = useState(() => {
     const raw = JSON.parse(localStorage.getItem('delivery_drivers_v6') || '[]');
@@ -553,7 +575,7 @@ export default function App() {
     return raw.map(d => typeof d === 'string' ? { id: Date.now() + Math.random(), name: d, phone: '', notes: '' } : d);
   });
   
-  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v5') || '[]'));
+  const [historyLogs, setHistoryLogs] = useState(() => JSON.parse(localStorage.getItem('delivery_history_v6') || '[]'));
 
   const [rawText, setRawText] = useState('');
   const [loading, setLoading] = useState(false);
@@ -581,22 +603,25 @@ export default function App() {
   const [editOrderModal, setEditOrderModal] = useState(null);
   const [matchingPromptModal, setMatchingPromptModal] = useState(null); // Explicit duplicate handling
 
-  // Use refs for the hidden file inputs
-  const fileInputRef = useRef(null);
+  // Use refs for the hidden file inputs (WhatsApp Text, Excel/CSV, PDF)
+  const textFileInputRef = useRef(null);
+  const excelFileInputRef = useRef(null);
+  const pdfFileInputRef = useRef(null);
   const jsonInputRef = useRef(null);
   
   const t = translations[lang];
 
   useEffect(() => { localStorage.setItem('app_lang', lang); }, [lang]);
   useEffect(() => { localStorage.setItem('groq_api_key', apiKey); }, [apiKey]);
-  useEffect(() => { localStorage.setItem('delivery_settings_v2', JSON.stringify(settings)); }, [settings]);
+  useEffect(() => { localStorage.setItem('delivery_settings_v3', JSON.stringify(settings)); }, [settings]);
   useEffect(() => { localStorage.setItem('order_counter_num', orderCounter.toString()); }, [orderCounter]);
-  useEffect(() => { localStorage.setItem('delivery_orders_v5', JSON.stringify(orders)); }, [orders]);
-  useEffect(() => { localStorage.setItem('delivery_deleted_orders_v5', JSON.stringify(deletedOrders)); }, [deletedOrders]);
-  useEffect(() => { localStorage.setItem('delivery_merchants_v5', JSON.stringify(merchants)); }, [merchants]);
-  useEffect(() => { localStorage.setItem('delivery_customers_v5', JSON.stringify(customers)); }, [customers]);
+  useEffect(() => { localStorage.setItem('delivery_orders_v6', JSON.stringify(orders)); }, [orders]);
+  useEffect(() => { localStorage.setItem('delivery_deleted_orders_v6', JSON.stringify(deletedOrders)); }, [deletedOrders]);
+  useEffect(() => { localStorage.setItem('delivery_merchants_v6', JSON.stringify(merchants)); }, [merchants]);
+  useEffect(() => { localStorage.setItem('delivery_customers_v6', JSON.stringify(customers)); }, [customers]);
   useEffect(() => { localStorage.setItem('delivery_drivers_v6', JSON.stringify(drivers)); }, [drivers]);
-  useEffect(() => { localStorage.setItem('delivery_history_v5', JSON.stringify(historyLogs)); }, [historyLogs]);
+  useEffect(() => { localStorage.setItem('delivery_history_v6', JSON.stringify(historyLogs)); }, [historyLogs]);
+  useEffect(() => { localStorage.setItem('delivery_notes_v1', JSON.stringify(notesList)); }, [notesList]);
 
   // Auto-Late Tracker Effect
   useEffect(() => {
@@ -654,7 +679,11 @@ export default function App() {
     return !['شارع', 'ش', 'دور', 'شقة', 'عمارة', 'مبنى', 'street', 'st', 'floor', 'apt', 'flat'].some(k => lower.includes(k));
   };
 
-  /* AI Order Extraction */
+  const isMissingInfo = ord => {
+    return !ord.customer || ord.customer === t.unspecified || !ord.store || ord.store === t.unspecified || !ord.phone;
+  };
+
+  /* AI Order Extraction with robust prompt fixing merchant/customer confusion & name matching */
   const extractOrderInfo = async () => {
     if (!apiKey.trim()) { alert(lang === 'ar' ? 'يرجى إدخال مفتاح Groq API في الإعدادات.' : 'Please add your API key in Settings.'); setActiveTab('settings'); return; }
     if (!rawText.trim()) { alert(lang === 'ar' ? 'يرجى إدخال نص.' : 'Please enter text.'); return; }
@@ -662,18 +691,18 @@ export default function App() {
     setLoading(true); setExtractedOrders([]); setTypoFlags([]);
 
     const systemPrompt = `
-You are an expert delivery-order parser. Extract delivery orders from text.
-RULES:
-1. STORE: Extract merchant name.
-2. CUSTOMER: Extract customer name.
-3. PHONE: Extract phone numbers.
-4. ADDRESS: Full address.
-5. COD: Merchandise value ONLY.
-6. DELIVERY FEE: Explicit delivery fee or 0.
-7. PAYMENT METHOD: 'cash', 'online', or 'prepaid'.
-8. NOTES: Any extra info.
+You are an expert logistics delivery-order parser. Extract delivery orders from text with strict separation of entities.
+CRITICAL RULES:
+1. STORE (المتجر/محل): Extract the merchant/store name (e.g., Kazyon, Al-Ezaby) and the branch/representative name if mentioned. DO NOT assign customer details to the store.
+2. CUSTOMER (العميل): Extract the final recipient/guest name (e.g., Marwan Hassan). DO NOT assign store details to the customer.
+3. PHONE (رقم الهاتف): Extract the correct phone numbers, distinguishing store phone from customer phone.
+4. ADDRESS (العنوان): Full delivery destination address for the customer.
+5. COD (قيمة الطلب): Merchandise or order value ONLY.
+6. DELIVERY FEE (رسوم التوصيل): Explicit delivery fee or 0.
+7. PAYMENT METHOD (طريقة الدفع): 'cash', 'online', or 'prepaid'.
+8. NOTES: Any extra instructions (e.g. call before arriving, check items, etc.).
 9. EXPECTED ARRIVAL: ISO datetime string if mentioned, else null.
-Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "phone":"", "address":"", "cod":0, "deliveryFee":0, "paymentMethod":"cash", "item":"", "notes":"", "expectedArrival": null }] }`;
+Output strict JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "phone":"", "address":"", "cod":0, "deliveryFee":0, "paymentMethod":"cash", "item":"", "notes":"", "expectedArrival": null }] }`;
 
     try {
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
@@ -698,7 +727,7 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
       setExtractedOrders(normalizedOrders);
 
       if(settings.autoAssign && drivers.length > 0) {
-        setSelectedDriver(drivers[0].name); // Simple auto-assign
+        setSelectedDriver(drivers[0].name);
       }
 
     } catch (err) { alert(`Error: ${err.message}`); } finally { setLoading(false); }
@@ -741,7 +770,7 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
 
       addAuditLog(orderNumber, 'Created', `Order created for ${newOrder.customer}. COD: ${newOrder.cod}, Fee: ${newOrder.deliveryFee}.`);
 
-      // Independent Merchant / Customer handling
+      // Independent Merchant / Customer handling with name matching/unification
       if (ord.store && ord.store !== t.unspecified) {
         setMerchants(prev => {
           const exists = prev.find(m => m.name.toLowerCase() === ord.store.toLowerCase());
@@ -777,11 +806,11 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
 
   const handleStatusChange = (order, newStatus) => {
     let extraNote = '';
-    if (newStatus === 'تالف' || newStatus === 'مرتجع') {
+    if (['تالف', 'مرتجع'].includes(newStatus)) {
       const reason = window.prompt(t.reasonPrompt);
-      if(reason) extraNote = ` | Reason: ${reason}`;
+      if(reason) extraNote = ` | [${newStatus} Reason]: ${reason}`;
     }
-    setOrders(prev => prev.map(o => (o.id === order.id ? { ...o, status: newStatus, notes: o.notes + (extraNote ? `\n[${newStatus}]: ${extraNote}` : '') } : o)));
+    setOrders(prev => prev.map(o => (o.id === order.id ? { ...o, status: newStatus, notes: o.notes + (extraNote ? `\n${extraNote}` : '') } : o)));
     addAuditLog(order.orderNum, 'Status Change', `Status changed to "${newStatus}"${extraNote}`);
   };
 
@@ -789,7 +818,6 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
   const handleSaveCustomer = () => {
     if (!customerForm.name.trim() || !customerForm.phone.trim()) return alert('Name/Phone required');
     
-    // Check dupe
     if (!customerForm.id) {
       const matches = customers.filter(c => c.name.toLowerCase() === customerForm.name.toLowerCase() || c.phone === customerForm.phone);
       if (matches.length > 0) {
@@ -854,19 +882,38 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
     setNewDriverName(''); setNewDriverPhone('');
   };
 
+  // Notes & Amounts Management
+  const handleAddNote = () => {
+    if (!newNoteTitle.trim() && !newNoteContent.trim()) return;
+    const item = {
+      id: Date.now(),
+      title: newNoteTitle.trim() || 'ملاحظة عامة',
+      amount: normalizeNumber(newNoteAmount),
+      content: newNoteContent.trim(),
+      date: new Date().toLocaleDateString()
+    };
+    setNotesList(prev => [item, ...prev]);
+    setNewNoteTitle(''); setNewNoteAmount(''); setNewNoteContent('');
+  };
+
+  const handleDeleteNote = id => {
+    if (window.confirm(t.confirmDeleteMsg)) {
+      setNotesList(prev => prev.filter(n => n.id !== id));
+    }
+  };
+
   const exportJSON = () => {
-    const data = { settings, orders, merchants, customers, drivers, historyLogs };
+    const data = { settings, orders, merchants, customers, drivers, notesList, historyLogs };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a'); a.href = url; a.download = `ExpressDelivery_Backup_${new Date().toISOString().split('T')[0]}.json`;
     a.click(); URL.revokeObjectURL(url);
   };
 
-  const handleFileUpload = e => {
+  const handleFileUpload = (e, fileType) => {
     const file = e.target.files[0];
     if(!file) return;
     
-    // Fake parsing to inject into AI flow
     const reader = new FileReader();
     reader.onload = (evt) => {
       const result = evt.target.result;
@@ -877,18 +924,20 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
           if (parsed.customers) setCustomers(parsed.customers);
           if (parsed.merchants) setMerchants(parsed.merchants);
           if (parsed.drivers) setDrivers(parsed.drivers);
+          if (parsed.notesList) setNotesList(parsed.notesList);
           alert('Import Successful!');
         } catch(e) { alert('Invalid JSON file.'); }
       } else {
-        setRawText(`[Extracted from ${file.name}]\n\n${result}`);
+        setRawText(`[Extracted from ${fileType.toUpperCase()} file: ${file.name}]\n\n${result}`);
         setActiveTab('new_order');
-        alert('File contents moved to New Order text area for AI extraction.');
+        alert(`File parsed successfully as ${fileType.toUpperCase()}! Click "Extract Data" to review orders.`);
       }
     };
     reader.readAsText(file);
     
-    // Clear the input value so the same file can be uploaded again if needed
-    if (fileInputRef.current) fileInputRef.current.value = null;
+    if (textFileInputRef.current) textFileInputRef.current.value = null;
+    if (excelFileInputRef.current) excelFileInputRef.current.value = null;
+    if (pdfFileInputRef.current) pdfFileInputRef.current.value = null;
     if (jsonInputRef.current) jsonInputRef.current.value = null;
   };
 
@@ -948,7 +997,7 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
               <div style={styles.navLeftLabel}><span style={styles.navIcon}>📦</span><span>{t.navOrders}</span></div><span style={styles.countBadge}>{orders.length}</span>
             </button>
             <button style={activeTab === 'driver_ledger' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('driver_ledger')}>
-              <div style={styles.navLeftLabel}><span style={styles.navIcon}>📋</span><span>{t.navDriverLedger}</span></div>
+              <div style={styles.navLeftLabel}><span style={styles.navIcon}>📊</span><span>{t.navDriverLedger}</span></div>
             </button>
             <button style={activeTab === 'drivers' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('drivers')}>
               <div style={styles.navLeftLabel}><span style={styles.navIcon}>🛵</span><span>{t.navDrivers}</span></div><span style={styles.countBadge}>{drivers.length}</span>
@@ -959,20 +1008,25 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
             <button style={activeTab === 'customers' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('customers')}>
               <div style={styles.navLeftLabel}><span style={styles.navIcon}>👥</span><span>{t.navCustomers}</span></div><span style={styles.countBadge}>{customers.length}</span>
             </button>
+            <button style={activeTab === 'notes_section' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('notes_section')}>
+              <div style={styles.navLeftLabel}><span style={styles.navIcon}>📝</span><span>{t.navNotes}</span></div><span style={styles.countBadge}>{notesList.length}</span>
+            </button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
             <button style={activeTab === 'history' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('history')}>
               <div style={styles.navLeftLabel}><span style={styles.navIcon}>🕒</span><span>{t.navHistory}</span></div>
             </button>
+            <button style={activeTab === 'settings' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('settings')}>
+              <div style={styles.navLeftLabel}><span style={styles.navIcon}>⚙️</span><span>{t.navSettings}</span></div>
+            </button>
           </div>
-          <button style={activeTab === 'settings' ? styles.navItemActive : styles.navItem} onClick={() => setActiveTab('settings')}>
-            <div style={styles.navLeftLabel}><span style={styles.navIcon}>⚙️</span><span>{t.navSettings}</span></div>
-          </button>
         </div>
 
         {/* BOTTOM SECTION */}
         <div style={styles.bottomSection}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
              <button style={styles.langPill} className="hover-scale" onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}><span>🌐</span> {lang === 'ar' ? 'English' : 'العربية'}</button>
-             <div style={{ ...styles.aiStatusPill, background: apiKey ? 'rgba(6, 78, 59, 0.6)' : 'rgba(127, 29, 29, 0.6)', border: apiKey ? '1px solid #10B981' : '1px solid #EF4444', color: apiKey ? '#A7F3D0' : '#FCA5A5' }}>
+             <div style={{ ...styles.aiStatusPill, background: apiKey ? 'rgba(6, 78, 59, 0.7)' : 'rgba(127, 29, 29, 0.7)', border: apiKey ? '1px solid #10B981' : '1px solid #EF4444', color: apiKey ? '#A7F3D0' : '#FCA5A5' }}>
                {apiKey ? t.groqConnected : t.groqMissing}
              </div>
           </div>
@@ -980,19 +1034,24 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
 
         {/* MAIN VIEWS */}
         <main style={styles.main}>
-          {/* NEW ORDER */}
+          {/* NEW ORDER WITH 3 UPLOAD OPTIONS */}
           {activeTab === 'new_order' && (
             <div style={styles.card} className="animate-fade-in">
               <div style={styles.rowBetween}>
                 <h2 style={styles.cardTitle}>{t.aiHeader}</h2>
                 <button onClick={handlePasteClipboard} style={styles.btnGradientCompact} className="hover-scale">{t.btnPaste}</button>
               </div>
-              <textarea rows={7} value={rawText} onChange={e => setRawText(e.target.value)} placeholder={t.placeholderOrder} style={styles.textarea} />
+              <textarea rows={6} value={rawText} onChange={e => setRawText(e.target.value)} placeholder={t.placeholderOrder} style={styles.textarea} />
               
-              <div style={{ display: 'flex', gap: '8px', marginTop: '10px' }}>
-                <input type="file" ref={fileInputRef} style={{ display: 'none' }} accept=".txt,.csv,.json,.pdf" onChange={handleFileUpload} />
-                <button onClick={() => fileInputRef.current?.click()} style={{...styles.btnGradientCompact, background: '#475569', flex: 1}} className="hover-scale">📄 {t.importTextWhatsapp}</button>
-                <button onClick={() => fileInputRef.current?.click()} style={{...styles.btnGradientCompact, background: '#059669', flex: 1}} className="hover-scale">📊 {t.importExcel}</button>
+              {/* 3 Upload Options: WhatsApp text, Excel, PDF */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginTop: '12px' }}>
+                <input type="file" ref={textFileInputRef} style={{ display: 'none' }} accept=".txt,.csv" onChange={e => handleFileUpload(e, 'text')} />
+                <input type="file" ref={excelFileInputRef} style={{ display: 'none' }} accept=".xlsx,.xls,.csv" onChange={e => handleFileUpload(e, 'excel')} />
+                <input type="file" ref={pdfFileInputRef} style={{ display: 'none' }} accept=".pdf" onChange={e => handleFileUpload(e, 'pdf')} />
+                
+                <button onClick={() => textFileInputRef.current?.click()} style={{...styles.btnGradientCompact, background: '#475569'}} className="hover-scale">💬 {t.importTextWhatsapp}</button>
+                <button onClick={() => excelFileInputRef.current?.click()} style={{...styles.btnGradientCompact, background: '#059669'}} className="hover-scale">📊 {t.importExcel}</button>
+                <button onClick={() => pdfFileInputRef.current?.click()} style={{...styles.btnGradientCompact, background: '#D97706'}} className="hover-scale">📄 {t.importPdf}</button>
               </div>
 
               <button onClick={extractOrderInfo} disabled={loading} style={styles.btnPrimaryGradient} className="hover-scale">
@@ -1004,10 +1063,10 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
                 <div style={styles.modalOverlay}>
                   <div style={styles.modalCard} className="animate-fade-in">
                     <h3 style={{ margin: '0 0 10px', color: '#38BDF8' }}>{t.matchTitle}</h3>
-                    <p style={{ fontSize: '0.9rem', color: '#CBD5E1' }}>{t.matchPrompt}</p>
+                    <p style={{ fontSize: '0.92rem', color: '#CBD5E1' }}>{t.matchPrompt}</p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', margin: '15px 0' }}>
                       {matchingPromptModal.matches.map((match, idx) => (
-                        <div key={idx} style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '10px' }}>
+                        <div key={idx} style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '12px' }}>
                           <strong style={{ color: '#FACC15' }}>{match.name}</strong> ({match.phone || 'N/A'})
                           <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
                             <button onClick={() => handleResolveDuplicate('update', match)} style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg,#059669,#10B981)' }} className="hover-scale">
@@ -1032,15 +1091,19 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
                     const collection = ord.paymentMethod === PAYMENT_ONLINE || ord.paymentMethod === PAYMENT_PREPAID ? normalizeNumber(ord.deliveryFee) : normalizeNumber(ord.cod) + normalizeNumber(ord.deliveryFee);
                     return (
                       <div key={idx} style={styles.extractedSubCard}>
-                        <div style={{ ...styles.orderHero, background: 'linear-gradient(135deg,rgba(168,85,247,0.2),rgba(236,72,153,0.2))' }}>
+                        <div style={{ ...styles.orderHero, background: 'linear-gradient(135deg,rgba(139,92,246,0.25),rgba(236,72,153,0.25))' }}>
                           <div><div style={styles.miniLabel}>{t.customer}</div><div style={styles.heroCustomer}>👤 {ord.customer || t.unspecified}</div></div>
                           <div style={styles.heroMoney}>{collection.toLocaleString()} {settings.currency}</div>
                         </div>
+
                         {isIncompleteAddress(ord.address) && <div style={styles.addressWarningBox}>{t.addressWarning}</div>}
+                        {isMissingInfo(ord) && <div style={styles.missingInfoBox}>{t.missingInfoAlert}</div>}
+
                         <div style={styles.grid2}>
-                          <div><strong>{t.store}:</strong> {ord.store || t.unspecified}</div>
-                          <div><strong>{t.phone}:</strong> {ord.phone || t.unspecified}</div>
-                          <div style={{ gridColumn: '1 / -1' }}><strong>{t.address}:</strong> {ord.address || t.unspecified}</div>
+                          <div><strong>{t.store}:</strong> <input type="text" value={ord.store} onChange={e => updateExtractedOrder(idx, 'store', e.target.value)} style={styles.input} /></div>
+                          <div><strong>{t.customer}:</strong> <input type="text" value={ord.customer} onChange={e => updateExtractedOrder(idx, 'customer', e.target.value)} style={styles.input} /></div>
+                          <div><strong>{t.phone}:</strong> <input type="text" value={ord.phone} onChange={e => updateExtractedOrder(idx, 'phone', e.target.value)} style={styles.input} /></div>
+                          <div style={{ gridColumn: '1 / -1' }}><strong>{t.address}:</strong> <input type="text" value={ord.address} onChange={e => updateExtractedOrder(idx, 'address', e.target.value)} style={styles.input} /></div>
                           <div style={{ gridColumn: '1 / -1' }}><strong>{t.notes}:</strong> <input type="text" value={ord.notes} onChange={e => updateExtractedOrder(idx, 'notes', e.target.value)} style={styles.input} /></div>
                           <div style={{ gridColumn: '1 / -1' }}><strong>{t.expectedArrival}:</strong> <input type="datetime-local" value={ord.expectedArrival||''} onChange={e => updateExtractedOrder(idx, 'expectedArrival', e.target.value)} style={styles.input} /></div>
                         </div>
@@ -1078,10 +1141,11 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
             </div>
           )}
 
-          {/* MANAGING ORDERS */}
+          {/* MANAGING ORDERS (with Damaged & Returned tabs/filters) */}
           {activeTab === 'orders' && (
             <div className="animate-fade-in">
               <input type="text" placeholder={t.searchPlaceholder} value={searchQuery} onChange={e => setSearchQuery(e.target.value)} style={styles.searchInput} />
+              
               {filteredOrders.length === 0 ? (<p style={styles.empty}>No orders found.</p>) : (
                 filteredOrders.map(order => (
                   <div key={order.id} style={styles.card} className="hover-scale">
@@ -1103,10 +1167,12 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
                           <option value="مرتجع">{t.statusReturned}</option>
                         </select>
                         <button onClick={() => setEditOrderModal(order)} style={{...styles.btnDeleteCompact, background:'#3B82F6'}}>✏️</button>
+                        <button onClick={() => handleDeleteOrder(order)} style={styles.btnDeleteCompact}>🗑️</button>
                       </div>
                     </div>
                     <p style={styles.p}><strong>{t.customer}:</strong> {order.customer} ({order.phone})</p>
                     <p style={styles.p}><strong>{t.address}:</strong> {order.address}</p>
+                    {order.notes && <p style={{...styles.p, color: '#FCD34D'}}><strong>{t.notes}:</strong> {order.notes}</p>}
                     <div style={styles.calculationStrip}>
                       <div><span>{t.cod}</span><strong>{getOrderValue(order)} {settings.currency}</strong></div>
                       <div><span>{t.deliveryFee}</span><strong>{getDeliveryFee(order)} {settings.currency}</strong></div>
@@ -1119,7 +1185,7 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
             </div>
           )}
 
-          {/* LEDGER */}
+          {/* ADVANCED DRIVER LEDGER */}
           {activeTab === 'driver_ledger' && (
             <div style={styles.card} className="animate-fade-in">
               <h2 style={{ color: '#67E8F9', marginTop: 0 }}>{t.driverLedgerTitle}</h2>
@@ -1143,6 +1209,46 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
                 <div><span>{t.companyRevenueLedger}</span><br /><strong style={{ color: '#34D399' }}>{monthlyCompanyRevenue.toFixed(2)}</strong></div>
                 <div><span>{t.driverRevenueLedger}</span><br /><strong style={{ color: '#60A5FA' }}>{monthlyDriverRevenue.toFixed(2)}</strong></div>
               </div>
+
+              <h3 style={{ color: '#FACC15', marginTop: '20px' }}>{t.ordersHandled}</h3>
+              {filteredLedgerOrders.length === 0 ? <p style={styles.empty}>{t.noOrdersForDate}</p> : (
+                filteredLedgerOrders.map(o => (
+                  <div key={o.id} style={{background: 'rgba(13,8,28,0.7)', padding: '12px', borderRadius: '12px', marginBottom: '8px', border: '1px solid rgba(255,255,255,0.06)'}}>
+                    <div style={styles.rowBetween}><span style={styles.orderNumTag}>{o.orderNum}</span><span style={getStatusStyle(o.status)}>{o.status}</span></div>
+                    <p style={styles.p}>👤 {o.customer} | 🏪 {o.store}</p>
+                    <p style={styles.p}>💵 Collection: <strong>{getOrderEffectiveCash(o)} {settings.currency}</strong> (COD: {getOrderValue(o)} + Fee: {getDeliveryFee(o)})</p>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+
+          {/* NOTES & IMPORTANT AMOUNTS SECTION */}
+          {activeTab === 'notes_section' && (
+            <div style={styles.card} className="animate-fade-in">
+              <h2 style={{ color: '#FACC15', marginTop: 0 }}>{t.notesSectionTitle}</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
+                <input type="text" placeholder={t.noteTitlePlaceholder} value={newNoteTitle} onChange={e => setNewNoteTitle(e.target.value)} style={styles.input} />
+                <input type="number" placeholder={t.noteAmountPlaceholder} value={newNoteAmount} onChange={e => setNewNoteAmount(e.target.value)} style={styles.input} />
+                <textarea rows={3} placeholder={t.noteContentPlaceholder} value={newNoteContent} onChange={e => setNewNoteContent(e.target.value)} style={styles.textarea} />
+                <button onClick={handleAddNote} style={styles.btnSuccessGradient} className="hover-scale">{t.addNoteBtn}</button>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {notesList.length === 0 ? <p style={styles.empty}>No important notes recorded yet.</p> : (
+                  notesList.map(note => (
+                    <div key={note.id} style={{ background: 'rgba(13,8,28,0.85)', border: '1px solid rgba(168,85,247,0.3)', borderRadius: '16px', padding: '16px' }} className="hover-scale">
+                      <div style={styles.rowBetween}>
+                        <h3 style={{ margin: 0, color: '#38BDF8', fontSize: '1.05rem' }}>📌 {note.title}</h3>
+                        <button onClick={() => handleDeleteNote(note.id)} style={styles.btnDeleteCompact}>{t.deleteBtn}</button>
+                      </div>
+                      {note.amount > 0 && <p style={{ margin: '8px 0', color: '#34D399', fontWeight: '800', fontSize: '1.1rem' }}>💰 Amount: {note.amount.toLocaleString()} {settings.currency}</p>}
+                      <p style={{ margin: '8px 0', color: '#E2E8F0', whiteSpace: 'pre-wrap' }}>{note.content}</p>
+                      <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '6px' }}>🕒 {note.date}</div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           )}
 
@@ -1160,7 +1266,10 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
                   const driverOrders = orders.filter(o => o.driver === d.name);
                   return (
                     <div key={d.id} style={styles.clickableCard} className="hover-scale" onClick={() => setActiveEntityModal({ type: 'driver', data: d })}>
-                      <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>🛵 {d.name}</h3>
+                      <div style={styles.rowBetween}>
+                        <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>🛵 {d.name}</h3>
+                        <button onClick={(e) => { e.stopPropagation(); handleDeleteEntity('driver', d.id); }} style={styles.btnDeleteCompact}>🗑️</button>
+                      </div>
                       <p style={styles.p}>📞 {d.phone || t.unspecified}</p>
                       <p style={styles.p}>{t.totalTrips} <strong>{driverOrders.length}</strong></p>
                       <button style={{ ...styles.btnGradientCompact, width:'100%', marginTop: '8px' }}>{t.viewDetails}</button>
@@ -1171,7 +1280,7 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
             </div>
           )}
 
-          {/* MERCHANTS TAB */}
+          {/* MERCHANTS TAB (with remove/delete option) */}
           {activeTab === 'merchants' && (
             <div style={styles.card} className="animate-fade-in">
               <h2 style={styles.cardTitle}>{t.saveMerchant}</h2>
@@ -1187,7 +1296,10 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
                   const merchantOrders = orders.filter(o => o.store?.toLowerCase() === m.name?.toLowerCase());
                   return (
                     <div key={m.id} style={styles.clickableCard} className="hover-scale" onClick={() => setActiveEntityModal({ type: 'merchant', data: m })}>
-                      <h3 style={{ margin: '0 0 8px', color: '#FACC15' }}>🏪 {m.name}</h3>
+                      <div style={styles.rowBetween}>
+                        <h3 style={{ margin: '0 0 8px', color: '#FACC15' }}>🏪 {m.name}</h3>
+                        <button onClick={(e) => { e.stopPropagation(); handleDeleteEntity('merchant', m.id); }} style={styles.btnDeleteCompact}>🗑️</button>
+                      </div>
                       <p style={styles.p}>📞 {m.phone || t.unspecified}</p>
                       <p style={styles.p}>📦 Orders: {merchantOrders.length}</p>
                       <button style={{ ...styles.btnGradientCompact, width:'100%', marginTop: '8px' }}>{t.viewDetails}</button>
@@ -1198,7 +1310,7 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
             </div>
           )}
 
-          {/* CUSTOMERS TAB */}
+          {/* CUSTOMERS TAB (with remove/delete option) */}
           {activeTab === 'customers' && (
             <div style={styles.card} className="animate-fade-in">
               <h2 style={styles.cardTitle}>{t.saveCustomer}</h2>
@@ -1214,7 +1326,10 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
                   const customerOrders = orders.filter(o => o.customer?.toLowerCase() === c.name?.toLowerCase() || o.phone === c.phone);
                   return (
                     <div key={c.id} style={styles.clickableCard} className="hover-scale" onClick={() => setActiveEntityModal({ type: 'customer', data: c })}>
-                      <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>👤 {c.name}</h3>
+                      <div style={styles.rowBetween}>
+                        <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>👤 {c.name}</h3>
+                        <button onClick={(e) => { e.stopPropagation(); handleDeleteEntity('customer', c.id); }} style={styles.btnDeleteCompact}>🗑️</button>
+                      </div>
                       <p style={styles.p}>📞 {c.phone}</p>
                       <p style={styles.p}>📦 Orders: {customerOrders.length}</p>
                       <button style={{ ...styles.btnGradientCompact, width:'100%', marginTop: '8px' }}>{t.viewDetails}</button>
@@ -1255,7 +1370,7 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
               <h3 style={{color: '#FACC15', marginTop: '20px'}}>{t.dataBackup}</h3>
               <div style={{display:'flex', gap:'10px'}}>
                 <button onClick={exportJSON} style={{...styles.btnGradientCompact, flex:1, background: '#059669'}} className="hover-scale">📤 {t.exportJson}</button>
-                <input type="file" ref={jsonInputRef} style={{display:'none'}} accept=".json" onChange={handleFileUpload} />
+                <input type="file" ref={jsonInputRef} style={{display:'none'}} accept=".json" onChange={e => handleFileUpload(e, 'json')} />
                 <button onClick={() => jsonInputRef.current?.click()} style={{...styles.btnGradientCompact, flex:1, background: '#3B82F6'}} className="hover-scale">📥 {t.importJson}</button>
               </div>
             </div>
@@ -1286,7 +1401,7 @@ Output JSON: { "ambiguous_flags": [], "orders": [{ "store":"", "customer":"", "p
               </div>
 
               <div style={{ margin: '15px 0' }}>
-                <p style={styles.p}>📞 {activeEntityModal.data.phone}</p>
+                <p style={styles.p}>📞 {activeEntityModal.data.phone || t.unspecified}</p>
                 {activeEntityModal.data.address && <p style={styles.p}>📍 {activeEntityModal.data.address}</p>}
                 <label style={{...styles.label, marginTop:'10px'}}>{t.entityNotes}</label>
                 <textarea rows={3} placeholder={t.addNotePlaceholder} value={activeEntityModal.data.notes || ''} onChange={e => {
