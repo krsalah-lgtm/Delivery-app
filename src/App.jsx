@@ -966,7 +966,6 @@ export default function App() {
 
   const [drivers, setDrivers] = useState(() => {
     const raw = JSON.parse(localStorage.getItem('delivery_drivers_v5') || '["أحمد", "محمود", "مصطفى"]');
-    // Migration: older versions stored drivers as plain strings.
     return raw.map((d, i) => (typeof d === 'string' ? { id: `legacy_${i}_${d}`, name: d, phone: '' } : d));
   });
 
@@ -1038,7 +1037,6 @@ export default function App() {
   useEffect(() => { localStorage.setItem('delivery_settings_v1', JSON.stringify(settings)); }, [settings]);
   useEffect(() => { setSelectedRevenuePercent(settings.defaultCommission ?? 20); }, [settings.defaultCommission]);
 
-  /* Auto-Late status checker */
   useEffect(() => {
     const checkLate = () => {
       const now = Date.now();
@@ -1083,7 +1081,6 @@ export default function App() {
     return () => clearInterval(iv);
   }, [lang]);
 
-  /* Financial logic */
   const isCancelled = order => order?.status === 'ملغي';
   const getOrderValue = order => normalizeNumber(order?.cod);
   const getDeliveryFee = order => normalizeNumber(order?.deliveryFee);
@@ -1147,7 +1144,6 @@ export default function App() {
     return !keywords.some(k => lower.includes(k));
   };
 
-  /* AI Order Extraction */
   const extractOrderInfo = async () => {
     if (!apiKey.trim()) {
       alert(lang === 'ar' ? 'يرجى إدخال مفتاح Groq API في الإعدادات.' : 'Please add your Groq API key in Settings.');
@@ -1284,7 +1280,6 @@ OUTPUT FORMAT:
           return { ...ord, store: selectedMatch.name };
         } else if (action === 'update') {
           if (type === 'customer') {
-            // Customer contact fields legitimately come from the order's own customer data.
             setCustomers(cList =>
               cList.map(c =>
                 c.id === selectedMatch.id
@@ -1294,8 +1289,6 @@ OUTPUT FORMAT:
             );
             return { ...ord, customer: selectedMatch.name };
           } else {
-            // Bug fix: a merchant's phone/address must NEVER be overwritten from the
-            // customer's delivery phone/address embedded in the extracted order.
             setMerchants(mList => mList.map(m => (m.id === selectedMatch.id ? { ...m } : m)));
             return { ...ord, store: selectedMatch.name };
           }
@@ -1323,7 +1316,6 @@ OUTPUT FORMAT:
     setExtractedOrders(prev => prev.filter((_, i) => i !== index));
   };
 
-  /* Excel / PDF import */
   const handleExcelFile = async e => {
     const file = e.target.files[0];
     if (!file) return;
@@ -1398,7 +1390,6 @@ OUTPUT FORMAT:
     }
   };
 
-  /* Auto-assign least-busy driver */
   const pickAutoDriver = () => {
     if (drivers.length === 0) return '';
     const counts = drivers.map(d => ({
@@ -1409,7 +1400,6 @@ OUTPUT FORMAT:
     return counts[0]?.name || '';
   };
 
-  /* Confirm Orders */
   const handleConfirmOrder = () => {
     if (extractedOrders.length === 0) return;
     let driverToUse = selectedDriver;
@@ -1486,8 +1476,6 @@ OUTPUT FORMAT:
     setOrderCounter(currentNum);
     setOrders(prev => [...newCreatedOrders, ...prev]);
 
-    // Bug fix: merchant records must NEVER receive customer address/phone data.
-    // Merchant contact info can only be entered/edited manually via the Merchants tab.
     extractedOrders.forEach(ord => {
       if (ord.store && ord.store !== t.unspecified) {
         setMerchants(prev => {
@@ -1524,7 +1512,6 @@ OUTPUT FORMAT:
     toast(lang === 'ar' ? '✅ تم حفظ الطلبات بنجاح' : '✅ Orders saved successfully');
   };
 
-  /* Order actions */
   const handleDeleteOrder = order => {
     if (window.confirm(`${t.confirmDeleteMsg} (${order.orderNum})`)) {
       setOrders(prev => prev.filter(o => o.id !== order.id));
@@ -1583,7 +1570,6 @@ OUTPUT FORMAT:
     setEditingArrivalId(null);
   };
 
-  /* Full order edit modal */
   const handleSaveOrderEdit = () => {
     const original = orders.find(o => o.id === editingOrder.id);
     if (!original) return;
@@ -1625,7 +1611,6 @@ OUTPUT FORMAT:
     });
   };
 
-  /* Manual entity duplicate detection */
   const findDuplicate = (list, name, phone) => {
     const lowerName = (name || '').trim().toLowerCase();
     return list.find(
@@ -1716,7 +1701,6 @@ OUTPUT FORMAT:
     }
   };
 
-  /* Driver metrics */
   const computeDriverMetrics = driverName => {
     const now = new Date();
     const todayStr = now.toISOString().split('T')[0];
@@ -1749,7 +1733,6 @@ OUTPUT FORMAT:
     };
   };
 
-  /* Dispatch message */
   const generateDispatchMessage = order => {
     const collection = getCustomerCollection(order);
     const paymentLabel =
@@ -1800,7 +1783,6 @@ OUTPUT FORMAT:
       .catch(() => {});
   };
 
-  /* Backup / export */
   const downloadJson = (data, filename) => {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -1814,7 +1796,7 @@ OUTPUT FORMAT:
   const handleExportBackup = () => {
     downloadJson(
       { orders, deletedOrders, merchants, customers, drivers, driverNotes, historyLogs, settings, orderCounter, exportedAt: new Date().toISOString() },
-      `rasseel_backup_${new Date().toISOString().split('T')[0]}.json`
+      `express_delivery_backup_${new Date().toISOString().split('T')[0]}.json`
     );
   };
 
@@ -1851,7 +1833,6 @@ OUTPUT FORMAT:
     e.target.value = '';
   };
 
-  /* Calculated metrics */
   const completedOrders = orders.filter(o => o.status === 'مكتمل');
   const activeOrdersCount = orders.filter(o => !STATUS_ACTIVE_EXCLUDED.includes(o.status)).length;
   const completedOrdersCount = completedOrders.length;
@@ -1869,7 +1850,6 @@ OUTPUT FORMAT:
     return matchesQuery && matchesStatus;
   });
 
-  /* Ledger calculations */
   const selectedYearMonth = ledgerDate.substring(0, 7);
   const ledgerWeekStart = (() => {
     const d = new Date(ledgerDate);
@@ -1923,8 +1903,6 @@ OUTPUT FORMAT:
     <div style={styles.appWrapper}>
       <style>{keyframesCss}</style>
       <div style={{ ...styles.container, direction: lang === 'ar' ? 'rtl' : 'ltr' }}>
-
-        {/* TOAST */}
         {copiedToast && (
           <div
             style={{
@@ -1947,14 +1925,12 @@ OUTPUT FORMAT:
           </div>
         )}
 
-        {/* HEADER */}
         <header style={styles.header}>
           <div style={styles.logoBox}><span style={styles.logoIcon}>⚡</span></div>
           <h1 style={styles.appTitle}><span>🚀</span> {displayAppTitle}</h1>
           <p style={styles.appSubtitle}>{t.appSubtitle}</p>
         </header>
 
-        {/* KPIS */}
         <div style={styles.kpiRow}>
           <div style={styles.kpiCard}>
             <span style={styles.kpiLabel}>⏱️ {t.kpiActiveOrders}</span>
@@ -1974,7 +1950,6 @@ OUTPUT FORMAT:
           </div>
         </div>
 
-        {/* NAVIGATION */}
         <div style={styles.navList}>
           <button style={styles.primaryBtn} onClick={() => setActiveTab('new_order')}>
             <span>➕</span> {t.navNewOrder}
@@ -2006,7 +1981,6 @@ OUTPUT FORMAT:
           </button>
         </div>
 
-        {/* BOTTOM CONTROLS */}
         <div style={styles.bottomSection}>
           <button style={styles.langPill} onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}>
             <span>🌐</span> {lang === 'ar' ? 'English' : 'العربية'}
@@ -2021,9 +1995,7 @@ OUTPUT FORMAT:
           </div>
         </div>
 
-        {/* MAIN VIEWS */}
         <main style={styles.main}>
-          {/* NEW ORDER */}
           {activeTab === 'new_order' && (
             <div style={styles.card}>
               <div style={styles.rowBetween}>
@@ -2041,7 +2013,6 @@ OUTPUT FORMAT:
                 {loading ? t.btnExtracting : t.btnExtract}
               </button>
 
-              {/* IMPORT METHODS */}
               <div style={{ marginTop: '16px' }}>
                 <div style={styles.miniLabel}>{t.importExportTitle}</div>
                 <div style={styles.fileImportRow}>
@@ -2053,7 +2024,6 @@ OUTPUT FORMAT:
                 <input ref={pdfInputRef} type="file" accept="application/pdf" style={{ display: 'none' }} onChange={handlePdfFile} />
               </div>
 
-              {/* TYPO MODAL */}
               {showTypoModal && (
                 <div style={styles.modalOverlay}>
                   <div style={styles.modalCard}>
@@ -2066,7 +2036,6 @@ OUTPUT FORMAT:
                 </div>
               )}
 
-              {/* DUPLICATE MATCH PROMPT MODAL */}
               {matchingPromptModal && (
                 <div style={styles.modalOverlay}>
                   <div style={styles.modalCard}>
@@ -2094,7 +2063,6 @@ OUTPUT FORMAT:
                 </div>
               )}
 
-              {/* EXTRACTED ORDERS REVIEW */}
               {extractedOrders.length > 0 && (
                 <div style={styles.extractedBox}>
                   <h3 style={{ marginTop: 0, color: '#FACC15' }}>{t.reviewTitle}</h3>
@@ -2187,7 +2155,6 @@ OUTPUT FORMAT:
             </div>
           )}
 
-          {/* MANAGING ORDERS */}
           {activeTab === 'orders' && (
             <div>
               <input
@@ -2229,7 +2196,6 @@ OUTPUT FORMAT:
                       </select>
                     </p>
 
-                    {/* Expected arrival */}
                     <div style={styles.amountRow}>
                       <span style={styles.p}><strong>{t.expectedArrival}:</strong></span>
                       {editingArrivalId === order.id ? (
@@ -2245,7 +2211,6 @@ OUTPUT FORMAT:
                       )}
                     </div>
 
-                    {/* Damaged/Returned comment */}
                     {(order.status === 'تالف' || order.status === 'مرتجع') && (
                       <div style={{ margin: '8px 0' }}>
                         <label style={styles.label}>{t.statusCommentLabel}</label>
@@ -2263,7 +2228,6 @@ OUTPUT FORMAT:
                       </div>
                     )}
 
-                    {/* Notes */}
                     <div style={{ margin: '8px 0' }}>
                       <label style={styles.label}>{t.notes}</label>
                       {editingNoteId === order.id ? (
@@ -2317,7 +2281,6 @@ OUTPUT FORMAT:
             </div>
           )}
 
-          {/* LEDGER */}
           {activeTab === 'driver_ledger' && (
             <div style={styles.card}>
               <h2 style={{ color: '#67E8F9', marginTop: 0 }}>{t.driverLedgerTitle}</h2>
@@ -2362,460 +2325,214 @@ OUTPUT FORMAT:
                 <p style={styles.empty}>{t.noOrdersForDate}</p>
               ) : (
                 filteredLedgerOrders.map(o => (
-                  <div key={o.id} style={styles.ledgerOrderCard} onClick={() => setSelectedOrderForDetails(o)}>
+                  <div key={o.id} style={styles.ledgerOrderCard}>
                     <div style={styles.rowBetween}>
-                      <span style={styles.orderNumTag}>{o.orderNum}</span>
+                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <span style={styles.orderNumTag}>{o.orderNum}</span>
+                        <span style={styles.tagStore}>{o.store}</span>
+                      </div>
                       <span style={getStatusStyle(o.status)}>{o.status}</span>
                     </div>
-                    <p style={styles.p}>{o.customer} — {o.driver}</p>
+                    <p style={styles.p}><strong>{t.customer}:</strong> {o.customer} ({o.phone})</p>
+                    <p style={styles.p}><strong>{t.address}:</strong> {o.address}</p>
+                    <div style={styles.calculationStrip}>
+                      <div><span>{t.cashCollection}</span><strong>{getOrderEffectiveCash(o).toLocaleString()} {curr}</strong></div>
+                      <div><span>{t.companyRevenue}</span><strong style={{ color: '#34D399' }}>{getCompanyRevenue(o).toFixed(2)} {curr}</strong></div>
+                      <div><span>{t.driverRevenue}</span><strong style={{ color: '#60A5FA' }}>{getDriverRevenue(o).toFixed(2)} {curr}</strong></div>
+                    </div>
                   </div>
                 ))
               )}
-              <button onClick={() => downloadJson(filteredLedgerOrders, `ledger_${ledgerDate}.json`)} style={{ ...styles.btnGradientCompact, marginTop: '12px' }}>{t.exportData}</button>
             </div>
           )}
 
-          {/* DRIVERS TAB WITH DRILL-DOWN */}
           {activeTab === 'drivers' && (
             <div style={styles.card}>
-              <div style={styles.rowBetween}>
-                <h2 style={styles.cardTitle}>{t.addDriver}</h2>
-                <button onClick={() => downloadJson(drivers, 'drivers.json')} style={styles.btnGradientCompact}>{t.exportData}</button>
+              <h2 style={{ ...styles.cardTitle, color: '#FACC15' }}>{t.navDrivers}</h2>
+              <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                <input type="text" placeholder={t.driverName} value={newDriverName} onChange={e => setNewDriverName(e.target.value)} style={styles.input} />
+                <input type="text" placeholder={t.driverPhone} value={newDriverPhone} onChange={e => setNewDriverPhone(e.target.value)} style={styles.input} />
+                <button onClick={handleAddDriver} style={{ ...styles.btnSuccessGradient, marginTop: 0, width: 'auto' }}>{t.btnAdd}</button>
               </div>
-              <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap' }}>
-                <input type="text" placeholder={t.driverName} value={newDriverName} onChange={e => setNewDriverName(e.target.value)} style={{ ...styles.input, flex: 1 }} />
-                <input type="text" placeholder={t.driverPhone} value={newDriverPhone} onChange={e => setNewDriverPhone(e.target.value)} style={{ ...styles.input, flex: 1 }} />
-                <button onClick={handleAddDriver} style={styles.btnGradientCompact}>{t.btnAdd}</button>
-              </div>
-              <div style={styles.grid2}>
-                {drivers.map(d => {
-                  const driverOrders = orders.filter(o => o.driver === d.name);
-                  return (
-                    <div key={d.id} style={styles.clickableCard}>
-                      <div onClick={() => setActiveEntityModal({ type: 'driver', data: d.name })}>
-                        <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>🛵 {d.name}</h3>
-                        <p style={styles.p}>📞 {d.phone || t.unspecified}</p>
-                        <p style={styles.p}>{t.totalTrips} <strong>{driverOrders.length}</strong></p>
-                        <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
-                      </div>
-                      <button
-                        onClick={e => { e.stopPropagation(); handleDeleteDriver(d); }}
-                        style={{ ...styles.btnDeleteCompact, marginTop: '8px' }}
-                      >
-                        {t.deleteBtn}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* MERCHANTS TAB WITH DRILL-DOWN */}
-          {activeTab === 'merchants' && (
-            <div style={styles.card}>
-              <div style={styles.rowBetween}>
-                <h2 style={styles.cardTitle}>{t.saveMerchant}</h2>
-                <button onClick={() => downloadJson(merchants, 'merchants.json')} style={styles.btnGradientCompact}>{t.exportData}</button>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-                <input type="text" placeholder={t.store} value={merchantForm.name} onChange={e => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.phone} value={merchantForm.phone} onChange={e => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.address} value={merchantForm.address} onChange={e => setMerchantForm({ ...merchantForm, address: e.target.value })} style={styles.input} />
-                <textarea rows={2} placeholder={t.notes} value={merchantForm.notes} onChange={e => setMerchantForm({ ...merchantForm, notes: e.target.value })} style={styles.textarea} />
-                <button onClick={handleSaveMerchant} style={styles.btnGradientCompact}>{t.saveBtn}</button>
-              </div>
-              <div style={styles.grid2}>
-                {merchants.map(m => {
-                  const merchantOrders = orders.filter(o => o.store?.toLowerCase() === m.name?.toLowerCase());
-                  return (
-                    <div key={m.id} style={styles.clickableCard}>
-                      <div onClick={() => setActiveEntityModal({ type: 'merchant', data: m })}>
-                        <h3 style={{ margin: '0 0 8px', color: '#FACC15' }}>🏪 {m.name}</h3>
-                        <p style={styles.p}>📞 {m.phone || t.unspecified}</p>
-                        <p style={styles.p}>📍 {m.address || t.unspecified}</p>
-                        <p style={styles.p}>📦 Orders: {merchantOrders.length}</p>
-                        <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
-                      </div>
-                      <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                        <button onClick={e => { e.stopPropagation(); setMerchantForm({ ...m }); }} style={styles.btnEditCompact}>{t.editBtn}</button>
-                        <button onClick={e => { e.stopPropagation(); handleDeleteMerchant(m); }} style={styles.btnDeleteCompact}>{t.deleteBtn}</button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* CUSTOMERS TAB WITH DRILL-DOWN */}
-          {activeTab === 'customers' && (
-            <div style={styles.card}>
-              <div style={styles.rowBetween}>
-                <h2 style={styles.cardTitle}>{editingCustomer ? t.editCustomer : t.saveCustomer}</h2>
-                <button onClick={() => downloadJson(customers, 'customers.json')} style={styles.btnGradientCompact}>{t.exportData}</button>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-                <input type="text" placeholder={t.customer} value={newCustomer.name} onChange={e => setNewCustomer({ ...newCustomer, name: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.phone} value={newCustomer.phone} onChange={e => setNewCustomer({ ...newCustomer, phone: e.target.value })} style={styles.input} />
-                <input type="text" placeholder={t.address} value={newCustomer.address} onChange={e => setNewCustomer({ ...newCustomer, address: e.target.value })} style={styles.input} />
-                <textarea rows={2} placeholder={t.notes} value={newCustomer.notes} onChange={e => setNewCustomer({ ...newCustomer, notes: e.target.value })} style={styles.textarea} />
-                <button onClick={handleSaveCustomerExplicit} style={styles.btnGradientCompact}>{t.saveBtn}</button>
-              </div>
-              <div style={styles.grid2}>
-                {customers.map(c => {
-                  const customerOrders = orders.filter(o => o.customer?.toLowerCase() === c.name?.toLowerCase() || o.phone === c.phone);
-                  return (
-                    <div key={c.id} style={styles.clickableCard}>
-                      <div onClick={() => setActiveEntityModal({ type: 'customer', data: c })}>
-                        <h3 style={{ margin: '0 0 8px', color: '#38BDF8' }}>👤 {c.name}</h3>
-                        <p style={styles.p}>📞 {c.phone}</p>
-                        <p style={styles.p}>📍 {c.address || t.unspecified}</p>
-                        <p style={styles.p}>📦 Orders: {customerOrders.length}</p>
-                        <button style={{ ...styles.btnGradientCompact, marginTop: '8px' }}>{t.viewDetails}</button>
-                      </div>
-                      <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                        <button onClick={e => { e.stopPropagation(); setEditingCustomer(c); setNewCustomer({ name: c.name, phone: c.phone, address: c.address || '', notes: c.notes || '' }); }} style={styles.btnEditCompact}>{t.editBtn}</button>
-                        <button onClick={e => { e.stopPropagation(); handleDeleteCustomer(c); }} style={styles.btnDeleteCompact}>{t.deleteBtn}</button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* AUDIT LOG & DELETED ORDERS */}
-          {activeTab === 'history' && (
-            <div style={styles.card}>
-              <div style={styles.rowBetween}>
-                <h2 style={{ ...styles.cardTitle, margin: 0 }}>{t.historyTitle}</h2>
-                <button onClick={() => downloadJson(historyLogs, 'history.json')} style={styles.btnGradientCompact}>{t.exportData}</button>
-              </div>
-              {historyLogs.length === 0 && <p style={styles.empty}>{t.noHistory}</p>}
-              {historyLogs.map(log => {
-                const isDeleted = log.action === 'Deleted';
+              {drivers.map(d => {
+                const metrics = computeDriverMetrics(d.name);
                 return (
-                  <div
-                    key={log.id}
-                    onClick={() => {
-                      const foundOrder = [...orders, ...deletedOrders].find(o => o.orderNum === log.orderNum);
-                      if (foundOrder) setSelectedOrderForDetails(foundOrder);
-                    }}
-                    style={{
-                      padding: '12px',
-                      borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                      cursor: 'pointer',
-                      background: isDeleted ? 'rgba(239, 68, 68, 0.1)' : 'transparent',
-                      borderRadius: '8px',
-                      marginBottom: '6px'
-                    }}
-                  >
-                    <span style={styles.orderNumTag}>{log.orderNum}</span>{' '}
-                    <strong style={{ color: isDeleted ? '#FCA5A5' : '#38BDF8' }}>[{log.action}]</strong> — {log.details}
-                    {isDeleted && <span style={{ marginLeft: '8px', color: '#EF4444', fontWeight: 'bold' }}>({t.deletedBadge})</span>}
-                    <div style={{ fontSize: '0.75rem', color: '#64748B', marginTop: '4px' }}>🕒 {log.time}</div>
+                  <div key={d.id} style={styles.card}>
+                    <div style={styles.rowBetween}>
+                      <h3 style={{ margin: 0 }}>{d.name} <span style={{ fontSize: '0.9rem', color: '#94A3B8' }}>{d.phone}</span></h3>
+                      <button onClick={() => handleDeleteDriver(d)} style={styles.btnDeleteCompact}>{t.deleteBtn}</button>
+                    </div>
+                    <div style={styles.calculationStrip}>
+                      <div><span>{t.ordersCount}</span><strong>{metrics.totalOrders}</strong></div>
+                      <div><span>{t.kpiCompleted}</span><strong style={{ color: '#34D399' }}>{metrics.deliveredCount}</strong></div>
+                      <div><span>{t.companyRevenueTotal}</span><strong style={{ color: '#FACC15' }}>{metrics.companyRevenueTotal.toFixed(2)} {curr}</strong></div>
+                    </div>
                   </div>
                 );
               })}
             </div>
           )}
 
-          {/* SETTINGS */}
+          {activeTab === 'merchants' && (
+            <div style={styles.card}>
+              <h2 style={{ ...styles.cardTitle, color: '#FACC15' }}>{t.navMerchants}</h2>
+              <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', flexWrap: 'wrap' }}>
+                <input type="text" placeholder={t.store} value={merchantForm.name} onChange={e => setMerchantForm({ ...merchantForm, name: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.phone} value={merchantForm.phone} onChange={e => setMerchantForm({ ...merchantForm, phone: e.target.value })} style={styles.input} />
+                <button onClick={handleSaveMerchant} style={{ ...styles.btnSuccessGradient, marginTop: 0, width: 'auto' }}>{merchantForm.id ? t.saveBtn : t.saveMerchant}</button>
+              </div>
+              {merchants.map(m => (
+                <div key={m.id} style={styles.card}>
+                  <div style={styles.rowBetween}>
+                    <h3 style={{ margin: 0 }}>{m.name} <span style={{ fontSize: '0.9rem', color: '#94A3B8' }}>{m.phone}</span></h3>
+                    <div>
+                      <button onClick={() => setMerchantForm(m)} style={styles.btnEditCompact}>{t.editBtn}</button>
+                      <button onClick={() => handleDeleteMerchant(m)} style={{ ...styles.btnDeleteCompact, marginLeft: '8px' }}>{t.deleteBtn}</button>
+                    </div>
+                  </div>
+                  <p style={styles.p}><strong>{t.address}:</strong> {m.address || t.unspecified}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'customers' && (
+            <div style={styles.card}>
+              <h2 style={{ ...styles.cardTitle, color: '#FACC15' }}>{t.navCustomers}</h2>
+              <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', flexWrap: 'wrap' }}>
+                <input type="text" placeholder={t.customer} value={newCustomer.name} onChange={e => setNewCustomer({ ...newCustomer, name: e.target.value })} style={styles.input} />
+                <input type="text" placeholder={t.phone} value={newCustomer.phone} onChange={e => setNewCustomer({ ...newCustomer, phone: e.target.value })} style={styles.input} />
+                <button onClick={handleSaveCustomerExplicit} style={{ ...styles.btnSuccessGradient, marginTop: 0, width: 'auto' }}>{editingCustomer ? t.saveBtn : t.saveCustomer}</button>
+              </div>
+              {customers.map(c => (
+                <div key={c.id} style={styles.card}>
+                  <div style={styles.rowBetween}>
+                    <h3 style={{ margin: 0 }}>{c.name} <span style={{ fontSize: '0.9rem', color: '#94A3B8' }}>{c.phone}</span></h3>
+                    <div>
+                      <button onClick={() => { setEditingCustomer(c); setNewCustomer(c); }} style={styles.btnEditCompact}>{t.editBtn}</button>
+                      <button onClick={() => handleDeleteCustomer(c)} style={{ ...styles.btnDeleteCompact, marginLeft: '8px' }}>{t.deleteBtn}</button>
+                    </div>
+                  </div>
+                  <p style={styles.p}><strong>{t.address}:</strong> {c.address || t.unspecified}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'history' && (
+            <div style={styles.card}>
+              <h2 style={{ ...styles.cardTitle, color: '#FACC15' }}>{t.historyTitle}</h2>
+              {historyLogs.length === 0 ? (
+                <p style={styles.empty}>{t.noHistory}</p>
+              ) : (
+                historyLogs.map(log => (
+                  <div key={log.id} style={{ ...styles.card, padding: '12px' }}>
+                    <div style={styles.rowBetween}>
+                      <strong>{log.orderNum}</strong>
+                      <span style={{ fontSize: '0.8rem', color: '#94A3B8' }}>{log.time}</span>
+                    </div>
+                    <p style={{ margin: '4px 0', fontSize: '0.85rem', color: '#38BDF8' }}>{log.action}</p>
+                    <p style={{ margin: '0', fontSize: '0.85rem', color: '#E2E8F0' }}>{log.details}</p>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+
           {activeTab === 'settings' && (
             <div style={styles.card}>
-              <h2 style={styles.cardTitle}>{t.settingsTitle}</h2>
-
+              <h2 style={{ ...styles.cardTitle, color: '#FACC15' }}>{t.settingsTitle}</h2>
+              
               <label style={styles.label}>{t.settingsAppName}</label>
-              <input
-                type="text"
-                value={settings.appName}
-                placeholder={t.appTitle}
-                onChange={e => setSettings(prev => ({ ...prev, appName: e.target.value }))}
-                style={{ ...styles.input, marginBottom: '14px' }}
-              />
-
-              <label style={styles.label}>{t.settingsCommission}</label>
-              <select
-                value={settings.defaultCommission}
-                onChange={e => setSettings(prev => ({ ...prev, defaultCommission: Number(e.target.value) }))}
-                style={{ ...styles.revenueSelect, marginBottom: '14px' }}
-              >
-                {REVENUE_OPTIONS.map(p => (<option key={p} value={p}>{p}%</option>))}
-              </select>
+              <input type="text" value={settings.appName} onChange={e => setSettings({ ...settings, appName: e.target.value })} style={{ ...styles.input, marginBottom: '15px' }} />
 
               <label style={styles.label}>{t.settingsCurrency}</label>
-              <select
-                value={settings.currency}
-                onChange={e => setSettings(prev => ({ ...prev, currency: e.target.value }))}
-                style={{ ...styles.input, marginBottom: '14px' }}
-              >
-                {CURRENCY_OPTIONS.map(c => (<option key={c} value={c}>{c}</option>))}
+              <select value={settings.currency} onChange={e => setSettings({ ...settings, currency: e.target.value })} style={{ ...styles.input, marginBottom: '15px' }}>
+                {CURRENCY_OPTIONS.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
+
+              <label style={styles.label}>{t.settingsCommission}</label>
+              <select value={settings.defaultCommission} onChange={e => setSettings({ ...settings, defaultCommission: Number(e.target.value) })} style={{ ...styles.input, marginBottom: '15px' }}>
+                {REVENUE_OPTIONS.map(p => <option key={p} value={p}>{p}%</option>)}
+              </select>
+
+              <label style={styles.label}>{t.settingsApiKey}</label>
+              <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} style={{ ...styles.input, marginBottom: '15px' }} />
 
               <div style={styles.toggleRow}>
                 <div>
-                  <div style={{ fontWeight: '700' }}>{t.settingsAutoAssign}</div>
-                  <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: '4px' }}>{t.settingsAutoAssignHint}</div>
+                  <strong style={{ color: '#FFF' }}>{t.settingsAutoAssign}</strong>
+                  <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#94A3B8' }}>{t.settingsAutoAssignHint}</p>
                 </div>
                 <button
-                  onClick={() => setSettings(prev => ({ ...prev, autoAssign: !prev.autoAssign }))}
                   style={{ ...styles.toggleTrack, background: settings.autoAssign ? '#10B981' : '#475569' }}
+                  onClick={() => setSettings({ ...settings, autoAssign: !settings.autoAssign })}
                 >
-                  <span style={{ ...styles.toggleThumb, left: settings.autoAssign ? '23px' : '3px' }} />
+                  <div style={{ ...styles.toggleThumb, left: settings.autoAssign ? '24px' : '3px' }} />
                 </button>
               </div>
 
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '18px 0', paddingTop: '18px' }}>
-                <div style={styles.financeTitle}>{t.settingsBackup}</div>
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                  <button onClick={handleExportBackup} style={styles.btnGradientCompact}>{t.settingsExport}</button>
-                  <button onClick={() => backupInputRef.current?.click()} style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg,#059669,#10B981)' }}>{t.settingsImport}</button>
-                  <input ref={backupInputRef} type="file" accept="application/json" style={{ display: 'none' }} onChange={handleImportBackup} />
-                </div>
-              </div>
+              <hr style={{ borderColor: 'rgba(255,255,255,0.1)', margin: '20px 0' }} />
 
-              <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', margin: '18px 0', paddingTop: '18px' }}>
-                <label style={styles.label}>{t.settingsApiKey}</label>
-                <input type="password" value={apiKey} onChange={e => setApiKey(e.target.value)} placeholder="Groq API Key..." style={styles.input} />
+              <h3 style={{ color: '#CBD5E1', fontSize: '1rem' }}>{t.settingsBackup}</h3>
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button onClick={handleExportBackup} style={{ ...styles.btnPrimaryGradient, marginTop: 0 }}>{t.settingsExport}</button>
+                <button onClick={() => backupInputRef.current?.click()} style={{ ...styles.btnSuccessGradient, marginTop: 0, background: '#475569' }}>{t.settingsImport}</button>
+                <input ref={backupInputRef} type="file" accept=".json" style={{ display: 'none' }} onChange={handleImportBackup} />
               </div>
             </div>
           )}
         </main>
 
-        {/* ENTITY DRILL-DOWN MODAL */}
-        {activeEntityModal && (
+        {/* MODALS */}
+        {editingOrder && (
           <div style={styles.modalOverlay}>
             <div style={styles.modalCard}>
-              <div style={styles.rowBetween}>
-                <h2 style={{ margin: 0, color: '#C084FC' }}>
-                  {activeEntityModal.type === 'driver' && `🛵 ${activeEntityModal.data}`}
-                  {activeEntityModal.type === 'merchant' && `🏪 ${activeEntityModal.data.name}`}
-                  {activeEntityModal.type === 'customer' && `👤 ${activeEntityModal.data.name}`}
-                </h2>
-                <button onClick={() => setActiveEntityModal(null)} style={styles.btnDeleteCompact}>✕</button>
+              <h3 style={{ margin: '0 0 15px', color: '#FACC15' }}>{t.editOrderTitle}</h3>
+              <div style={{ display: 'grid', gap: '10px' }}>
+                <div><label style={styles.label}>{t.store}</label><input value={editingOrder.store} onChange={e => setEditingOrder({ ...editingOrder, store: e.target.value })} style={styles.input} /></div>
+                <div><label style={styles.label}>{t.customer}</label><input value={editingOrder.customer} onChange={e => setEditingOrder({ ...editingOrder, customer: e.target.value })} style={styles.input} /></div>
+                <div><label style={styles.label}>{t.phone}</label><input value={editingOrder.phone} onChange={e => setEditingOrder({ ...editingOrder, phone: e.target.value })} style={styles.input} /></div>
+                <div><label style={styles.label}>{t.address}</label><input value={editingOrder.address} onChange={e => setEditingOrder({ ...editingOrder, address: e.target.value })} style={styles.input} /></div>
+                <div><label style={styles.label}>{t.item}</label><input value={editingOrder.item} onChange={e => setEditingOrder({ ...editingOrder, item: e.target.value })} style={styles.input} /></div>
+                <div><label style={styles.label}>{t.cod}</label><input type="number" value={editingOrder.cod} onChange={e => setEditingOrder({ ...editingOrder, cod: normalizeNumber(e.target.value) })} style={styles.input} /></div>
+                <div><label style={styles.label}>{t.deliveryFee}</label><input type="number" value={editingOrder.deliveryFee} onChange={e => setEditingOrder({ ...editingOrder, deliveryFee: normalizeNumber(e.target.value) })} style={styles.input} /></div>
+                <div><label style={styles.label}>{t.notes}</label><textarea value={editingOrder.notes} onChange={e => setEditingOrder({ ...editingOrder, notes: e.target.value })} style={styles.textarea} /></div>
               </div>
-
-              {/* DRIVER METRICS */}
-              {activeEntityModal.type === 'driver' && (() => {
-                const metrics = computeDriverMetrics(activeEntityModal.data);
-                return (
-                  <div style={{ margin: '10px 0 18px' }}>
-                    <h3 style={{ color: '#FACC15', marginBottom: '10px' }}>{t.driverProfileMetrics}</h3>
-                    <div style={styles.grid3}>
-                      {[
-                        [t.daily, metrics.dailyCount, metrics.dailyCash, metrics.dailyRevenue],
-                        [t.weekly, metrics.weeklyCount, metrics.weeklyCash, metrics.weeklyRevenue],
-                        [t.monthly, metrics.monthlyCount, metrics.monthlyCash, metrics.monthlyRevenue]
-                      ].map(([label, count, cash, rev]) => (
-                        <div key={label} style={styles.orderFinancialCard}>
-                          <div style={styles.miniLabel}>{label}</div>
-                          <div style={{ fontSize: '0.8rem', marginTop: '4px' }}>{t.ordersCount}: <strong>{count}</strong></div>
-                          <div style={{ fontSize: '0.8rem' }}>{t.cashCollected}: <strong>{cash.toFixed(0)} {curr}</strong></div>
-                          <div style={{ fontSize: '0.8rem', color: '#60A5FA' }}>{t.revenue}: <strong>{rev.toFixed(0)} {curr}</strong></div>
-                        </div>
-                      ))}
-                    </div>
-                    <p style={{ ...styles.p, marginTop: '10px' }}>{t.totalTrips} <strong>{metrics.totalOrders}</strong> · {t.statusCompleted}: <strong>{metrics.deliveredCount}</strong></p>
-                  </div>
-                );
-              })()}
-
-              {/* NOTES SECTION */}
-              <div style={{ margin: '15px 0' }}>
-                <label style={styles.label}>{t.entityNotes}</label>
-                <textarea
-                  rows={3}
-                  placeholder={t.addNotePlaceholder}
-                  value={
-                    activeEntityModal.type === 'driver'
-                      ? driverNotes[activeEntityModal.data] || ''
-                      : activeEntityModal.data.notes || ''
-                  }
-                  onChange={e =>
-                    updateEntityNote(
-                      activeEntityModal.type,
-                      activeEntityModal.type === 'driver' ? activeEntityModal.data : activeEntityModal.data.id,
-                      e.target.value
-                    )
-                  }
-                  style={styles.textarea}
-                />
+              <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
+                <button onClick={handleSaveOrderEdit} style={styles.btnSuccessGradient}>{t.saveChanges}</button>
+                <button onClick={() => setEditingOrder(null)} style={{ ...styles.btnSuccessGradient, background: '#475569' }}>{t.cancel}</button>
               </div>
-
-              {/* ASSOCIATED ORDERS */}
-              <h3 style={{ color: '#FACC15', marginBottom: '10px' }}>{t.ordersHandled}</h3>
-              {(() => {
-                const assocOrders = orders.filter(o => {
-                  if (activeEntityModal.type === 'driver') return o.driver === activeEntityModal.data;
-                  if (activeEntityModal.type === 'merchant') return o.store?.toLowerCase() === activeEntityModal.data.name?.toLowerCase();
-                  if (activeEntityModal.type === 'customer') return o.customer?.toLowerCase() === activeEntityModal.data.name?.toLowerCase() || o.phone === activeEntityModal.data.phone;
-                  return false;
-                });
-
-                if (assocOrders.length === 0) return <p style={styles.empty}>{t.noOrdersFound}</p>;
-
-                return assocOrders.map(o => (
-                  <div
-                    key={o.id}
-                    onClick={() => setSelectedOrderForDetails(o)}
-                    style={{ ...styles.extractedSubCard, cursor: 'pointer', marginBottom: '8px' }}
-                  >
-                    <div style={styles.rowBetween}>
-                      <span style={styles.orderNumTag}>{o.orderNum}</span>
-                      <span style={getStatusStyle(o.status)}>{o.status}</span>
-                    </div>
-                    <div><strong>{t.cod}:</strong> {o.cod} {curr} | <strong>{t.deliveryFee}:</strong> {o.deliveryFee} {curr}</div>
-                  </div>
-                ));
-              })()}
             </div>
           </div>
         )}
 
-        {/* MANUAL DUPLICATE MODAL */}
+        {dispatchOrder && (
+          <div style={styles.modalOverlay}>
+            <div style={styles.modalCard}>
+              <h3 style={{ margin: '0 0 15px', color: '#FACC15' }}>{t.dispatchTitle}</h3>
+              <pre style={styles.dispatchPre}>{generateDispatchMessage(dispatchOrder)}</pre>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                <button onClick={handleCopyDispatch} style={styles.btnPrimaryGradient}>{dispatchCopied ? t.dispatchCopied : t.dispatchCopy}</button>
+                <button onClick={() => setDispatchOrder(null)} style={{ ...styles.btnSuccessGradient, background: '#475569' }}>{t.cancel}</button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {manualDuplicateModal && (
           <div style={styles.modalOverlay}>
             <div style={styles.modalCard}>
               <h3 style={{ margin: '0 0 10px', color: '#FACC15' }}>{t.duplicateFoundTitle}</h3>
-              <p style={{ fontSize: '0.9rem', color: '#CBD5E1' }}>{t.duplicateFoundMsg}</p>
-              <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '10px', margin: '12px 0' }}>
-                <strong style={{ color: '#38BDF8' }}>{manualDuplicateModal.match.name}</strong> ({manualDuplicateModal.match.phone || 'No phone'})
+              <p style={{ color: '#E2E8F0', fontSize: '0.9rem' }}>{t.duplicateFoundMsg}</p>
+              <div style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '10px', margin: '15px 0' }}>
+                <strong>{manualDuplicateModal.match.name}</strong> - {manualDuplicateModal.match.phone}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <button onClick={() => resolveManualDuplicate('overwrite')} style={{ ...styles.btnGradientCompact, background: 'linear-gradient(135deg,#059669,#10B981)' }}>{t.duplicateOverwrite}</button>
-                <button onClick={() => resolveManualDuplicate('keep')} style={styles.btnGradientCompact}>{t.duplicateKeepBoth}</button>
-                <button onClick={() => setManualDuplicateModal(null)} style={{ ...styles.btnSuccessGradient, background: '#475569' }}>{t.cancel}</button>
+                <button onClick={() => resolveManualDuplicate('overwrite')} style={styles.btnPrimaryGradient}>{t.duplicateOverwrite}</button>
+                <button onClick={() => resolveManualDuplicate('keepBoth')} style={{ ...styles.btnSuccessGradient, background: '#475569' }}>{t.duplicateKeepBoth}</button>
+                <button onClick={() => setManualDuplicateModal(null)} style={{ ...styles.btnSuccessGradient, background: 'transparent', border: '1px solid #475569' }}>{t.cancel}</button>
               </div>
-            </div>
-          </div>
-        )}
-
-        {/* FULL ORDER EDIT MODAL */}
-        {editingOrder && (
-          <div style={styles.modalOverlay}>
-            <div style={styles.modalCard}>
-              <div style={styles.rowBetween}>
-                <h3 style={{ margin: 0, color: '#C084FC' }}>{t.editOrderTitle} ({editingOrder.orderNum})</h3>
-                <button onClick={() => setEditingOrder(null)} style={styles.btnDeleteCompact}>✕</button>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '10px' }}>
-                <div>
-                  <label style={styles.label}>{t.store}</label>
-                  <input style={styles.input} value={editingOrder.store} onChange={e => setEditingOrder({ ...editingOrder, store: e.target.value })} />
-                </div>
-                <div>
-                  <label style={styles.label}>{t.customer}</label>
-                  <input style={styles.input} value={editingOrder.customer} onChange={e => setEditingOrder({ ...editingOrder, customer: e.target.value })} />
-                </div>
-                <div>
-                  <label style={styles.label}>{t.phone}</label>
-                  <input style={styles.input} value={editingOrder.phone} onChange={e => setEditingOrder({ ...editingOrder, phone: e.target.value })} />
-                </div>
-                <div>
-                  <label style={styles.label}>{t.address}</label>
-                  <input style={styles.input} value={editingOrder.address} onChange={e => setEditingOrder({ ...editingOrder, address: e.target.value })} />
-                </div>
-                <div>
-                  <label style={styles.label}>{t.item}</label>
-                  <input style={styles.input} value={editingOrder.item} onChange={e => setEditingOrder({ ...editingOrder, item: e.target.value })} />
-                </div>
-                <div style={styles.grid2}>
-                  <div>
-                    <label style={styles.label}>{t.cod}</label>
-                    <input type="number" style={styles.input} value={editingOrder.cod} onChange={e => setEditingOrder({ ...editingOrder, cod: normalizeNumber(e.target.value) })} />
-                  </div>
-                  <div>
-                    <label style={styles.label}>{t.deliveryFee}</label>
-                    <input type="number" style={styles.input} value={editingOrder.deliveryFee} onChange={e => setEditingOrder({ ...editingOrder, deliveryFee: normalizeNumber(e.target.value) })} />
-                  </div>
-                </div>
-                <div>
-                  <label style={styles.label}>{t.paymentMethod}</label>
-                  <select style={styles.input} value={editingOrder.paymentMethod} onChange={e => setEditingOrder({ ...editingOrder, paymentMethod: e.target.value })}>
-                    <option value="cash">{t.paymentCash}</option>
-                    <option value="online">{t.paymentOnline}</option>
-                    <option value="prepaid">{t.paymentPrepaid}</option>
-                  </select>
-                </div>
-                <div>
-                  <label style={styles.label}>{t.revenuePercent}</label>
-                  <select style={styles.revenueSelect} value={editingOrder.revenuePercent} onChange={e => setEditingOrder({ ...editingOrder, revenuePercent: Number(e.target.value) })}>
-                    {REVENUE_OPTIONS.map(p => (<option key={p} value={p}>{p}%</option>))}
-                  </select>
-                </div>
-                <div>
-                  <label style={styles.label}>{t.selectDriver}</label>
-                  <select style={styles.input} value={editingOrder.driver} onChange={e => setEditingOrder({ ...editingOrder, driver: e.target.value })}>
-                    {drivers.map(d => (<option key={d.id} value={d.name}>{d.name}</option>))}
-                  </select>
-                </div>
-                <div>
-                  <label style={styles.label}>{t.expectedArrival}</label>
-                  <input type="datetime-local" style={styles.input} value={editingOrder.expectedArrival || ''} onChange={e => setEditingOrder({ ...editingOrder, expectedArrival: e.target.value })} />
-                </div>
-                {(editingOrder.status === 'تالف' || editingOrder.status === 'مرتجع') && (
-                  <div>
-                    <label style={styles.label}>{t.statusCommentLabel}</label>
-                    <textarea rows={2} style={styles.textarea} value={editingOrder.statusComment || ''} onChange={e => setEditingOrder({ ...editingOrder, statusComment: e.target.value })} />
-                  </div>
-                )}
-                <div>
-                  <label style={styles.label}>{t.notes}</label>
-                  <textarea rows={2} style={styles.textarea} value={editingOrder.notes} onChange={e => setEditingOrder({ ...editingOrder, notes: e.target.value })} />
-                </div>
-                <button onClick={handleSaveOrderEdit} style={styles.btnSuccessGradient}>{t.saveChanges}</button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* DISPATCH MESSAGE MODAL */}
-        {dispatchOrder && (
-          <div style={styles.modalOverlay}>
-            <div style={styles.modalCard}>
-              <div style={styles.rowBetween}>
-                <h3 style={{ margin: 0, color: '#38BDF8' }}>{t.dispatchTitle}</h3>
-                <button onClick={() => setDispatchOrder(null)} style={styles.btnDeleteCompact}>✕</button>
-              </div>
-              <pre style={styles.dispatchPre}>{generateDispatchMessage(dispatchOrder)}</pre>
-              <button onClick={handleCopyDispatch} style={styles.btnSuccessGradient}>
-                {dispatchCopied ? t.dispatchCopied : t.dispatchCopy}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ORDER DETAILS & AUDIT MODAL */}
-        {selectedOrderForDetails && (
-          <div style={styles.modalOverlay}>
-            <div style={styles.modalCard}>
-              <div style={styles.rowBetween}>
-                <h3 style={{ margin: 0, color: '#38BDF8' }}>{t.orderDetailsModal} ({selectedOrderForDetails.orderNum})</h3>
-                <button onClick={() => setSelectedOrderForDetails(null)} style={styles.btnDeleteCompact}>✕</button>
-              </div>
-
-              <div style={{ margin: '15px 0' }}>
-                <p style={styles.p}><strong>{t.customer}:</strong> {selectedOrderForDetails.customer} ({selectedOrderForDetails.phone})</p>
-                <p style={styles.p}><strong>{t.store}:</strong> {selectedOrderForDetails.store}</p>
-                <p style={styles.p}><strong>{t.address}:</strong> {selectedOrderForDetails.address}</p>
-                <p style={styles.p}><strong>{t.cod}:</strong> {selectedOrderForDetails.cod} {curr}</p>
-                <p style={styles.p}><strong>{t.deliveryFee}:</strong> {selectedOrderForDetails.deliveryFee} {curr}</p>
-                <p style={styles.p}><strong>{t.expectedArrival}:</strong> {selectedOrderForDetails.expectedArrival ? new Date(selectedOrderForDetails.expectedArrival).toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US') : t.unspecified}</p>
-                {(selectedOrderForDetails.status === 'تالف' || selectedOrderForDetails.status === 'مرتجع') && (
-                  <p style={styles.p}><strong>{t.statusCommentLabel}</strong> {selectedOrderForDetails.statusComment || t.unspecified}</p>
-                )}
-              </div>
-
-              <h4 style={{ color: '#FACC15', marginBottom: '8px' }}>Audit Trail</h4>
-              {historyLogs
-                .filter(log => log.orderNum === selectedOrderForDetails.orderNum)
-                .map(log => (
-                  <div key={log.id} style={{ fontSize: '0.82rem', padding: '6px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                    <strong>[{log.action}]</strong> {log.details}
-                    <div style={{ color: '#64748B', fontSize: '0.72rem' }}>{log.time}</div>
-                  </div>
-                ))}
             </div>
           </div>
         )}
@@ -2823,4 +2540,4 @@ OUTPUT FORMAT:
       </div>
     </div>
   );
-    }
+}
