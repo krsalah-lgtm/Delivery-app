@@ -1,20 +1,46 @@
 import React, { useState, useEffect } from 'react';
+import { 
+  Package, 
+  Truck, 
+  Store, 
+  Users, 
+  Plus, 
+  Search, 
+  Sparkles, 
+  TrendingUp, 
+  Clock, 
+  Globe, 
+  Settings, 
+  History, 
+  FileText, 
+  Trash2, 
+  Edit3, 
+  Check, 
+  AlertTriangle, 
+  Zap, 
+  DollarSign, 
+  Phone, 
+  MapPin, 
+  ShoppingBag,
+  ArrowUpRight,
+  ClipboardList
+} from 'lucide-react';
 
 const translations = {
   ar: {
-    appTitle: '🚀 Anti Talabat',
+    appTitle: '🚀 إكسبريس دليفري PRO',
     appSubtitle: 'النظام الذكي لإدارة الطلبات واللوجستيات',
     groqConnected: '🟢 AI متصل',
     groqMissing: '🔴 المفتاح مفقود',
 
-    navNewOrder: '➕ طلب جديد',
-    navOrders: '📋 إدارة الطلبات',
-    navDrivers: '🛵 الطيارين',
-    navDriverLedger: '📊 كشف حساب الطيارين',
-    navMerchants: '🏪 التجار',
-    navCustomers: '👥 العملاء',
-    navHistory: '📜 السجل والتعديلات',
-    navSettings: '⚙️ الإعدادات',
+    navNewOrder: 'طلب جديد',
+    navOrders: 'إدارة الطلبات',
+    navDrivers: 'الطيارين',
+    navDriverLedger: 'كشف حساب الطيارين',
+    navMerchants: 'التجار',
+    navCustomers: 'العملاء',
+    navHistory: 'السجل والتعديلات',
+    navSettings: 'الإعدادات',
 
     kpiTotalCod: 'إجمالي المبالغ المحصلة',
     kpiRevenue: 'إجمالي إيراد التوصيل',
@@ -23,8 +49,8 @@ const translations = {
 
     aiHeader: '✨ استخراج بيانات الطلب بواسطة AI',
     placeholderOrder: 'ألصق نص الطلب هنا...',
-    btnPaste: '📋 لصق من الحافظة',
-    btnExtract: '⚡ استخراج البيانات بالذكاء الاصطناعي',
+    btnPaste: 'لصق من الحافظة',
+    btnExtract: 'استخراج البيانات بالذكاء الاصطناعي',
     btnExtracting: 'جاري التحليل والتدقيق...',
     reviewTitle: 'مراجعة البيانات المستخرجة:',
 
@@ -53,7 +79,7 @@ const translations = {
     selectDriver: 'اختيار طيار التوصيل:',
     chooseDriver: '-- اختر طيار --',
     chooseRevenue: 'نسبة إيرادي من رسوم التوصيل:',
-    btnConfirm: '✅ تأكيد وحفظ الطلبات',
+    btnConfirm: 'تأكيد وحفظ الطلبات',
 
     searchPlaceholder: '🔍 بحث برقم الطلب، اسم العميل، المتجر، أو الهاتف...',
     unspecified: 'غير محدد',
@@ -114,7 +140,7 @@ const translations = {
     ordersHandled: 'تفاصيل الطلبات المسندة:',
     noOrdersForDate: 'لا توجد طلبات مسجلة لهذه الفلاتر.',
 
-    financialBreakdown: '💰 التفاصيل المالية',
+    financialBreakdown: 'التفاصيل المالية',
     cashCollection: 'المبلغ المحصل من العميل',
     merchantDue: 'مستحق المتجر',
     deliveryPool: 'رسوم التوصيل',
@@ -152,14 +178,14 @@ const translations = {
     groqConnected: '🟢 AI Active',
     groqMissing: '🔴 Key Missing',
 
-    navNewOrder: '➕ New Order',
-    navOrders: '📋 Manage Orders',
-    navDrivers: '🛵 Drivers',
-    navDriverLedger: '📊 Driver Ledger',
-    navMerchants: '🏪 Stores',
-    navCustomers: '👥 Customers',
-    navHistory: '📜 Audit History',
-    navSettings: '⚙️ Settings',
+    navNewOrder: 'New Order',
+    navOrders: 'Manage Orders',
+    navDrivers: 'Drivers',
+    navDriverLedger: 'Driver Ledger',
+    navMerchants: 'Stores',
+    navCustomers: 'Customers',
+    navHistory: 'Audit History',
+    navSettings: 'Settings',
 
     kpiTotalCod: 'Total Collected',
     kpiRevenue: 'Total Delivery Revenue',
@@ -168,8 +194,8 @@ const translations = {
 
     aiHeader: '✨ AI Order Extraction',
     placeholderOrder: 'Paste delivery text here...',
-    btnPaste: '📋 Paste Clipboard',
-    btnExtract: '⚡ Extract Data with AI',
+    btnPaste: 'Paste Clipboard',
+    btnExtract: 'Extract Data with AI',
     btnExtracting: 'Analyzing & Checking...',
     reviewTitle: 'Extracted Orders Review:',
 
@@ -198,7 +224,7 @@ const translations = {
     selectDriver: 'Assign Driver:',
     chooseDriver: '-- Select Driver --',
     chooseRevenue: 'My percentage of delivery fee:',
-    btnConfirm: '✅ Confirm & Save Orders',
+    btnConfirm: 'Confirm & Save Orders',
 
     searchPlaceholder: '🔍 Search Order #, Customer, Store, Phone...',
     unspecified: 'N/A',
@@ -260,7 +286,7 @@ const translations = {
     ordersHandled: 'Assigned Orders & Financial Details:',
     noOrdersForDate: 'No orders match selected filters.',
 
-    financialBreakdown: '💰 Financial Breakdown',
+    financialBreakdown: 'Financial Breakdown',
     cashCollection: 'Customer Collection',
     merchantDue: 'Merchant Due',
     deliveryPool: 'Delivery Fee',
@@ -302,374 +328,6 @@ const PAYMENT_PREPAID = 'prepaid';
 const normalizeNumber = value => {
   const n = parseFloat(String(value ?? '').replace(/,/g, ''));
   return Number.isFinite(n) ? n : 0;
-};
-
-const styles = {
-  container: {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: '20px',
-    fontFamily: 'system-ui, -apple-system, sans-serif',
-    backgroundColor: '#0f172a',
-    color: '#f8fafc',
-    minHeight: '100vh'
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: '20px',
-    borderBottom: '1px solid #334155',
-    marginBottom: '20px'
-  },
-  appTitle: { fontSize: '1.8rem', margin: 0, fontWeight: 'bold' },
-  appSubtitle: { fontSize: '0.9rem', color: '#94a3b8', margin: '4px 0 0 0' },
-  headerRight: { display: 'flex', gap: '10px', alignItems: 'center' },
-  langBtn: {
-    background: '#1e293b',
-    color: '#f8fafc',
-    border: '1px solid #475569',
-    padding: '8px 16px',
-    borderRadius: '8px',
-    cursor: 'pointer'
-  },
-  badge: {
-    padding: '6px 12px',
-    borderRadius: '20px',
-    color: '#fff',
-    fontSize: '0.85rem',
-    fontWeight: 'bold'
-  },
-  kpiRow: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-    gap: '15px',
-    marginBottom: '25px'
-  },
-  kpiCard: {
-    padding: '18px',
-    borderRadius: '12px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '6px',
-    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-  },
-  kpiLabel: { fontSize: '0.85rem', color: '#e2e8f0', opacity: 0.9 },
-  kpiValue: { fontSize: '1.5rem', fontWeight: 'bold' },
-  nav: {
-    display: 'flex',
-    gap: '8px',
-    overflowX: 'auto',
-    paddingBottom: '10px',
-    marginBottom: '20px',
-    borderBottom: '1px solid #1e293b'
-  },
-  tab: {
-    background: '#1e293b',
-    color: '#94a3b8',
-    border: 'none',
-    padding: '10px 18px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    whiteSpace: 'nowrap'
-  },
-  activeTab: {
-    background: '#3b82f6',
-    color: '#fff',
-    border: 'none',
-    padding: '10px 18px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    whiteSpace: 'nowrap',
-    fontWeight: 'bold'
-  },
-  main: { display: 'flex', flexDirection: 'column', gap: '20px' },
-  card: {
-    background: '#1e293b',
-    border: '1px solid #334155',
-    borderRadius: '12px',
-    padding: '20px',
-    marginBottom: '15px'
-  },
-  cardTitle: { margin: '0 0 15px 0', fontSize: '1.2rem', color: '#38bdf8' },
-  rowBetween: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' },
-  btnGradientCompact: {
-    background: 'linear-gradient(135deg, #0284c7, #2563eb)',
-    color: '#fff',
-    border: 'none',
-    padding: '6px 12px',
-    borderRadius: '6px',
-    cursor: 'pointer'
-  },
-  btnPrimaryGradient: {
-    background: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
-    color: '#fff',
-    border: 'none',
-    padding: '12px 24px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontWeight: 'bold',
-    width: '100%',
-    marginTop: '10px'
-  },
-  btnSuccessGradient: {
-    background: 'linear-gradient(135deg, #059669, #10b981)',
-    color: '#fff',
-    border: 'none',
-    padding: '12px 24px',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    fontWeight: 'bold',
-    width: '100%',
-    marginTop: '15px'
-  },
-  textarea: {
-    width: '100%',
-    backgroundColor: '#0f172a',
-    border: '1px solid #334155',
-    borderRadius: '8px',
-    color: '#fff',
-    padding: '12px',
-    boxSizing: 'border-box',
-    fontFamily: 'inherit'
-  },
-  textareaMargin: {
-    width: '100%',
-    backgroundColor: '#0f172a',
-    border: '1px solid #334155',
-    borderRadius: '8px',
-    color: '#fff',
-    padding: '8px',
-    boxSizing: 'border-box',
-    marginBottom: '8px'
-  },
-  extractedBox: { marginTop: '20px', borderTop: '1px solid #334155', paddingTop: '20px' },
-  extractedSubCard: {
-    background: '#0f172a',
-    border: '1px solid #334155',
-    borderRadius: '10px',
-    padding: '16px',
-    marginBottom: '15px'
-  },
-  orderHero: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '12px 16px',
-    borderRadius: '8px',
-    marginBottom: '15px'
-  },
-  miniLabel: { fontSize: '0.75rem', color: '#94a3b8', textTransform: 'uppercase' },
-  heroCustomer: { fontSize: '1.1rem', fontWeight: 'bold', marginTop: '2px' },
-  heroMoney: { fontSize: '1.4rem', fontWeight: 'bold', color: '#38bdf8' },
-  grid2: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' },
-  financePanel: {
-    background: '#182238',
-    border: '1px solid #2d3d5e',
-    borderRadius: '8px',
-    padding: '12px',
-    marginTop: '15px'
-  },
-  financeTitle: { fontSize: '0.95rem', fontWeight: 'bold', color: '#facc15', marginBottom: '10px' },
-  financeGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '10px' },
-  financeBox: { display: 'flex', flexDirection: 'column', gap: '4px' },
-  financeInput: {
-    background: '#0f172a',
-    border: '1px solid #475569',
-    color: '#fff',
-    padding: '6px',
-    borderRadius: '4px'
-  },
-  calculationStrip: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-    gap: '10px',
-    background: '#0f172a',
-    padding: '10px',
-    borderRadius: '6px',
-    marginTop: '10px',
-    border: '1px solid #334155'
-  },
-  infoMessage: { fontSize: '0.8rem', color: '#94a3b8', marginTop: '8px' },
-  confirmationPanel: {
-    background: '#0f172a',
-    border: '1px solid #3b82f6',
-    borderRadius: '10px',
-    padding: '16px',
-    marginTop: '20px'
-  },
-  confirmationHeader: { marginBottom: '12px' },
-  label: { display: 'block', fontSize: '0.85rem', color: '#cbd5e1', marginBottom: '4px' },
-  input: {
-    width: '100%',
-    background: '#1e293b',
-    border: '1px solid #475569',
-    color: '#fff',
-    padding: '8px 12px',
-    borderRadius: '6px',
-    boxSizing: 'border-box'
-  },
-  revenueSelect: {
-    width: '100%',
-    background: '#1e293b',
-    border: '1px solid #059669',
-    color: '#34d399',
-    padding: '8px 12px',
-    borderRadius: '6px',
-    fontWeight: 'bold',
-    boxSizing: 'border-box'
-  },
-  revenueExplanationBox: {
-    background: '#182238',
-    border: '1px dashed #38bdf8',
-    padding: '12px',
-    borderRadius: '8px',
-    marginTop: '15px'
-  },
-  searchInput: {
-    width: '100%',
-    background: '#1e293b',
-    border: '1px solid #334155',
-    color: '#fff',
-    padding: '12px',
-    borderRadius: '8px',
-    marginBottom: '15px',
-    boxSizing: 'border-box'
-  },
-  empty: { textAlign: 'center', color: '#64748b', padding: '40px 0' },
-  orderNumTag: { background: '#2563eb', color: '#fff', padding: '2px 8px', borderRadius: '4px', fontWeight: 'bold' },
-  tagStore: { background: '#334155', color: '#e2e8f0', padding: '2px 8px', borderRadius: '4px' },
-  btnDeleteCompact: {
-    background: '#ef4444',
-    color: '#fff',
-    border: 'none',
-    padding: '4px 8px',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '0.8rem'
-  },
-  p: { margin: '6px 0', color: '#cbd5e1' },
-  addressWarningBox: {
-    background: 'rgba(239, 68, 68, 0.15)',
-    border: '1px solid #ef4444',
-    color: '#fca5a5',
-    padding: '8px',
-    borderRadius: '6px',
-    margin: '8px 0',
-    fontSize: '0.85rem'
-  },
-  orderFinancialCard: {
-    background: '#0f172a',
-    border: '1px solid #334155',
-    borderRadius: '8px',
-    padding: '12px',
-    margin: '10px 0'
-  },
-  summaryMetric: { display: 'flex', flexDirection: 'column', gap: '2px' },
-  btnSaveCompact: {
-    background: '#10b981',
-    color: '#fff',
-    border: 'none',
-    padding: '4px 8px',
-    borderRadius: '4px',
-    cursor: 'pointer'
-  },
-  btnEditTiny: {
-    background: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    fontSize: '0.8rem',
-    marginLeft: '4px'
-  },
-  cancelledBox: {
-    background: 'rgba(239, 68, 68, 0.2)',
-    color: '#fca5a5',
-    padding: '8px',
-    borderRadius: '4px',
-    textAlign: 'center',
-    marginTop: '8px',
-    fontSize: '0.85rem'
-  },
-  btnEditCompact: {
-    background: '#334155',
-    color: '#cbd5e1',
-    border: 'none',
-    padding: '4px 8px',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '0.8rem'
-  },
-  amountRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '8px 0' },
-  inlineInput: {
-    background: '#1e293b',
-    border: '1px solid #475569',
-    color: '#fff',
-    padding: '4px 8px',
-    borderRadius: '4px',
-    width: '80px'
-  },
-  monthlySummary: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-    gap: '12px',
-    background: '#1e293b',
-    padding: '15px',
-    borderRadius: '10px',
-    marginTop: '15px',
-    border: '1px solid #334155'
-  },
-  ledgerOrderCard: {
-    background: '#0f172a',
-    border: '1px solid #334155',
-    borderRadius: '8px',
-    padding: '12px',
-    marginTop: '10px'
-  },
-  modalOverlay: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1000
-  },
-  modalCard: {
-    background: '#1e293b',
-    border: '1px solid #334155',
-    borderRadius: '12px',
-    padding: '24px',
-    maxWidth: '500px',
-    width: '90%'
-  }
-};
-
-const getStatusStyle = status => {
-  const base = {
-    padding: '4px 10px',
-    borderRadius: '6px',
-    fontSize: '0.85rem',
-    fontWeight: 'bold',
-    border: 'none',
-    color: '#fff',
-    cursor: 'pointer'
-  };
-  switch (status) {
-    case 'مكتمل':
-      return { ...base, background: '#059669' };
-    case 'ملغي':
-      return { ...base, background: '#dc2626' };
-    case 'متأخر':
-      return { ...base, background: '#d97706' };
-    case 'خرج للتوصيل':
-    case 'جاري التوصيل':
-      return { ...base, background: '#2563eb' };
-    default:
-      return { ...base, background: '#475569' };
-  }
 };
 
 export default function App() {
@@ -1390,6 +1048,22 @@ OUTPUT FORMAT:
     .filter(o => o.status === 'مكتمل')
     .reduce((sum, o) => sum + getDriverRevenue(o), 0);
 
+  const getStatusBadgeStyle = status => {
+    switch (status) {
+      case 'مكتمل':
+        return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+      case 'ملغي':
+        return 'bg-rose-500/10 text-rose-400 border-rose-500/30';
+      case 'متأخر':
+        return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+      case 'خرج للتوصيل':
+      case 'جاري التوصيل':
+        return 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30';
+      default:
+        return 'bg-violet-500/10 text-violet-400 border-violet-500/30';
+    }
+  };
+
   /*
     ============================================================
     UI RENDERING
@@ -1397,974 +1071,634 @@ OUTPUT FORMAT:
   */
 
   return (
-    <div style={{ ...styles.container, direction: lang === 'ar' ? 'rtl' : 'ltr' }}>
-      {/* HEADER */}
-      <header style={styles.header}>
-        <div>
-          <h1 style={styles.appTitle}>{t.appTitle}</h1>
-          <p style={styles.appSubtitle}>{t.appSubtitle}</p>
-        </div>
-        <div style={styles.headerRight}>
-          <button
-            style={styles.langBtn}
-            onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
-          >
-            {lang === 'ar' ? '🌐 English' : '🌐 العربية'}
-          </button>
-          <div
-            style={{
-              ...styles.badge,
-              background: apiKey
-                ? 'linear-gradient(135deg,#059669,#10b981)'
-                : 'linear-gradient(135deg,#dc2626,#ef4444)'
-            }}
-          >
-            {apiKey ? t.groqConnected : t.groqMissing}
-          </div>
-        </div>
-      </header>
-
-      {/* KPI DASHBOARD */}
-      <div style={styles.kpiRow}>
-        <div
-          style={{
-            ...styles.kpiCard,
-            background: 'linear-gradient(135deg,#312e81,#4f46e5,#7c3aed)'
-          }}
-        >
-          <span style={styles.kpiLabel}>{t.kpiTotalCod}</span>
-          <span style={{ ...styles.kpiValue, color: '#67e8f9' }}>
-            {totalCollected.toLocaleString()} {t.currency}
-          </span>
-        </div>
-
-        <div
-          style={{
-            ...styles.kpiCard,
-            background: 'linear-gradient(135deg,#065f46,#059669,#10b981)'
-          }}
-        >
-          <span style={styles.kpiLabel}>{t.kpiRevenue}</span>
-          <span style={{ ...styles.kpiValue, color: '#6ee7b7' }}>
-            {totalDeliveryRevenue.toLocaleString(undefined, { maximumFractionDigits: 2 })}{' '}
-            {t.currency}
-          </span>
-        </div>
-
-        <div
-          style={{
-            ...styles.kpiCard,
-            background: 'linear-gradient(135deg,#7e22ce,#c026d3,#ec4899)'
-          }}
-        >
-          <span style={styles.kpiLabel}>{t.kpiActiveOrders}</span>
-          <span style={{ ...styles.kpiValue, color: '#f9a8d4' }}>
-            {activeOrdersCount}
-          </span>
-        </div>
-
-        <div
-          style={{
-            ...styles.kpiCard,
-            background: 'linear-gradient(135deg,#0f766e,#0891b2,#2563eb)'
-          }}
-        >
-          <span style={styles.kpiLabel}>{t.kpiCompleted}</span>
-          <span style={{ ...styles.kpiValue, color: '#93c5fd' }}>
-            {completedOrdersCount}
-          </span>
-        </div>
+    <div className={`min-h-screen bg-[#07090e] text-slate-100 font-sans selection:bg-fuchsia-500 selection:text-white relative overflow-hidden ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
+      
+      {/* Dynamic Ambient Background Glows */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[140px] animate-pulse" />
+        <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] bg-fuchsia-600/15 rounded-full blur-[140px]" />
+        <div className="absolute -bottom-40 left-1/3 w-[500px] h-[500px] bg-cyan-600/15 rounded-full blur-[140px]" />
       </div>
 
-      {/* NAVIGATION */}
-      <nav style={styles.nav}>
-        <button
-          style={activeTab === 'new_order' ? styles.activeTab : styles.tab}
-          onClick={() => setActiveTab('new_order')}
-        >
-          {t.navNewOrder}
-        </button>
-        <button
-          style={activeTab === 'orders' ? styles.activeTab : styles.tab}
-          onClick={() => setActiveTab('orders')}
-        >
-          {t.navOrders} ({orders.length})
-        </button>
-        <button
-          style={activeTab === 'driver_ledger' ? styles.activeTab : styles.tab}
-          onClick={() => setActiveTab('driver_ledger')}
-        >
-          {t.navDriverLedger}
-        </button>
-        <button
-          style={activeTab === 'drivers' ? styles.activeTab : styles.tab}
-          onClick={() => setActiveTab('drivers')}
-        >
-          {t.navDrivers} ({drivers.length})
-        </button>
-        <button
-          style={activeTab === 'merchants' ? styles.activeTab : styles.tab}
-          onClick={() => setActiveTab('merchants')}
-        >
-          {t.navMerchants} ({merchants.length})
-        </button>
-        <button
-          style={activeTab === 'customers' ? styles.activeTab : styles.tab}
-          onClick={() => setActiveTab('customers')}
-        >
-          {t.navCustomers} ({customers.length})
-        </button>
-        <button
-          style={activeTab === 'history' ? styles.activeTab : styles.tab}
-          onClick={() => setActiveTab('history')}
-        >
-          {t.navHistory}
-        </button>
-        <button
-          style={activeTab === 'settings' ? styles.activeTab : styles.tab}
-          onClick={() => setActiveTab('settings')}
-        >
-          {t.navSettings}
-        </button>
-      </nav>
-
-      <main style={styles.main}>
-        {/* NEW ORDER */}
-        {activeTab === 'new_order' && (
-          <div style={styles.card}>
-            <div style={styles.rowBetween}>
-              <h2 style={styles.cardTitle}>{t.aiHeader}</h2>
-              <button onClick={handlePasteClipboard} style={styles.btnGradientCompact}>
-                {t.btnPaste}
-              </button>
+      <div className="relative z-10 flex h-screen overflow-hidden backdrop-blur-3xl">
+        
+        {/* Sidebar Navigation */}
+        <aside className="w-72 bg-slate-950/50 border-r border-slate-800/50 p-6 flex flex-col justify-between backdrop-blur-2xl">
+          <div>
+            {/* App Brand */}
+            <div className="flex items-center gap-3.5 px-2 mb-8">
+              <div className="p-3 rounded-2xl bg-gradient-to-tr from-violet-600 via-fuchsia-600 to-pink-500 shadow-lg shadow-fuchsia-500/25 ring-1 ring-white/20">
+                <Zap className="w-6 h-6 text-white fill-white" />
+              </div>
+              <div>
+                <h1 className="font-extrabold text-lg tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-400">
+                  {t.appTitle}
+                </h1>
+                <p className="text-[10px] tracking-widest text-fuchsia-400 font-bold">{t.appSubtitle}</p>
+              </div>
             </div>
 
-            <textarea
-              rows={7}
-              value={rawText}
-              onChange={e => setRawText(e.target.value)}
-              placeholder={t.placeholderOrder}
-              style={styles.textarea}
-            />
+            {/* Navigation Links */}
+            <nav className="space-y-1.5">
+              {[
+                { id: 'new_order', label: t.navNewOrder, icon: Plus },
+                { id: 'orders', label: t.navOrders, icon: Package, badge: orders.length },
+                { id: 'driver_ledger', label: t.navDriverLedger, icon: ClipboardList },
+                { id: 'drivers', label: t.navDrivers, icon: Truck, badge: drivers.length },
+                { id: 'merchants', label: t.navMerchants, icon: Store, badge: merchants.length },
+                { id: 'customers', label: t.navCustomers, icon: Users, badge: customers.length },
+                { id: 'history', label: t.navHistory, icon: History },
+                { id: 'settings', label: t.navSettings, icon: Settings },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl font-medium transition-all duration-300 relative group ${
+                      isActive 
+                        ? "text-white bg-gradient-to-r from-violet-600/20 via-fuchsia-600/20 to-transparent border border-fuchsia-500/30 shadow-lg shadow-fuchsia-500/10" 
+                        : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/40"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className={`w-4 h-4 transition-transform duration-300 group-hover:scale-110 ${isActive ? "text-fuchsia-400" : "text-slate-400"}`} />
+                      <span className="text-xs font-semibold">{tab.label}</span>
+                    </div>
+                    {tab.badge !== undefined && (
+                      <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+                        {tab.badge}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
 
+          {/* Controls & Connection Status */}
+          <div className="space-y-3">
             <button
-              onClick={extractOrderInfo}
-              disabled={loading}
-              style={styles.btnPrimaryGradient}
+              onClick={() => setLang(lang === 'ar' ? 'en' : 'ar')}
+              className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs text-slate-300 hover:text-white transition-all hover:border-slate-700"
             >
-              {loading ? t.btnExtracting : t.btnExtract}
+              <Globe className="w-4 h-4 text-cyan-400" />
+              <span>{lang === 'ar' ? 'English' : 'العربية'}</span>
             </button>
 
-            {/* TYPO ALERT MODAL */}
-            {showTypoModal && (
-              <div style={styles.modalOverlay}>
-                <div style={styles.modalCard}>
-                  <h3 style={{ margin: '0 0 10px', color: '#facc15' }}>
-                    {t.typoAlertTitle}
-                  </h3>
-                  <ul style={{ paddingLeft: '20px', color: '#fca5a5' }}>
-                    {typoFlags.map((flag, idx) => (
-                      <li key={idx}><strong>{flag}</strong></li>
-                    ))}
-                  </ul>
-                  <button
-                    onClick={() => setShowTypoModal(false)}
-                    style={styles.btnSuccessGradient}
-                  >
-                    {t.confirm}
+            <div className={`p-3 rounded-xl border text-xs font-semibold flex items-center justify-between ${
+              apiKey 
+                ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400" 
+                : "bg-rose-500/10 border-rose-500/30 text-rose-400"
+            }`}>
+              <span className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${apiKey ? "bg-emerald-400 animate-pulse" : "bg-rose-400"}`} />
+                {apiKey ? t.groqConnected : t.groqMissing}
+              </span>
+            </div>
+          </div>
+        </aside>
+
+        {/* Main Workspace */}
+        <main className="flex-1 flex flex-col overflow-y-auto">
+          
+          {/* Top KPI Header */}
+          <header className="p-8 border-b border-slate-800/50 bg-slate-950/30 backdrop-blur-xl">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-violet-900/30 via-slate-900/50 to-slate-950/80 border border-violet-500/20 backdrop-blur-md shadow-xl">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-400">{t.kpiTotalCod}</span>
+                  <div className="p-2 rounded-lg bg-violet-500/20 text-violet-400"><DollarSign className="w-4 h-4" /></div>
+                </div>
+                <div className="mt-3 text-xl font-black text-slate-100">{totalCollected.toLocaleString()} <span className="text-xs text-slate-400">{t.currency}</span></div>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-900/30 via-slate-900/50 to-slate-950/80 border border-emerald-500/20 backdrop-blur-md shadow-xl">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-400">{t.kpiRevenue}</span>
+                  <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400"><TrendingUp className="w-4 h-4" /></div>
+                </div>
+                <div className="mt-3 text-xl font-black text-emerald-400">{totalDeliveryRevenue.toLocaleString(undefined, { maximumFractionDigits: 2 })} <span className="text-xs text-slate-400">{t.currency}</span></div>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-fuchsia-900/30 via-slate-900/50 to-slate-950/80 border border-fuchsia-500/20 backdrop-blur-md shadow-xl">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-400">{t.kpiActiveOrders}</span>
+                  <div className="p-2 rounded-lg bg-fuchsia-500/20 text-fuchsia-400"><Clock className="w-4 h-4" /></div>
+                </div>
+                <div className="mt-3 text-xl font-black text-fuchsia-300">{activeOrdersCount}</div>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-gradient-to-br from-cyan-900/30 via-slate-900/50 to-slate-950/80 border border-cyan-500/20 backdrop-blur-md shadow-xl">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-400">{t.kpiCompleted}</span>
+                  <div className="p-2 rounded-lg bg-cyan-500/20 text-cyan-400"><Package className="w-4 h-4" /></div>
+                </div>
+                <div className="mt-3 text-xl font-black text-cyan-300">{completedOrdersCount}</div>
+              </div>
+
+            </div>
+          </header>
+
+          {/* Workspace Body */}
+          <div className="p-8 space-y-8 max-w-7xl mx-auto w-full">
+
+            {/* TAB: NEW ORDER */}
+            {activeTab === 'new_order' && (
+              <div className="space-y-6">
+                
+                {/* AI Ingestion Hero */}
+                <div className="rounded-3xl p-0.5 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500 shadow-2xl">
+                  <div className="bg-slate-950/90 backdrop-blur-2xl rounded-[23px] p-6 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-400">
+                          <Sparkles className="w-5 h-5 animate-spin-slow" />
+                        </div>
+                        <div>
+                          <h2 className="text-base font-bold text-slate-100">{t.aiHeader}</h2>
+                          <p className="text-xs text-slate-400">Extract unstructured logistics text with Llama AI</p>
+                        </div>
+                      </div>
+                      <button 
+                        onClick={handlePasteClipboard}
+                        className="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300 hover:text-white transition-colors"
+                      >
+                        {t.btnPaste}
+                      </button>
+                    </div>
+
+                    <textarea 
+                      rows={6}
+                      value={rawText}
+                      onChange={(e) => setRawText(e.target.value)}
+                      placeholder={t.placeholderOrder}
+                      className="w-full bg-slate-900/70 border border-slate-800 rounded-xl p-4 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-fuchsia-500/50 transition-all resize-none shadow-inner"
+                    />
+
+                    <button 
+                      onClick={extractOrderInfo}
+                      disabled={loading}
+                      className="w-full py-3 bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 hover:from-violet-500 hover:to-pink-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-fuchsia-600/25 transition-all active:scale-[0.99] disabled:opacity-50 flex items-center justify-center gap-2"
+                    >
+                      {loading ? (
+                        <>
+                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <span>{t.btnExtracting}</span>
+                        </>
+                      ) : (
+                        <>
+                          <Zap className="w-4 h-4 fill-white" />
+                          <span>{t.btnExtract}</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Extracted Orders Preview */}
+                {extractedOrders.length > 0 && (
+                  <div className="space-y-6 pt-4 border-t border-slate-800">
+                    <h3 className="text-sm font-bold text-fuchsia-400">{t.reviewTitle}</h3>
+                    
+                    {extractedOrders.map((ord, idx) => {
+                      const orderValue = normalizeNumber(ord.cod);
+                      const fee = normalizeNumber(ord.deliveryFee);
+                      const company = fee * (selectedRevenuePercent / 100);
+                      const driver = fee - company;
+                      const collection = ord.paymentMethod === PAYMENT_ONLINE || ord.paymentMethod === PAYMENT_PREPAID ? fee : orderValue + fee;
+
+                      return (
+                        <div key={idx} className="p-6 rounded-2xl bg-slate-950/40 border border-slate-800 backdrop-blur-xl space-y-4">
+                          <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-violet-900/20 to-fuchsia-900/20 border border-violet-500/20">
+                            <div>
+                              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{t.customer}</span>
+                              <p className="text-sm font-bold text-slate-100">👤 {ord.customer || t.unspecified}</p>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">{t.customerCollection}</span>
+                              <p className="text-base font-black text-fuchsia-400">{collection.toLocaleString()} {t.currency}</p>
+                            </div>
+                          </div>
+
+                          {isIncompleteAddress(ord.address) && (
+                            <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-xs flex items-center gap-2">
+                              <AlertTriangle className="w-4 h-4 shrink-0" />
+                              <span>{t.addressWarning}</span>
+                            </div>
+                          )}
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
+                              <span className="text-slate-400">{t.store}: </span>
+                              <span className="font-semibold text-slate-200">{ord.store || t.unspecified}</span>
+                            </div>
+                            <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-800">
+                              <span className="text-slate-400">{t.phone}: </span>
+                              <span className="font-semibold text-slate-200">{ord.phone || t.unspecified}</span>
+                            </div>
+                            <div className="md:col-span-2 p-3 rounded-xl bg-slate-900/60 border border-slate-800">
+                              <span className="text-slate-400">{t.address}: </span>
+                              <span className="font-semibold text-slate-200">{ord.address || t.unspecified}</span>
+                            </div>
+                          </div>
+
+                          <div className="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-4">
+                            <h4 className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                              <DollarSign className="w-4 h-4" />
+                              <span>{t.financialBreakdown}</span>
+                            </h4>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                              <div>
+                                <label className="text-[11px] text-slate-400 mb-1 block">{t.cod}</label>
+                                <input 
+                                  type="number"
+                                  value={ord.cod}
+                                  onChange={(e) => updateExtractedOrder(idx, 'cod', e.target.value)}
+                                  className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-100"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-[11px] text-slate-400 mb-1 block">{t.deliveryFee}</label>
+                                <input 
+                                  type="number"
+                                  value={ord.deliveryFee}
+                                  onChange={(e) => updateExtractedOrder(idx, 'deliveryFee', e.target.value)}
+                                  className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-100"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-[11px] text-slate-400 mb-1 block">{t.paymentMethod}</label>
+                                <select 
+                                  value={ord.paymentMethod || PAYMENT_CASH}
+                                  onChange={(e) => updateExtractedOrder(idx, 'paymentMethod', e.target.value)}
+                                  className="w-full bg-slate-950 border border-slate-700 rounded-lg p-2 text-xs text-slate-100"
+                                >
+                                  <option value="cash">{t.paymentCash}</option>
+                                  <option value="online">{t.paymentOnline}</option>
+                                  <option value="prepaid">{t.paymentPrepaid}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-3 rounded-lg bg-slate-950 border border-slate-800 text-xs">
+                              <div>
+                                <span className="text-slate-400 block text-[10px]">{t.customerCollection}</span>
+                                <span className="font-bold text-slate-100">{collection.toLocaleString()} {t.currency}</span>
+                              </div>
+                              <div>
+                                <span className="text-slate-400 block text-[10px]">{t.merchantAmount}</span>
+                                <span className="font-bold text-slate-100">{orderValue.toLocaleString()} {t.currency}</span>
+                              </div>
+                              <div>
+                                <span className="text-slate-400 block text-[10px]">{t.companyRevenue}</span>
+                                <span className="font-bold text-emerald-400">{company.toFixed(2)} {t.currency}</span>
+                              </div>
+                              <div>
+                                <span className="text-slate-400 block text-[10px]">{t.driverRevenue}</span>
+                                <span className="font-bold text-cyan-400">{driver.toFixed(2)} {t.currency}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    <div className="p-6 rounded-2xl bg-slate-950/60 border border-fuchsia-500/30 space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="text-xs font-bold text-slate-200 mb-1 block">{t.selectDriver}</label>
+                          <select 
+                            value={selectedDriver}
+                            onChange={(e) => setSelectedDriver(e.target.value)}
+                            className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 focus:outline-none focus:border-fuchsia-500"
+                          >
+                            <option value="">{t.chooseDriver}</option>
+                            {drivers.map((d, i) => <option key={i} value={d}>{d}</option>)}
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="text-xs font-bold text-slate-200 mb-1 block">{t.chooseRevenue}</label>
+                          <select 
+                            value={selectedRevenuePercent}
+                            onChange={(e) => setSelectedRevenuePercent(Number(e.target.value))}
+                            className="w-full bg-slate-900 border border-emerald-500/40 text-emerald-400 rounded-xl p-3 text-xs font-bold focus:outline-none"
+                          >
+                            {REVENUE_OPTIONS.map(p => <option key={p} value={p}>{p}%</option>)}
+                          </select>
+                        </div>
+                      </div>
+
+                      <button 
+                        onClick={handleConfirmOrder}
+                        className="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2"
+                      >
+                        <Check className="w-4 h-4" />
+                        <span>{t.btnConfirm}</span>
+                      </button>
+                    </div>
+
+                  </div>
+                )}
+
+              </div>
+            )}
+
+            {/* TAB: ORDERS MANAGEMENT */}
+            {activeTab === 'orders' && (
+              <div className="space-y-4">
+                <div className="relative">
+                  <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input 
+                    type="text"
+                    placeholder={t.searchPlaceholder}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full bg-slate-950/60 border border-slate-800 rounded-xl pl-10 pr-4 py-3 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-fuchsia-500/50"
+                  />
+                </div>
+
+                {filteredOrders.length === 0 ? (
+                  <div className="text-center py-16 text-slate-500 text-xs">No orders found.</div>
+                ) : (
+                  <div className="space-y-4">
+                    {filteredOrders.map((order) => {
+                      const companyRevenue = getCompanyRevenue(order);
+                      const driverRevenue = getDriverRevenue(order);
+                      const collection = getCustomerCollection(order);
+                      const merchantDue = getMerchantDue(order);
+
+                      return (
+                        <div key={order.id} className="p-6 rounded-2xl bg-slate-950/40 border border-slate-800 backdrop-blur-xl space-y-4">
+                          
+                          <div className="flex items-center justify-between border-b border-slate-800/60 pb-4">
+                            <div className="flex items-center gap-2">
+                              <span className="px-2.5 py-1 rounded-lg bg-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-300 font-bold text-xs">
+                                {order.orderNum}
+                              </span>
+                              <span className="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 text-xs font-medium">
+                                {order.store}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-3">
+                              <select 
+                                value={order.status}
+                                onChange={(e) => handleStatusChange(order, e.target.value)}
+                                className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${getStatusBadgeStyle(order.status)} bg-slate-950 focus:outline-none`}
+                              >
+                                <option value="مؤكد">{t.statusConfirmed}</option>
+                                <option value="قيد تجهيز الطلب">{t.statusProcessing}</option>
+                                <option value="خرج للتوصيل">{t.statusOutForDelivery}</option>
+                                <option value="جاري التوصيل">{t.statusInTransit}</option>
+                                <option value="مكتمل">{t.statusCompleted}</option>
+                                <option value="متأخر">{t.statusDelayed}</option>
+                                <option value="ملغي">{t.statusCancelled}</option>
+                              </select>
+
+                              <button 
+                                onClick={() => handleDeleteOrder(order)}
+                                className="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 transition-colors"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="space-y-1 text-xs">
+                            <p className="font-bold text-slate-200">👤 {order.customer} <span className="text-slate-400 font-normal">({order.phone})</span></p>
+                            <p className="text-slate-400">📍 {order.address}</p>
+                          </div>
+
+                          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-3">
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                              <div>
+                                <span className="text-slate-400 block text-[10px]">{t.customerCollection}</span>
+                                <span className="font-extrabold text-slate-100">{collection.toLocaleString()} {t.currency}</span>
+                              </div>
+                              <div>
+                                <span className="text-slate-400 block text-[10px]">{t.merchantDue}</span>
+                                <span className="font-extrabold text-slate-100">{merchantDue.toLocaleString()} {t.currency}</span>
+                              </div>
+                              <div>
+                                <span className="text-slate-400 block text-[10px]">{t.companyRevenue}</span>
+                                <span className="font-extrabold text-emerald-400">{companyRevenue.toFixed(2)} {t.currency}</span>
+                              </div>
+                              <div>
+                                <span className="text-slate-400 block text-[10px]">{t.driverRevenue}</span>
+                                <span className="font-extrabold text-cyan-400">{driverRevenue.toFixed(2)} {t.currency}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-between text-xs text-slate-400 pt-2">
+                            <span>🕒 {order.date} ({order.isoDate})</span>
+                            <div className="flex items-center gap-2">
+                              <span>🛵 {t.selectDriver}</span>
+                              <select 
+                                value={order.driver}
+                                onChange={(e) => handleDriverReassign(order, e.target.value)}
+                                className="bg-slate-900 border border-slate-800 rounded-lg px-2 py-1 text-slate-200"
+                              >
+                                {drivers.map((d, i) => <option key={i} value={d}>{d}</option>)}
+                              </select>
+                            </div>
+                          </div>
+
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* TAB: DRIVER LEDGER */}
+            {activeTab === 'driver_ledger' && (
+              <div className="space-y-6">
+                <div className="p-6 rounded-2xl bg-slate-950/40 border border-slate-800 backdrop-blur-xl space-y-4">
+                  <h2 className="text-sm font-bold text-slate-100">{t.driverLedgerTitle}</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div>
+                      <label className="text-slate-400 block mb-1">{t.filterDriver}</label>
+                      <select 
+                        value={ledgerDriver}
+                        onChange={(e) => setLedgerDriver(e.target.value)}
+                        className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-slate-100"
+                      >
+                        <option value="">-- {t.allDrivers} --</option>
+                        {drivers.map((d, i) => <option key={i} value={d}>{d}</option>)}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="text-slate-400 block mb-1">{t.filterDate}</label>
+                      <input 
+                        type="date"
+                        value={ledgerDate}
+                        onChange={(e) => setLedgerDate(e.target.value)}
+                        className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-slate-100"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+                    <span className="text-xs text-slate-400 block">{t.cashToHandIn}</span>
+                    <span className="text-xl font-black text-slate-100 mt-1 block">{dailyCollected.toLocaleString()} {t.currency}</span>
+                  </div>
+                  <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+                    <span className="text-xs text-slate-400 block">{t.companyRevenueLedger}</span>
+                    <span className="text-xl font-black text-emerald-400 mt-1 block">{dailyCompanyRevenue.toFixed(2)} {t.currency}</span>
+                  </div>
+                  <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800">
+                    <span className="text-xs text-slate-400 block">{t.driverRevenueLedger}</span>
+                    <span className="text-xl font-black text-cyan-400 mt-1 block">{dailyDriverRevenue.toFixed(2)} {t.currency}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: DRIVERS */}
+            {activeTab === 'drivers' && (
+              <div className="space-y-6">
+                <div className="p-6 rounded-2xl bg-slate-950/40 border border-slate-800 space-y-4">
+                  <h2 className="text-sm font-bold text-slate-100">{t.addDriver}</h2>
+                  <div className="flex gap-3">
+                    <input 
+                      type="text"
+                      placeholder={t.driverName}
+                      value={newDriverName}
+                      onChange={(e) => setNewDriverName(e.target.value)}
+                      className="flex-1 bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-100"
+                    />
+                    <button onClick={handleAddDriver} className="px-5 bg-fuchsia-600 text-white rounded-xl text-xs font-bold">
+                      {t.btnAdd}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {drivers.map((d, i) => (
+                    <div key={i} className="p-5 rounded-2xl bg-slate-950/40 border border-slate-800 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="p-3 rounded-xl bg-violet-500/10 text-violet-400 border border-violet-500/20">
+                          <Truck className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-100 text-sm">{d}</p>
+                          <p className="text-xs text-slate-400">Fleet Driver</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* TAB: MERCHANTS */}
+            {activeTab === 'merchants' && (
+              <div className="space-y-6">
+                <div className="p-6 rounded-2xl bg-slate-950/40 border border-slate-800 space-y-3">
+                  <h2 className="text-sm font-bold text-slate-100">{t.saveMerchant}</h2>
+                  <input 
+                    type="text" 
+                    placeholder={t.store} 
+                    value={merchantForm.name} 
+                    onChange={(e) => setMerchantForm({ ...merchantForm, name: e.target.value })} 
+                    className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-100"
+                  />
+                  <button onClick={handleSaveMerchant} className="w-full py-3 bg-fuchsia-600 text-white rounded-xl text-xs font-bold">
+                    {t.saveBtn}
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {merchants.map((m) => (
+                    <div key={m.id} className="p-5 rounded-2xl bg-slate-950/40 border border-slate-800 space-y-1">
+                      <p className="font-bold text-slate-100 text-sm">🏪 {m.name}</p>
+                      <p className="text-xs text-slate-400">Total Orders: {m.totalOrders || 0}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* TAB: CUSTOMERS */}
+            {activeTab === 'customers' && (
+              <div className="space-y-6">
+                <div className="p-6 rounded-2xl bg-slate-950/40 border border-slate-800 space-y-3">
+                  <h2 className="text-sm font-bold text-slate-100">{t.saveCustomer}</h2>
+                  <input 
+                    type="text" 
+                    placeholder={t.customer} 
+                    value={newCustomer.name} 
+                    onChange={(e) => setNewCustomer({ ...newCustomer, name: e.target.value })} 
+                    className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-100"
+                  />
+                  <input 
+                    type="text" 
+                    placeholder={t.phone} 
+                    value={newCustomer.phone} 
+                    onChange={(e) => setNewCustomer({ ...newCustomer, phone: e.target.value })} 
+                    className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-100"
+                  />
+                  <button onClick={handleSaveCustomerExplicit} className="w-full py-3 bg-fuchsia-600 text-white rounded-xl text-xs font-bold">
+                    {t.saveBtn}
                   </button>
                 </div>
               </div>
             )}
 
-            {/* EXTRACTED ORDERS LIST */}
-            {extractedOrders.length > 0 && (
-              <div style={styles.extractedBox}>
-                <h3 style={{ marginTop: 0, color: '#facc15' }}>{t.reviewTitle}</h3>
-                {extractedOrders.map((ord, idx) => {
-                  const orderValue = normalizeNumber(ord.cod);
-                  const fee = normalizeNumber(ord.deliveryFee);
-                  const company = fee * (selectedRevenuePercent / 100);
-                  const driver = fee - company;
-                  const collection =
-                    ord.paymentMethod === PAYMENT_ONLINE ||
-                    ord.paymentMethod === PAYMENT_PREPAID
-                      ? fee
-                      : orderValue + fee;
-
-                  return (
-                    <div key={idx} style={styles.extractedSubCard}>
-                      <div
-                        style={{
-                          ...styles.orderHero,
-                          background:
-                            'linear-gradient(135deg,rgba(14,165,233,.15),rgba(124,58,237,.18))'
-                        }}
-                      >
-                        <div>
-                          <div style={styles.miniLabel}>{t.customer}</div>
-                          <div style={styles.heroCustomer}>
-                            👤 {ord.customer || t.unspecified}
-                          </div>
+            {/* TAB: AUDIT LOG HISTORY */}
+            {activeTab === 'history' && (
+              <div className="p-6 rounded-2xl bg-slate-950/40 border border-slate-800 space-y-4">
+                <h2 className="text-sm font-bold text-slate-100">{t.historyTitle}</h2>
+                {historyLogs.length === 0 ? (
+                  <p className="text-xs text-slate-500 py-8 text-center">{t.noHistory}</p>
+                ) : (
+                  <div className="space-y-3 divide-y divide-slate-800/40">
+                    {historyLogs.map((log) => (
+                      <div key={log.id} className="pt-3 text-xs space-y-1">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-fuchsia-400">{log.orderNum}</span>
+                          <span className="text-slate-400">[{log.action}]</span>
                         </div>
-                        <div style={styles.heroMoney}>
-                          {collection.toLocaleString()} {t.currency}
-                        </div>
+                        <p className="text-slate-300">{log.details}</p>
+                        <span className="text-[10px] text-slate-500 block">🕒 {log.time}</span>
                       </div>
-
-                      {isIncompleteAddress(ord.address) && (
-                        <div style={styles.addressWarningBox}>
-                          {t.addressWarning}
-                        </div>
-                      )}
-
-                      <div style={styles.grid2}>
-                        <div><strong>{t.store}:</strong> {ord.store || t.unspecified}</div>
-                        <div><strong>{t.phone}:</strong> {ord.phone || t.unspecified}</div>
-                        <div style={{ gridColumn: '1 / -1' }}>
-                          <strong>{t.address}:</strong> {ord.address || t.unspecified}
-                        </div>
-                        <div style={{ gridColumn: '1 / -1' }}>
-                          <strong>{t.item}:</strong> {ord.item || t.unspecified}
-                        </div>
-                      </div>
-
-                      <div style={styles.financePanel}>
-                        <div style={styles.financeTitle}>
-                          💰 {t.financialBreakdown}
-                        </div>
-
-                        <div style={styles.financeGrid}>
-                          <div style={styles.financeBox}>
-                            <span>{t.cod}</span>
-                            <input
-                              type="number"
-                              value={ord.cod}
-                              onChange={e => updateExtractedOrder(idx, 'cod', e.target.value)}
-                              style={styles.financeInput}
-                            />
-                            <small>{t.orderValueNotRevenue}</small>
-                          </div>
-
-                          <div style={styles.financeBox}>
-                            <span>{t.deliveryFee}</span>
-                            <input
-                              type="number"
-                              value={ord.deliveryFee}
-                              onChange={e => updateExtractedOrder(idx, 'deliveryFee', e.target.value)}
-                              style={styles.financeInput}
-                            />
-                          </div>
-
-                          <div style={styles.financeBox}>
-                            <span>{t.paymentMethod}</span>
-                            <select
-                              value={ord.paymentMethod || PAYMENT_CASH}
-                              onChange={e => updateExtractedOrder(idx, 'paymentMethod', e.target.value)}
-                              style={styles.financeInput}
-                            >
-                              <option value="cash">{t.paymentCash}</option>
-                              <option value="online">{t.paymentOnline}</option>
-                              <option value="prepaid">{t.paymentPrepaid}</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        <div style={styles.calculationStrip}>
-                          <div>
-                            <span>{t.customerCollection}</span>
-                            <strong>{collection.toLocaleString()} {t.currency}</strong>
-                          </div>
-                          <div>
-                            <span>{t.merchantAmount}</span>
-                            <strong>{orderValue.toLocaleString()} {t.currency}</strong>
-                          </div>
-                          <div>
-                            <span>{t.companyRevenue}</span>
-                            <strong style={{ color: '#34d399' }}>{company.toFixed(2)} {t.currency}</strong>
-                          </div>
-                          <div>
-                            <span>{t.driverRevenue}</span>
-                            <strong style={{ color: '#60a5fa' }}>{driver.toFixed(2)} {t.currency}</strong>
-                          </div>
-                        </div>
-
-                        <div style={styles.infoMessage}>
-                          {ord.paymentMethod === PAYMENT_ONLINE || ord.paymentMethod === PAYMENT_PREPAID
-                            ? t.onlineNoCollection
-                            : t.cashCollectionExplanation}
-                        </div>
-                      </div>
-
-                      {ord.notes && (
-                        <div style={{ marginTop: '10px', color: '#facc15' }}>
-                          <strong>📌 {t.notes}:</strong> {ord.notes}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-
-                <div style={styles.confirmationPanel}>
-                  <div style={styles.confirmationHeader}>
-                    <div>
-                      <div style={styles.miniLabel}>STEP 2</div>
-                      <h3 style={{ margin: '3px 0', color: '#fff' }}>🛵 {t.selectDriver}</h3>
-                    </div>
+                    ))}
                   </div>
-
-                  <div style={styles.grid2}>
-                    <div>
-                      <label style={styles.label}>{t.selectDriver}</label>
-                      <select
-                        value={selectedDriver}
-                        onChange={e => setSelectedDriver(e.target.value)}
-                        style={styles.input}
-                      >
-                        <option value="">{t.chooseDriver}</option>
-                        {drivers.map((d, i) => (
-                          <option key={i} value={d}>{d}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label style={styles.label}>{t.chooseRevenue}</label>
-                      <select
-                        value={selectedRevenuePercent}
-                        onChange={e => setSelectedRevenuePercent(Number(e.target.value))}
-                        style={styles.revenueSelect}
-                      >
-                        {REVENUE_OPTIONS.map(percentage => (
-                          <option key={percentage} value={percentage}>
-                            {percentage}%
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div style={styles.revenueExplanationBox}>
-                    <strong>💡 {t.revenueExplanation}</strong>
-                    <div style={{ marginTop: '8px', display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '10px' }}>
-                      <div>
-                        <small>{t.deliveryPool}</small>
-                        <br />
-                        <strong>
-                          {extractedOrders.reduce((sum, o) => sum + normalizeNumber(o.deliveryFee), 0).toLocaleString()} {t.currency}
-                        </strong>
-                      </div>
-                      <div>
-                        <small>{t.myShare} ({selectedRevenuePercent}%)</small>
-                        <br />
-                        <strong style={{ color: '#34d399' }}>
-                          {(extractedOrders.reduce((sum, o) => sum + normalizeNumber(o.deliveryFee), 0) * (selectedRevenuePercent / 100)).toFixed(2)} {t.currency}
-                        </strong>
-                      </div>
-                      <div>
-                        <small>{t.driverShare}</small>
-                        <br />
-                        <strong style={{ color: '#60a5fa' }}>
-                          {(extractedOrders.reduce((sum, o) => sum + normalizeNumber(o.deliveryFee), 0) * (1 - selectedRevenuePercent / 100)).toFixed(2)} {t.currency}
-                        </strong>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <button onClick={handleConfirmOrder} style={styles.btnSuccessGradient}>
-                  {t.btnConfirm}
-                </button>
+                )}
               </div>
             )}
-          </div>
-        )}
 
-        {/* ORDERS MANAGEMENT */}
-        {activeTab === 'orders' && (
-          <div>
-            <input
-              type="text"
-              placeholder={t.searchPlaceholder}
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              style={styles.searchInput}
-            />
-
-            {filteredOrders.length === 0 ? (
-              <p style={styles.empty}>No orders found.</p>
-            ) : (
-              filteredOrders.map(order => {
-                const companyRevenue = getCompanyRevenue(order);
-                const driverRevenue = getDriverRevenue(order);
-                const collection = getCustomerCollection(order);
-                const merchantDue = getMerchantDue(order);
-
-                return (
-                  <div key={order.id} style={styles.card}>
-                    <div style={styles.rowBetween}>
-                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
-                        <span style={styles.orderNumTag}>{order.orderNum}</span>
-                        <span style={styles.tagStore}>{order.store}</span>
-                      </div>
-
-                      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <select
-                          value={order.status}
-                          onChange={e => handleStatusChange(order, e.target.value)}
-                          style={getStatusStyle(order.status)}
-                        >
-                          <option value="مؤكد">{t.statusConfirmed}</option>
-                          <option value="قيد تجهيز الطلب">{t.statusProcessing}</option>
-                          <option value="خرج للتوصيل">{t.statusOutForDelivery}</option>
-                          <option value="جاري التوصيل">{t.statusInTransit}</option>
-                          <option value="مكتمل">{t.statusCompleted}</option>
-                          <option value="متأخر">{t.statusDelayed}</option>
-                          <option value="ملغي">{t.statusCancelled}</option>
-                        </select>
-
-                        <button onClick={() => handleDeleteOrder(order)} style={styles.btnDeleteCompact}>
-                          🗑️ {t.deleteBtn}
-                        </button>
-                      </div>
-                    </div>
-
-                    <p style={styles.p}>
-                      <strong>{t.customer}:</strong> {order.customer} ({order.phone})
-                    </p>
-
-                    {isIncompleteAddress(order.address) && (
-                      <div style={styles.addressWarningBox}>{t.addressWarning}</div>
-                    )}
-
-                    <p style={styles.p}>
-                      <strong>{t.address}:</strong> {order.address}
-                    </p>
-
-                    <div style={styles.orderFinancialCard}>
-                      <div style={styles.financeTitle}>{t.financialBreakdown}</div>
-                      <div style={styles.financeGrid}>
-                        <div style={styles.summaryMetric}>
-                          <span>{t.cod}</span>
-                          <strong>{getOrderValue(order)} {t.currency}</strong>
-                        </div>
-
-                        <div style={styles.summaryMetric}>
-                          <span>{t.deliveryFee}</span>
-                          {editingDeliveryId === order.id ? (
-                            <div style={{ display: 'flex', gap: '5px' }}>
-                              <input
-                                type="number"
-                                value={tempDeliveryFee}
-                                onChange={e => setTempDeliveryFee(e.target.value)}
-                                style={styles.inlineInput}
-                              />
-                              <button onClick={() => handleDeliveryFeeSave(order)} style={styles.btnSaveCompact}>
-                                {t.saveBtn}
-                              </button>
-                            </div>
-                          ) : (
-                            <strong>
-                              {getDeliveryFee(order)} {t.currency}
-                              <button
-                                onClick={() => {
-                                  setEditingDeliveryId(order.id);
-                                  setTempDeliveryFee(getDeliveryFee(order));
-                                }}
-                                style={styles.btnEditTiny}
-                              >
-                                ✏️
-                              </button>
-                            </strong>
-                          )}
-                        </div>
-
-                        <div style={styles.summaryMetric}>
-                          <span>{t.revenuePercent}</span>
-                          <select
-                            value={getRevenuePercent(order)}
-                            onChange={e => handleRevenuePercentChange(order, e.target.value)}
-                            style={{ ...styles.inlineInput, width: 'auto', padding: '2px 4px' }}
-                          >
-                            {REVENUE_OPTIONS.map(opt => (
-                              <option key={opt} value={opt}>{opt}%</option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div style={styles.summaryMetric}>
-                          <span>{t.paymentMethod}</span>
-                          <strong>
-                            {order.paymentMethod === PAYMENT_CASH
-                              ? t.paymentCash
-                              : order.paymentMethod === PAYMENT_ONLINE
-                              ? t.paymentOnline
-                              : t.paymentPrepaid}
-                          </strong>
-                        </div>
-                      </div>
-
-                      <div style={styles.calculationStrip}>
-                        <div>
-                          <span>{t.customerCollection}</span>
-                          <strong>{collection.toLocaleString()} {t.currency}</strong>
-                        </div>
-                        <div>
-                          <span>{t.merchantDue}</span>
-                          <strong>{merchantDue.toLocaleString()} {t.currency}</strong>
-                        </div>
-                        <div>
-                          <span>{t.companyRevenue}</span>
-                          <strong style={{ color: '#34d399' }}>{companyRevenue.toFixed(2)} {t.currency}</strong>
-                        </div>
-                        <div>
-                          <span>{t.driverRevenue}</span>
-                          <strong style={{ color: '#60a5fa' }}>{driverRevenue.toFixed(2)} {t.currency}</strong>
-                        </div>
-                      </div>
-
-                      {order.status === 'ملغي' && (
-                        <div style={styles.cancelledBox}>{t.cancelledFinancial}</div>
-                      )}
-                    </div>
-
-                    <div
-                      style={{
-                        backgroundColor: 'rgba(250,204,21,.08)',
-                        padding: '10px',
-                        borderRadius: '8px',
-                        border: '1px solid rgba(250,204,21,.2)',
-                        margin: '10px 0'
-                      }}
-                    >
-                      {editingNoteId === order.id ? (
-                        <div>
-                          <textarea
-                            rows={2}
-                            value={tempNote}
-                            onChange={e => setTempNote(e.target.value)}
-                            style={styles.textareaMargin}
-                          />
-                          <button onClick={() => handleNoteSave(order)} style={styles.btnSaveCompact}>
-                            {t.saveBtn}
-                          </button>
-                        </div>
-                      ) : (
-                        <div style={styles.rowBetween}>
-                          <span style={{ color: '#facc15' }}>
-                            <strong>📌 {t.notes}:</strong> {order.notes || t.unspecified}
-                          </span>
-                          <button
-                            onClick={() => {
-                              setEditingNoteId(order.id);
-                              setTempNote(order.notes || '');
-                            }}
-                            style={styles.btnEditCompact}
-                          >
-                            ✏️ {t.editNoteBtn}
-                          </button>
-                        </div>
-                      )}
-                    </div>
-
-                    <div style={styles.amountRow}>
-                      <div>
-                        <strong>{t.cod}: </strong>
-                        {editingAmountId === order.id ? (
-                          <span style={{ display: 'inline-flex', gap: '5px' }}>
-                            <input
-                              type="number"
-                              value={tempAmount}
-                              onChange={e => setTempAmount(e.target.value)}
-                              style={styles.inlineInput}
-                            />
-                            <button onClick={() => handleAmountSave(order)} style={styles.btnSaveCompact}>
-                              {t.saveAmount}
-                            </button>
-                          </span>
-                        ) : (
-                          <span
-                            style={{
-                              color: order.status === 'ملغي' ? '#ef4444' : '#34d399',
-                              fontWeight: 'bold',
-                              textDecoration: order.status === 'ملغي' ? 'line-through' : 'none'
-                            }}
-                          >
-                            {order.cod} {t.currency}
-                          </span>
-                        )}
-                      </div>
-                      {editingAmountId !== order.id && (
-                        <button
-                          onClick={() => {
-                            setEditingAmountId(order.id);
-                            setTempAmount(order.cod);
-                          }}
-                          style={styles.btnEditCompact}
-                        >
-                          ✏️ {t.editAmount}
-                        </button>
-                      )}
-                    </div>
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', gap: '10px', flexWrap: 'wrap' }}>
-                      <p style={{ ...styles.p, fontSize: '.85rem', color: '#94a3b8', margin: 0 }}>
-                        🕒 {order.date} ({order.isoDate})
-                      </p>
-
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span>🛵 {t.selectDriver}</span>
-                        <select
-                          value={order.driver}
-                          onChange={e => handleDriverReassign(order, e.target.value)}
-                          style={{ ...styles.inlineInput, width: 'auto' }}
-                        >
-                          <option value={t.unspecified}>{t.unspecified}</option>
-                          {drivers.map((d, idx) => (
-                            <option key={idx} value={d}>{d}</option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        )}
-
-        {/* DRIVER LEDGER */}
-        {activeTab === 'driver_ledger' && (
-          <div>
-            <div style={styles.card}>
-              <h2 style={{ marginTop: 0, color: '#67e8f9' }}>{t.driverLedgerTitle}</h2>
-              <div style={styles.grid2}>
+            {/* TAB: SETTINGS */}
+            {activeTab === 'settings' && (
+              <div className="p-6 rounded-2xl bg-slate-950/40 border border-slate-800 space-y-4 max-w-xl">
+                <h2 className="text-sm font-bold text-slate-100">{t.settingsTitle}</h2>
                 <div>
-                  <label style={styles.label}>{t.filterDriver}</label>
-                  <select
-                    value={ledgerDriver}
-                    onChange={e => setLedgerDriver(e.target.value)}
-                    style={styles.input}
-                  >
-                    <option value="">-- {t.allDrivers} --</option>
-                    {drivers.map((d, i) => (
-                      <option key={i} value={d}>{d}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label style={styles.label}>{t.filterDate}</label>
-                  <input
-                    type="date"
-                    value={ledgerDate}
-                    onChange={e => setLedgerDate(e.target.value)}
-                    style={styles.input}
+                  <label className="text-xs text-slate-400 block mb-1">Groq API Key</label>
+                  <input 
+                    type="password" 
+                    value={apiKey} 
+                    onChange={(e) => setApiKey(e.target.value)} 
+                    placeholder="gsk_..." 
+                    className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-100 focus:outline-none focus:border-fuchsia-500"
                   />
                 </div>
               </div>
-            </div>
-
-            {/* LEDGER KPIS */}
-            <div style={styles.kpiRow}>
-              <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg,#075985,#0284c7,#06b6d4)' }}>
-                <span style={styles.kpiLabel}>{t.cashToHandIn}</span>
-                <span style={{ ...styles.kpiValue, color: '#a5f3fc' }}>
-                  {dailyCollected.toLocaleString()} {t.currency}
-                </span>
-              </div>
-
-              <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg,#065f46,#059669,#10b981)' }}>
-                <span style={styles.kpiLabel}>{t.companyRevenueLedger}</span>
-                <span style={{ ...styles.kpiValue, color: '#a7f3d0' }}>
-                  {dailyCompanyRevenue.toFixed(2)} {t.currency}
-                </span>
-              </div>
-
-              <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg,#1e3a8a,#2563eb,#6366f1)' }}>
-                <span style={styles.kpiLabel}>{t.driverRevenueLedger}</span>
-                <span style={{ ...styles.kpiValue, color: '#bfdbfe' }}>
-                  {dailyDriverRevenue.toFixed(2)} {t.currency}
-                </span>
-              </div>
-
-              <div style={{ ...styles.kpiCard, background: 'linear-gradient(135deg,#581c87,#9333ea,#c026d3)' }}>
-                <span style={styles.kpiLabel}>{t.todaysOrdersCount}</span>
-                <span style={{ ...styles.kpiValue, color: '#e9d5ff' }}>
-                  {filteredLedgerOrders.length}
-                </span>
-              </div>
-            </div>
-
-            {/* MONTHLY SUMMARY */}
-            <div style={styles.monthlySummary}>
-              <div>
-                <span>{t.monthsTotalCash}</span>
-                <br />
-                <strong>{monthlyTotalCash.toLocaleString()} {t.currency}</strong>
-              </div>
-              <div>
-                <span>{t.companyRevenueLedger}</span>
-                <br />
-                <strong style={{ color: '#34d399' }}>{monthlyCompanyRevenue.toFixed(2)} {t.currency}</strong>
-              </div>
-              <div>
-                <span>{t.driverRevenueLedger}</span>
-                <br />
-                <strong style={{ color: '#60a5fa' }}>{monthlyDriverRevenue.toFixed(2)} {t.currency}</strong>
-              </div>
-              <div>
-                <span>{t.monthsOrdersCount}</span>
-                <br />
-                <strong>{monthlyOrders.length}</strong>
-              </div>
-            </div>
-
-            {/* ASSIGNED ORDERS BREAKDOWN */}
-            <div style={{ ...styles.card, marginTop: '20px' }}>
-              <h3>{t.ordersHandled}</h3>
-              {filteredLedgerOrders.length === 0 ? (
-                <p style={styles.empty}>{t.noOrdersForDate}</p>
-              ) : (
-                filteredLedgerOrders.map(o => {
-                  const companyRev = getCompanyRevenue(o);
-                  const driverRev = getDriverRevenue(o);
-                  const collection = getCustomerCollection(o);
-                  const merchantDue = getMerchantDue(o);
-
-                  return (
-                    <div key={o.id} style={styles.ledgerOrderCard}>
-                      <div style={styles.rowBetween}>
-                        <span style={styles.orderNumTag}>{o.orderNum}</span>
-                        <span style={getStatusStyle(o.status)}>{o.status}</span>
-                      </div>
-
-                      <div style={{ margin: '8px 0', fontSize: '0.9rem' }}>
-                        👤 <strong>{o.customer}</strong> ({o.store}) — 🛵 <strong>{o.driver}</strong>
-                      </div>
-
-                      <div style={styles.calculationStrip}>
-                        <div>
-                          <span>{t.customerCollection}</span>
-                          <br />
-                          <strong>{collection.toLocaleString()} {t.currency}</strong>
-                        </div>
-                        <div>
-                          <span>{t.merchantHandIn}</span>
-                          <br />
-                          <strong>{merchantDue.toLocaleString()} {t.currency}</strong>
-                        </div>
-                        <div>
-                          <span>{t.companyHandIn} ({getRevenuePercent(o)}%)</span>
-                          <br />
-                          <strong style={{ color: '#34d399' }}>{companyRev.toFixed(2)} {t.currency}</strong>
-                        </div>
-                        <div>
-                          <span>{t.driverShare}</span>
-                          <br />
-                          <strong style={{ color: '#60a5fa' }}>{driverRev.toFixed(2)} {t.currency}</strong>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* DRIVERS TAB */}
-        {activeTab === 'drivers' && (
-          <div style={styles.card}>
-            <h2 style={styles.cardTitle}>{t.addDriver}</h2>
-            <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-              <input
-                type="text"
-                placeholder={t.driverName}
-                value={newDriverName}
-                onChange={e => setNewDriverName(e.target.value)}
-                style={styles.input}
-              />
-              <button onClick={handleAddDriver} style={styles.btnGradientCompact}>
-                {t.btnAdd}
-              </button>
-            </div>
-
-            <div style={styles.grid2}>
-              {drivers.map((d, i) => {
-                const driverCompletedOrders = orders.filter(
-                  o => o.driver === d && o.status === 'مكتمل'
-                );
-                const totalCash = driverCompletedOrders.reduce(
-                  (sum, o) => sum + getOrderEffectiveCash(o),
-                  0
-                );
-                const totalDriverEarnings = driverCompletedOrders.reduce(
-                  (sum, o) => sum + getDriverRevenue(o),
-                  0
-                );
-                const totalCompanyEarnings = driverCompletedOrders.reduce(
-                  (sum, o) => sum + getCompanyRevenue(o),
-                  0
-                );
-
-                return (
-                  <div key={i} style={styles.extractedSubCard}>
-                    <h3 style={{ margin: '0 0 10px', color: '#38bdf8' }}>🛵 {d}</h3>
-                    <p style={styles.p}>{t.totalTrips} <strong>{driverCompletedOrders.length}</strong></p>
-                    <p style={styles.p}>{t.driverCash} <strong>{totalCash.toLocaleString()} {t.currency}</strong></p>
-                    <p style={styles.p}>{t.driverRevenueTotal} <strong style={{ color: '#60a5fa' }}>{totalDriverEarnings.toFixed(2)} {t.currency}</strong></p>
-                    <p style={styles.p}>{t.companyRevenueTotal} <strong style={{ color: '#34d399' }}>{totalCompanyEarnings.toFixed(2)} {t.currency}</strong></p>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* MERCHANTS TAB */}
-        {activeTab === 'merchants' && (
-          <div style={styles.card}>
-            <h2 style={styles.cardTitle}>{t.saveMerchant}</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-              <input
-                type="text"
-                placeholder={t.store}
-                value={merchantForm.name}
-                onChange={e => setMerchantForm({ ...merchantForm, name: e.target.value })}
-                style={styles.input}
-              />
-              <input
-                type="text"
-                placeholder={t.phone}
-                value={merchantForm.phone}
-                onChange={e => setMerchantForm({ ...merchantForm, phone: e.target.value })}
-                style={styles.input}
-              />
-              <input
-                type="text"
-                placeholder={t.address}
-                value={merchantForm.address}
-                onChange={e => setMerchantForm({ ...merchantForm, address: e.target.value })}
-                style={styles.input}
-              />
-              <button onClick={handleSaveMerchant} style={styles.btnGradientCompact}>
-                {t.saveBtn}
-              </button>
-            </div>
-
-            <div style={styles.grid2}>
-              {merchants.map(m => (
-                <div key={m.id} style={styles.extractedSubCard}>
-                  <h3 style={{ margin: '0 0 8px', color: '#facc15' }}>🏪 {m.name}</h3>
-                  <p style={styles.p}>📞 {m.phone || t.unspecified}</p>
-                  <p style={styles.p}>📍 {m.address || t.unspecified}</p>
-                  <p style={styles.p}>📦 Total Orders: {m.totalOrders || 0}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* CUSTOMERS TAB */}
-        {activeTab === 'customers' && (
-          <div style={styles.card}>
-            <h2 style={styles.cardTitle}>{editingCustomer ? t.editCustomer : t.saveCustomer}</h2>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '20px' }}>
-              <input
-                type="text"
-                placeholder={t.customer}
-                value={newCustomer.name}
-                onChange={e => setNewCustomer({ ...newCustomer, name: e.target.value })}
-                style={styles.input}
-              />
-              <input
-                type="text"
-                placeholder={t.phone}
-                value={newCustomer.phone}
-                onChange={e => setNewCustomer({ ...newCustomer, phone: e.target.value })}
-                style={styles.input}
-              />
-              <input
-                type="text"
-                placeholder={t.address}
-                value={newCustomer.address}
-                onChange={e => setNewCustomer({ ...newCustomer, address: e.target.value })}
-                style={styles.input}
-              />
-              <button onClick={handleSaveCustomerExplicit} style={styles.btnGradientCompact}>
-                {t.saveBtn}
-              </button>
-            </div>
-
-            <div style={styles.grid2}>
-              {customers.map(c => (
-                <div key={c.id} style={styles.extractedSubCard}>
-                  <div style={styles.rowBetween}>
-                    <h3 style={{ margin: 0, color: '#38bdf8' }}>👤 {c.name}</h3>
-                    <button
-                      onClick={() => {
-                        setEditingCustomer(c);
-                        setNewCustomer({ name: c.name, phone: c.phone, address: c.address });
-                      }}
-                      style={styles.btnEditCompact}
-                    >
-                      ✏️ {t.editBtn}
-                    </button>
-                  </div>
-                  <p style={styles.p}>📞 {c.phone}</p>
-                  <p style={styles.p}>📍 {c.address}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* AUDIT LOG HISTORY */}
-        {activeTab === 'history' && (
-          <div style={styles.card}>
-            <h2 style={styles.cardTitle}>{t.historyTitle}</h2>
-            {historyLogs.length === 0 ? (
-              <p style={styles.empty}>{t.noHistory}</p>
-            ) : (
-              historyLogs.map(log => (
-                <div
-                  key={log.id}
-                  style={{
-                    padding: '10px',
-                    borderBottom: '1px solid #334155',
-                    fontSize: '0.9rem'
-                  }}
-                >
-                  <span style={styles.orderNumTag}>{log.orderNum}</span>{' '}
-                  <strong style={{ color: '#38bdf8' }}>[{log.action}]</strong> —{' '}
-                  <span>{log.details}</span>
-                  <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '4px' }}>
-                    🕒 {log.time}
-                  </div>
-                </div>
-              ))
             )}
-          </div>
-        )}
 
-        {/* SETTINGS */}
-        {activeTab === 'settings' && (
-          <div style={styles.card}>
-            <h2 style={styles.cardTitle}>{t.settingsTitle}</h2>
-            <div>
-              <label style={styles.label}>Groq API Key:</label>
-              <input
-                type="password"
-                value={apiKey}
-                onChange={e => setApiKey(e.target.value)}
-                placeholder="gsk_..."
-                style={styles.input}
-              />
-            </div>
           </div>
-        )}
-      </main>
+        </main>
+
+      </div>
     </div>
   );
 }
